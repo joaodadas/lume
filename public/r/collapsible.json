@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "collapsible",
+  "title": "Collapsible",
+  "description": "Área que abre e fecha sem estilo próprio.",
+  "dependencies": [
+    "@base-ui/react"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/ui/collapsible.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, packages/ui/src/components/collapsible.tsx @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*.\n\"use client\";\n\nimport { Collapsible as CollapsiblePrimitive } from \"@base-ui/react/collapsible\";\n\nfunction Collapsible({ ...props }: CollapsiblePrimitive.Root.Props) {\n\treturn <CollapsiblePrimitive.Root data-slot=\"collapsible\" {...props} />;\n}\n\nfunction CollapsibleTrigger({ ...props }: CollapsiblePrimitive.Trigger.Props) {\n\treturn (\n\t\t<CollapsiblePrimitive.Trigger data-slot=\"collapsible-trigger\" {...props} />\n\t);\n}\n\nfunction CollapsibleContent({ ...props }: CollapsiblePrimitive.Panel.Props) {\n\treturn (\n\t\t<CollapsiblePrimitive.Panel data-slot=\"collapsible-content\" {...props} />\n\t);\n}\n\nexport { Collapsible, CollapsibleTrigger, CollapsibleContent };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "meta": {
+    "group": "ui",
+    "tier": "core"
+  },
+  "type": "registry:ui"
+}

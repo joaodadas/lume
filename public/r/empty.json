@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "empty",
+  "title": "Empty",
+  "description": "Estado vazio tracejado, a única borda fechando caixa aceita no sistema.",
+  "dependencies": [
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "joaodadas/lume/utils#v0.0.1"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/ui/empty.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, packages/ui/src/components/empty.tsx @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*.\nimport { type VariantProps, cva } from \"class-variance-authority\";\n\nimport { cn } from \"@/registry/base-vega/lib/utils\";\n\nfunction Empty({ className, ...props }: React.ComponentProps<\"div\">) {\n\treturn (\n\t\t<div\n\t\t\tdata-slot=\"empty\"\n\t\t\tclassName={cn(\n\t\t\t\t\"flex w-full min-w-0 flex-1 flex-col items-center justify-center gap-4 rounded-xl squircle:rounded-4xl corner-squircle border-dashed border dark:border-border/50 p-12 py-16 text-center text-balance\",\n\t\t\t\tclassName,\n\t\t\t)}\n\t\t\t{...props}\n\t\t/>\n\t);\n}\n\nfunction EmptyHeader({ className, ...props }: React.ComponentProps<\"div\">) {\n\treturn (\n\t\t<div\n\t\t\tdata-slot=\"empty-header\"\n\t\t\tclassName={cn(\"flex max-w-sm flex-col items-center gap-1\", className)}\n\t\t\t{...props}\n\t\t/>\n\t);\n}\n\nconst emptyMediaVariants = cva(\n\t\"mb-2 flex shrink-0 items-center justify-center [&_svg]:pointer-events-none [&_svg]:shrink-0\",\n\t{\n\t\tvariants: {\n\t\t\tvariant: {\n\t\t\t\tdefault: \"bg-transparent\",\n\t\t\t\ticon: \"flex size-8 shrink-0 items-center justify-center rounded-md bg-muted/60 shadow-(--custom-shadow) dark:shadow-none dark:border dark:border-border/30 text-foreground [&_svg:not([class*='size-'])]:size-4\",\n\t\t\t},\n\t\t},\n\t\tdefaultVariants: {\n\t\t\tvariant: \"default\",\n\t\t},\n\t},\n);\n\nfunction EmptyMedia({\n\tclassName,\n\tvariant = \"default\",\n\t...props\n}: React.ComponentProps<\"div\"> & VariantProps<typeof emptyMediaVariants>) {\n\treturn (\n\t\t<div\n\t\t\tdata-slot=\"empty-icon\"\n\t\t\tdata-variant={variant}\n\t\t\tclassName={cn(emptyMediaVariants({ variant, className }))}\n\t\t\t{...props}\n\t\t/>\n\t);\n}\n\nfunction EmptyTitle({ className, ...props }: React.ComponentProps<\"div\">) {\n\treturn (\n\t\t<div\n\t\t\tdata-slot=\"empty-title\"\n\t\t\tclassName={cn(\n\t\t\t\t\"font-heading text-sm font-medium tracking-tight\",\n\t\t\t\tclassName,\n\t\t\t)}\n\t\t\t{...props}\n\t\t/>\n\t);\n}\n\nfunction EmptyDescription({ className, ...props }: React.ComponentProps<\"p\">) {\n\treturn (\n\t\t<div\n\t\t\tdata-slot=\"empty-description\"\n\t\t\tclassName={cn(\n\t\t\t\t\"text-xs/relaxed text-muted-foreground [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary\",\n\t\t\t\tclassName,\n\t\t\t)}\n\t\t\t{...props}\n\t\t/>\n\t);\n}\n\nfunction EmptyContent({ className, ...props }: React.ComponentProps<\"div\">) {\n\treturn (\n\t\t<div\n\t\t\tdata-slot=\"empty-content\"\n\t\t\tclassName={cn(\n\t\t\t\t\"flex w-full max-w-sm min-w-0 flex-col items-center gap-1.5 text-sm text-balance\",\n\t\t\t\tclassName,\n\t\t\t)}\n\t\t\t{...props}\n\t\t/>\n\t);\n}\n\nexport {\n\tEmpty,\n\tEmptyHeader,\n\tEmptyTitle,\n\tEmptyDescription,\n\tEmptyContent,\n\tEmptyMedia,\n};\n",
+      "type": "registry:ui"
+    }
+  ],
+  "meta": {
+    "group": "ui",
+    "tier": "core"
+  },
+  "type": "registry:ui"
+}

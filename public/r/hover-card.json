@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hover-card",
+  "title": "Hover card",
+  "description": "Cartão ao passar o mouse, com squircle e sombra.",
+  "dependencies": [
+    "@base-ui/react"
+  ],
+  "registryDependencies": [
+    "joaodadas/lume/utils#v0.0.1"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/ui/hover-card.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, packages/ui/src/components/hover-card.tsx @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*.\n\"use client\";\n\nimport { PreviewCard as PreviewCardPrimitive } from \"@base-ui/react/preview-card\";\n\nimport { cn } from \"@/registry/base-vega/lib/utils\";\n\nfunction HoverCard({ ...props }: PreviewCardPrimitive.Root.Props) {\n\treturn <PreviewCardPrimitive.Root data-slot=\"hover-card\" {...props} />;\n}\n\nfunction HoverCardTrigger({ ...props }: PreviewCardPrimitive.Trigger.Props) {\n\treturn (\n\t\t<PreviewCardPrimitive.Trigger data-slot=\"hover-card-trigger\" {...props} />\n\t);\n}\n\nfunction HoverCardContent({\n\tclassName,\n\tside = \"bottom\",\n\tsideOffset = 4,\n\talign = \"center\",\n\talignOffset = 4,\n\t...props\n}: PreviewCardPrimitive.Popup.Props &\n\tPick<\n\t\tPreviewCardPrimitive.Positioner.Props,\n\t\t\"align\" | \"alignOffset\" | \"side\" | \"sideOffset\"\n\t>) {\n\treturn (\n\t\t<PreviewCardPrimitive.Portal data-slot=\"hover-card-portal\">\n\t\t\t<PreviewCardPrimitive.Positioner\n\t\t\t\talign={align}\n\t\t\t\talignOffset={alignOffset}\n\t\t\t\tside={side}\n\t\t\t\tsideOffset={sideOffset}\n\t\t\t\tclassName=\"isolate z-50\"\n\t\t\t>\n\t\t\t\t<PreviewCardPrimitive.Popup\n\t\t\t\t\tdata-slot=\"hover-card-content\"\n\t\t\t\t\tclassName={cn(\n\t\t\t\t\t\t\"z-50 w-64 origin-(--transform-origin) rounded-md squircle:rounded-2xl corner-squircle bg-popover p-3 text-sm text-popover-foreground shadow-md ring-1 ring-foreground/5 outline-hidden duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95\",\n\t\t\t\t\t\tclassName,\n\t\t\t\t\t)}\n\t\t\t\t\t{...props}\n\t\t\t\t/>\n\t\t\t</PreviewCardPrimitive.Positioner>\n\t\t</PreviewCardPrimitive.Portal>\n\t);\n}\n\nexport { HoverCard, HoverCardTrigger, HoverCardContent };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "meta": {
+    "group": "ui",
+    "tier": "core"
+  },
+  "type": "registry:ui"
+}

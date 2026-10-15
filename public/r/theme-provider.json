@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "theme-provider",
+  "title": "Theme provider",
+  "description": "ThemeProvider do next-themes com o aviso falso do React 19 silenciado em dev. Use attribute=class, defaultTheme=dark, enableSystem.",
+  "dependencies": [
+    "next-themes"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/components/theme-provider.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/theme-provider.tsx @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: só o cabeçalho.\n\"use client\";\n\nimport { ThemeProvider as NextThemesProvider } from \"next-themes\";\nimport type * as React from \"react\";\n\n// React 19 (dev only) warns \"Encountered a script tag while rendering React\n// component\" for next-themes' inline no-flash <script>. It's a false positive\n// here — the script runs during SSR, exactly as intended — and next-themes is\n// unmaintained (pacocoursey/next-themes#387), so we drop that one message.\n// Module scope so it patches before the provider's first render; prod builds\n// strip the whole branch.\nif (process.env.NODE_ENV === \"development\" && typeof window !== \"undefined\") {\n  const original = console.error;\n  console.error = (...args: unknown[]) => {\n    if (\n      typeof args[0] === \"string\" &&\n      args[0].startsWith(\"Encountered a script tag while rendering\")\n    ) {\n      return;\n    }\n    original(...args);\n  };\n}\n\nexport function ThemeProvider({\n  children,\n  ...props\n}: React.ComponentProps<typeof NextThemesProvider>) {\n  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "group": "blocks",
+    "tier": "core"
+  },
+  "type": "registry:component"
+}

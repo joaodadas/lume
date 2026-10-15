@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "loader",
+  "title": "Loader",
+  "description": "TextShimmerLoader, o texto com brilho que diz que algo está pensando.",
+  "registryDependencies": [
+    "joaodadas/lume/utils#v0.0.1"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/ui/loader.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, packages/ui/src/components/loader.tsx @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*.\nimport { cn } from \"@/registry/base-vega/lib/utils\";\n\n// prompt-kit \"text-shimmer\" loader (https://www.prompt-kit.com/docs/loader):\n// a label whose color sweeps left→right via an animated background-clip gradient.\n// Relies on the `shimmer` keyframes + `--animate-shimmer` registered in\n// styles/globals.css.\n\nexport type TextShimmerLoaderProps = {\n\ttext?: string;\n\tsize?: \"sm\" | \"md\" | \"lg\";\n\tclassName?: string;\n};\n\nconst textSizes = {\n\tsm: \"text-xs\",\n\tmd: \"text-sm\",\n\tlg: \"text-base\",\n} as const;\n\nexport function TextShimmerLoader({\n\ttext = \"Thinking\",\n\tsize = \"md\",\n\tclassName,\n}: TextShimmerLoaderProps) {\n\treturn (\n\t\t<div\n\t\t\trole=\"status\"\n\t\t\taria-label={text}\n\t\t\tclassName={cn(\n\t\t\t\t\"bg-[linear-gradient(to_right,var(--muted-foreground)_40%,var(--foreground)_60%,var(--muted-foreground)_80%)]\",\n\t\t\t\t\"bg-clip-text font-normal text-transparent bg-size-[200%_auto]\",\n\t\t\t\t\"animate-shimmer\",\n\t\t\t\ttextSizes[size],\n\t\t\t\tclassName,\n\t\t\t)}\n\t\t>\n\t\t\t{text}\n\t\t</div>\n\t);\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "meta": {
+    "group": "ui",
+    "tier": "core"
+  },
+  "type": "registry:ui"
+}

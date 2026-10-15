@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sonner",
+  "title": "Sonner",
+  "description": "Toaster com ícones Tabler filled.",
+  "dependencies": [
+    "@tabler/icons-react",
+    "next-themes",
+    "sonner"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/ui/sonner.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, packages/ui/src/components/sonner.tsx @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*.\n\"use client\";\n\nimport {\n\tIconAlertCircleFilled,\n\tIconAlertTriangleFilled,\n\tIconCircleCheckFilled,\n\tIconInfoCircleFilled,\n\tIconLoader,\n} from \"@tabler/icons-react\";\nimport { useTheme } from \"next-themes\";\nimport { Toaster as Sonner, type ToasterProps } from \"sonner\";\n\nconst Toaster = ({ ...props }: ToasterProps) => {\n\tconst { theme = \"system\" } = useTheme();\n\n\treturn (\n\t\t<Sonner\n\t\t\ttheme={theme as ToasterProps[\"theme\"]}\n\t\t\tclassName=\"toaster group\"\n\t\t\ticons={{\n\t\t\t\tsuccess: <IconCircleCheckFilled className=\"size-4 text-green-500\" />,\n\t\t\t\tinfo: <IconInfoCircleFilled className=\"size-4\" />,\n\t\t\t\twarning: <IconAlertTriangleFilled className=\"size-4\" />,\n\t\t\t\terror: <IconAlertCircleFilled className=\"size-4 text-red-500\" />,\n\t\t\t\tloading: <IconLoader className=\"size-4 animate-spin\" />,\n\t\t\t}}\n\t\t\tstyle={\n\t\t\t\t{\n\t\t\t\t\t\"--normal-bg\": \"var(--popover)\",\n\t\t\t\t\t\"--normal-text\": \"var(--popover-foreground)\",\n\t\t\t\t\t\"--normal-border\": \"var(--border)\",\n\t\t\t\t\t\"--border-radius\": \"var(--radius)\",\n\t\t\t\t} as React.CSSProperties\n\t\t\t}\n\t\t\ttoastOptions={{\n\t\t\t\tclassNames: {\n\t\t\t\t\ttoast: \"cn-toast\",\n\t\t\t\t},\n\t\t\t}}\n\t\t\t{...props}\n\t\t/>\n\t);\n};\n\nexport { Toaster };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "meta": {
+    "group": "ui",
+    "tier": "core"
+  },
+  "type": "registry:ui"
+}

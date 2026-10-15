@@ -1,0 +1,1701 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "lume",
+  "homepage": "https://lume.vercel.app",
+  "items": [
+    {
+      "name": "base",
+      "type": "registry:base",
+      "title": "Base lume",
+      "description": "Tokens oklch em cinza, 17 sombras no lugar de borda, squircle, fontes Inter e Geist Mono e a base layer. Instale com `shadcn init joaodadas/lume/base#vX`.",
+      "extends": "none",
+      "config": {
+        "style": "base-vega",
+        "iconLibrary": "tabler",
+        "rsc": true,
+        "tsx": true,
+        "tailwind": {
+          "baseColor": "neutral",
+          "cssVariables": true
+        },
+        "menuColor": "default",
+        "menuAccent": "subtle",
+        "registries": {
+          "@lume": "https://lume.vercel.app/r/{name}.json"
+        }
+      },
+      "dependencies": [
+        "@base-ui/react",
+        "@fontsource-variable/geist-mono",
+        "@fontsource-variable/inter",
+        "@tabler/icons-react",
+        "@toolwind/corner-shape",
+        "class-variance-authority",
+        "clsx",
+        "shadcn",
+        "tailwind-merge",
+        "tailwindcss",
+        "tw-animate-css"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "cssVars": {
+        "theme": {
+          "font-sans": "\"Inter Variable\", ui-sans-serif, system-ui, sans-serif",
+          "font-mono": "\"Geist Mono Variable\", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+          "font-heading": "\"Inter Variable\", ui-sans-serif, system-ui, sans-serif",
+          "color-sidebar-ring": "var(--sidebar-ring)",
+          "color-sidebar-border": "var(--sidebar-border)",
+          "color-sidebar-accent-foreground": "var(--sidebar-accent-foreground)",
+          "color-sidebar-accent": "var(--sidebar-accent)",
+          "color-sidebar-foreground": "var(--sidebar-foreground)",
+          "color-sidebar": "var(--sidebar)",
+          "color-chart-5": "var(--chart-5)",
+          "color-chart-4": "var(--chart-4)",
+          "color-chart-3": "var(--chart-3)",
+          "color-chart-2": "var(--chart-2)",
+          "color-chart-1": "var(--chart-1)",
+          "color-ring": "var(--ring)",
+          "color-input": "var(--input)",
+          "color-border": "var(--border)",
+          "color-destructive": "var(--destructive)",
+          "color-accent-foreground": "var(--accent-foreground)",
+          "color-accent": "var(--accent)",
+          "color-muted-foreground": "var(--muted-foreground)",
+          "color-muted": "var(--muted)",
+          "color-secondary-foreground": "var(--secondary-foreground)",
+          "color-secondary": "var(--secondary)",
+          "color-primary-foreground": "var(--primary-foreground)",
+          "color-primary": "var(--primary)",
+          "color-popover-foreground": "var(--popover-foreground)",
+          "color-popover": "var(--popover)",
+          "color-card-foreground": "var(--card-foreground)",
+          "color-card": "var(--card)",
+          "color-foreground": "var(--foreground)",
+          "color-background": "var(--background)",
+          "radius-sm": "calc(var(--radius) - 4px)",
+          "radius-md": "calc(var(--radius) - 2px)",
+          "radius-lg": "var(--radius)",
+          "radius-xl": "calc(var(--radius) + 4px)",
+          "radius-2xl": "calc(var(--radius) + 8px)",
+          "radius-3xl": "calc(var(--radius) + 12px)",
+          "radius-4xl": "calc(var(--radius) + 16px)",
+          "animate-shimmer": "shimmer 4s linear infinite"
+        },
+        "light": {
+          "background": "oklch(0.99 0 0)",
+          "foreground": "oklch(0.145 0 0)",
+          "card": "oklch(1 0 0)",
+          "card-foreground": "oklch(0.145 0 0)",
+          "popover": "oklch(1 0 0)",
+          "popover-foreground": "oklch(0.145 0 0)",
+          "primary": "oklch(0.205 0 0)",
+          "primary-foreground": "oklch(0.98 0 0)",
+          "secondary": "oklch(0.95 0 0)",
+          "secondary-foreground": "oklch(0.205 0 0)",
+          "muted": "oklch(0.97 0 0)",
+          "muted-foreground": "oklch(0.556 0 0)",
+          "accent": "oklch(0.97 0 0)",
+          "accent-foreground": "oklch(0.205 0 0)",
+          "destructive": "oklch(0.577 0.245 27.325)",
+          "border": "oklch(0.922 0 0)",
+          "input": "oklch(0.922 0 0)",
+          "ring": "oklch(0.708 0 0)",
+          "chart-1": "oklch(0.87 0 0)",
+          "chart-2": "oklch(0.556 0 0)",
+          "chart-3": "oklch(0.439 0 0)",
+          "chart-4": "oklch(0.371 0 0)",
+          "chart-5": "oklch(0.269 0 0)",
+          "radius": "0.625rem",
+          "sidebar": "oklch(0.975 0 0)",
+          "sidebar-foreground": "oklch(0.145 0 0)",
+          "sidebar-accent": "oklch(0.95 0 0)",
+          "sidebar-accent-foreground": "oklch(0.205 0 0)",
+          "sidebar-border": "oklch(0.922 0 0)",
+          "sidebar-ring": "oklch(0.708 0 0)",
+          "custom-shadow": "0px 0px 0px 0.5px rgba(0, 0, 0, 0.06), 0px 0.5px 2px -0.5px rgba(0, 0, 0, 0.06), 0px 1px 4px 0px rgba(0, 0, 0, 0.04)",
+          "custom-shadow-chrome": "0px 0px 0px 0.5px rgba(0, 0, 0, 0.09), 0px -1px 4px 0px rgba(0, 0, 0, 0.04), 0px 1px 2px -0.5px rgba(0, 0, 0, 0.06), 0px 4px 8px -2px rgba(0, 0, 0, 0.06), 0px 12px 24px -6px rgba(0, 0, 0, 0.08)",
+          "custom-shadow-lifted": "0px 0px 0px 0.5px rgba(0, 0, 0, 0.08), 0px 1px 2px -0.5px rgba(0, 0, 0, 0.06), 0px 6px 12px -4px rgba(0, 0, 0, 0.1), 0px 16px 32px -8px rgba(0, 0, 0, 0.16)",
+          "custom-shadow-primary": "0px 0px 0px 0.5px rgba(0, 0, 0, 0.6), 0px 0.5px 2px -0.5px rgba(0, 0, 0, 0.4), 0px 2px 4px 0px rgba(0, 0, 0, 0.18)",
+          "custom-shadow-destructive": "0px 0px 0px 0.5px rgba(244, 63, 94, 0.25), 0px 0.5px 2px -0.5px rgba(244, 63, 94, 0.18), 0px 2px 4px 0px rgba(244, 63, 94, 0.12)",
+          "custom-shadow-secondary": "0px 0px 0px 0.5px rgba(0, 0, 0, 0.08), 0px 0.5px 2px -0.5px rgba(0, 0, 0, 0.08), 0px 2px 4px 0px rgba(0, 0, 0, 0.05)",
+          "custom-shadow-green": "0px 0px 0px 0.5px rgba(34, 197, 94, 0.25), 0px 0.5px 2px -0.5px rgba(34, 197, 94, 0.18), 0px 2px 4px 0px rgba(34, 197, 94, 0.12)",
+          "custom-shadow-blue": "0px 0px 0px 0.5px rgba(59, 130, 246, 0.25), 0px 0.5px 2px -0.5px rgba(59, 130, 246, 0.18), 0px 2px 4px 0px rgba(59, 130, 246, 0.12)",
+          "custom-shadow-amber": "0px 0px 0px 0.5px rgba(245, 158, 11, 0.25), 0px 0.5px 2px -0.5px rgba(245, 158, 11, 0.18), 0px 2px 4px 0px rgba(245, 158, 11, 0.12)",
+          "custom-shadow-orange": "0px 0px 0px 0.5px rgba(249, 115, 22, 0.25), 0px 0.5px 2px -0.5px rgba(249, 115, 22, 0.18), 0px 2px 4px 0px rgba(249, 115, 22, 0.12)",
+          "custom-shadow-emerald": "0px 0px 0px 0.5px rgba(16, 185, 129, 0.25), 0px 0.5px 2px -0.5px rgba(16, 185, 129, 0.18), 0px 2px 4px 0px rgba(16, 185, 129, 0.12)",
+          "custom-shadow-rose": "0px 0px 0px 0.5px rgba(244, 63, 94, 0.25), 0px 0.5px 2px -0.5px rgba(244, 63, 94, 0.18), 0px 2px 4px 0px rgba(244, 63, 94, 0.12)",
+          "custom-shadow-red": "0px 0px 0px 0.5px rgba(239, 68, 68, 0.25), 0px 0.5px 2px -0.5px rgba(239, 68, 68, 0.18), 0px 2px 4px 0px rgba(239, 68, 68, 0.12)",
+          "custom-shadow-violet": "0px 0px 0px 0.5px rgba(139, 92, 246, 0.25), 0px 0.5px 2px -0.5px rgba(139, 92, 246, 0.18), 0px 2px 4px 0px rgba(139, 92, 246, 0.12)",
+          "custom-shadow-fuchsia": "0px 0px 0px 0.5px rgba(217, 70, 239, 0.25), 0px 0.5px 2px -0.5px rgba(217, 70, 239, 0.18), 0px 2px 4px 0px rgba(217, 70, 239, 0.12)",
+          "custom-shadow-sky": "0px 0px 0px 0.5px rgba(14, 165, 233, 0.25), 0px 0.5px 2px -0.5px rgba(14, 165, 233, 0.18), 0px 2px 4px 0px rgba(14, 165, 233, 0.12)",
+          "custom-outline-shadow": "0px 0px 0px 0.5px rgba(0, 0, 0, 0.06), 0px 0.5px 2px -0.5px rgba(0, 0, 0, 0.06), 0px 2px 4px 0px rgba(0, 0, 0, 0.04)"
+        },
+        "dark": {
+          "background": "oklch(0.17 0 0)",
+          "foreground": "oklch(0.985 0 0)",
+          "card": "oklch(0.205 0 0)",
+          "card-foreground": "oklch(0.985 0 0)",
+          "popover": "oklch(0.205 0 0)",
+          "popover-foreground": "oklch(0.985 0 0)",
+          "primary": "oklch(0.922 0 0)",
+          "primary-foreground": "oklch(0.205 0 0)",
+          "secondary": "oklch(0.269 0 0)",
+          "secondary-foreground": "oklch(0.985 0 0)",
+          "muted": "oklch(0.269 0 0)",
+          "muted-foreground": "oklch(0.708 0 0)",
+          "accent": "oklch(0.269 0 0)",
+          "accent-foreground": "oklch(0.985 0 0)",
+          "destructive": "oklch(0.704 0.191 22.216)",
+          "border": "oklch(1 0 0 / 10%)",
+          "input": "oklch(1 0 0 / 15%)",
+          "ring": "oklch(0.556 0 0)",
+          "chart-1": "oklch(0.87 0 0)",
+          "chart-2": "oklch(0.556 0 0)",
+          "chart-3": "oklch(0.439 0 0)",
+          "chart-4": "oklch(0.371 0 0)",
+          "chart-5": "oklch(0.269 0 0)",
+          "sidebar": "oklch(0.145 0 0)",
+          "sidebar-foreground": "oklch(0.985 0 0)",
+          "sidebar-accent": "oklch(0.269 0 0)",
+          "sidebar-accent-foreground": "oklch(0.985 0 0)",
+          "sidebar-border": "oklch(1 0 0 / 10%)",
+          "sidebar-ring": "oklch(0.556 0 0)",
+          "custom-shadow": "inset 0 0.75px 0 0 rgba(255, 255, 255, 0.03), inset 0 0 0 0.75px rgba(255, 255, 255, 0.03), 0 0 0 0.75px rgba(0, 0, 0, 0.1), 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 4px 4px 0 rgba(0, 0, 0, 0.1), 0 8px 8px 0 rgba(0, 0, 0, 0.1)",
+          "custom-shadow-chrome": "inset 0 0.75px 0 0 rgba(255, 255, 255, 0.03), inset 0 0 0 0.75px rgba(255, 255, 255, 0.06), 0 0 0 0.75px rgba(0, 0, 0, 0.1), 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 4px 4px 0 rgba(0, 0, 0, 0.1), 0 8px 8px 0 rgba(0, 0, 0, 0.1)",
+          "custom-shadow-lifted": "inset 0 0.75px 0 0 rgba(255, 255, 255, 0.06), inset 0 0 0 0.75px rgba(255, 255, 255, 0.05), 0 0 0 0.75px rgba(0, 0, 0, 0.3), 0 4px 8px 0 rgba(0, 0, 0, 0.25), 0 12px 24px 0 rgba(0, 0, 0, 0.35), 0 24px 48px -8px rgba(0, 0, 0, 0.4)",
+          "custom-outline-shadow": "inset 0 0.5px 0 0 rgba(255, 255, 255, 0.05), inset 0 0 0 0.5px rgba(255, 255, 255, 0.045), 0 0 0 0.5px rgba(0, 0, 0, 0.14), 0 0.5px 2px -0.5px rgba(0, 0, 0, 0.14), 0 2px 4px 0 rgba(0, 0, 0, 0.08)",
+          "custom-shadow-primary": "inset 0 0.5px 0 0 rgba(255, 255, 255, 0.45), 0 0 0 0.5px rgba(255, 255, 255, 0.55), 0 0.5px 2px 0 rgba(0, 0, 0, 0.5)",
+          "custom-shadow-destructive": "inset 0 0.5px 0 0 rgba(244, 63, 94, 0.03), 0 0 0 0.5px rgba(244, 63, 94, 0.18), 0 0.5px 2px 0 rgba(244, 63, 94, 0.1)",
+          "custom-shadow-secondary": "inset 0 0.5px 0 0 rgba(255, 255, 255, 0.04), 0 0 0 0.5px rgba(255, 255, 255, 0.08), 0 0.5px 2px 0 rgba(0, 0, 0, 0.25)",
+          "custom-shadow-green": "inset 0 0.5px 0 0 rgba(34, 197, 94, 0.03), 0 0 0 0.5px rgba(34, 197, 94, 0.18), 0 0.5px 2px 0 rgba(34, 197, 94, 0.1)",
+          "custom-shadow-blue": "inset 0 0.5px 0 0 rgba(59, 130, 246, 0.03), 0 0 0 0.5px rgba(59, 130, 246, 0.18), 0 0.5px 2px 0 rgba(59, 130, 246, 0.1)",
+          "custom-shadow-amber": "inset 0 0.5px 0 0 rgba(245, 158, 11, 0.03), 0 0 0 0.5px rgba(245, 158, 11, 0.18), 0 0.5px 2px 0 rgba(245, 158, 11, 0.1)",
+          "custom-shadow-orange": "inset 0 0.5px 0 0 rgba(249, 115, 22, 0.03), 0 0 0 0.5px rgba(249, 115, 22, 0.18), 0 0.5px 2px 0 rgba(249, 115, 22, 0.1)",
+          "custom-shadow-emerald": "inset 0 0.5px 0 0 rgba(16, 185, 129, 0.03), 0 0 0 0.5px rgba(16, 185, 129, 0.18), 0 0.5px 2px 0 rgba(16, 185, 129, 0.1)",
+          "custom-shadow-rose": "inset 0 0.5px 0 0 rgba(244, 63, 94, 0.03), 0 0 0 0.5px rgba(244, 63, 94, 0.18), 0 0.5px 2px 0 rgba(244, 63, 94, 0.1)",
+          "custom-shadow-red": "inset 0 0.5px 0 0 rgba(239, 68, 68, 0.03), 0 0 0 0.5px rgba(239, 68, 68, 0.18), 0 0.5px 2px 0 rgba(239, 68, 68, 0.1)",
+          "custom-shadow-violet": "inset 0 0.5px 0 0 rgba(139, 92, 246, 0.03), 0 0 0 0.5px rgba(139, 92, 246, 0.18), 0 0.5px 2px 0 rgba(139, 92, 246, 0.1)",
+          "custom-shadow-fuchsia": "inset 0 0.5px 0 0 rgba(217, 70, 239, 0.03), 0 0 0 0.5px rgba(217, 70, 239, 0.18), 0 0.5px 2px 0 rgba(217, 70, 239, 0.1)",
+          "custom-shadow-sky": "inset 0 0.5px 0 0 rgba(14, 165, 233, 0.03), 0 0 0 0.5px rgba(14, 165, 233, 0.18), 0 0.5px 2px 0 rgba(14, 165, 233, 0.1)"
+        }
+      },
+      "css": {
+        "@import \"tw-animate-css\"": {},
+        "@import \"shadcn/tailwind.css\"": {},
+        "@import \"@fontsource-variable/inter/opsz.css\"": {},
+        "@import \"@fontsource-variable/geist-mono\"": {},
+        "@plugin \"@toolwind/corner-shape\"": {},
+        "@custom-variant squircle (@supports (corner-shape: squircle))": {},
+        "@keyframes shimmer": {
+          "0%": {
+            "background-position": "200% center"
+          },
+          "100%": {
+            "background-position": "-200% center"
+          }
+        },
+        "@layer base": {
+          "*": {
+            "@apply border-border outline-ring/50": {},
+            "scrollbar-width": "thin",
+            "scrollbar-color": "color-mix(in oklab, var(--muted-foreground) 35%, transparent) transparent"
+          },
+          "html": {
+            "@apply font-sans bg-background": {}
+          },
+          "body": {
+            "@apply font-sans bg-background text-foreground selection:bg-primary/10": {}
+          },
+          "input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active, textarea:-webkit-autofill, textarea:-webkit-autofill:hover, textarea:-webkit-autofill:focus, select:-webkit-autofill, select:-webkit-autofill:hover, select:-webkit-autofill:focus": {
+            "-webkit-text-fill-color": "var(--foreground)",
+            "caret-color": "var(--foreground)",
+            "transition": "background-color 999999s ease-in-out 0s !important"
+          }
+        }
+      },
+      "docs": "Depois do init, confira app/globals.css: :root e .dark com os 17 custom-shadow-*, @theme inline com --font-mono, @plugin corner-shape e @custom-variant squircle. Se o init tiver injetado Inter do next/font/google no layout, apague a linha: a Inter já vem do Fontsource.",
+      "meta": {
+        "group": "base",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "font-display",
+      "type": "registry:item",
+      "title": "Fonte display (Host Grotesk)",
+      "description": "Host Grotesk via Fontsource como `font-display`, só para títulos de marketing. O app fica em Inter.",
+      "dependencies": [
+        "@fontsource-variable/host-grotesk"
+      ],
+      "cssVars": {
+        "theme": {
+          "font-display": "\"Host Grotesk Variable\", \"Inter Variable\", ui-sans-serif, system-ui, sans-serif"
+        }
+      },
+      "css": {
+        "@import \"@fontsource-variable/host-grotesk\"": {}
+      },
+      "meta": {
+        "group": "base",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Seções expansíveis com um único chevron que gira e altura animada.",
+      "dependencies": [
+        "@base-ui/react",
+        "@tabler/icons-react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/accordion.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Aviso em superfície com sombra, ícone e título, sem borda.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/alert.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert dialog",
+      "description": "Confirmação modal com backdrop desfocado e cantos squircle.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/button#v0.0.1",
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/alert-dialog.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect ratio",
+      "description": "Caixa com proporção fixa.",
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/aspect-ratio.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "extra"
+      }
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "Avatar com aresta por sombra e tamanhos xs a lg.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/avatar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Pílula de status com 14 variants, cada cor com a própria sombra.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/badge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Trilha de navegação.",
+      "dependencies": [
+        "@base-ui/react",
+        "@tabler/icons-react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/breadcrumb.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "extra"
+      }
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Botão em pílula com sombra no lugar de borda, press a 0.97 e ícones em size-3.5.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button group",
+      "description": "Botões colados com cantos compartilhados.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/separator#v0.0.1",
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/button-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "extra"
+      }
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "Calendário do react-day-picker com dias em pílula e intervalo.",
+      "dependencies": [
+        "@tabler/icons-react",
+        "react-day-picker@^9.14.0"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/button#v0.0.1",
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/calendar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Superfície padrão: bg-card, sombra hairline, squircle; size sm é o card do dashboard.",
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "Carrossel com embla.",
+      "dependencies": [
+        "@tabler/icons-react",
+        "embla-carousel-react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/button#v0.0.1",
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/carousel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "extra"
+      }
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "ChartContainer do shadcn; o sistema usa o evilcharts, este fica por compatibilidade.",
+      "dependencies": [
+        "recharts"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/chart.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "extra"
+      }
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Caixa de seleção do Base UI com ícone Tabler.",
+      "dependencies": [
+        "@base-ui/react",
+        "@tabler/icons-react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "Área que abre e fecha sem estilo próprio.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/collapsible.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Campo com lista filtrável, chips e popup com sombra.",
+      "dependencies": [
+        "@base-ui/react",
+        "@tabler/icons-react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/button#v0.0.1",
+        "joaodadas/lume/input-group#v0.0.1",
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/combobox.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Paleta de comandos com cmdk.",
+      "dependencies": [
+        "@tabler/icons-react",
+        "cmdk"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/dialog#v0.0.1",
+        "joaodadas/lume/input-group#v0.0.1",
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/command.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "extra"
+      }
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context menu",
+      "description": "Menu de contexto.",
+      "dependencies": [
+        "@base-ui/react",
+        "@tabler/icons-react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/context-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "extra"
+      }
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "Modal com backdrop bg-black/20 e blur, zoom de 96% na entrada e 99% na saída.",
+      "dependencies": [
+        "@base-ui/react",
+        "@tabler/icons-react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/button#v0.0.1",
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "direction",
+      "type": "registry:ui",
+      "title": "Direction",
+      "description": "Provider de direção de texto.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/direction.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "extra"
+      }
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "Gaveta inferior com vaul.",
+      "dependencies": [
+        "vaul"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/drawer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "extra"
+      }
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown menu",
+      "description": "Menu flutuante com popup em sombra hairline e itens com cursor-pointer.",
+      "dependencies": [
+        "@base-ui/react",
+        "@tabler/icons-react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "Estado vazio tracejado, a única borda fechando caixa aceita no sistema.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/empty.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Campo completo: label, descrição, erro e layout vertical ou horizontal.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/label#v0.0.1",
+        "joaodadas/lume/separator#v0.0.1",
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover card",
+      "description": "Cartão ao passar o mouse, com squircle e sombra.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/hover-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Campo de texto com sombra hairline no light e borda de 0.5px no dark.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input group",
+      "description": "Input com addons (ícone, prefixo, sufixo, botão) que compartilham o anel de foco.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/button#v0.0.1",
+        "joaodadas/lume/input#v0.0.1",
+        "joaodadas/lume/textarea#v0.0.1",
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/input-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "Campos de código de verificação.",
+      "dependencies": [
+        "@tabler/icons-react",
+        "input-otp"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/input-otp.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "extra"
+      }
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "Linha de lista com mídia, título e ações.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/separator#v0.0.1",
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/item.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "extra"
+      }
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Tecla de atalho em squircle pequeno.",
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/kbd.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Rótulo de campo.",
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/label.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "loader",
+      "type": "registry:ui",
+      "title": "Loader",
+      "description": "TextShimmerLoader, o texto com brilho que diz que algo está pensando.",
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/loader.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "Barra de menus.",
+      "dependencies": [
+        "@base-ui/react",
+        "@tabler/icons-react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/dropdown-menu#v0.0.1",
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/menubar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "extra"
+      }
+    },
+    {
+      "name": "native-select",
+      "type": "registry:ui",
+      "title": "Native select",
+      "description": "Select nativo estilizado como o Input.",
+      "dependencies": [
+        "@tabler/icons-react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/native-select.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation menu",
+      "description": "Menu de navegação com gatilho em pílula.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/navigation-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "extra"
+      }
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Paginação com botões icon-sm.",
+      "dependencies": [
+        "@tabler/icons-react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/button#v0.0.1",
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/pagination.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Popup ancorado com rounded-lg, squircle 3xl e sombra hairline.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/popover.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Barra de progresso.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/progress.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio group",
+      "description": "Grupo de opções exclusivas.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Painéis redimensionáveis.",
+      "dependencies": [
+        "react-resizable-panels"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/resizable.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "extra"
+      }
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll area",
+      "description": "Área rolável com barra fina.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/scroll-area.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Select do Base UI com gatilho squircle e popup com anel de 0.5px.",
+      "dependencies": [
+        "@base-ui/react",
+        "@tabler/icons-react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/select.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Linha divisória a 70% da borda.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/separator.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Painel lateral; a variante floating flutua com cantos squircle de 40px.",
+      "dependencies": [
+        "@base-ui/react",
+        "@tabler/icons-react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/button#v0.0.1",
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "Sidebar do shadcn na variante inset, 14rem, com squircle no inset e nos itens.",
+      "dependencies": [
+        "@base-ui/react",
+        "@tabler/icons-react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/button#v0.0.1",
+        "joaodadas/lume/input#v0.0.1",
+        "joaodadas/lume/separator#v0.0.1",
+        "joaodadas/lume/sheet#v0.0.1",
+        "joaodadas/lume/skeleton#v0.0.1",
+        "joaodadas/lume/tooltip#v0.0.1",
+        "joaodadas/lume/use-mobile#v0.0.1",
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/sidebar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Placeholder de carregamento em squircle.",
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "Controle deslizante.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/slider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "extra"
+      }
+    },
+    {
+      "name": "sonner",
+      "type": "registry:ui",
+      "title": "Sonner",
+      "description": "Toaster com ícones Tabler filled.",
+      "dependencies": [
+        "@tabler/icons-react",
+        "next-themes",
+        "sonner"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/sonner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "IconLoader girando, com role status.",
+      "dependencies": [
+        "@tabler/icons-react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/spinner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Interruptor com hover a 80% de opacidade.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/switch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Tabela densa: células px-8.25, header h-13, linha interativa com teclado e sticky header.",
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/table.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Abas com lista em squircle e sublinhado de 1px.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Área de texto com a mesma receita do Input.",
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "Botão de alternância.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/toggle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle group",
+      "description": "Grupo de toggles com sombra compartilhada.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/toggle#v0.0.1",
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/toggle-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Dica não invertida: mesma superfície dos popovers.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/ui/tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "group": "ui",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "cn()",
+      "description": "clsx + tailwind-merge, a mesma assinatura do shadcn.",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/lib/utils.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "meta": {
+        "group": "lib",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "use-mobile",
+      "type": "registry:hook",
+      "title": "useIsMobile",
+      "description": "Media query de 768px usada pela Sidebar.",
+      "files": [
+        {
+          "path": "registry/base-vega/hooks/use-mobile.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {
+        "group": "hooks",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "theme-provider",
+      "type": "registry:component",
+      "title": "Theme provider",
+      "description": "ThemeProvider do next-themes com o aviso falso do React 19 silenciado em dev. Use attribute=class, defaultTheme=dark, enableSystem.",
+      "dependencies": [
+        "next-themes"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/components/theme-provider.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {
+        "group": "blocks",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "area-chart",
+      "type": "registry:component",
+      "title": "Area chart",
+      "description": "EvilAreaChart: área com gradiente, grid, threshold e legenda.",
+      "dependencies": [
+        "motion",
+        "recharts"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/evilcharts#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/components/evilcharts/charts/area-chart.tsx",
+          "type": "registry:component",
+          "target": "components/evilcharts/charts/area-chart.tsx"
+        }
+      ],
+      "meta": {
+        "group": "charts",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "bar-chart",
+      "type": "registry:component",
+      "title": "Bar chart",
+      "description": "EvilBarChart: barras com brush, zoom e tooltip.",
+      "dependencies": [
+        "motion",
+        "recharts"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/evilcharts#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/components/evilcharts/charts/bar-chart.tsx",
+          "type": "registry:component",
+          "target": "components/evilcharts/charts/bar-chart.tsx"
+        }
+      ],
+      "meta": {
+        "group": "charts",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "donut-chart",
+      "type": "registry:component",
+      "title": "Donut chart",
+      "description": "EvilDonutChart: rosca com rótulo central tabular.",
+      "dependencies": [
+        "recharts"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/evilcharts#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/components/evilcharts/charts/donut-chart.tsx",
+          "type": "registry:component",
+          "target": "components/evilcharts/charts/donut-chart.tsx"
+        }
+      ],
+      "meta": {
+        "group": "charts",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "evilcharts",
+      "type": "registry:component",
+      "title": "Evil Charts (base)",
+      "description": "Container, tooltip, legenda, brush, zoom, dots e background do fork do Evil Charts que o Foglamp usa, com cores light e dark por série.",
+      "dependencies": [
+        "motion",
+        "recharts"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/utils#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/components/evilcharts/ui/chart.tsx",
+          "type": "registry:component",
+          "target": "components/evilcharts/ui/chart.tsx"
+        },
+        {
+          "path": "registry/base-vega/components/evilcharts/ui/tooltip.tsx",
+          "type": "registry:component",
+          "target": "components/evilcharts/ui/tooltip.tsx"
+        },
+        {
+          "path": "registry/base-vega/components/evilcharts/ui/legend.tsx",
+          "type": "registry:component",
+          "target": "components/evilcharts/ui/legend.tsx"
+        },
+        {
+          "path": "registry/base-vega/components/evilcharts/ui/zoom.tsx",
+          "type": "registry:component",
+          "target": "components/evilcharts/ui/zoom.tsx"
+        },
+        {
+          "path": "registry/base-vega/components/evilcharts/ui/evil-brush.tsx",
+          "type": "registry:component",
+          "target": "components/evilcharts/ui/evil-brush.tsx"
+        },
+        {
+          "path": "registry/base-vega/components/evilcharts/ui/dot.tsx",
+          "type": "registry:component",
+          "target": "components/evilcharts/ui/dot.tsx"
+        },
+        {
+          "path": "registry/base-vega/components/evilcharts/ui/background.tsx",
+          "type": "registry:component",
+          "target": "components/evilcharts/ui/background.tsx"
+        }
+      ],
+      "meta": {
+        "group": "charts",
+        "tier": "core"
+      }
+    },
+    {
+      "name": "line-chart",
+      "type": "registry:component",
+      "title": "Line chart",
+      "description": "EvilLineChart: linhas com dots e threshold.",
+      "dependencies": [
+        "motion",
+        "recharts"
+      ],
+      "registryDependencies": [
+        "joaodadas/lume/evilcharts#v0.0.1"
+      ],
+      "files": [
+        {
+          "path": "registry/base-vega/components/evilcharts/charts/line-chart.tsx",
+          "type": "registry:component",
+          "target": "components/evilcharts/charts/line-chart.tsx"
+        }
+      ],
+      "meta": {
+        "group": "charts",
+        "tier": "core"
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "aspect-ratio",
+  "title": "Aspect ratio",
+  "description": "Caixa com proporção fixa.",
+  "registryDependencies": [
+    "joaodadas/lume/utils#v0.0.1"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/ui/aspect-ratio.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, packages/ui/src/components/aspect-ratio.tsx @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*.\nimport { cn } from \"@/registry/base-vega/lib/utils\";\n\nfunction AspectRatio({\n\tratio,\n\tclassName,\n\t...props\n}: React.ComponentProps<\"div\"> & { ratio: number }) {\n\treturn (\n\t\t<div\n\t\t\tdata-slot=\"aspect-ratio\"\n\t\t\tstyle={\n\t\t\t\t{\n\t\t\t\t\t\"--ratio\": ratio,\n\t\t\t\t} as React.CSSProperties\n\t\t\t}\n\t\t\tclassName={cn(\"relative aspect-(--ratio)\", className)}\n\t\t\t{...props}\n\t\t/>\n\t);\n}\n\nexport { AspectRatio };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "meta": {
+    "group": "ui",
+    "tier": "extra"
+  },
+  "type": "registry:ui"
+}

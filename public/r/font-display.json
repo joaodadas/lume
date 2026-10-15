@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "font-display",
+  "title": "Fonte display (Host Grotesk)",
+  "description": "Host Grotesk via Fontsource como `font-display`, só para títulos de marketing. O app fica em Inter.",
+  "dependencies": [
+    "@fontsource-variable/host-grotesk"
+  ],
+  "cssVars": {
+    "theme": {
+      "font-display": "\"Host Grotesk Variable\", \"Inter Variable\", ui-sans-serif, system-ui, sans-serif"
+    }
+  },
+  "css": {
+    "@import \"@fontsource-variable/host-grotesk\"": {}
+  },
+  "meta": {
+    "group": "base",
+    "tier": "core"
+  },
+  "type": "registry:item"
+}

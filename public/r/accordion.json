@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "accordion",
+  "title": "Accordion",
+  "description": "Seções expansíveis com um único chevron que gira e altura animada.",
+  "dependencies": [
+    "@base-ui/react",
+    "@tabler/icons-react"
+  ],
+  "registryDependencies": [
+    "joaodadas/lume/utils#v0.0.1"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/ui/accordion.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, packages/ui/src/components/accordion.tsx @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*.\nimport { Accordion as AccordionPrimitive } from \"@base-ui/react/accordion\";\n\nimport { cn } from \"@/registry/base-vega/lib/utils\";\nimport { IconChevronDown } from \"@tabler/icons-react\";\n\nfunction Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {\n  return (\n    <AccordionPrimitive.Root\n      data-slot=\"accordion\"\n      className={cn(\"flex w-full flex-col\", className)}\n      {...props}\n    />\n  );\n}\n\nfunction AccordionItem({ className, ...props }: AccordionPrimitive.Item.Props) {\n  return (\n    <AccordionPrimitive.Item\n      data-slot=\"accordion-item\"\n      className={cn(\"not-last:border-b\", className)}\n      {...props}\n    />\n  );\n}\n\nfunction AccordionTrigger({\n  className,\n  children,\n  ...props\n}: AccordionPrimitive.Trigger.Props) {\n  return (\n    <AccordionPrimitive.Header className=\"flex\">\n      <AccordionPrimitive.Trigger\n        data-slot=\"accordion-trigger\"\n        className={cn(\n          \"group/accordion-trigger relative flex flex-1 items-start justify-between rounded-md border border-transparent py-4 text-left text-sm font-medium outline-none hover:underline focus-visible:border-ring focus-visible:ring-[1.5px] focus-visible:ring-ring/50 focus-visible:after:border-ring aria-disabled:pointer-events-none pr-2 aria-disabled:opacity-50 **:data-[slot=accordion-trigger-icon]:ml-auto **:data-[slot=accordion-trigger-icon]:size-4 **:data-[slot=accordion-trigger-icon]:text-muted-foreground\",\n          className\n        )}\n        {...props}\n      >\n        {children}\n        <IconChevronDown\n          data-slot=\"accordion-trigger-icon\"\n          className=\"pointer-events-none shrink-0 group-aria-expanded/accordion-trigger:rotate-180 transition-transform duration-300\"\n        />\n      </AccordionPrimitive.Trigger>\n    </AccordionPrimitive.Header>\n  );\n}\n\nfunction AccordionContent({\n  className,\n  children,\n  ...props\n}: AccordionPrimitive.Panel.Props) {\n  return (\n    // Height transitions on Base UI's measured panel height: 0 in the\n    // starting/ending styles, the measured value in between. The curve is a\n    // fast-out, long-settle ease (same one the landing hero uses) so the panel\n    // decelerates into place rather than the default ease-out's flat finish.\n    // The content inside fades on the same clock, so it doesn't sit fully\n    // opaque in a sliver of panel at either end.\n    <AccordionPrimitive.Panel\n      data-slot=\"accordion-content\"\n      className=\"group/accordion-content h-(--accordion-panel-height) overflow-hidden text-sm transition-[height] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] data-ending-style:h-0 data-starting-style:h-0\"\n      {...props}\n    >\n      <div\n        className={cn(\n          \"pt-0 pb-4 transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-data-ending-style/accordion-content:opacity-0 group-data-starting-style/accordion-content:opacity-0 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4\",\n          className\n        )}\n      >\n        {children}\n      </div>\n    </AccordionPrimitive.Panel>\n  );\n}\n\nexport { Accordion, AccordionContent, AccordionItem, AccordionTrigger };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "meta": {
+    "group": "ui",
+    "tier": "core"
+  },
+  "type": "registry:ui"
+}

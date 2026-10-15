@@ -1,0 +1,284 @@
+{
+  "commit": "2bc3bb5",
+  "files": {
+    "registry/base-vega/ui/aspect-ratio.tsx": {
+      "upstream": "packages/ui/src/components/aspect-ratio.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/alert-dialog.tsx": {
+      "upstream": "packages/ui/src/components/alert-dialog.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/pagination.tsx": {
+      "upstream": "packages/ui/src/components/pagination.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/direction.tsx": {
+      "upstream": "packages/ui/src/components/direction.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/tabs.tsx": {
+      "upstream": "packages/ui/src/components/tabs.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/button-group.tsx": {
+      "upstream": "packages/ui/src/components/button-group.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/card.tsx": {
+      "upstream": "packages/ui/src/components/card.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/slider.tsx": {
+      "upstream": "packages/ui/src/components/slider.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/input-group.tsx": {
+      "upstream": "packages/ui/src/components/input-group.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/popover.tsx": {
+      "upstream": "packages/ui/src/components/popover.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/loader.tsx": {
+      "upstream": "packages/ui/src/components/loader.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/progress.tsx": {
+      "upstream": "packages/ui/src/components/progress.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/input-otp.tsx": {
+      "upstream": "packages/ui/src/components/input-otp.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/chart.tsx": {
+      "upstream": "packages/ui/src/components/chart.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/hover-card.tsx": {
+      "upstream": "packages/ui/src/components/hover-card.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/sheet.tsx": {
+      "upstream": "packages/ui/src/components/sheet.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/field.tsx": {
+      "upstream": "packages/ui/src/components/field.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/scroll-area.tsx": {
+      "upstream": "packages/ui/src/components/scroll-area.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/resizable.tsx": {
+      "upstream": "packages/ui/src/components/resizable.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/label.tsx": {
+      "upstream": "packages/ui/src/components/label.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/sonner.tsx": {
+      "upstream": "packages/ui/src/components/sonner.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/navigation-menu.tsx": {
+      "upstream": "packages/ui/src/components/navigation-menu.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/accordion.tsx": {
+      "upstream": "packages/ui/src/components/accordion.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/drawer.tsx": {
+      "upstream": "packages/ui/src/components/drawer.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/empty.tsx": {
+      "upstream": "packages/ui/src/components/empty.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/tooltip.tsx": {
+      "upstream": "packages/ui/src/components/tooltip.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/alert.tsx": {
+      "upstream": "packages/ui/src/components/alert.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/combobox.tsx": {
+      "upstream": "packages/ui/src/components/combobox.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/switch.tsx": {
+      "upstream": "packages/ui/src/components/switch.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/calendar.tsx": {
+      "upstream": "packages/ui/src/components/calendar.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/native-select.tsx": {
+      "upstream": "packages/ui/src/components/native-select.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/breadcrumb.tsx": {
+      "upstream": "packages/ui/src/components/breadcrumb.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/radio-group.tsx": {
+      "upstream": "packages/ui/src/components/radio-group.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/command.tsx": {
+      "upstream": "packages/ui/src/components/command.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/item.tsx": {
+      "upstream": "packages/ui/src/components/item.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/toggle-group.tsx": {
+      "upstream": "packages/ui/src/components/toggle-group.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/avatar.tsx": {
+      "upstream": "packages/ui/src/components/avatar.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/menubar.tsx": {
+      "upstream": "packages/ui/src/components/menubar.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/kbd.tsx": {
+      "upstream": "packages/ui/src/components/kbd.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/dialog.tsx": {
+      "upstream": "packages/ui/src/components/dialog.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/badge.tsx": {
+      "upstream": "packages/ui/src/components/badge.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/sidebar.tsx": {
+      "upstream": "packages/ui/src/components/sidebar.tsx",
+      "patches": [
+        "hsl() removido do variant outline (os tokens são oklch, hsl(var()) é CSS inválido)",
+        "idem para --sidebar-accent"
+      ]
+    },
+    "registry/base-vega/ui/table.tsx": {
+      "upstream": "packages/ui/src/components/table.tsx",
+      "patches": [
+        "hex do footer trocado pelos tokens de borda",
+        "hex da caption trocado pelos tokens de borda",
+        "comentário com hex removido"
+      ]
+    },
+    "registry/base-vega/ui/separator.tsx": {
+      "upstream": "packages/ui/src/components/separator.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/button.tsx": {
+      "upstream": "packages/ui/src/components/button.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/toggle.tsx": {
+      "upstream": "packages/ui/src/components/toggle.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/checkbox.tsx": {
+      "upstream": "packages/ui/src/components/checkbox.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/spinner.tsx": {
+      "upstream": "packages/ui/src/components/spinner.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/collapsible.tsx": {
+      "upstream": "packages/ui/src/components/collapsible.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/dropdown-menu.tsx": {
+      "upstream": "packages/ui/src/components/dropdown-menu.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/select.tsx": {
+      "upstream": "packages/ui/src/components/select.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/textarea.tsx": {
+      "upstream": "packages/ui/src/components/textarea.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/input.tsx": {
+      "upstream": "packages/ui/src/components/input.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/skeleton.tsx": {
+      "upstream": "packages/ui/src/components/skeleton.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/context-menu.tsx": {
+      "upstream": "packages/ui/src/components/context-menu.tsx",
+      "patches": []
+    },
+    "registry/base-vega/ui/carousel.tsx": {
+      "upstream": "packages/ui/src/components/carousel.tsx",
+      "patches": []
+    },
+    "registry/base-vega/hooks/use-mobile.ts": {
+      "upstream": "packages/ui/src/hooks/use-mobile.ts",
+      "patches": []
+    },
+    "registry/base-vega/components/evilcharts/ui/dot.tsx": {
+      "upstream": "apps/web/src/components/evilcharts/ui/dot.tsx",
+      "patches": []
+    },
+    "registry/base-vega/components/evilcharts/ui/legend.tsx": {
+      "upstream": "apps/web/src/components/evilcharts/ui/legend.tsx",
+      "patches": []
+    },
+    "registry/base-vega/components/evilcharts/ui/zoom.tsx": {
+      "upstream": "apps/web/src/components/evilcharts/ui/zoom.tsx",
+      "patches": []
+    },
+    "registry/base-vega/components/evilcharts/ui/chart.tsx": {
+      "upstream": "apps/web/src/components/evilcharts/ui/chart.tsx",
+      "patches": []
+    },
+    "registry/base-vega/components/evilcharts/ui/background.tsx": {
+      "upstream": "apps/web/src/components/evilcharts/ui/background.tsx",
+      "patches": []
+    },
+    "registry/base-vega/components/evilcharts/ui/tooltip.tsx": {
+      "upstream": "apps/web/src/components/evilcharts/ui/tooltip.tsx",
+      "patches": []
+    },
+    "registry/base-vega/components/evilcharts/ui/evil-brush.tsx": {
+      "upstream": "apps/web/src/components/evilcharts/ui/evil-brush.tsx",
+      "patches": []
+    },
+    "registry/base-vega/components/evilcharts/charts/area-chart.tsx": {
+      "upstream": "apps/web/src/components/evilcharts/charts/area-chart.tsx",
+      "patches": []
+    },
+    "registry/base-vega/components/evilcharts/charts/bar-chart.tsx": {
+      "upstream": "apps/web/src/components/evilcharts/charts/bar-chart.tsx",
+      "patches": []
+    },
+    "registry/base-vega/components/evilcharts/charts/line-chart.tsx": {
+      "upstream": "apps/web/src/components/evilcharts/charts/line-chart.tsx",
+      "patches": []
+    },
+    "registry/base-vega/components/evilcharts/charts/donut-chart.tsx": {
+      "upstream": "apps/web/src/components/evilcharts/charts/donut-chart.tsx",
+      "patches": []
+    }
+  }
+}

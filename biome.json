@@ -7,7 +7,16 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!node_modules", "!.next", "!dist", "!build"]
+    "includes": [
+      "**",
+      "!node_modules",
+      "!.next",
+      "!dist",
+      "!build",
+      "!public/r",
+      "!registry.json",
+      "!scripts/upstream-map.json"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -35,5 +44,24 @@
         "organizeImports": "on"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": [
+        "registry/base-vega/ui/**",
+        "registry/base-vega/hooks/use-mobile.ts",
+        "registry/base-vega/components/evilcharts/**",
+        "registry/base-vega/styles/globals.css"
+      ],
+      "formatter": {
+        "enabled": false
+      },
+      "linter": {
+        "enabled": false
+      },
+      "assist": {
+        "enabled": false
+      }
+    }
+  ]
 }

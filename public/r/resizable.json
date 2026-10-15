@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "resizable",
+  "title": "Resizable",
+  "description": "Painéis redimensionáveis.",
+  "dependencies": [
+    "react-resizable-panels"
+  ],
+  "registryDependencies": [
+    "joaodadas/lume/utils#v0.0.1"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/ui/resizable.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, packages/ui/src/components/resizable.tsx @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*.\n\"use client\";\n\nimport * as ResizablePrimitive from \"react-resizable-panels\";\n\nimport { cn } from \"@/registry/base-vega/lib/utils\";\n\nfunction ResizablePanelGroup({\n\tclassName,\n\t...props\n}: ResizablePrimitive.GroupProps) {\n\treturn (\n\t\t<ResizablePrimitive.Group\n\t\t\tdata-slot=\"resizable-panel-group\"\n\t\t\tclassName={cn(\n\t\t\t\t\"flex h-full w-full aria-[orientation=vertical]:flex-col\",\n\t\t\t\tclassName,\n\t\t\t)}\n\t\t\t{...props}\n\t\t/>\n\t);\n}\n\nfunction ResizablePanel({ ...props }: ResizablePrimitive.PanelProps) {\n\treturn <ResizablePrimitive.Panel data-slot=\"resizable-panel\" {...props} />;\n}\n\nfunction ResizableHandle({\n\twithHandle,\n\tclassName,\n\t...props\n}: ResizablePrimitive.SeparatorProps & {\n\twithHandle?: boolean;\n}) {\n\treturn (\n\t\t<ResizablePrimitive.Separator\n\t\t\tdata-slot=\"resizable-handle\"\n\t\t\tclassName={cn(\n\t\t\t\t\"relative flex w-px items-center justify-center bg-border ring-offset-background after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden aria-[orientation=horizontal]:h-px aria-[orientation=horizontal]:w-full aria-[orientation=horizontal]:after:left-0 aria-[orientation=horizontal]:after:h-1 aria-[orientation=horizontal]:after:w-full aria-[orientation=horizontal]:after:translate-x-0 aria-[orientation=horizontal]:after:-translate-y-1/2 [&[aria-orientation=horizontal]>div]:rotate-90\",\n\t\t\t\tclassName,\n\t\t\t)}\n\t\t\t{...props}\n\t\t>\n\t\t\t{withHandle && (\n\t\t\t\t<div className=\"z-10 flex h-6 w-1 shrink-0 rounded-lg bg-border\" />\n\t\t\t)}\n\t\t</ResizablePrimitive.Separator>\n\t);\n}\n\nexport { ResizableHandle, ResizablePanel, ResizablePanelGroup };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "meta": {
+    "group": "ui",
+    "tier": "extra"
+  },
+  "type": "registry:ui"
+}
