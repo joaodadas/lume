@@ -23,7 +23,7 @@ registry/base-vega/ui/sheet.tsx                                  # variant float
 registry/base-vega/ui/button-group.tsx                           # ButtonGroupText: "border bg-muted", item extra verbatim
 registry/base-vega/ui/menubar.tsx                                # barra "rounded-full border p-1", item extra verbatim
 registry/base-vega/ui/chart.tsx                                  # tooltip do recharts: "border border-border/50", item extra verbatim do shadcn
-registry/base-vega/components/evilcharts/ui/chart.tsx            # fork MIT verbatim: spinner de loading e caixa "rounded-md border"
-registry/base-vega/components/evilcharts/ui/tooltip.tsx          # fork MIT verbatim: tooltip "border-border/50 ... border"
-registry/base-vega/components/evilcharts/ui/evil-brush.tsx       # fork MIT verbatim: alça do brush "rounded-sm border"
+registry/base-vega/components/evilcharts/core/chart.tsx            # fork MIT verbatim: spinner de loading e caixa "rounded-md border"
+registry/base-vega/components/evilcharts/core/tooltip.tsx          # fork MIT verbatim: tooltip "border-border/50 ... border"
+registry/base-vega/components/evilcharts/core/evil-brush.tsx       # fork MIT verbatim: alça do brush "rounded-sm border"
 registry/base-vega/components/markdown-components.tsx            # wrapper de tabela do markdown "border border-border/60", verbatim do Foglamp
