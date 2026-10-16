@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "motion",
+  "title": "Vocabulário de movimento",
+  "description": "EASE [0.22,1,0.36,1], ENTRANCE_EASE, REVEAL_EASE, MORPH (spring 400/38), TOOLBAR_SPRING (520/44), COPY_SPRING e useReduce(): o vocabulário fechado de motion do sistema.",
+  "dependencies": [
+    "motion"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/lib/motion.ts",
+      "content": "// Vocabulário fechado de movimento do lume: as curvas e molas que o Foglamp repete em dez arquivos, centralizadas num módulo só.\n//\n// Fonte dos valores (Foglamp @ 2bc3bb5, apps/web/src): EASE em marketing/landing/hero.tsx:108\n// e figure-reveal.tsx:35; ENTRANCE_EASE em marketing/demo/entrance.ts:20; REVEAL_EASE nos\n// três charts do evilcharts; MORPH em theme-switcher.tsx:27 (e mais três cópias iguais);\n// TOOLBAR_SPRING em app/data-table.tsx:360; COPY_SPRING em app/copy-icon.tsx:30.\n// Mapa do design system, cap. 19.2 (vocabulário de easing) e 21.9 (passo 8: movimento).\n//\n// Regra: um componente usa um destes nomes ou não anima com motion/react. Curva nova não\n// nasce dentro de componente. Durações: UI do produto entre 0.12 e 0.25 s, dados revelando-se\n// uma vez entre 0.5 e 1 s; só marketing passa de 1 s. Reduced motion: useReduce() e o\n// componente devolve {} ou vai direto ao estado final.\n\nimport { useReducedMotion } from \"motion/react\";\n\n/** Ease-out forte do copy \"blur up\" (0.7 s) e das figuras; é a mesma curva CSS\n * ease-[cubic-bezier(0.22,1,0.36,1)] do accordion e do range-picker. */\nexport const EASE = [0.22, 1, 0.36, 1] as const;\n\n/** Ease-out da casa em escala de UI: pílula de abas (0.2 s), largura de painel\n * (0.25 s) e a entrada 3D do demo de marketing. */\nexport const ENTRANCE_EASE = [0.32, 0.72, 0, 1] as const;\n\n/** Wipe de 1 s e grow-in de 0.5 s dos gráficos. */\nexport const REVEAL_EASE = [0, 0.7, 0.5, 1] as const;\n\n/** Mola das pílulas segmentadas (motion.span com layoutId) e do morph de altura\n * e largura: todo controle segmentado do app desliza igual. */\nexport const MORPH = { type: \"spring\", stiffness: 400, damping: 38 } as const;\n\n/** Mola do grupo de controles da toolbar quando troca de pai (o \"lift\" para o\n * slot de ações do header). */\nexport const TOOLBAR_SPRING = {\n  type: \"spring\",\n  stiffness: 520,\n  damping: 44,\n} as const;\n\n/** Mola criticamente amortecida da troca de ícone copy/check (scale 0.25 e\n * blur de 4px na entrada e na saída). */\nexport const COPY_SPRING = {\n  type: \"spring\",\n  duration: 0.25,\n  bounce: 0,\n} as const;\n\n/** prefers-reduced-motion como booleano. Quem anima testa isto e devolve {} ou\n * o estado final quando for true; nunca uma versão \"mais curta\" da animação. */\nexport function useReduce(): boolean {\n  return useReducedMotion() ?? false;\n}\n",
+      "type": "registry:lib"
+    }
+  ],
+  "meta": {
+    "group": "lib",
+    "tier": "core"
+  },
+  "type": "registry:lib"
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-debounced-value",
+  "title": "useDebouncedValue",
+  "description": "Debounce de 300 ms e useTextFilter para filtros de texto.",
+  "files": [
+    {
+      "path": "registry/base-vega/hooks/use-debounced-value.ts",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/hooks.ts @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: só useDebouncedValue e useTextFilter, em arquivo próprio; o eslint-disable virou biome-ignore.\n\"use client\";\n\nimport { useEffect, useMemo, useState } from \"react\";\n\n/** Debounces a rapidly-changing value (e.g. a search box) so server-backed\n * tables don't refetch on every keystroke. */\n// 300 ms é o valor praticado no Foglamp para busca em tabela.\nexport function useDebouncedValue<T>(value: T, delay = 300): T {\n  const [debounced, setDebounced] = useState(value);\n  useEffect(() => {\n    const id = setTimeout(() => setDebounced(value), delay);\n    return () => clearTimeout(id);\n  }, [value, delay]);\n  return debounced;\n}\n\n/** Convenience: debounced-free filter for a free-text search over one or more\n * string fields of a row. Case-insensitive substring match. */\nexport function useTextFilter<T>(\n  rows: readonly T[],\n  query: string,\n  fields: (row: T) => (string | null | undefined)[],\n): T[] {\n  // `fields` is a stable inline accessor; intentionally omitted from deps.\n  // biome-ignore lint/correctness/useExhaustiveDependencies: `fields` é um acessor inline estável, fora das deps de propósito (comentário do autor acima).\n  return useMemo(() => {\n    const q = query.trim().toLowerCase();\n    if (!q) return [...rows];\n    return rows.filter((row) =>\n      fields(row).some((f) => f?.toLowerCase().includes(q)),\n    );\n  }, [rows, query]);\n}\n",
+      "type": "registry:hook"
+    }
+  ],
+  "meta": {
+    "group": "hooks",
+    "tier": "core"
+  },
+  "type": "registry:hook"
+}

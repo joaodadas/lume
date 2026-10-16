@@ -2,7 +2,7 @@ import { IconArrowRight, IconBrandGithub } from "@tabler/icons-react";
 import Link from "next/link";
 import pkg from "@/package.json";
 import { Badge } from "@/registry/base-vega/ui/badge";
-import { Button } from "@/registry/base-vega/ui/button";
+import { Button, buttonVariants } from "@/registry/base-vega/ui/button";
 import { Card, CardContent } from "@/registry/base-vega/ui/card";
 
 const COMANDOS = [
@@ -53,15 +53,13 @@ export default function Home() {
         <Button variant="outline" render={<Link href="/guia" />}>
           Guia
         </Button>
-        <Button
-          variant="ghost"
-          render={
-            <a href="https://github.com/joaodadas/lume" aria-label="GitHub" />
-          }
+        <a
+          href="https://github.com/joaodadas/lume"
+          className={buttonVariants({ variant: "ghost" })}
         >
           <IconBrandGithub />
           GitHub
-        </Button>
+        </a>
       </div>
     </main>
   );

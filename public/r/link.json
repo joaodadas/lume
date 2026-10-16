@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "link",
+  "title": "Link (indireção)",
+  "description": "O Link que os blocos usam: um <a> simples. Em projetos Next, instale link-next por cima.",
+  "files": [
+    {
+      "path": "registry/base-vega/components/link.tsx",
+      "content": "// Link da indireção de navegação do lume: um <a> puro com href string. Os blocos importam daqui, nunca de next/link; o item link-next troca este arquivo por uma versão sobre next/link no mesmo caminho (components/link.tsx).\nimport type * as React from \"react\";\n\n/** Âncora com o contrato que os blocos esperam: `href` obrigatório e string\n * (rota escrita à mão, nunca o tipo Route do Next), o resto é o que um <a>\n * aceita, inclusive `ref`, que no React 19 é prop comum. Serve em Vite, em\n * Remix e em qualquer app sem roteador; o app Next instala o link-next por cima. */\nexport function Link({\n  href,\n  ...props\n}: React.ComponentProps<\"a\"> & { href: string }) {\n  return <a href={href} {...props} />;\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "group": "blocks",
+    "tier": "core"
+  },
+  "type": "registry:component"
+}

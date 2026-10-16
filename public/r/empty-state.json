@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "empty-state",
+  "title": "Empty state",
+  "description": "Estado vazio das páginas sobre o Empty da registry: caixa tracejada, EmptyMedia variant icon com o ícone em opacity-40, título e descrição opcionais e filhos para a ação.",
+  "registryDependencies": [
+    "joaodadas/lume/empty#v0.0.1",
+    "joaodadas/lume/utils#v0.0.1"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/components/empty-state.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/page-parts.tsx @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: só EmptyState (linhas 687-716 do upstream), em arquivo próprio sobre o Empty da registry; NoProject ficou de fora (tRPC e auth do Foglamp).\n\nimport { cn } from \"@/registry/base-vega/lib/utils\";\nimport {\n  Empty,\n  EmptyContent,\n  EmptyDescription,\n  EmptyHeader,\n  EmptyMedia,\n  EmptyTitle,\n} from \"@/registry/base-vega/ui/empty\";\n\n/** Estado vazio padrão das páginas: caixa tracejada (a única borda fechando\n * caixa do sistema), ícone em tile apagado a 40% e título curto. Filhos vão\n * abaixo da descrição, para um botão de ação ou link. */\nexport function EmptyState({\n  icon: Icon,\n  title,\n  description,\n  children,\n  className,\n  iconClassName,\n}: {\n  icon: React.ComponentType<{ className?: string }>;\n  title: string;\n  description?: string;\n  children?: React.ReactNode;\n  className?: string;\n  iconClassName?: string;\n}) {\n  return (\n    <Empty className={cn(\"border border-dashed\", className)}>\n      <EmptyHeader>\n        <EmptyMedia variant=\"icon\">\n          <Icon className={cn(\"opacity-40\", iconClassName)} />\n        </EmptyMedia>\n        <EmptyContent>\n          <EmptyTitle>{title}</EmptyTitle>\n          {description && <EmptyDescription>{description}</EmptyDescription>}\n          {children}\n        </EmptyContent>\n      </EmptyHeader>\n    </Empty>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "group": "blocks",
+    "tier": "core"
+  },
+  "docs": "Renderize só depois que o loading terminou (nunca no lugar do skeleton atrasado). Passe border-none bg-transparent em className quando flutuar sobre um gráfico borrado.",
+  "type": "registry:component"
+}

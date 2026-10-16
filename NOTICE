@@ -1,0 +1,10 @@
+lume
+Copyright 2026 João Vitor Dadas
+
+lume inclui código derivado do Foglamp (https://github.com/foglamp-labs/foglamp,
+Copyright foglamp-labs / Gustavo Fior), licenciado sob Apache-2.0, e do Evil Charts
+(https://evilcharts.com, Copyright (c) 2026 Gurbinder), licenciado sob MIT.
+
+Os arquivos derivados trazem no cabeçalho o caminho e o commit de origem e um
+resumo das modificações. A lista completa e as demais licenças de terceiros
+estão em THIRD_PARTY_NOTICES.md.

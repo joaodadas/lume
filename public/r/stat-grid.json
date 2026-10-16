@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "stat-grid",
+  "title": "Stat grid",
+  "description": "Fileira de StatCards com container query: grid gap-4 em 1 coluna, 2 a partir de @lg e 4 a partir de 62rem de área de conteúdo (columns = 3 vira 1 ou 3 a partir de @2xl), com o gutter PX.",
+  "registryDependencies": [
+    "joaodadas/lume/page-header#v0.0.1",
+    "joaodadas/lume/utils#v0.0.1"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/components/stat-grid.tsx",
+      "content": "// Grade de StatCards com container query, do GradeDeNumeros do painel do lyx-pr-agent (João Vitor Dadas); não existe no Foglamp, que repete o grid em cada página.\n\nimport { PX } from \"@/registry/base-vega/components/page-header\";\nimport { cn } from \"@/registry/base-vega/lib/utils\";\n\n/**\n * Fileira de cartões de número. As colunas seguem a largura da área de\n * conteúdo (container query), não a da janela, que não sabe da barra lateral.\n * Quatro colunas só quando cada cartão fica com pelo menos ~236 px (62rem de\n * área); com a barra lateral aberta isso dá ~1290 px de janela, perto do `xl`\n * que o Foglamp usa. Abaixo, 2 colunas; abaixo de 32rem (@lg), 1. Com\n * columns = 3: 1 ou 3 (a partir de 42rem, @2xl). O gutter é o PX da página.\n */\nexport function StatGrid({\n  columns = 4,\n  className,\n  children,\n}: {\n  columns?: 3 | 4;\n  className?: string;\n  children: React.ReactNode;\n}) {\n  return (\n    <section className={cn(\"@container\", PX, className)}>\n      <div\n        className={cn(\n          \"grid gap-4\",\n          columns === 4\n            ? \"@lg:grid-cols-2 @min-[62rem]:grid-cols-4\"\n            : \"@2xl:grid-cols-3\",\n        )}\n      >\n        {children}\n      </div>\n    </section>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "group": "blocks",
+    "tier": "core"
+  },
+  "docs": "As colunas seguem a largura da área de conteúdo, não da janela: funciona com a sidebar aberta ou fechada sem breakpoint manual.",
+  "type": "registry:component"
+}

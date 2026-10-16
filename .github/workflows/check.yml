@@ -1,0 +1,43 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Tipos, lint e as 12 verificações do scripts/check.ts (inclui next build).
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.13
+      - run: bun install --frozen-lockfile
+      - run: bun run typecheck
+      - run: bun run lint
+      - run: bun run check
+
+  # Saída gerada commitada em dia: regenera registry.json, public/r e a skill e
+  # falha se o git acusar diferença (arquivo novo conta, por isso o add -N).
+  gerado:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.13
+      - run: bun install --frozen-lockfile
+      - run: bun run registry:build
+      - name: skill
+        run: |
+          if [ -f scripts/build-skill.ts ]; then bun run skill:build; else echo "sem scripts/build-skill.ts, pulando"; fi
+      - name: diff
+        run: |
+          git add -N .
+          git diff --exit-code -- registry.json public/r skills/

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kit-formulario",
+  "title": "Kit formulário",
+  "description": "Input, input-group, field, label, select, native-select, checkbox, switch, radio-group, textarea, kbd e calendar.",
+  "registryDependencies": [
+    "joaodadas/lume/calendar#v0.0.1",
+    "joaodadas/lume/checkbox#v0.0.1",
+    "joaodadas/lume/field#v0.0.1",
+    "joaodadas/lume/input#v0.0.1",
+    "joaodadas/lume/input-group#v0.0.1",
+    "joaodadas/lume/kbd#v0.0.1",
+    "joaodadas/lume/label#v0.0.1",
+    "joaodadas/lume/native-select#v0.0.1",
+    "joaodadas/lume/radio-group#v0.0.1",
+    "joaodadas/lume/select#v0.0.1",
+    "joaodadas/lume/switch#v0.0.1",
+    "joaodadas/lume/textarea#v0.0.1"
+  ],
+  "meta": {
+    "group": "kits",
+    "tier": "core"
+  },
+  "type": "registry:block"
+}

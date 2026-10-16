@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "table-skeletons",
+  "title": "Skeleton de tabela",
+  "description": "TableRowsSkeleton: linhas h-12 com um Skeleton h-4 por coluna (cols com w, align, icon e sub para célula de duas linhas h-5 + h-4), alinhado como as células reais; tipo SkeletonCol exportado.",
+  "registryDependencies": [
+    "joaodadas/lume/skeleton#v0.0.1",
+    "joaodadas/lume/table#v0.0.1",
+    "joaodadas/lume/utils#v0.0.1"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/components/table-skeletons.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/page-parts.tsx @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: só SkeletonCol e TableRowsSkeleton (linhas 718-788 do upstream), em arquivo próprio; TableSkeleton e CardsSkeleton ficaram de fora (código morto no Foglamp); imports reescritos para @/registry/base-vega/*.\n\nimport { cn } from \"@/registry/base-vega/lib/utils\";\nimport { Skeleton } from \"@/registry/base-vega/ui/skeleton\";\nimport { TableCell, TableRow } from \"@/registry/base-vega/ui/table\";\n\n/** One column of a `TableRowsSkeleton` row. Omit `w` for an empty cell (e.g.\n * an actions column). `icon` adds a small square blob before the text blob. */\nexport type SkeletonCol = {\n  w?: string;\n  align?: \"left\" | \"right\";\n  icon?: boolean;\n  /** Width class for a second, smaller meta line under the main blob —\n   * for two-line details cells (traces/sessions). The two lines reproduce\n   * the real cell's line boxes (h-5 name + gap-1 + mt-0.5 + h-4 meta), so\n   * the skeleton row height matches the data rows without hardcoding it. */\n  sub?: string;\n};\n\n/**\n * Placeholder body rows for a list table while its query is in flight. The\n * page's chrome (toolbar, column headers) renders immediately; only these\n * rows shimmer, one blob per column, mirroring the real cells' alignment.\n * Pair with a `table-fixed` Table so the skeleton→data swap can't shift\n * column widths.\n */\n// Só pinte depois do useDelayedLoading (700 ms): carga rápida nunca pisca\n// esqueleto.\nexport function TableRowsSkeleton({\n  rows = 3,\n  cols,\n  rowHeight = \"h-12\",\n}: {\n  rows?: number;\n  cols: readonly SkeletonCol[];\n  /** Height class matching the real rows, when they're taller than the\n   * standard h-12 (e.g. two-line cells). */\n  rowHeight?: string;\n}) {\n  return (\n    <>\n      {Array.from({ length: rows }).map((_, i) => (\n        // Linhas e células do esqueleto são idênticas e nunca reordenam: o\n        // índice é a chave.\n        <TableRow\n          // biome-ignore lint/suspicious/noArrayIndexKey: linhas idênticas de esqueleto\n          key={i}\n        >\n          {cols.map((c, j) => (\n            <TableCell\n              // biome-ignore lint/suspicious/noArrayIndexKey: células idênticas de esqueleto\n              key={j}\n              align={c.align}\n              className={rowHeight}\n            >\n              {c.sub ? (\n                <div className=\"flex flex-col gap-1\">\n                  <div className=\"flex h-5 items-center gap-2\">\n                    {c.icon && (\n                      <Skeleton className=\"size-4 shrink-0 rounded-md\" />\n                    )}\n                    <Skeleton className={cn(\"h-4\", c.w)} />\n                  </div>\n                  <div className=\"mt-0.5 flex h-4 items-center\">\n                    <Skeleton className={cn(\"h-3\", c.sub)} />\n                  </div>\n                </div>\n              ) : (\n                c.w && (\n                  <div\n                    className={cn(\n                      \"flex items-center gap-2\",\n                      c.align === \"right\" && \"justify-end\",\n                    )}\n                  >\n                    {c.icon && (\n                      <Skeleton className=\"size-4 shrink-0 rounded-md\" />\n                    )}\n                    <Skeleton className={cn(\"h-4\", c.w)} />\n                  </div>\n                )\n              )}\n            </TableCell>\n          ))}\n        </TableRow>\n      ))}\n    </>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "group": "blocks",
+    "tier": "core"
+  },
+  "docs": "Pareie com uma Table table-fixed para a troca skeleton/dados não mexer a largura das colunas, e com useDelayedLoading (700 ms) para carga rápida não piscar.",
+  "type": "registry:component"
+}

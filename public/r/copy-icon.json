@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "copy-icon",
+  "title": "Ícone de copiar",
+  "description": "Troca copy/check com blur de 4px, scale 0.25 e fade na mola COPY_SPRING (0.25 s, bounce 0); verde text-green-600 dark:text-green-400, invertido via checkClassName dentro de Button default.",
+  "dependencies": [
+    "@tabler/icons-react",
+    "motion"
+  ],
+  "registryDependencies": [
+    "joaodadas/lume/motion#v0.0.1",
+    "joaodadas/lume/utils#v0.0.1"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/components/copy-icon.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/copy-icon.tsx @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: cn de @/registry/base-vega/lib/utils e COPY_SPRING importado de lib/motion no lugar da constante local (mesmos valores: spring, duration 0.25, bounce 0).\n\"use client\";\n\nimport { IconCircleCheckFilled, IconCopyFilled } from \"@tabler/icons-react\";\nimport { AnimatePresence, motion } from \"motion/react\";\n\nimport { COPY_SPRING } from \"@/registry/base-vega/lib/motion\";\nimport { cn } from \"@/registry/base-vega/lib/utils\";\n\n// A micro-interação de copiar: o ícone de cópia vira check com blur, scale e\n// fade (a receita \"icon morph\" do craft). É o mesmo ícone dentro do\n// CopyButton, do CodeBlock e de qualquer Button que copie algo.\nexport function CopyIcon({\n  copied,\n  className,\n  checkClassName,\n}: {\n  copied: boolean;\n  /** Classes applied to the copy icon (and the check icon unless `checkClassName` is set). */\n  className?: string;\n  /** Classes applied to the check icon. Defaults to `className`. */\n  checkClassName?: string;\n}) {\n  // `relative` so the exiting (position: absolute, via popLayout) icon is pinned\n  // directly over the entering one instead of momentarily stacking below it.\n  return (\n    <span className=\"relative inline-flex\">\n      <AnimatePresence mode=\"popLayout\" initial={false}>\n        <motion.span\n          key={copied ? \"check\" : \"copy\"}\n          className=\"inline-flex\"\n          initial={{ opacity: 0, scale: 0.25, filter: \"blur(4px)\" }}\n          animate={{ opacity: 1, scale: 1, filter: \"blur(0px)\" }}\n          exit={{ opacity: 0, scale: 0.25, filter: \"blur(4px)\" }}\n          transition={COPY_SPRING}\n        >\n          {copied ? (\n            <IconCircleCheckFilled\n              className={cn(\n                // Page-surface greens. Inside a default-variant Button the chip's\n                // bg inverts against the theme, so those call sites pass the\n                // inverted pair via `checkClassName`.\n                \"text-green-600 dark:text-green-400\",\n                checkClassName ?? className,\n              )}\n            />\n          ) : (\n            <IconCopyFilled className={className} />\n          )}\n        </motion.span>\n      </AnimatePresence>\n    </span>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "group": "blocks",
+    "tier": "core"
+  },
+  "type": "registry:component"
+}

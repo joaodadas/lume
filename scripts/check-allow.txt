@@ -1,0 +1,29 @@
+# Allowlist da verificação 2 do scripts/check.ts: arquivos da registry que
+# podem usar "border" (ou border-1/2/4) fechando caixa. Um caminho por linha,
+# relativo à raiz; o que vem depois de # é comentário.
+#
+# O que passa por regra, sem precisar estar aqui:
+# - border-b, border-t, border-l, border-r, border-x, border-y, divide-*
+#   (linha de tabela e divisor interno);
+# - "border border-transparent" (reserva o espaço do anel de foco, não desenha:
+#   tabs, accordion, switch);
+# - "dark:border" quando a mesma string tem "dark:shadow-none" (receita dark do
+#   Foglamp: no escuro a sombra some e entra uma borda a 50%: input, textarea,
+#   native-select, select, kbd, toggle, toggle-group, input-otp, empty icon).
+#
+# Cada linha abaixo diz por que o Foglamp (ou o lume) desenha borda ali.
+registry/base-vega/ui/empty.tsx                                  # Empty tracejado: "border-dashed border" é a exceção prevista no guia
+registry/base-vega/components/empty-state.tsx                    # mesma exceção, reforça "border border-dashed" por cima do Empty
+registry/base-vega/ui/checkbox.tsx                               # controle de 16px: "border border-input" é o contorno do próprio controle, verbatim
+registry/base-vega/ui/radio-group.tsx                            # idem, círculo de 16px com "border border-input"
+registry/base-vega/ui/slider.tsx                                 # thumb de 16px com "border border-primary", verbatim do shadcn
+registry/base-vega/ui/combobox.tsx                               # input de chips (multi): "border border-input" no light, verbatim
+registry/base-vega/ui/field.tsx                                  # FieldLabel vira cartão com borda só quando envolve um Field (has-[>[data-slot=field]]:border)
+registry/base-vega/ui/sheet.tsx                                  # variant floating: "data-[variant=floating]:border" no painel solto
+registry/base-vega/ui/button-group.tsx                           # ButtonGroupText: "border bg-muted", item extra verbatim
+registry/base-vega/ui/menubar.tsx                                # barra "rounded-full border p-1", item extra verbatim
+registry/base-vega/ui/chart.tsx                                  # tooltip do recharts: "border border-border/50", item extra verbatim do shadcn
+registry/base-vega/components/evilcharts/ui/chart.tsx            # fork MIT verbatim: spinner de loading e caixa "rounded-md border"
+registry/base-vega/components/evilcharts/ui/tooltip.tsx          # fork MIT verbatim: tooltip "border-border/50 ... border"
+registry/base-vega/components/evilcharts/ui/evil-brush.tsx       # fork MIT verbatim: alça do brush "rounded-sm border"
+registry/base-vega/components/markdown-components.tsx            # wrapper de tabela do markdown "border border-border/60", verbatim do Foglamp

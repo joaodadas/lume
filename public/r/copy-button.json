@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "copy-button",
+  "title": "Botão de copiar",
+  "description": "Botão nu com CopyIcon, text-muted-foreground/60, hover text-foreground, iconSize size-4, stopPropagation para linhas clicáveis e estado copiado por 1,5 s.",
+  "registryDependencies": [
+    "joaodadas/lume/copy-icon#v0.0.1",
+    "joaodadas/lume/use-copied#v0.0.1",
+    "joaodadas/lume/utils#v0.0.1"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/components/copy-button.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/copy-button.tsx @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/* (CopyIcon de components, useCopied de hooks).\n\"use client\";\n\nimport { CopyIcon } from \"@/registry/base-vega/components/copy-icon\";\nimport { useCopied } from \"@/registry/base-vega/hooks/use-copied\";\nimport { cn } from \"@/registry/base-vega/lib/utils\";\n\n// Botão nu (não o primitivo Button) para copiar um valor em linha de tabela,\n// chip ou bolha de chat. Nas bolhas aparece só no hover:\n// `opacity-0 group-hover/bubble:opacity-100`.\n\n/** Copy a value to the clipboard with a brief check-mark confirmation.\n *\n * - `stopPropagation` — call `e.stopPropagation()` on click; use when the\n *   button sits inside a clickable table row or card.\n * - `iconSize` — Tailwind size class applied to both icons (default `\"size-4\"`).\n * - `className` — additional classes for the `<button>` element. */\nexport function CopyButton({\n  value,\n  title,\n  stopPropagation,\n  iconSize = \"size-4\",\n  className,\n}: {\n  value: string;\n  /** Tooltip nativo e nome acessível do botão, por exemplo \"Copiar ID\". */\n  title: string;\n  stopPropagation?: boolean;\n  iconSize?: string;\n  className?: string;\n}) {\n  const { copied, markCopied } = useCopied();\n  return (\n    <button\n      type=\"button\"\n      title={title}\n      onClick={(e) => {\n        if (stopPropagation) e.stopPropagation();\n        void navigator.clipboard.writeText(value);\n        markCopied();\n      }}\n      className={cn(\n        \"inline-flex shrink-0 items-center justify-center rounded p-1 text-muted-foreground/60 cursor-pointer transition-colors hover:text-foreground\",\n        className,\n      )}\n    >\n      <CopyIcon\n        copied={copied}\n        className={iconSize}\n        checkClassName={cn(iconSize)}\n      />\n    </button>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "group": "blocks",
+    "tier": "core"
+  },
+  "docs": "title é obrigatório e vira o nome acessível (ex.: \"Copiar ID\"). Dentro de linha de tabela clicável passe stopPropagation.",
+  "type": "registry:component"
+}

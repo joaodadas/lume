@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kit-feedback",
+  "title": "Kit feedback",
+  "description": "Skeleton, empty, spinner, loader, sonner, alert, notice, dialog, alert-dialog, tooltip, popover e dropdown-menu.",
+  "registryDependencies": [
+    "joaodadas/lume/alert#v0.0.1",
+    "joaodadas/lume/alert-dialog#v0.0.1",
+    "joaodadas/lume/dialog#v0.0.1",
+    "joaodadas/lume/dropdown-menu#v0.0.1",
+    "joaodadas/lume/empty#v0.0.1",
+    "joaodadas/lume/loader#v0.0.1",
+    "joaodadas/lume/notice#v0.0.1",
+    "joaodadas/lume/popover#v0.0.1",
+    "joaodadas/lume/skeleton#v0.0.1",
+    "joaodadas/lume/sonner#v0.0.1",
+    "joaodadas/lume/spinner#v0.0.1",
+    "joaodadas/lume/tooltip#v0.0.1"
+  ],
+  "meta": {
+    "group": "kits",
+    "tier": "core"
+  },
+  "type": "registry:block"
+}

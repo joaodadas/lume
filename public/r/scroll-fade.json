@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scroll-fade",
+  "title": "Scroll fade",
+  "description": "Viewport de rolagem com fades de h-10 em overlay (bg-linear-to-b/-t from-card to-transparent, duration-150): o de cima aparece ao rolar, o de baixo a 75% enquanto há conteúdo abaixo, recalculado no scroll e por ResizeObserver.",
+  "registryDependencies": [
+    "joaodadas/lume/utils#v0.0.1"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/components/scroll-fade.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/page-parts.tsx @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: só ScrollFade (linhas 535-604 do upstream), em arquivo próprio; imports reescritos para @/registry/base-vega/*.\n\"use client\";\n\nimport { useCallback, useLayoutEffect, useRef, useState } from \"react\";\n\nimport { cn } from \"@/registry/base-vega/lib/utils\";\n\n/**\n * A scroll viewport with fade overlays: the top fade appears once scrolled away\n * from the top, the bottom fade while there's more content below. Both track the\n * live scroll position (and recompute when the content size changes, e.g. data\n * finishes loading). `fromClassName` sets the fade's solid color — default\n * `from-card` for in-card lists; pass `from-popover` inside a dialog.\n */\n// A utility no-scrollbar vem do shadcn/tailwind.css, que o globals.css da base\n// já importa. São overlays coloridos, não mask-image: por isso fromClassName\n// precisa casar com o fundo de onde o ScrollFade está.\nexport function ScrollFade({\n  children,\n  className,\n  containerClassName,\n  fromClassName = \"from-card\",\n  bottomFadeClassName,\n}: {\n  children: React.ReactNode;\n  /** Classes for the scroll viewport (e.g. `max-h-88`, padding). */\n  className?: string;\n  /** Classes for the outer wrapper — use to make the fade box participate in a\n   * flex column (`min-h-0 flex-1`) instead of a fixed max-height. */\n  containerClassName?: string;\n  fromClassName?: string;\n  /** Overrides for the bottom fade while it shows (e.g. `h-14 opacity-100`\n   * for a stronger edge). */\n  bottomFadeClassName?: string;\n}) {\n  const viewport = useRef<HTMLDivElement>(null);\n  const content = useRef<HTMLDivElement>(null);\n  const [edges, setEdges] = useState({ top: false, bottom: false });\n  const update = useCallback(() => {\n    const el = viewport.current;\n    if (!el) return;\n    setEdges({\n      top: el.scrollTop > 1,\n      bottom: el.scrollTop + el.clientHeight < el.scrollHeight - 1,\n    });\n  }, []);\n  useLayoutEffect(() => {\n    update();\n    const el = content.current;\n    if (!el) return;\n    const ro = new ResizeObserver(update);\n    ro.observe(el);\n    return () => ro.disconnect();\n  }, [update]);\n  return (\n    <div className={cn(\"relative no-scrollbar\", containerClassName)}>\n      <div\n        ref={viewport}\n        onScroll={update}\n        className={cn(\"overflow-y-auto no-scrollbar\", className)}\n      >\n        <div ref={content}>{children}</div>\n      </div>\n      <div\n        className={cn(\n          \"pointer-events-none absolute inset-x-0 top-0 h-10 bg-linear-to-b to-transparent transition-opacity duration-150\",\n          fromClassName,\n          edges.top ? \"opacity-100\" : \"opacity-0\",\n        )}\n      />\n      <div\n        className={cn(\n          \"pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-linear-to-t to-transparent transition-opacity duration-150\",\n          fromClassName,\n          edges.bottom ? cn(\"opacity-75\", bottomFadeClassName) : \"opacity-0\",\n        )}\n      />\n    </div>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "group": "blocks",
+    "tier": "core"
+  },
+  "docs": "Usa a utility no-scrollbar do shadcn/tailwind.css (já importado pelo globals.css da base). Passe fromClassName=\"from-popover\" dentro de diálogo para o fade casar com o fundo.",
+  "type": "registry:component"
+}

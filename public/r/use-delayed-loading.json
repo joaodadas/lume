@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-delayed-loading",
+  "title": "useDelayedLoading",
+  "description": "Só mostra skeleton depois de 700 ms de loading; loads mais rápidos nunca piscam.",
+  "files": [
+    {
+      "path": "registry/base-vega/hooks/use-delayed-loading.ts",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/hooks.ts @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: só useDelayedLoading e useSkeletonShown, em arquivo próprio (o resto do hooks.ts virou use-entrance-once e use-debounced-value).\n\"use client\";\n\nimport { useEffect, useRef, useState } from \"react\";\n\n// General-purpose UI hooks shared across list/table pages. These used to live in\n// data-table.tsx, which leaked them as an implicit public API; they have nothing\n// to do with the table component itself.\n\n/** Gates a loading skeleton behind a delay so quick loads don't flash one.\n * Returns true only once `loading` has stayed true for `delay` ms; loads that\n * resolve sooner never show the skeleton. Render `null` (not the empty state)\n * while loading but this is still false. */\n// 700 ms é o valor praticado em todas as páginas do Foglamp; não mude por tela.\nexport function useDelayedLoading(loading: boolean, delay = 700): boolean {\n  const [show, setShow] = useState(false);\n  useEffect(() => {\n    if (!loading) {\n      setShow(false);\n      return;\n    }\n    const id = setTimeout(() => setShow(true), delay);\n    return () => clearTimeout(id);\n  }, [loading, delay]);\n  return show;\n}\n\n/** Latches whether a slot's delayed skeleton has ever been shown this visit.\n * Whatever paints first in a slot gets the entrance fade — the skeleton on\n * slow loads, the real card when data beats the skeleton delay — and the\n * skeleton→card swap itself stays instant, so a card whose slot already showed\n * a skeleton must skip the fade. */\nexport function useSkeletonShown(showing: boolean): boolean {\n  const ever = useRef(false);\n  if (showing) ever.current = true;\n  return ever.current;\n}\n",
+      "type": "registry:hook"
+    }
+  ],
+  "meta": {
+    "group": "hooks",
+    "tier": "core"
+  },
+  "type": "registry:hook"
+}

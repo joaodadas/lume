@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "number-ticker",
+  "title": "Number ticker",
+  "description": "Número que anima do valor antigo para o novo com animate() do motion (0.6 s, easeOut), formatando cada frame, em tabular-nums; sob prefers-reduced-motion pula direto para o valor final.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "joaodadas/lume/format#v0.0.1",
+    "joaodadas/lume/motion#v0.0.1",
+    "joaodadas/lume/utils#v0.0.1"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/components/number-ticker.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/page-parts.tsx @ 2bc3bb5), Apache-2.0, e do painel do lyx-pr-agent (João Vitor Dadas).\n// Modificado por joaodadas/lume: TickerValue (linhas 135-174 do upstream) virou NumberTicker exportado, com format opcional (padrão formatExactCount em pt-BR), className e tabular-nums; respeita useReduce() pulando direto para o valor final (do painel, que lia prefers-reduced-motion por matchMedia).\n\"use client\";\n\nimport { animate } from \"motion/react\";\nimport { useEffect, useRef, useState } from \"react\";\n\nimport { formatExactCount } from \"@/registry/base-vega/lib/format\";\nimport { useReduce } from \"@/registry/base-vega/lib/motion\";\nimport { cn } from \"@/registry/base-vega/lib/utils\";\n\n/**\n * Animated numeric stat: when `value` changes, the digits tween from the old\n * number to the new one, with every intermediate frame run through `format`\n * so the string stays properly formatted (\"$1.23\", \"87%\", \"1.2K\") the whole\n * way. The first paint is static — only later changes animate.\n */\n// Duração 0.6 s com easeOut é a única receita de ticker do sistema; o\n// formatador recebe frames fracionários, então arredonde dentro dele (os\n// format* de lib/format já fazem isso).\nexport function NumberTicker({\n  value,\n  format = formatExactCount,\n  className,\n}: {\n  value: number;\n  format?: (n: number) => string;\n  className?: string;\n}) {\n  const [display, setDisplay] = useState(() => format(value));\n  const animatedFrom = useRef(value);\n  // The formatter is often an inline closure — keep the latest without\n  // retriggering the animation effect.\n  const formatRef = useRef(format);\n  formatRef.current = format;\n  const reduce = useReduce();\n\n  useEffect(() => {\n    const from = animatedFrom.current;\n    if (from === value) {\n      setDisplay(formatRef.current(value));\n      return;\n    }\n    animatedFrom.current = value;\n    // Com reduced motion o número troca de uma vez, sem versão \"mais curta\".\n    if (reduce) {\n      setDisplay(formatRef.current(value));\n      return;\n    }\n    const controls = animate(from, value, {\n      duration: 0.6,\n      ease: \"easeOut\",\n      onUpdate: (v) => setDisplay(formatRef.current(v)),\n      onComplete: () => setDisplay(formatRef.current(value)),\n    });\n    return () => controls.stop();\n  }, [value, reduce]);\n\n  return <span className={cn(\"tabular-nums\", className)}>{display}</span>;\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "group": "extras",
+    "tier": "core"
+  },
+  "docs": "format padrão é formatExactCount (pt-BR, arredondado). Passe formatCost, formatPercent ou formatCompact de lib/format para outros números; o formatador recebe frames fracionários, então arredonde dentro dele.",
+  "type": "registry:component"
+}

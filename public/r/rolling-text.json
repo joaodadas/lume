@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "rolling-text",
+  "title": "Texto rolante",
+  "description": "Revelação de chave ou ID com roll de caça-níquel do slot-text: direction down, stagger 15, duration 220, bounce 0, ease cubic-bezier(0.22, 1, 0.36, 1), cor chromatic({ from: 360 }), font-mono text-xs; parte de `from` ou de uma máscara de pontos do mesmo comprimento.",
+  "dependencies": [
+    "slot-text"
+  ],
+  "registryDependencies": [
+    "joaodadas/lume/utils#v0.0.1"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/components/rolling-text.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/animated-api-key.tsx @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: renomeado AnimatedApiKey para RollingText({ value, from?, className }), sem nada de API key no nome; `from` opcional com máscara de pontos do mesmo comprimento como padrão; cn de @/registry/base-vega/lib/utils.\n\"use client\";\n\nimport \"slot-text/style.css\";\n\nimport { useEffect, useState } from \"react\";\nimport { chromatic } from \"slot-text\";\nimport { SlotText } from \"slot-text/react\";\n\nimport { cn } from \"@/registry/base-vega/lib/utils\";\n\n// Texto que \"rola\" como caça-níquel até o valor final: revela uma chave\n// recém-criada, um ID gerado, um token. Serve para revelação única, não para\n// número que muda o tempo todo (para isso, number-ticker).\n\n/**\n * Reveals a freshly-created API key with a \"slot machine\" roll: it mounts\n * showing the name the user gave the key and then rolls, character by\n * character, into the real key value. slot-text only animates on a *text change\n * after mount* — mounting straight onto the value renders it statically — so the\n * name-then-value two-step is what produces the roll.\n *\n * The full key is always exposed via `aria-label` for screen readers, and\n * callers copy from the source string — never from the animated DOM, whose\n * hidden sizers would scramble a manual selection.\n */\nexport function RollingText({\n  value,\n  from,\n  className,\n}: {\n  /** The real key value the roll lands on. */\n  value: string;\n  /** The text the roll starts from — the name the user gave the key.\n   * Sem `from`, a rolagem parte de uma máscara de pontos (·) com o mesmo\n   * comprimento de `value`, para a largura não pular durante a animação. */\n  from?: string;\n  className?: string;\n}) {\n  const start = from ?? value.replace(/\\S/g, \"·\");\n  const [text, setText] = useState(start);\n\n  useEffect(() => {\n    // Reset to the name, then flip to the real key on the next frame so the\n    // change lands as an animated roll rather than a static rebuild.\n    setText(start);\n    const id = requestAnimationFrame(() => setText(value));\n    return () => cancelAnimationFrame(id);\n  }, [start, value]);\n\n  return (\n    <SlotText\n      text={text}\n      aria-label={value}\n      options={{\n        direction: \"down\",\n        stagger: 15,\n        duration: 220,\n        bounce: 0,\n        easing: \"cubic-bezier(0.22, 1, 0.36, 1)\",\n        color: chromatic({ from: 360 }),\n        skipUnchanged: false,\n      }}\n      className={cn(\"font-mono text-xs text-foreground\", className)}\n    />\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "group": "extras",
+    "tier": "core"
+  },
+  "docs": "Copie sempre da string de origem (value), nunca do DOM animado: os sizers ocultos do slot-text embaralham a seleção manual. aria-label expõe o valor inteiro.",
+  "type": "registry:component"
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-entrance-once",
+  "title": "useEntranceOnce",
+  "description": "Entrada de página de 75 ms, só opacidade, uma vez por hard load; instala a classe page-fade-in.",
+  "files": [
+    {
+      "path": "registry/base-vega/hooks/use-entrance-once.ts",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/hooks.ts @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: só useEntranceOnce, em arquivo próprio; o CSS de .page-fade-in (apps/web/src/index.css do Foglamp) é instalado pelo campo css do item.\n\"use client\";\n\nimport { useEffect, useState } from \"react\";\n\n// Linear-style entrance gate, shared across every app page: module state\n// survives client-side navigations but resets on a hard reload, so exactly one\n// page — whichever the user landed on — plays its entrance fade per app boot,\n// and everything after that renders instantly.\nlet entrancePlayed = false;\n\n/** True only on the first page mount after a hard load. Pair with the\n * `page-fade-in` class on the page header and card slots. */\n// A classe vem com o item (campo css): @keyframes page-fade-in { from { opacity: 0 } },\n// .page-fade-in { animation: page-fade-in 75ms ease-out } e animation: none sob\n// prefers-reduced-motion. Em projeto sem a CLI, copie esse bloco para o CSS global.\n// Uso: const entrance = useEntranceOnce(); <div className={cn(entrance && \"page-fade-in\")}>.\nexport function useEntranceOnce(): boolean {\n  const [animate] = useState(() => !entrancePlayed);\n  useEffect(() => {\n    entrancePlayed = true;\n  }, []);\n  return animate;\n}\n",
+      "type": "registry:hook"
+    }
+  ],
+  "css": {
+    "@keyframes page-fade-in": {
+      "from": {
+        "opacity": "0"
+      }
+    },
+    ".page-fade-in": {
+      "animation": "page-fade-in 75ms ease-out"
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ".page-fade-in": {
+        "animation": "none"
+      }
+    }
+  },
+  "meta": {
+    "group": "hooks",
+    "tier": "core"
+  },
+  "type": "registry:hook"
+}

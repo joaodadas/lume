@@ -443,12 +443,824 @@ const CHARTS: ItemMeta[] = [
   },
 ];
 
+const FUNDACOES: ItemMeta[] = [
+  {
+    name: "motion",
+    title: "Vocabulário de movimento",
+    description:
+      "EASE [0.22,1,0.36,1], ENTRANCE_EASE, REVEAL_EASE, MORPH (spring 400/38), TOOLBAR_SPRING (520/44), COPY_SPRING e useReduce(): o vocabulário fechado de motion do sistema.",
+    group: "lib",
+    type: "registry:lib",
+    files: [{ path: "registry/base-vega/lib/motion.ts", type: "registry:lib" }],
+  },
+  {
+    name: "format",
+    title: "Formatação pt-BR",
+    description:
+      "formatCount, formatDuration, formatPercent, formatDateTime, formatRelative, formatDelta, formatMoney e formatCompact com LOCALE pt-BR, fuso de São Paulo e placeholder `sem dado`.",
+    group: "lib",
+    type: "registry:lib",
+    files: [{ path: "registry/base-vega/lib/format.ts", type: "registry:lib" }],
+  },
+  {
+    name: "range",
+    title: "Períodos",
+    description:
+      "Presets de período em pt-BR (última hora, 24 horas, 7 dias, 30 dias, este mês...) e helpers de intervalo.",
+    group: "lib",
+    type: "registry:lib",
+    files: [{ path: "registry/base-vega/lib/range.ts", type: "registry:lib" }],
+  },
+  {
+    name: "use-delayed-loading",
+    title: "useDelayedLoading",
+    description:
+      "Só mostra skeleton depois de 700 ms de loading; loads mais rápidos nunca piscam.",
+    group: "hooks",
+    type: "registry:hook",
+    files: [
+      {
+        path: "registry/base-vega/hooks/use-delayed-loading.ts",
+        type: "registry:hook",
+      },
+    ],
+  },
+  {
+    name: "use-entrance-once",
+    title: "useEntranceOnce",
+    description:
+      "Entrada de página de 75 ms, só opacidade, uma vez por hard load; instala a classe page-fade-in.",
+    group: "hooks",
+    type: "registry:hook",
+    files: [
+      {
+        path: "registry/base-vega/hooks/use-entrance-once.ts",
+        type: "registry:hook",
+      },
+    ],
+    css: {
+      "@keyframes page-fade-in": { from: { opacity: "0" } },
+      ".page-fade-in": { animation: "page-fade-in 75ms ease-out" },
+      "@media (prefers-reduced-motion: reduce)": {
+        ".page-fade-in": { animation: "none" },
+      },
+    },
+  },
+  {
+    name: "use-debounced-value",
+    title: "useDebouncedValue",
+    description: "Debounce de 300 ms e useTextFilter para filtros de texto.",
+    group: "hooks",
+    type: "registry:hook",
+    files: [
+      {
+        path: "registry/base-vega/hooks/use-debounced-value.ts",
+        type: "registry:hook",
+      },
+    ],
+  },
+  {
+    name: "use-copied",
+    title: "useCopied",
+    description:
+      "Copia para a área de transferência e mantém o estado copiado por 1,5 s.",
+    group: "hooks",
+    type: "registry:hook",
+    files: [
+      { path: "registry/base-vega/hooks/use-copied.ts", type: "registry:hook" },
+    ],
+  },
+  {
+    name: "link",
+    title: "Link (indireção)",
+    description:
+      "O Link que os blocos usam: um <a> simples. Em projetos Next, instale link-next por cima.",
+    group: "blocks",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/link.tsx",
+        type: "registry:component",
+      },
+    ],
+  },
+  {
+    name: "link-next",
+    title: "Link (next/link)",
+    description:
+      "Troca o Link da indireção por next/link. Instale depois dos blocos, em projetos Next.",
+    group: "blocks",
+    type: "registry:component",
+    nextOnly: true,
+    files: [
+      {
+        path: "registry/base-vega/components/link-next.tsx",
+        type: "registry:component",
+        target: "components/link.tsx",
+      },
+    ],
+  },
+  {
+    name: "header-slot",
+    title: "Header slot",
+    description:
+      "Contexto que deixa a toolbar subir ações para o header da página quando aperta.",
+    group: "blocks",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/header-slot.tsx",
+        type: "registry:component",
+      },
+    ],
+  },
+  {
+    name: "theme-provider-csp",
+    title: "Theme provider (CSP)",
+    description:
+      "Tema sem next-themes e sem script inline, para apps com CSP estrita (como o painel do lyx-pr-agent). Mesma API de useTheme.",
+    group: "blocks",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/theme-provider-csp.tsx",
+        type: "registry:component",
+        target: "components/theme-provider.tsx",
+      },
+      {
+        path: "registry/base-vega/public/theme.js",
+        type: "registry:file",
+        target: "~/public/theme.js",
+      },
+    ],
+    docs: 'Carregue <script src="/theme.js"></script> no <head> antes do bundle para o tema entrar antes do primeiro paint.',
+  },
+  {
+    name: "theme-switcher",
+    title: "Theme switcher",
+    description:
+      "Pílula segmentada sistema / claro / escuro com spring MORPH, e ThemeSubmenu para menus.",
+    group: "blocks",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/theme-switcher.tsx",
+        type: "registry:component",
+      },
+    ],
+  },
+];
+
+const LANES: ItemMeta[] = [
+  {
+    name: "page-header",
+    title: "Cabeçalho de página",
+    description:
+      "Título h1 text-base em linha de h-8 com ícone size-4.5, breadcrumb de volta via Link, descrição e slot de ações sempre renderizado (translate-y-1) para a Toolbar portalar; exporta o gutter PX (px-4 md:px-8).",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/page-header.tsx",
+        type: "registry:component",
+      },
+    ],
+    docs: "Use PX de page-header em todo bloco que encosta na borda da página. O slot de ações só funciona com HeaderActionsSlotProvider (header-slot) no shell; sem ele o header renderiza igual.",
+  },
+  {
+    name: "number-ticker",
+    title: "Number ticker",
+    description:
+      "Número que anima do valor antigo para o novo com animate() do motion (0.6 s, easeOut), formatando cada frame, em tabular-nums; sob prefers-reduced-motion pula direto para o valor final.",
+    group: "extras",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/number-ticker.tsx",
+        type: "registry:component",
+      },
+    ],
+    docs: "format padrão é formatExactCount (pt-BR, arredondado). Passe formatCost, formatPercent ou formatCompact de lib/format para outros números; o formatador recebe frames fracionários, então arredonde dentro dele.",
+  },
+  {
+    name: "stat-card",
+    title: "Stat card",
+    description:
+      "Cartão de métrica do Foglamp: ícone size-3.5 e rótulo à esquerda, DeltaBadge (emerald/red, font-[470]) e valor em CardTitle tabular-nums à direita, chart sangrando até a borda (-mb-6), href com chevron no hover e loading que segura as alturas (skeleton h-3 w-20, slot do chart h-10).",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/stat-card.tsx",
+        type: "registry:component",
+      },
+    ],
+    docs: "Ordem canônica numa fileira: Volume, Saúde, Performance, Custo (custo sempre por último). delta vem de formatDelta (lib/format); deltaInverted para custo, erro e latência. Pareie loading com useDelayedLoading para o skeleton não piscar.",
+  },
+  {
+    name: "stat-grid",
+    title: "Stat grid",
+    description:
+      "Fileira de StatCards com container query: grid gap-4 em 1 coluna, 2 a partir de @lg e 4 a partir de 62rem de área de conteúdo (columns = 3 vira 1 ou 3 a partir de @2xl), com o gutter PX.",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/stat-grid.tsx",
+        type: "registry:component",
+      },
+    ],
+    docs: "As colunas seguem a largura da área de conteúdo, não da janela: funciona com a sidebar aberta ou fechada sem breakpoint manual.",
+  },
+  {
+    name: "card-sparkline",
+    title: "Card sparkline",
+    description:
+      "Sparkline de área para o slot chart do StatCard: SVG 100x32 em h-8 w-full, gradiente currentColor 0.4 a 0.1, traço 1.2 a 50%, último trecho tracejado com dashedLast; CardSparklinePlaceholder desenha a curva de amostra apagada quando não há série.",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/card-sparkline.tsx",
+        type: "registry:component",
+      },
+    ],
+    docs: "A cor vem do text-* passado em className. Com menos de 2 pontos finitos cai no placeholder sozinho.",
+  },
+  {
+    name: "pill-meter",
+    title: "Pill meter",
+    description:
+      "Medidor de razão para o slot chart do StatCard: 32 cápsulas rounded-full em h-3.5 gap-0.75, as acesas em bg-current e as apagadas em bg-muted-foreground/10; fração positiva acende ao menos uma, null nenhuma.",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/pill-meter.tsx",
+        type: "registry:component",
+      },
+    ],
+    docs: "A cor vem do text-* passado em className. Re-adiciona o px-6 do card porque o slot chart sangra a largura toda.",
+  },
+  {
+    name: "scroll-fade",
+    title: "Scroll fade",
+    description:
+      "Viewport de rolagem com fades de h-10 em overlay (bg-linear-to-b/-t from-card to-transparent, duration-150): o de cima aparece ao rolar, o de baixo a 75% enquanto há conteúdo abaixo, recalculado no scroll e por ResizeObserver.",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/scroll-fade.tsx",
+        type: "registry:component",
+      },
+    ],
+    docs: 'Usa a utility no-scrollbar do shadcn/tailwind.css (já importado pelo globals.css da base). Passe fromClassName="from-popover" dentro de diálogo para o fade casar com o fundo.',
+  },
+  {
+    name: "empty-state",
+    title: "Empty state",
+    description:
+      "Estado vazio das páginas sobre o Empty da registry: caixa tracejada, EmptyMedia variant icon com o ícone em opacity-40, título e descrição opcionais e filhos para a ação.",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/empty-state.tsx",
+        type: "registry:component",
+      },
+    ],
+    docs: "Renderize só depois que o loading terminou (nunca no lugar do skeleton atrasado). Passe border-none bg-transparent em className quando flutuar sobre um gráfico borrado.",
+  },
+  {
+    name: "table-skeletons",
+    title: "Skeleton de tabela",
+    description:
+      "TableRowsSkeleton: linhas h-12 com um Skeleton h-4 por coluna (cols com w, align, icon e sub para célula de duas linhas h-5 + h-4), alinhado como as células reais; tipo SkeletonCol exportado.",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/table-skeletons.tsx",
+        type: "registry:component",
+      },
+    ],
+    docs: "Pareie com uma Table table-fixed para a troca skeleton/dados não mexer a largura das colunas, e com useDelayedLoading (700 ms) para carga rápida não piscar.",
+  },
+  {
+    name: "notice",
+    title: "Notice",
+    description:
+      "Faixa de aviso com tone warning, error ou info: fundo da cor a 10%, texto escuro/claro conforme o tema, ícone Tabler filled e a sombra colorida do token (shadow-(--custom-shadow-amber), -rose, -blue) no lugar de borda, com o gutter PX.",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/notice.tsx",
+        type: "registry:component",
+      },
+    ],
+    docs: "Título em peso médio seguido de ponto e o texto corrido na mesma linha. Use para cota pausada, leitura velha ou falha de rede, sem apagar o último dado bom.",
+  },
+  {
+    name: "section",
+    title: "Section",
+    description:
+      "Bloco de seção da página: cabeçalho com h2 text-sm font-medium, descrição text-xs muted e ações à direita (flex-wrap items-end, gutter PX) e os filhos abaixo em coluna gap-3.",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/section.tsx",
+        type: "registry:component",
+      },
+    ],
+    docs: "Só o cabeçalho leva PX; StatGrid, tabelas e outros filhos cuidam do próprio gutter.",
+  },
+  {
+    name: "app-shell",
+    title: "Casca do app",
+    description:
+      "Sidebar inset com scroll em três camadas (h-svh no provider, overflow-hidden no inset, overflow-y-auto no main), coluna da página em gap-4 py-6 pb-16, NavIcon com crossfade outline/filled de 100 ms, tile colorido por navTile(cor), header mobile h-12 md:hidden com SidebarTrigger e menu de conta com Avatar e submenu de tema.",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/blocks/app-shell/app-shell.tsx",
+        type: "registry:component",
+        target: "components/app-shell/app-shell.tsx",
+      },
+      {
+        path: "registry/base-vega/blocks/app-shell/nav-icon.tsx",
+        type: "registry:component",
+        target: "components/app-shell/nav-icon.tsx",
+      },
+      {
+        path: "registry/base-vega/blocks/app-shell/nav.ts",
+        type: "registry:component",
+        target: "components/app-shell/nav.ts",
+      },
+    ],
+    registryDependencies: ["theme-provider"],
+    docs: "Passe pathname de fora (usePathname no Next, useLocation no Router). Precisa de um ThemeProvider acima (item theme-provider) por causa do ThemeSubmenu no menu de conta. Monte os itens com navTile(cor) em iconClassName e use exact: true quando um href é prefixo de outro. userMenu recebe DropdownMenuItem extras (sair, plano) depois do submenu de tema.",
+  },
+  {
+    name: "login-form",
+    title: "Formulário de login",
+    description:
+      "Login presentacional do Foglamp: coluna de max-w-lg p-6 sem card, tile da marca de 40px em bg-muted com sombra, senha, link mágico e Google com separador h-px bg-border/50, validação zod no submit e erros em FieldError text-xs; quem autentica é o app pelos callbacks.",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/blocks/login-form/login-form.tsx",
+        type: "registry:component",
+        target: "components/login-form.tsx",
+      },
+    ],
+    docs: 'Centralize com <div className="flex min-h-svh items-center justify-center">. Passe methods para ligar senha, link mágico e Google; brand vai dentro do tile de 40px (ex.: <BrandMark className="w-7" />) e googleIcon no botão (ex.: <GoogleLogo className="size-3.5 mr-0.75" />). Um callback que rejeita mantém o form na tela com a mensagem; use pending e error para estado vindo do app.',
+  },
+  {
+    name: "data-table",
+    title: "Tabela de dados",
+    description:
+      "Toolbar de filtros com busca em pílula (h-8 w-56), FilterSelect com typeahead acima de 8 opções, ToggleChip, botão Limpar animado, cabeçalho ordenável tri-state (desc, asc, off), estado de filtros na URL por history.replaceState e rodapé de paginação com linhas por página; o grupo trailing sobe para o header via TOOLBAR_SPRING.",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/blocks/data-table/data-table.tsx",
+        type: "registry:component",
+        target: "components/data-table/data-table.tsx",
+      },
+      {
+        path: "registry/base-vega/blocks/data-table/url-filters.ts",
+        type: "registry:component",
+        target: "components/data-table/url-filters.ts",
+      },
+    ],
+    docs: "Toolbar precisa de HeaderActionsSlotProvider e LayoutReserveProvider (header-slot) acima na árvore para o lift funcionar; sem eles o grupo trailing só fica à direita. useUrlFilters lê window.location e funciona em Next, Vite ou sem roteador.",
+  },
+  {
+    name: "range-picker",
+    title: "Seletor de período",
+    description:
+      "Chips rápidos 24h, 3d e 7d mais popover com 9 presets em pt-BR (Última hora a Mês passado) e calendário duplo em ptBR; o rótulo anima a largura em 300 ms com a curva EASE e colapsa para o ícone quando um chip está ativo. RangeProvider persiste o período em localStorage (storageKey, padrão lume.range).",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/blocks/range-picker/range-picker.tsx",
+        type: "registry:component",
+        target: "components/range-picker/range-picker.tsx",
+      },
+      {
+        path: "registry/base-vega/blocks/range-picker/range-context.tsx",
+        type: "registry:component",
+        target: "components/range-picker/range-context.tsx",
+      },
+    ],
+    docs: 'Envolva o app em <RangeProvider storageKey="meuapp.range"> e leia com useRange(). Presets relativos são re-resolvidos para agora ao carregar; períodos do calendário voltam exatos.',
+  },
+  {
+    name: "context-chip",
+    title: "Chips de contexto",
+    description:
+      "CHIP_SURFACE (bg-card, hover muted/50, sem press scale, outline shadow no dark), CHIP_ERROR e CHIP_ABORTED em rose e amber, ContextChip com seta IconArrowUpRight quando tem href e Chip xs com trailing tabular; navegação pelo Link da indireção com href string.",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/context-chip.tsx",
+        type: "registry:component",
+      },
+    ],
+  },
+  {
+    name: "span-type",
+    title: "Tipo de span",
+    description:
+      "Exemplo canônico de cor com significado: llm violet, tool blue, agent amber, embedding emerald, outro neutral, a mesma cor no Badge, na barra (bg-*-500) e no chip de ícone size-4.5 com a receita do tile (inset 1px a 14% e sombra 2px a 25% no light, --custom-shadow no dark).",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/span-type.tsx",
+        type: "registry:component",
+      },
+    ],
+    docs: "Copie o padrão para o seu domínio: um mapa por conceito (variant, ícone, barra, chip), nunca cor solta no componente.",
+  },
+  {
+    name: "copy-icon",
+    title: "Ícone de copiar",
+    description:
+      "Troca copy/check com blur de 4px, scale 0.25 e fade na mola COPY_SPRING (0.25 s, bounce 0); verde text-green-600 dark:text-green-400, invertido via checkClassName dentro de Button default.",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/copy-icon.tsx",
+        type: "registry:component",
+      },
+    ],
+  },
+  {
+    name: "copy-button",
+    title: "Botão de copiar",
+    description:
+      "Botão nu com CopyIcon, text-muted-foreground/60, hover text-foreground, iconSize size-4, stopPropagation para linhas clicáveis e estado copiado por 1,5 s.",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/copy-button.tsx",
+        type: "registry:component",
+      },
+    ],
+    docs: 'title é obrigatório e vira o nome acessível (ex.: "Copiar ID"). Dentro de linha de tabela clicável passe stopPropagation.',
+  },
+  {
+    name: "code-block",
+    title: "Bloco de código",
+    description:
+      "Código com Shiki (github-light no claro, vesper no escuro, defaultColor false, engine JS sem wasm), fallback cru sem flash, limite de 50 000 caracteres, pre com bg-muted/50 e shadow-(--custom-shadow), botão de copiar icon-sm outline com estado por 2 s.",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/code-block.tsx",
+        type: "registry:component",
+      },
+    ],
+    css: {
+      ".shiki": {
+        "background-color": "var(--shiki-light-bg)",
+      },
+      ".shiki, .shiki span": {
+        color: "var(--shiki-light)",
+      },
+      ".dark .shiki": {
+        "background-color": "var(--shiki-dark-bg)",
+      },
+      ".dark .shiki, .dark .shiki span": {
+        color: "var(--shiki-dark)",
+      },
+    },
+    docs: "O install injeta as quatro regras .shiki / .dark .shiki no seu globals.css; sem elas o bloco renderiza sem cor. Linguagens carregadas: typescript e json. useShikiHtml(code, lang) é exportado para blocos que montam o próprio container.",
+  },
+  {
+    name: "markdown-components",
+    title: "Componentes de markdown",
+    description:
+      "Overrides de a, table, thead, tr, th, td, img e hr para react-markdown ou Streamdown: links internos (href com /) pelo Link da indireção, externos em nova aba, tabelas planas text-xs tabular-nums com linhas border-border/40, img cru sem next/image.",
+    group: "blocks",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/markdown-components.tsx",
+        type: "registry:component",
+      },
+    ],
+    docs: "Passe como components={markdownComponents} ao <ReactMarkdown> (com remark-gfm para tabelas) ou ao <Streamdown>. O espaçamento de parágrafos e listas vem do wrapper de prosa de quem usa ([&_p]:my-1.5, [&_ul]:pl-5 etc.).",
+  },
+  {
+    name: "trend-charts",
+    title: "Utilitários de gráficos de tendência",
+    description:
+      "ChartLegend clicável (mode light|dark por prop, swatch h-2 w-2, inativos opacity-30), rótulos e ticks do eixo de tempo (makeBucketLabel, formatBucketFull, dedupeTicks, thinTicks com ~8 ticks e gap mínimo de 1/14 do eixo, makeEdgeTick ancorado nas pontas), pickBucketMs espelho do servidor (~50 buckets, degraus de 1 min a 1 dia), fillBuckets com zero-fill até 1000 buckets, useFrozen e useZoomRange sobre o range-picker.",
+    group: "charts",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/trend-charts.tsx",
+        type: "registry:component",
+      },
+    ],
+    registryDependencies: ["evilcharts", "range-picker", "range", "utils"],
+    docs: "useZoomRange exige o RangeProvider do bloco range-picker acima na árvore. pickBucketMs reproduz a regra de agrupamento do servidor: se o seu backend agrupa diferente, ajuste os degraus. ChartLegend recebe mode do seu provider de tema (next-themes ou theme-provider-csp).",
+  },
+  {
+    name: "rolling-text",
+    title: "Texto rolante",
+    description:
+      "Revelação de chave ou ID com roll de caça-níquel do slot-text: direction down, stagger 15, duration 220, bounce 0, ease cubic-bezier(0.22, 1, 0.36, 1), cor chromatic({ from: 360 }), font-mono text-xs; parte de `from` ou de uma máscara de pontos do mesmo comprimento.",
+    group: "extras",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/rolling-text.tsx",
+        type: "registry:component",
+      },
+    ],
+    docs: "Copie sempre da string de origem (value), nunca do DOM animado: os sizers ocultos do slot-text embaralham a seleção manual. aria-label expõe o valor inteiro.",
+  },
+  {
+    name: "border-beam-card",
+    title: "Card com anel de luz",
+    description:
+      "Card envolto por BorderBeam size pulse-inner, colorVariant colorful, strength 0.6 e borderRadius 16, com corner-round! rounded-2xl! para o anel circular casar com o canto; prop active desliga o anel com fade.",
+    group: "extras",
+    tier: "core",
+    type: "registry:component",
+    files: [
+      {
+        path: "registry/base-vega/components/border-beam-card.tsx",
+        type: "registry:component",
+      },
+    ],
+    docs: 'Um por tela, no máximo: é o card do próximo passo. O card vizinho sem anel deve receber className="corner-round!" para o par ficar consistente. O conteúdo vai dentro como num Card normal (CardHeader, CardTitle, CardAction, CardContent).',
+  },
+];
+
+const KITS: ItemMeta[] = [
+  {
+    name: "kit-shell",
+    title: "Kit shell",
+    description:
+      "Sidebar inset, app-shell, page-header, stat-card, stat-grid, empty-state, notice, section, theme-provider, theme-switcher e link: o esqueleto de um dashboard.",
+    group: "kits",
+    type: "registry:block",
+    registryDependencies: [
+      "sidebar",
+      "app-shell",
+      "page-header",
+      "stat-card",
+      "stat-grid",
+      "empty-state",
+      "notice",
+      "section",
+      "theme-provider",
+      "theme-switcher",
+      "link",
+      "use-entrance-once",
+    ],
+  },
+  {
+    name: "kit-tabela",
+    title: "Kit tabela",
+    description:
+      "Table, data-table (toolbar, filtros na URL, ordenação, paginação), skeletons, scroll-fade, format e hooks.",
+    group: "kits",
+    type: "registry:block",
+    registryDependencies: [
+      "table",
+      "data-table",
+      "table-skeletons",
+      "scroll-fade",
+      "format",
+      "use-delayed-loading",
+      "use-debounced-value",
+    ],
+  },
+  {
+    name: "kit-formulario",
+    title: "Kit formulário",
+    description:
+      "Input, input-group, field, label, select, native-select, checkbox, switch, radio-group, textarea, kbd e calendar.",
+    group: "kits",
+    type: "registry:block",
+    registryDependencies: [
+      "input",
+      "input-group",
+      "field",
+      "label",
+      "select",
+      "native-select",
+      "checkbox",
+      "switch",
+      "radio-group",
+      "textarea",
+      "kbd",
+      "calendar",
+    ],
+  },
+  {
+    name: "kit-feedback",
+    title: "Kit feedback",
+    description:
+      "Skeleton, empty, spinner, loader, sonner, alert, notice, dialog, alert-dialog, tooltip, popover e dropdown-menu.",
+    group: "kits",
+    type: "registry:block",
+    registryDependencies: [
+      "skeleton",
+      "empty",
+      "spinner",
+      "loader",
+      "sonner",
+      "alert",
+      "notice",
+      "dialog",
+      "alert-dialog",
+      "tooltip",
+      "popover",
+      "dropdown-menu",
+    ],
+  },
+  {
+    name: "kit-dados",
+    title: "Kit dados",
+    description:
+      "Badge, context-chip, span-type, card-sparkline, pill-meter, number-ticker, copy-button e code-block.",
+    group: "kits",
+    type: "registry:block",
+    registryDependencies: [
+      "badge",
+      "context-chip",
+      "span-type",
+      "card-sparkline",
+      "pill-meter",
+      "number-ticker",
+      "copy-button",
+      "code-block",
+    ],
+  },
+  {
+    name: "kit-graficos",
+    title: "Kit gráficos",
+    description:
+      "Evil Charts (área, barras, linha, rosca), trend-charts e range-picker.",
+    group: "kits",
+    type: "registry:block",
+    registryDependencies: [
+      "evilcharts",
+      "area-chart",
+      "bar-chart",
+      "line-chart",
+      "donut-chart",
+      "trend-charts",
+      "range-picker",
+    ],
+  },
+];
+
+const DOCS: ItemMeta[] = [
+  {
+    name: "guia",
+    title: "Guia do lume",
+    description:
+      "FRONTEND.md (regras Always/Never), o guia longo e os conceitos do craft, instalados em docs/lume/ de qualquer projeto.",
+    group: "docs",
+    type: "registry:item",
+    files: [
+      {
+        path: "FRONTEND.md",
+        type: "registry:file",
+        target: "~/docs/lume/FRONTEND.md",
+      },
+      {
+        path: "docs/conceitos/README.md",
+        type: "registry:file",
+        target: "~/docs/lume/CONCEITOS.md",
+      },
+      {
+        path: "docs/referencias.md",
+        type: "registry:file",
+        target: "~/docs/lume/referencias.md",
+      },
+      {
+        path: "docs/guia/00-como-ler.md",
+        type: "registry:file",
+        target: "~/docs/lume/guia/00-como-ler.md",
+      },
+      {
+        path: "docs/guia/01-fundacoes.md",
+        type: "registry:file",
+        target: "~/docs/lume/guia/01-fundacoes.md",
+      },
+      {
+        path: "docs/guia/02-primitivos.md",
+        type: "registry:file",
+        target: "~/docs/lume/guia/02-primitivos.md",
+      },
+      {
+        path: "docs/guia/03-shell-e-paginas.md",
+        type: "registry:file",
+        target: "~/docs/lume/guia/03-shell-e-paginas.md",
+      },
+      {
+        path: "docs/guia/04-dados.md",
+        type: "registry:file",
+        target: "~/docs/lume/guia/04-dados.md",
+      },
+      {
+        path: "docs/guia/05-telas-de-detalhe.md",
+        type: "registry:file",
+        target: "~/docs/lume/guia/05-telas-de-detalhe.md",
+      },
+      {
+        path: "docs/guia/06-formularios-auth-settings.md",
+        type: "registry:file",
+        target: "~/docs/lume/guia/06-formularios-auth-settings.md",
+      },
+      {
+        path: "docs/guia/07-dialogs-e-wizards.md",
+        type: "registry:file",
+        target: "~/docs/lume/guia/07-dialogs-e-wizards.md",
+      },
+      {
+        path: "docs/guia/08-assistente-de-ai.md",
+        type: "registry:file",
+        target: "~/docs/lume/guia/08-assistente-de-ai.md",
+      },
+      {
+        path: "docs/guia/09-movimento.md",
+        type: "registry:file",
+        target: "~/docs/lume/guia/09-movimento.md",
+      },
+      {
+        path: "docs/guia/10-fingerprint.md",
+        type: "registry:file",
+        target: "~/docs/lume/guia/10-fingerprint.md",
+      },
+      {
+        path: "docs/guia/11-receita.md",
+        type: "registry:file",
+        target: "~/docs/lume/guia/11-receita.md",
+      },
+      {
+        path: "docs/guia/glossario.md",
+        type: "registry:file",
+        target: "~/docs/lume/guia/glossario.md",
+      },
+    ],
+    docs: "Aponte o AGENTS.md do projeto para docs/lume/FRONTEND.md.",
+  },
+];
+
 export const items: ItemMeta[] = [
   ...BASE,
   ...PRIMITIVOS_CORE,
   ...PRIMITIVOS_EXTRA,
   ...HOOKS,
+  ...FUNDACOES,
   ...BLOCKS,
+  ...LANES,
+  ...KITS,
+  ...DOCS,
   ...CHARTS,
 ];
 

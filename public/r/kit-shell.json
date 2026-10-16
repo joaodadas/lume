@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kit-shell",
+  "title": "Kit shell",
+  "description": "Sidebar inset, app-shell, page-header, stat-card, stat-grid, empty-state, notice, section, theme-provider, theme-switcher e link: o esqueleto de um dashboard.",
+  "registryDependencies": [
+    "joaodadas/lume/app-shell#v0.0.1",
+    "joaodadas/lume/empty-state#v0.0.1",
+    "joaodadas/lume/link#v0.0.1",
+    "joaodadas/lume/notice#v0.0.1",
+    "joaodadas/lume/page-header#v0.0.1",
+    "joaodadas/lume/section#v0.0.1",
+    "joaodadas/lume/sidebar#v0.0.1",
+    "joaodadas/lume/stat-card#v0.0.1",
+    "joaodadas/lume/stat-grid#v0.0.1",
+    "joaodadas/lume/theme-provider#v0.0.1",
+    "joaodadas/lume/theme-switcher#v0.0.1",
+    "joaodadas/lume/use-entrance-once#v0.0.1"
+  ],
+  "meta": {
+    "group": "kits",
+    "tier": "core"
+  },
+  "type": "registry:block"
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "border-beam-card",
+  "title": "Card com anel de luz",
+  "description": "Card envolto por BorderBeam size pulse-inner, colorVariant colorful, strength 0.6 e borderRadius 16, com corner-round! rounded-2xl! para o anel circular casar com o canto; prop active desliga o anel com fade.",
+  "dependencies": [
+    "border-beam"
+  ],
+  "registryDependencies": [
+    "joaodadas/lume/card#v0.0.1",
+    "joaodadas/lume/utils#v0.0.1"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/components/border-beam-card.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/onboarding-panel.tsx @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: só a casca do OnboardingPanel (linhas 92-150) virou BorderBeamCard({ children, className, active }); sem tRPC, chave, prompt nem analytics; Card de @/registry/base-vega/ui/card.\n\"use client\";\n\nimport { BorderBeam } from \"border-beam\";\nimport type * as React from \"react\";\n\nimport { cn } from \"@/registry/base-vega/lib/utils\";\nimport { Card } from \"@/registry/base-vega/ui/card\";\n\n// Card com o anel de luz pulsante do onboarding do Foglamp: BorderBeam\n// size=\"pulse-inner\" colorVariant=\"colorful\" strength 0.6, raio 16 px. É o\n// card que chama atenção para o próximo passo (cole o prompt, crie a chave);\n// um por tela, no máximo. O conteúdo vai dentro como num Card normal\n// (CardHeader, CardTitle, CardDescription, CardAction, CardContent).\nexport function BorderBeamCard({\n  children,\n  className,\n  active = true,\n}: {\n  children: React.ReactNode;\n  /** Classes extras do Card interno (o anel segue o raio fixo de 16 px). */\n  className?: string;\n  /** Desliga o anel com fade (o card continua renderizado). */\n  active?: boolean;\n}) {\n  return (\n    <BorderBeam\n      size=\"pulse-inner\"\n      colorVariant=\"colorful\"\n      strength={0.6}\n      borderRadius={16}\n      active={active}\n    >\n      {/* The beam shapes its ring with clip-path: inset(round) — always a\n          circular arc, immune to corner-shape — so it can't be a squircle.\n          corner-round! drops the Card's default superellipse to a plain round\n          corner at the same 22px (rounded-3xl) radius so the edges align. */}\n      {/* O rounded-2xl! (16 px) casa com o borderRadius={16} do anel; o card\n          vizinho sem anel deve usar corner-round! também para o par ficar\n          consistente. */}\n      <Card className={cn(\"h-full corner-round! rounded-2xl!\", className)}>\n        {children}\n      </Card>\n    </BorderBeam>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "group": "extras",
+    "tier": "core"
+  },
+  "docs": "Um por tela, no máximo: é o card do próximo passo. O card vizinho sem anel deve receber className=\"corner-round!\" para o par ficar consistente. O conteúdo vai dentro como num Card normal (CardHeader, CardTitle, CardAction, CardContent).",
+  "type": "registry:component"
+}

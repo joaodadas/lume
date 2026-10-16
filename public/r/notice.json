@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "notice",
+  "title": "Notice",
+  "description": "Faixa de aviso com tone warning, error ou info: fundo da cor a 10%, texto escuro/claro conforme o tema, ícone Tabler filled e a sombra colorida do token (shadow-(--custom-shadow-amber), -rose, -blue) no lugar de borda, com o gutter PX.",
+  "dependencies": [
+    "@tabler/icons-react"
+  ],
+  "registryDependencies": [
+    "joaodadas/lume/page-header#v0.0.1",
+    "joaodadas/lume/utils#v0.0.1"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/components/notice.tsx",
+      "content": "// Faixa de aviso da página, generalizada de Aviso e FalhaDeLeitura do painel do lyx-pr-agent (João Vitor Dadas); não existe no Foglamp. Três tons (warning, error, info), cada um com a sombra colorida do token no lugar de borda.\n\nimport {\n  IconAlertCircleFilled,\n  IconAlertTriangleFilled,\n  IconInfoCircleFilled,\n} from \"@tabler/icons-react\";\n\nimport { PX } from \"@/registry/base-vega/components/page-header\";\nimport { cn } from \"@/registry/base-vega/lib/utils\";\n\nexport type NoticeTone = \"warning\" | \"error\" | \"info\";\n\n// Receita por tom: fundo a 10%, texto escuro no claro e claro no escuro, ícone\n// Tabler filled na cor cheia e a sombra do token (--custom-shadow-amber, -rose,\n// -blue), que faz o papel da borda. Warning é a receita original do painel.\nconst TONES: Record<\n  NoticeTone,\n  { box: string; icon: string; Icon: typeof IconAlertTriangleFilled }\n> = {\n  warning: {\n    box: \"bg-amber-500/10 text-amber-900 shadow-(--custom-shadow-amber) dark:bg-amber-500/10 dark:text-amber-200\",\n    icon: \"text-amber-500\",\n    Icon: IconAlertTriangleFilled,\n  },\n  error: {\n    box: \"bg-rose-500/10 text-rose-900 shadow-(--custom-shadow-rose) dark:bg-rose-500/10 dark:text-rose-200\",\n    icon: \"text-rose-500\",\n    Icon: IconAlertCircleFilled,\n  },\n  info: {\n    box: \"bg-blue-500/10 text-blue-900 shadow-(--custom-shadow-blue) dark:bg-blue-500/10 dark:text-blue-200\",\n    icon: \"text-blue-500\",\n    Icon: IconInfoCircleFilled,\n  },\n};\n\n/** Faixa de aviso entre os blocos da página (cota pausada, leitura velha,\n * falha de rede). Título em peso médio seguido de ponto e o texto corrido na\n * mesma linha; o gutter é o PX da página. */\nexport function Notice({\n  tone = \"warning\",\n  title,\n  children,\n  className,\n}: {\n  tone?: NoticeTone;\n  title: string;\n  children?: React.ReactNode;\n  className?: string;\n}) {\n  const { box, icon, Icon } = TONES[tone];\n  return (\n    <div className={cn(PX, className)}>\n      <div\n        role={tone === \"error\" ? \"alert\" : \"status\"}\n        className={cn(\n          \"flex items-start gap-3 rounded-lg px-4 py-3 text-sm\",\n          box,\n        )}\n      >\n        <Icon className={cn(\"mt-0.5 size-4 shrink-0\", icon)} />\n        <p className=\"text-pretty\">\n          <span className=\"font-medium\">\n            {title}\n            {children ? \".\" : null}\n          </span>\n          {children ? <> {children}</> : null}\n        </p>\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "group": "blocks",
+    "tier": "core"
+  },
+  "docs": "Título em peso médio seguido de ponto e o texto corrido na mesma linha. Use para cota pausada, leitura velha ou falha de rede, sem apagar o último dado bom.",
+  "type": "registry:component"
+}

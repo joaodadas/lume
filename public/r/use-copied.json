@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-copied",
+  "title": "useCopied",
+  "description": "Copia para a área de transferência e mantém o estado copiado por 1,5 s.",
+  "files": [
+    {
+      "path": "registry/base-vega/hooks/use-copied.ts",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/use-copied.ts @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: só o cabeçalho.\n\"use client\";\n\nimport { useEffect, useRef, useState } from \"react\";\n\n/**\n * Transient \"copied\" flag for copy-to-clipboard buttons. Resets after\n * `timeoutMs`; the timer is cleared on unmount and on re-copy, so a stale\n * timeout never fires into an unmounted component.\n */\n// 1500 ms no CopyButton; 2000 ms em botões de prompt e no CodeBlock.\nexport function useCopied(timeoutMs = 1500) {\n  const [copied, setCopied] = useState(false);\n  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);\n  useEffect(() => () => clearTimeout(timer.current), []);\n\n  function markCopied() {\n    setCopied(true);\n    clearTimeout(timer.current);\n    timer.current = setTimeout(() => setCopied(false), timeoutMs);\n  }\n\n  function resetCopied() {\n    clearTimeout(timer.current);\n    setCopied(false);\n  }\n\n  return { copied, markCopied, resetCopied };\n}\n",
+      "type": "registry:hook"
+    }
+  ],
+  "meta": {
+    "group": "hooks",
+    "tier": "core"
+  },
+  "type": "registry:hook"
+}

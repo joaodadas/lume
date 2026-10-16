@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kit-dados",
+  "title": "Kit dados",
+  "description": "Badge, context-chip, span-type, card-sparkline, pill-meter, number-ticker, copy-button e code-block.",
+  "registryDependencies": [
+    "joaodadas/lume/badge#v0.0.1",
+    "joaodadas/lume/card-sparkline#v0.0.1",
+    "joaodadas/lume/code-block#v0.0.1",
+    "joaodadas/lume/context-chip#v0.0.1",
+    "joaodadas/lume/copy-button#v0.0.1",
+    "joaodadas/lume/number-ticker#v0.0.1",
+    "joaodadas/lume/pill-meter#v0.0.1",
+    "joaodadas/lume/span-type#v0.0.1"
+  ],
+  "meta": {
+    "group": "kits",
+    "tier": "core"
+  },
+  "type": "registry:block"
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "theme-switcher",
+  "title": "Theme switcher",
+  "description": "Pílula segmentada sistema / claro / escuro com spring MORPH, e ThemeSubmenu para menus.",
+  "dependencies": [
+    "@tabler/icons-react",
+    "motion",
+    "next-themes"
+  ],
+  "registryDependencies": [
+    "joaodadas/lume/dropdown-menu#v0.0.1",
+    "joaodadas/lume/motion#v0.0.1",
+    "joaodadas/lume/utils#v0.0.1"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/components/theme-switcher.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/theme-switcher.tsx @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*, MORPH importado de lib/motion no lugar da constante local, rótulos Sistema / Claro / Escuro e \"Tema\".\n\"use client\";\n\nimport { IconDeviceLaptop, IconMoon, IconSun } from \"@tabler/icons-react\";\nimport { motion } from \"motion/react\";\nimport { useTheme } from \"next-themes\";\nimport { useEffect, useId, useState } from \"react\";\n\nimport { MORPH } from \"@/registry/base-vega/lib/motion\";\nimport { cn } from \"@/registry/base-vega/lib/utils\";\nimport {\n  DropdownMenuRadioGroup,\n  DropdownMenuRadioItem,\n  DropdownMenuSub,\n  DropdownMenuSubContent,\n  DropdownMenuSubTrigger,\n} from \"@/registry/base-vega/ui/dropdown-menu\";\n\n// resolvedTheme is undefined during SSR and the first client render. We render a\n// stable icon until mounted so the server and client agree; the real icon (and\n// the active radio value) only appear once the theme is known on the client.\nfunction useMounted() {\n  const [mounted, setMounted] = useState(false);\n  useEffect(() => setMounted(true), []);\n  return mounted;\n}\n\n// Same spring as the SDK-version toggle (instrument-empty-state), so segmented\n// controls across the app glide identically.\n// Aqui é o MORPH de lib/motion, o mesmo de toda pílula segmentada do sistema.\n\nconst THEME_OPTIONS = [\n  { value: \"system\", label: \"Sistema\", icon: IconDeviceLaptop },\n  { value: \"light\", label: \"Claro\", icon: IconSun },\n  { value: \"dark\", label: \"Escuro\", icon: IconMoon },\n] as const;\n\n/**\n * Three-way theme control as a segmented pill (system / light / dark), matching\n * the SDK-version toggle. Switches instantly on click — no menu (used in the\n * marketing footer). The dropdown variant lives in {@link ThemeSubmenu}.\n */\n// Precisa de um ThemeProvider acima (item theme-provider). Com o theme-provider-csp,\n// troque o import de useTheme de \"next-themes\" pelo components/theme-provider que\n// esse item instala (mesma forma: theme, setTheme, resolvedTheme).\nexport function ThemeSwitcher() {\n  const { theme, setTheme } = useTheme();\n  const mounted = useMounted();\n  // Unique per instance so the sliding pill is scoped to this control.\n  const pillId = useId();\n\n  return (\n    <div className=\"inline-flex  items-center\">\n      {THEME_OPTIONS.map((opt) => {\n        // Track the chosen setting (theme), not the resolved value, so \"System\"\n        // is its own selectable state. Nothing is active until mounted, so the\n        // server and first client render agree.\n        const active = mounted && theme === opt.value;\n        const Icon = opt.icon;\n        return (\n          <button\n            key={opt.value}\n            type=\"button\"\n            aria-label={opt.label}\n            aria-pressed={active}\n            onClick={() => setTheme(opt.value)}\n            className={cn(\n              \"relative flex size-7 cursor-pointer items-center justify-center rounded-full transition-colors\",\n              active\n                ? \"text-foreground\"\n                : \"text-muted-foreground/60 hover:text-foreground\",\n            )}\n          >\n            {active && (\n              <motion.span\n                layoutId={pillId}\n                transition={MORPH}\n                className=\"absolute inset-0 rounded-full bg-input/50 shadow-(--custom-shadow) dark:bg-input/50\"\n              />\n            )}\n            <Icon className=\"relative z-10 size-3.5\" />\n          </button>\n        );\n      })}\n    </div>\n  );\n}\n\n/** Theme picker rendered as a submenu item, for use inside another dropdown. */\nexport function ThemeSubmenu() {\n  const { theme, setTheme, resolvedTheme } = useTheme();\n  const mounted = useMounted();\n\n  return (\n    <DropdownMenuSub>\n      <DropdownMenuSubTrigger>\n        {mounted && resolvedTheme === \"dark\" ? <IconMoon /> : <IconSun />}\n        Tema\n      </DropdownMenuSubTrigger>\n      <DropdownMenuSubContent>\n        <DropdownMenuRadioGroup\n          value={mounted ? theme : undefined}\n          onValueChange={setTheme}\n        >\n          <DropdownMenuRadioItem value=\"light\">\n            <IconSun />\n            Claro\n          </DropdownMenuRadioItem>\n          <DropdownMenuRadioItem value=\"dark\">\n            <IconMoon />\n            Escuro\n          </DropdownMenuRadioItem>\n          <DropdownMenuRadioItem value=\"system\">\n            <IconDeviceLaptop />\n            Sistema\n          </DropdownMenuRadioItem>\n        </DropdownMenuRadioGroup>\n      </DropdownMenuSubContent>\n    </DropdownMenuSub>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "group": "blocks",
+    "tier": "core"
+  },
+  "type": "registry:component"
+}

@@ -1,0 +1,82 @@
+// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/markdown.tsx @ 2bc3bb5), Apache-2.0.
+// Modificado por joaodadas/lume: next/link trocado pelo Link da indireção (@/registry/base-vega/components/link) com href string, sem o tipo Route do Next; comentários sobre react-markdown.
+
+import type { ComponentProps } from "react";
+
+import { Link } from "@/registry/base-vega/components/link";
+
+// Overrides de elementos para renderizar markdown de modelo ou de documento:
+// passe como `components` ao <Streamdown> ou ao <ReactMarkdown>. O espaçamento
+// de parágrafos e listas vem do wrapper de prosa de quem usa (seletores
+// [&_p]:my-1.5 etc.), não daqui.
+
+// Shared Streamdown component overrides for rendering model markdown across the
+// app (Foggy chat, session transcripts, …). Pass as `components` to <Streamdown>.
+export const markdownComponents = {
+  // Route relative links (e.g. `/traces/abc`) through next/link for in-app nav;
+  // open absolute links (docs, external) in a new tab.
+  // Aqui o roteamento interno passa pelo Link da indireção: é um <a> puro por
+  // padrão e vira next/link quando o app instala o item link-next.
+  a: ({ href = "", children, ...rest }: ComponentProps<"a">) => {
+    if (href.startsWith("/")) {
+      return (
+        <Link
+          href={href}
+          className="font-medium text-primary underline underline-offset-2"
+        >
+          {children}
+        </Link>
+      );
+    }
+    return (
+      <a
+        {...rest}
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+        className="font-medium text-primary underline underline-offset-2"
+      >
+        {children}
+      </a>
+    );
+  },
+  // Flat, chat-native tables — replaces Streamdown's bordered card + toolbar.
+  // The wrapper scrolls horizontally so wide tables never break the layout.
+  table: ({ children }: ComponentProps<"table">) => (
+    <div className="my-3 w-full overflow-x-auto rounded-md squircle:rounded-xl corner-squircle border border-border/60">
+      <table className="w-full border-collapse text-xs tabular-nums">
+        {children}
+      </table>
+    </div>
+  ),
+  thead: ({ children }: ComponentProps<"thead">) => (
+    <thead className="bg-muted/40 text-muted-foreground">{children}</thead>
+  ),
+  tr: ({ children }: ComponentProps<"tr">) => (
+    <tr className="border-b border-border/40 last:border-0">{children}</tr>
+  ),
+  th: ({ children }: ComponentProps<"th">) => (
+    <th className="px-3 py-2 text-left font-medium whitespace-nowrap">
+      {children}
+    </th>
+  ),
+  td: ({ children }: ComponentProps<"td">) => (
+    <td className="px-3 py-1.5 align-top">{children}</td>
+  ),
+  // Streamdown wraps images in a <div> for its hover controls, but markdown puts
+  // images inside paragraphs — a <div> inside a <p> is invalid HTML, and React
+  // throws a hydration error on it. A bare <img> is valid wherever an image can
+  // legally appear, so it renders the same in every context.
+  img: ({ src, alt, ...rest }: ComponentProps<"img">) => (
+    // Deliberately not next/image: these are arbitrary remote URLs from model
+    // output, not assets the optimizer can be pointed at.
+    // biome-ignore lint/performance/noImgElement: URL remota arbitrária, sem otimizador
+    <img
+      {...rest}
+      src={typeof src === "string" ? src : undefined}
+      alt={alt ?? ""}
+      className="my-1.5 inline-block max-h-64 max-w-full rounded-md"
+    />
+  ),
+  hr: () => <hr className="my-3 border-border/60" />,
+};

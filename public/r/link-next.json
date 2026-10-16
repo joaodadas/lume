@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "link-next",
+  "title": "Link (next/link)",
+  "description": "Troca o Link da indireção por next/link. Instale depois dos blocos, em projetos Next.",
+  "files": [
+    {
+      "path": "registry/base-vega/components/link-next.tsx",
+      "content": "// Link da indireção de navegação sobre next/link: mesmo contrato do item link (href string, props de <a>), instalado no mesmo caminho components/link.tsx para o app Next ganhar prefetch e navegação client-side sem os blocos importarem next/*.\nimport NextLink from \"next/link\";\nimport type * as React from \"react\";\n\n/** `href` continua string (nunca o tipo Route): os blocos montam rotas com\n * template string e o Next resolve em runtime. `ref` e as demais props de <a>\n * passam direto para o next/link. */\nexport function Link({\n  href,\n  ...props\n}: React.ComponentProps<\"a\"> & { href: string }) {\n  return <NextLink href={href} {...props} />;\n}\n",
+      "type": "registry:component",
+      "target": "components/link.tsx"
+    }
+  ],
+  "meta": {
+    "group": "blocks",
+    "tier": "core",
+    "nextOnly": true
+  },
+  "type": "registry:component"
+}

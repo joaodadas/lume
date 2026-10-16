@@ -1,0 +1,42 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "code-block",
+  "title": "Bloco de código",
+  "description": "Código com Shiki (github-light no claro, vesper no escuro, defaultColor false, engine JS sem wasm), fallback cru sem flash, limite de 50 000 caracteres, pre com bg-muted/50 e shadow-(--custom-shadow), botão de copiar icon-sm outline com estado por 2 s.",
+  "dependencies": [
+    "shiki"
+  ],
+  "registryDependencies": [
+    "joaodadas/lume/button#v0.0.1",
+    "joaodadas/lume/copy-icon#v0.0.1",
+    "joaodadas/lume/use-copied#v0.0.1",
+    "joaodadas/lume/utils#v0.0.1"
+  ],
+  "files": [
+    {
+      "path": "registry/base-vega/components/code-block.tsx",
+      "content": "// Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/code-block.tsx @ 2bc3bb5), Apache-2.0.\n// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/* (Button de ui, CopyIcon de components, useCopied de hooks), aria-label \"Copiar código\"; as regras .shiki do index.css do Foglamp são injetadas pelo registry via campo css.\n\"use client\";\n\nimport type * as React from \"react\";\nimport { useEffect, useState } from \"react\";\nimport { createHighlighterCore, type HighlighterCore } from \"shiki/core\";\nimport { createJavaScriptRegexEngine } from \"shiki/engine/javascript\";\n\nimport { CopyIcon } from \"@/registry/base-vega/components/copy-icon\";\nimport { useCopied } from \"@/registry/base-vega/hooks/use-copied\";\nimport { cn } from \"@/registry/base-vega/lib/utils\";\nimport { Button } from \"@/registry/base-vega/ui/button\";\n\n// A copy-pasteable code block with Shiki syntax highlighting. Highlighting runs\n// client-side and async; the raw code renders immediately as a fallback so there\n// is never an empty flash. The highlighter is a lazy singleton (built once,\n// shared by every CodeBlock) and uses the pure-JS regex engine — no wasm to\n// load in the browser. Dual theme: `github-light` in light mode, `vesper` in\n// dark; each token carries both as CSS variables, selected by the `.dark` class\n// (see index.css).\n\n// O CSS que escolhe o tema vem junto com o item code-block (campo css do\n// registry) e cai no globals.css do consumidor:\n//   .shiki { background-color: var(--shiki-light-bg) }\n//   .shiki, .shiki span { color: var(--shiki-light) }\n//   .dark .shiki { background-color: var(--shiki-dark-bg) }\n//   .dark .shiki, .dark .shiki span { color: var(--shiki-dark) }\n// Sem essas quatro regras o bloco renderiza, mas sem cor.\n\n// Above this size highlighting is skipped and the plain <pre> fallback stays\n// up: Shiki tokenizes on the main thread, and a multi-MB pretty-printed JSON\n// payload would freeze the tab for seconds.\nconst HIGHLIGHT_MAX_CHARS = 50_000;\n\nlet highlighterPromise: Promise<HighlighterCore> | undefined;\n\nfunction getHighlighter(): Promise<HighlighterCore> {\n  if (!highlighterPromise) {\n    highlighterPromise = createHighlighterCore({\n      themes: [\n        import(\"shiki/themes/github-light.mjs\"),\n        import(\"shiki/themes/vesper.mjs\"),\n      ],\n      langs: [\n        import(\"shiki/langs/typescript.mjs\"),\n        import(\"shiki/langs/json.mjs\"),\n      ],\n      engine: createJavaScriptRegexEngine(),\n    });\n  }\n  return highlighterPromise;\n}\n\n/**\n * Highlight `code` with Shiki, returning the dual-theme HTML string (or null\n * until the async highlighter resolves — render the raw text as a fallback so\n * there's never an empty flash). Shares the lazy singleton highlighter with\n * {@link CodeBlock}; `lang` must be one of its loaded grammars (typescript, json).\n */\nexport function useShikiHtml(code: string, lang = \"typescript\"): string | null {\n  const [html, setHtml] = useState<string | null>(null);\n\n  useEffect(() => {\n    if (code.length > HIGHLIGHT_MAX_CHARS) {\n      setHtml(null);\n      return;\n    }\n    let active = true;\n    void getHighlighter()\n      .then((hl) => {\n        const out = hl.codeToHtml(code, {\n          lang,\n          themes: { light: \"github-light\", dark: \"vesper\" },\n          defaultColor: false,\n        });\n        if (active) setHtml(out);\n      })\n      .catch(() => {\n        /* keep the plain-text fallback */\n      });\n    return () => {\n      active = false;\n    };\n  }, [code, lang]);\n\n  return html;\n}\n\nexport function CodeBlock({\n  code,\n  lang = \"typescript\",\n  actions,\n  hideCopy = false,\n}: {\n  code: string;\n  lang?: string;\n  /** Extra controls rendered in the top-right corner, left of the copy button. */\n  actions?: React.ReactNode;\n  /** Render no corner controls — the parent overlays its own (e.g. shared\n   * controls above crossfading blocks, so they don't fade with the code). */\n  hideCopy?: boolean;\n}) {\n  const html = useShikiHtml(code, lang);\n  const { copied, markCopied } = useCopied(2000);\n\n  const copy = () => {\n    void navigator.clipboard.writeText(code);\n    markCopied();\n  };\n\n  return (\n    <div\n      className={cn(\n        \"relative text-left text-xs [&_pre]:m-0 [&_pre]:overflow-auto [&_pre]:rounded-md [&_pre]:bg-muted/50! [&_pre]:dark:bg-muted/20!  [&_pre]:p-5 [&_pre]:leading-relaxed [&_pre]:shadow-(--custom-shadow) corner-squircle\",\n        actions || hideCopy ? \"[&_pre]:pt-5\" : \"[&_pre]:pr-10\",\n      )}\n    >\n      {html ? (\n        // O HTML vem do Shiki a partir de `code`, que o chamador controla; não\n        // é conteúdo de terceiros.\n        // biome-ignore lint/security/noDangerouslySetInnerHtml: saída do Shiki\n        <div dangerouslySetInnerHTML={{ __html: html }} />\n      ) : (\n        <pre className=\"bg-muted! dark:bg-muted! text-foreground\">\n          <code>{code}</code>\n        </pre>\n      )}\n      {!hideCopy && (\n        <div className=\"absolute right-3 top-3 flex items-center gap-1\">\n          {actions}\n          <Button\n            size=\"icon-sm\"\n            variant=\"outline\"\n            className=\"text-muted-foreground hover:text-foreground  dark:bg-input/20\"\n            aria-label=\"Copiar código\"\n            onClick={copy}\n          >\n            <CopyIcon copied={copied} />\n          </Button>\n        </div>\n      )}\n    </div>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "css": {
+    ".shiki": {
+      "background-color": "var(--shiki-light-bg)"
+    },
+    ".shiki, .shiki span": {
+      "color": "var(--shiki-light)"
+    },
+    ".dark .shiki": {
+      "background-color": "var(--shiki-dark-bg)"
+    },
+    ".dark .shiki, .dark .shiki span": {
+      "color": "var(--shiki-dark)"
+    }
+  },
+  "meta": {
+    "group": "blocks",
+    "tier": "core"
+  },
+  "docs": "O install injeta as quatro regras .shiki / .dark .shiki no seu globals.css; sem elas o bloco renderiza sem cor. Linguagens carregadas: typescript e json. useShikiHtml(code, lang) é exportado para blocos que montam o próprio container.",
+  "type": "registry:component"
+}
