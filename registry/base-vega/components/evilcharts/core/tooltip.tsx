@@ -5,7 +5,7 @@ import {
 	getColorsCount,
 	getPayloadConfigFromPayload,
 	useChart,
-} from "@/registry/base-vega/components/evilcharts/ui/chart";
+} from "@/registry/base-vega/components/evilcharts/core/chart";
 import { cn } from "@/registry/base-vega/lib/utils";
 import * as React from "react";
 import * as RechartsPrimitive from "recharts";

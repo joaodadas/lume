@@ -5,7 +5,7 @@ tokens, 56 primitivos sobre Base UI, blocos de dashboard, gráficos, guia em
 pt-BR e uma skill de agente. Distribuído como registry do shadcn: você instala
 os arquivos no seu projeto e eles passam a ser seus.
 
-Site e registry: https://lume.vercel.app
+Site e registry: https://lume-ashmont.vercel.app
 
 ## Instalação em três comandos
 
@@ -33,7 +33,7 @@ buildado que o site serve:
 ```json
 {
   "registries": {
-    "@lume": "https://lume.vercel.app/r/{name}.json"
+    "@lume": "https://lume-ashmont.vercel.app/r/{name}.json"
   }
 }
 ```

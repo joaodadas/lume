@@ -648,7 +648,7 @@ quer é só a feature `tnum` da fonte.
 | Gatilho do range picker | `font-normal tabular-nums bg-card hover:bg-muted/50 aria-expanded:bg-muted/50 ...` | registry/base-vega/blocks/range-picker/range-picker.tsx:53 |
 | Contador do chip de contexto | `shrink-0 tabular-nums text-muted-foreground` | registry/base-vega/components/context-chip.tsx:55 |
 | Tooltip de gráfico | `font-mono font-medium text-foreground tabular-nums` | registry/base-vega/ui/chart.tsx:258 |
-| Eixo Y do evilcharts | `[&_.recharts-yAxis-tick-labels_.recharts-cartesian-axis-tick-value]:tabular-nums` | registry/base-vega/components/evilcharts/ui/chart.tsx:125 |
+| Eixo Y do evilcharts | `[&_.recharts-yAxis-tick-labels_.recharts-cartesian-axis-tick-value]:tabular-nums` | registry/base-vega/components/evilcharts/core/chart.tsx:125 |
 | Badge de contagem na sidebar | `... text-xs font-medium text-sidebar-foreground tabular-nums select-none ...` | registry/base-vega/ui/sidebar.tsx:595 |
 | Tabela dentro de markdown | `w-full border-collapse text-xs tabular-nums` | registry/base-vega/components/markdown-components.tsx:47 |
 

@@ -18,6 +18,14 @@ para aplicar. Quando um item muda de API, a seção traz "Como migrar".
 - `number-flow`, `model-chip` e logos de marcas.
 - Migração efetiva dos fronts da Lyx (trabalho da camada `lyx-ds`, com o guia de adoção).
 
+## [0.1.1] - 2026-10-16
+
+### Corrigido
+
+- A pasta `ui/` do Evil Charts virou `core/`: a CLI do shadcn reescrevia o import de `evilcharts/ui/tooltip` para o alias `ui` do consumidor e o `line-chart` quebrava o build.
+- O alias `@lume` e o site passam a usar `https://lume-ashmont.vercel.app` (`lume.vercel.app` pertence a outro projeto).
+- Proteção de deploy da Vercel desligada no projeto: a registry precisa ser pública.
+
 ## [0.1.0] - 2026-10-16
 
 ### Adicionado
@@ -31,7 +39,7 @@ para aplicar. Quando um item muda de API, a seção traz "Como migrar".
 - Kits (`registry:block` só com `registryDependencies`): `kit-shell`, `kit-tabela`, `kit-formulario`, `kit-feedback`, `kit-dados`, `kit-graficos`.
 - Guia: `FRONTEND.md` (regras Always e Never), `docs/guia`, `docs/conceitos` (craft, reescrito em pt-BR), `docs/referencias.md`, `docs/adocao` (Next novo, Vite, migração 52W, camada Lyx) e o item `guia`, que instala tudo em `docs/lume/`.
 - Skill `lume-design-engineering` (`skills/lume-design-engineering`), gerada do `FRONTEND.md` e do guia, instalável com `npx skills add joaodadas/lume --skill lume-design-engineering`.
-- Site de vitrine em https://lume.vercel.app, que também serve a registry em `/r/<item>.json` (alias `@lume`).
+- Site de vitrine em https://lume-ashmont.vercel.app, que também serve a registry em `/r/<item>.json` (alias `@lume`).
 - Tooling: `scripts/check.ts` (12 verificações), `scripts/release.ts`, `scripts/sync-upstream.ts`, CI em `.github/workflows/check.yml`.
 
 ### Mudado

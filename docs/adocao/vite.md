@@ -26,7 +26,7 @@ Mesma regra do Next: `-y`, nunca `-d`. O `init` do shadcn reconhece Vite pelo `v
   "tailwind": { "config": "", "css": "src/styles/globals.css", "baseColor": "neutral", "cssVariables": true, "prefix": "" },
   "iconLibrary": "tabler",
   "aliases": { "components": "@/components", "utils": "@/lib/utils", "ui": "@/components/ui", "lib": "@/lib", "hooks": "@/hooks" },
-  "registries": { "@lume": "https://lume.vercel.app/r/{name}.json" }
+  "registries": { "@lume": "https://lume-ashmont.vercel.app/r/{name}.json" }
 }
 ```
 

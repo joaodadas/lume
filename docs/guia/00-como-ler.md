@@ -11,7 +11,7 @@ Origem: mapa cap. 1, 20.10, 21.12 e 21.13. O guia condensa o mapa do design syst
 | 3. Skill | `npx skills add joaodadas/lume --skill lume-design-engineering` | a skill para Claude Code e Codex, gerada deste guia e do `FRONTEND.md` |
 | Guia no projeto | `npx shadcn@latest add joaodadas/lume/guia#v0.1.0` | `docs/lume/FRONTEND.md`, `docs/lume/guia/*`, `docs/lume/CONCEITOS.md` |
 
-Alias opcional em `components.json`: `"registries": { "@lume": "https://lume.vercel.app/r/{name}.json" }`, e então `npx shadcn@latest add @lume/button`.
+Alias opcional em `components.json`: `"registries": { "@lume": "https://lume-ashmont.vercel.app/r/{name}.json" }`, e então `npx shadcn@latest add @lume/button`.
 
 ## Convenções do texto
 

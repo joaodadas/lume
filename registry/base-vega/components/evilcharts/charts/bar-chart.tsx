@@ -6,7 +6,7 @@
 import {
 	type BackgroundVariant,
 	ChartBackground,
-} from "@/registry/base-vega/components/evilcharts/ui/background";
+} from "@/registry/base-vega/components/evilcharts/core/background";
 import {
 	type ChartConfig,
 	ChartContainer,
@@ -14,27 +14,27 @@ import {
 	getColorsCount,
 	getLoadingData,
 	niceDomain,
-} from "@/registry/base-vega/components/evilcharts/ui/chart";
+} from "@/registry/base-vega/components/evilcharts/core/chart";
 import {
 	EvilBrush,
 	type EvilBrushRange,
 	useEvilBrush,
-} from "@/registry/base-vega/components/evilcharts/ui/evil-brush";
+} from "@/registry/base-vega/components/evilcharts/core/evil-brush";
 import {
 	ChartLegend,
 	ChartLegendContent,
 	type ChartLegendVariant,
-} from "@/registry/base-vega/components/evilcharts/ui/legend";
+} from "@/registry/base-vega/components/evilcharts/core/legend";
 import {
 	ChartTooltip,
 	ChartTooltipContent,
 	type TooltipRoundness,
 	type TooltipVariant,
-} from "@/registry/base-vega/components/evilcharts/ui/tooltip";
+} from "@/registry/base-vega/components/evilcharts/core/tooltip";
 import {
 	type ZoomSelectHandler,
 	useZoomDrag,
-} from "@/registry/base-vega/components/evilcharts/ui/zoom";
+} from "@/registry/base-vega/components/evilcharts/core/zoom";
 import { motion, useReducedMotion } from "motion/react";
 import {
 	type ComponentProps,

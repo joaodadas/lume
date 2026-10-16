@@ -1,6 +1,6 @@
 # 11. Receita: do zero a um app com a cara do Foglamp
 
-Origem: mapa cap. 21. Os 11 passos do Foglamp reescritos como "instale o item X e confira Y" com os comandos do lume. A ordem segue a dependência real: tokens antes de primitivos, primitivos antes do shell, shell antes das páginas, e só então dados, movimento, marketing e regras para agentes. Todo comando usa a tag; troque `v0.1.0` pela release que o projeto fixou. Alias opcional em `components.json`: `"registries": { "@lume": "https://lume.vercel.app/r/{name}.json" }` (então `npx shadcn@latest add @lume/button`).
+Origem: mapa cap. 21. Os 11 passos do Foglamp reescritos como "instale o item X e confira Y" com os comandos do lume. A ordem segue a dependência real: tokens antes de primitivos, primitivos antes do shell, shell antes das páginas, e só então dados, movimento, marketing e regras para agentes. Todo comando usa a tag; troque `v0.1.0` pela release que o projeto fixou. Alias opcional em `components.json`: `"registries": { "@lume": "https://lume-ashmont.vercel.app/r/{name}.json" }` (então `npx shadcn@latest add @lume/button`).
 
 ## Passo 0: decisões já tomadas (não reabra sem issue)
 <!-- skill:start -->

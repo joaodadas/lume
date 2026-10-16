@@ -95,7 +95,7 @@ A fórmula da sombra colorida é a mesma dos badges da base (`--custom-shadow-em
 #### Comandos
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y          # nunca -d; fallback: init https://lume.vercel.app/r/base.json -y
+npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y          # nunca -d; fallback: init https://lume-ashmont.vercel.app/r/base.json -y
 npx shadcn@latest add Lyx-Engenharia/lyx-ds/theme-lyx#v0.1.0   # sozinho, depois do init, para o tema vencer o base
 npx shadcn@latest add Lyx-Engenharia/lyx-ds/lyx-shell#v0.1.0 Lyx-Engenharia/lyx-ds/lyx-login#v0.1.0 Lyx-Engenharia/lyx-ds/lyx-guide#v0.1.0
 npx shadcn@latest add joaodadas/lume/link-next#v0.1.0 --overwrite

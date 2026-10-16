@@ -117,6 +117,10 @@ const SOURCES: Source[] = [
     ext: [".tsx", ".ts"],
     rewrites: [
       [
+        /@\/components\/evilcharts\/ui\//g,
+        "@/registry/base-vega/components/evilcharts/core/",
+      ],
+      [
         /@\/components\/evilcharts\//g,
         "@/registry/base-vega/components/evilcharts/",
       ],
@@ -179,7 +183,10 @@ for (const source of SOURCES) {
       source.from,
       rel.split(path.sep).join("/"),
     );
-    const dest = path.join(ROOT, source.to, rel);
+    // A pasta ui/ do evilcharts vira core/: a CLI do shadcn reescreve qualquer
+    // import com /ui/<item> para o alias ui do consumidor, e tooltip colide.
+    const relDest = rel.replace(/^ui(\/|$)/, "core$1");
+    const dest = path.join(ROOT, source.to, relDest);
     const destRel = path.relative(ROOT, dest).split(path.sep).join("/");
     let content = await readFile(abs, "utf8");
     for (const [re, to] of source.rewrites) content = content.replace(re, to);

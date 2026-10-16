@@ -61,7 +61,7 @@ import {
 import { EmptyState } from "@/registry/base-vega/components/empty-state";
 import * as AreaChart from "@/registry/base-vega/components/evilcharts/charts/area-chart";
 import * as BarChart from "@/registry/base-vega/components/evilcharts/charts/bar-chart";
-import type { ChartConfig } from "@/registry/base-vega/components/evilcharts/ui/chart";
+import type { ChartConfig } from "@/registry/base-vega/components/evilcharts/core/chart";
 import { HeaderActionsSlotProvider } from "@/registry/base-vega/components/header-slot";
 import { PageHeader, PX } from "@/registry/base-vega/components/page-header";
 import { PillMeter } from "@/registry/base-vega/components/pill-meter";

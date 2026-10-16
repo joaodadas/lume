@@ -506,7 +506,7 @@ function montarReferences(
       );
     out.set(
       ref,
-      `${cabecalho(ref, "`registry.json`")}\n${itens.length} itens na versão \`v${versao}\`. Vários itens vão num comando só; \`--diff\` mostra o que mudaria e \`--overwrite\` aplica. Alias opcional em \`components.json\`: \`"registries": { "@lume": "https://lume.vercel.app/r/{name}.json" }\`.\n\n${grupos.join("\n\n")}\n`,
+      `${cabecalho(ref, "`registry.json`")}\n${itens.length} itens na versão \`v${versao}\`. Vários itens vão num comando só; \`--diff\` mostra o que mudaria e \`--overwrite\` aplica. Alias opcional em \`components.json\`: \`"registries": { "@lume": "https://lume-ashmont.vercel.app/r/{name}.json" }\`.\n\n${grupos.join("\n\n")}\n`,
     );
   }
 

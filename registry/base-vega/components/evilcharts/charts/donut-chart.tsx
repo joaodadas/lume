@@ -7,18 +7,18 @@ import {
 	type ChartConfig,
 	ChartContainer,
 	LoadingIndicator,
-} from "@/registry/base-vega/components/evilcharts/ui/chart";
+} from "@/registry/base-vega/components/evilcharts/core/chart";
 import {
 	ChartLegend,
 	ChartLegendContent,
 	type ChartLegendVariant,
-} from "@/registry/base-vega/components/evilcharts/ui/legend";
+} from "@/registry/base-vega/components/evilcharts/core/legend";
 import {
 	ChartTooltip,
 	ChartTooltipContent,
 	type TooltipRoundness,
 	type TooltipVariant,
-} from "@/registry/base-vega/components/evilcharts/ui/tooltip";
+} from "@/registry/base-vega/components/evilcharts/core/tooltip";
 import { type ComponentProps, type ReactNode, useMemo } from "react";
 import { Cell, Pie, PieChart as RechartsPieChart } from "recharts";
 import type { ValueType } from "recharts/types/component/DefaultTooltipContent";

@@ -2,7 +2,7 @@
 
 Gerado por `bun scripts/build-skill.ts` a partir de `registry.json`; não edite à mão. Caminhos sem prefixo são relativos à raiz de https://github.com/joaodadas/lume; `apps/web/` e `packages/ui/` são do Foglamp (commit `2bc3bb5`).
 
-109 itens na versão `v0.1.0`. Vários itens vão num comando só; `--diff` mostra o que mudaria e `--overwrite` aplica. Alias opcional em `components.json`: `"registries": { "@lume": "https://lume.vercel.app/r/{name}.json" }`.
+109 itens na versão `v0.1.0`. Vários itens vão num comando só; `--diff` mostra o que mudaria e `--overwrite` aplica. Alias opcional em `components.json`: `"registries": { "@lume": "https://lume-ashmont.vercel.app/r/{name}.json" }`.
 
 ## Base (1)
 

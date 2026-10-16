@@ -17,7 +17,7 @@ Com npm, troque `bunx` por `npx` e `--use-bun` por `--use-npm`. Com `--src-dir` 
 npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y
 ```
 
-Sempre com `-y` e nunca com `-d`. Verificado hoje: com `-d` a CLI ignora o item `base` (`extends: "none"` e o bloco `config`) e instala o style padrão por cima, com os tokens `sidebar-primary`, o `button` e o pacote `cn` do registry oficial. Com `-y` ela aceita o `config` do `base` sem perguntar. Fallback se o modo GitHub falhar: `npx shadcn@latest init https://lume.vercel.app/r/base.json -y`.
+Sempre com `-y` e nunca com `-d`. Verificado hoje: com `-d` a CLI ignora o item `base` (`extends: "none"` e o bloco `config`) e instala o style padrão por cima, com os tokens `sidebar-primary`, o `button` e o pacote `cn` do registry oficial. Com `-y` ela aceita o `config` do `base` sem perguntar. Fallback se o modo GitHub falhar: `npx shadcn@latest init https://lume-ashmont.vercel.app/r/base.json -y`.
 
 O `base` cria só isto: `components.json` (style `base-vega`, `iconLibrary: "tabler"`, `baseColor: "neutral"`, alias `@lume`), `lib/utils.ts` (`cn` com `clsx` + `tailwind-merge`, item `utils`) e o `app/globals.css` com os tokens. Nenhum componente entra aqui.
 

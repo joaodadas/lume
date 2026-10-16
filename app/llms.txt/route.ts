@@ -1,5 +1,5 @@
 // /llms.txt (https://llmstxt.org): o índice que um agente encontra ao cair em
-// lume.vercel.app. Título, descrição, os três comandos de instalação, links
+// lume-ashmont.vercel.app. Título, descrição, os três comandos de instalação, links
 // para o FRONTEND.md cru e para o GitHub, e a lista de itens da registry lida
 // de registry.json (nome, tipo, descrição, URL do JSON). Molde: o llms.txt do
 // Foglamp (apps/web/src/app/llms.txt/route.ts). Sem request nem relógio, o
@@ -8,7 +8,7 @@
 import pkg from "@/package.json";
 import registry from "@/registry.json";
 
-const SITE_URL = "https://lume.vercel.app";
+const SITE_URL = "https://lume-ashmont.vercel.app";
 const GITHUB_URL = "https://github.com/joaodadas/lume";
 
 type Item = {

@@ -274,7 +274,7 @@ for (const item of sorted) {
 const registry = {
   $schema: "https://ui.shadcn.com/schema/registry.json",
   name: "lume",
-  homepage: "https://lume.vercel.app",
+  homepage: "https://lume-ashmont.vercel.app",
   items: out,
 };
 const json = `${JSON.stringify(registry, null, 2)}\n`;

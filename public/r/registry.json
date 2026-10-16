@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "lume",
-  "homepage": "https://lume.vercel.app",
+  "homepage": "https://lume-ashmont.vercel.app",
   "items": [
     {
       "name": "base",
@@ -21,7 +21,7 @@
         "menuColor": "default",
         "menuAccent": "subtle",
         "registries": {
-          "@lume": "https://lume.vercel.app/r/{name}.json"
+          "@lume": "https://lume-ashmont.vercel.app/r/{name}.json"
         }
       },
       "dependencies": [
@@ -2382,39 +2382,39 @@
       ],
       "files": [
         {
-          "path": "registry/base-vega/components/evilcharts/ui/chart.tsx",
+          "path": "registry/base-vega/components/evilcharts/core/chart.tsx",
           "type": "registry:component",
-          "target": "components/evilcharts/ui/chart.tsx"
+          "target": "components/evilcharts/core/chart.tsx"
         },
         {
-          "path": "registry/base-vega/components/evilcharts/ui/tooltip.tsx",
+          "path": "registry/base-vega/components/evilcharts/core/tooltip.tsx",
           "type": "registry:component",
-          "target": "components/evilcharts/ui/tooltip.tsx"
+          "target": "components/evilcharts/core/tooltip.tsx"
         },
         {
-          "path": "registry/base-vega/components/evilcharts/ui/legend.tsx",
+          "path": "registry/base-vega/components/evilcharts/core/legend.tsx",
           "type": "registry:component",
-          "target": "components/evilcharts/ui/legend.tsx"
+          "target": "components/evilcharts/core/legend.tsx"
         },
         {
-          "path": "registry/base-vega/components/evilcharts/ui/zoom.tsx",
+          "path": "registry/base-vega/components/evilcharts/core/zoom.tsx",
           "type": "registry:component",
-          "target": "components/evilcharts/ui/zoom.tsx"
+          "target": "components/evilcharts/core/zoom.tsx"
         },
         {
-          "path": "registry/base-vega/components/evilcharts/ui/evil-brush.tsx",
+          "path": "registry/base-vega/components/evilcharts/core/evil-brush.tsx",
           "type": "registry:component",
-          "target": "components/evilcharts/ui/evil-brush.tsx"
+          "target": "components/evilcharts/core/evil-brush.tsx"
         },
         {
-          "path": "registry/base-vega/components/evilcharts/ui/dot.tsx",
+          "path": "registry/base-vega/components/evilcharts/core/dot.tsx",
           "type": "registry:component",
-          "target": "components/evilcharts/ui/dot.tsx"
+          "target": "components/evilcharts/core/dot.tsx"
         },
         {
-          "path": "registry/base-vega/components/evilcharts/ui/background.tsx",
+          "path": "registry/base-vega/components/evilcharts/core/background.tsx",
           "type": "registry:component",
-          "target": "components/evilcharts/ui/background.tsx"
+          "target": "components/evilcharts/core/background.tsx"
         }
       ],
       "meta": {

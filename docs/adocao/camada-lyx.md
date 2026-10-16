@@ -81,7 +81,7 @@ Isso cobre `dark:` nas utilities e os tokens de marca; os tokens da base (`--bac
 }
 ```
 
-- `@lume` pelo raw do GitHub com a tag no caminho (público, sem Vercel no meio) ou `https://lume.vercel.app/r/{name}.json` (o que o `init` escreve; aponta para a última release publicada).
+- `@lume` pelo raw do GitHub com a tag no caminho (público, sem Vercel no meio) ou `https://lume-ashmont.vercel.app/r/{name}.json` (o que o `init` escreve; aponta para a última release publicada).
 - `@lyx` pela Contents API: `Accept: application/vnd.github.raw+json` devolve o JSON cru, `params.ref` fixa a tag. `GITHUB_TOKEN` é um PAT fine-grained com Contents read-only no `lyx-ds`, em `.env.local` (nunca commitado; a org pode exigir aprovação do PAT). A sintaxe `${VAR:-default}` não existe: a variável tem que estar definida.
 - Subir de versão é trocar a tag nos dois lugares e rodar `npx shadcn@latest add @lyx/theme-lyx @lyx/lyx-shell --overwrite`.
 
@@ -90,7 +90,7 @@ Isso cobre `dark:` nas utilities e os tokens de marca; os tokens da base (`--bac
 Dev (com `gh auth login` feito; a CLI 4.19+ usa o token do `gh` para repo privado no modo GitHub):
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y          # nunca -d; fallback: init https://lume.vercel.app/r/base.json -y
+npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y          # nunca -d; fallback: init https://lume-ashmont.vercel.app/r/base.json -y
 npx shadcn@latest add Lyx-Engenharia/lyx-ds/theme-lyx#v0.1.0   # sozinho, depois do init, para o tema vencer o base
 npx shadcn@latest add Lyx-Engenharia/lyx-ds/lyx-shell#v0.1.0 Lyx-Engenharia/lyx-ds/lyx-login#v0.1.0 Lyx-Engenharia/lyx-ds/lyx-guide#v0.1.0
 npx shadcn@latest add joaodadas/lume/link-next#v0.1.0 --overwrite

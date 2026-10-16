@@ -6,7 +6,7 @@ import { useCallback, useRef } from "react";
 import { Text as RechartsText } from "recharts";
 
 import { useRange } from "@/registry/base-vega/blocks/range-picker/range-context";
-import type { ChartConfig } from "@/registry/base-vega/components/evilcharts/ui/chart";
+import type { ChartConfig } from "@/registry/base-vega/components/evilcharts/core/chart";
 import { exactRange, type RangeValue } from "@/registry/base-vega/lib/range";
 import { cn } from "@/registry/base-vega/lib/utils";
 

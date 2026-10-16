@@ -7,7 +7,7 @@ import {
 	type ChartConfig,
 	ChartStyle,
 	getColorsCount,
-} from "@/registry/base-vega/components/evilcharts/ui/chart";
+} from "@/registry/base-vega/components/evilcharts/core/chart";
 import { cn } from "@/registry/base-vega/lib/utils";
 import {
 	motion,

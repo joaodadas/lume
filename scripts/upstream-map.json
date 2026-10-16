@@ -236,31 +236,31 @@
       "upstream": "packages/ui/src/hooks/use-mobile.ts",
       "patches": []
     },
-    "registry/base-vega/components/evilcharts/ui/dot.tsx": {
+    "registry/base-vega/components/evilcharts/core/dot.tsx": {
       "upstream": "apps/web/src/components/evilcharts/ui/dot.tsx",
       "patches": []
     },
-    "registry/base-vega/components/evilcharts/ui/legend.tsx": {
+    "registry/base-vega/components/evilcharts/core/legend.tsx": {
       "upstream": "apps/web/src/components/evilcharts/ui/legend.tsx",
       "patches": []
     },
-    "registry/base-vega/components/evilcharts/ui/zoom.tsx": {
+    "registry/base-vega/components/evilcharts/core/zoom.tsx": {
       "upstream": "apps/web/src/components/evilcharts/ui/zoom.tsx",
       "patches": []
     },
-    "registry/base-vega/components/evilcharts/ui/chart.tsx": {
+    "registry/base-vega/components/evilcharts/core/chart.tsx": {
       "upstream": "apps/web/src/components/evilcharts/ui/chart.tsx",
       "patches": []
     },
-    "registry/base-vega/components/evilcharts/ui/background.tsx": {
+    "registry/base-vega/components/evilcharts/core/background.tsx": {
       "upstream": "apps/web/src/components/evilcharts/ui/background.tsx",
       "patches": []
     },
-    "registry/base-vega/components/evilcharts/ui/tooltip.tsx": {
+    "registry/base-vega/components/evilcharts/core/tooltip.tsx": {
       "upstream": "apps/web/src/components/evilcharts/ui/tooltip.tsx",
       "patches": []
     },
-    "registry/base-vega/components/evilcharts/ui/evil-brush.tsx": {
+    "registry/base-vega/components/evilcharts/core/evil-brush.tsx": {
       "upstream": "apps/web/src/components/evilcharts/ui/evil-brush.tsx",
       "patches": []
     },

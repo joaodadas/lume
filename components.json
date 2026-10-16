@@ -22,6 +22,6 @@
   "menuAccent": "subtle",
   "rtl": false,
   "registries": {
-    "@lume": "https://lume.vercel.app/r/{name}.json"
+    "@lume": "https://lume-ashmont.vercel.app/r/{name}.json"
   }
 }
