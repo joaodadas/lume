@@ -8,9 +8,9 @@
     "cmdk"
   ],
   "registryDependencies": [
-    "joaodadas/lume/dialog#v0.1.0",
-    "joaodadas/lume/input-group#v0.1.0",
-    "joaodadas/lume/utils#v0.1.0"
+    "joaodadas/lume/dialog#v0.1.1",
+    "joaodadas/lume/input-group#v0.1.1",
+    "joaodadas/lume/utils#v0.1.1"
   ],
   "files": [
     {

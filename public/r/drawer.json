@@ -7,7 +7,7 @@
     "vaul"
   ],
   "registryDependencies": [
-    "joaodadas/lume/utils#v0.1.0"
+    "joaodadas/lume/utils#v0.1.1"
   ],
   "files": [
     {

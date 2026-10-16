@@ -8,15 +8,15 @@
     "motion"
   ],
   "registryDependencies": [
-    "joaodadas/lume/button#v0.1.0",
-    "joaodadas/lume/format#v0.1.0",
-    "joaodadas/lume/header-slot#v0.1.0",
-    "joaodadas/lume/input#v0.1.0",
-    "joaodadas/lume/input-group#v0.1.0",
-    "joaodadas/lume/motion#v0.1.0",
-    "joaodadas/lume/select#v0.1.0",
-    "joaodadas/lume/table#v0.1.0",
-    "joaodadas/lume/utils#v0.1.0"
+    "joaodadas/lume/button#v0.1.1",
+    "joaodadas/lume/format#v0.1.1",
+    "joaodadas/lume/header-slot#v0.1.1",
+    "joaodadas/lume/input#v0.1.1",
+    "joaodadas/lume/input-group#v0.1.1",
+    "joaodadas/lume/motion#v0.1.1",
+    "joaodadas/lume/select#v0.1.1",
+    "joaodadas/lume/table#v0.1.1",
+    "joaodadas/lume/utils#v0.1.1"
   ],
   "files": [
     {

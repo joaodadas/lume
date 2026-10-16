@@ -8,7 +8,7 @@
     "recharts"
   ],
   "registryDependencies": [
-    "joaodadas/lume/evilcharts#v0.1.0"
+    "joaodadas/lume/evilcharts#v0.1.1"
   ],
   "files": [
     {

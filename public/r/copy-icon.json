@@ -8,8 +8,8 @@
     "motion"
   ],
   "registryDependencies": [
-    "joaodadas/lume/motion#v0.1.0",
-    "joaodadas/lume/utils#v0.1.0"
+    "joaodadas/lume/motion#v0.1.1",
+    "joaodadas/lume/utils#v0.1.1"
   ],
   "files": [
     {

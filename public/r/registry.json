@@ -38,7 +38,7 @@
         "tw-animate-css"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "cssVars": {
         "theme": {
@@ -252,7 +252,7 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -274,7 +274,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -296,8 +296,8 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/button#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/button#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -316,7 +316,7 @@
       "title": "Aspect ratio",
       "description": "Caixa com proporção fixa.",
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -338,7 +338,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -361,7 +361,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -384,7 +384,7 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -407,7 +407,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -430,8 +430,8 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "joaodadas/lume/separator#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/separator#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -454,8 +454,8 @@
         "react-day-picker@^9.14.0"
       ],
       "registryDependencies": [
-        "joaodadas/lume/button#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/button#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -474,7 +474,7 @@
       "title": "Card",
       "description": "Superfície padrão: bg-card, sombra hairline, squircle; size sm é o card do dashboard.",
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -497,8 +497,8 @@
         "embla-carousel-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/button#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/button#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -520,7 +520,7 @@
         "recharts"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -543,7 +543,7 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -585,9 +585,9 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/button#v0.1.0",
-        "joaodadas/lume/input-group#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/button#v0.1.1",
+        "joaodadas/lume/input-group#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -610,9 +610,9 @@
         "cmdk"
       ],
       "registryDependencies": [
-        "joaodadas/lume/dialog#v0.1.0",
-        "joaodadas/lume/input-group#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/dialog#v0.1.1",
+        "joaodadas/lume/input-group#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -635,7 +635,7 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -658,8 +658,8 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/button#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/button#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -700,7 +700,7 @@
         "vaul"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -723,7 +723,7 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -745,7 +745,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -767,9 +767,9 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "joaodadas/lume/label#v0.1.0",
-        "joaodadas/lume/separator#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/label#v0.1.1",
+        "joaodadas/lume/separator#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -791,7 +791,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -813,7 +813,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -835,10 +835,10 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "joaodadas/lume/button#v0.1.0",
-        "joaodadas/lume/input#v0.1.0",
-        "joaodadas/lume/textarea#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/button#v0.1.1",
+        "joaodadas/lume/input#v0.1.1",
+        "joaodadas/lume/textarea#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -861,7 +861,7 @@
         "input-otp"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -884,8 +884,8 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "joaodadas/lume/separator#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/separator#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -904,7 +904,7 @@
       "title": "Kbd",
       "description": "Tecla de atalho em squircle pequeno.",
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -923,7 +923,7 @@
       "title": "Label",
       "description": "Rótulo de campo.",
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -942,7 +942,7 @@
       "title": "Loader",
       "description": "TextShimmerLoader, o texto com brilho que diz que algo está pensando.",
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -965,8 +965,8 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/dropdown-menu#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/dropdown-menu#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -988,7 +988,7 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1011,7 +1011,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1033,8 +1033,8 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/button#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/button#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1056,7 +1056,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1078,7 +1078,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1100,7 +1100,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1122,7 +1122,7 @@
         "react-resizable-panels"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1144,7 +1144,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1167,7 +1167,7 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1189,7 +1189,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1212,8 +1212,8 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/button#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/button#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1237,14 +1237,14 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "joaodadas/lume/button#v0.1.0",
-        "joaodadas/lume/input#v0.1.0",
-        "joaodadas/lume/separator#v0.1.0",
-        "joaodadas/lume/sheet#v0.1.0",
-        "joaodadas/lume/skeleton#v0.1.0",
-        "joaodadas/lume/tooltip#v0.1.0",
-        "joaodadas/lume/use-mobile#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/button#v0.1.1",
+        "joaodadas/lume/input#v0.1.1",
+        "joaodadas/lume/separator#v0.1.1",
+        "joaodadas/lume/sheet#v0.1.1",
+        "joaodadas/lume/skeleton#v0.1.1",
+        "joaodadas/lume/tooltip#v0.1.1",
+        "joaodadas/lume/use-mobile#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1263,7 +1263,7 @@
       "title": "Skeleton",
       "description": "Placeholder de carregamento em squircle.",
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1285,7 +1285,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1328,7 +1328,7 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1350,7 +1350,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1369,7 +1369,7 @@
       "title": "Table",
       "description": "Tabela densa: células px-8.25, header h-13, linha interativa com teclado e sticky header.",
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1392,7 +1392,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1411,7 +1411,7 @@
       "title": "Textarea",
       "description": "Área de texto com a mesma receita do Input.",
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1434,7 +1434,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1457,8 +1457,8 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "joaodadas/lume/toggle#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/toggle#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1480,7 +1480,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1671,13 +1671,13 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/avatar#v0.1.0",
-        "joaodadas/lume/dropdown-menu#v0.1.0",
-        "joaodadas/lume/link#v0.1.0",
-        "joaodadas/lume/sidebar#v0.1.0",
-        "joaodadas/lume/theme-provider#v0.1.0",
-        "joaodadas/lume/theme-switcher#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/avatar#v0.1.1",
+        "joaodadas/lume/dropdown-menu#v0.1.1",
+        "joaodadas/lume/link#v0.1.1",
+        "joaodadas/lume/sidebar#v0.1.1",
+        "joaodadas/lume/theme-provider#v0.1.1",
+        "joaodadas/lume/theme-switcher#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1708,7 +1708,7 @@
       "title": "Card sparkline",
       "description": "Sparkline de área para o slot chart do StatCard: SVG 100x32 em h-8 w-full, gradiente currentColor 0.4 a 0.1, traço 1.2 a 50%, último trecho tracejado com dashedLast; CardSparklinePlaceholder desenha a curva de amostra apagada quando não há série.",
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1731,10 +1731,10 @@
         "shiki"
       ],
       "registryDependencies": [
-        "joaodadas/lume/button#v0.1.0",
-        "joaodadas/lume/copy-icon#v0.1.0",
-        "joaodadas/lume/use-copied#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/button#v0.1.1",
+        "joaodadas/lume/copy-icon#v0.1.1",
+        "joaodadas/lume/use-copied#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1771,9 +1771,9 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/button#v0.1.0",
-        "joaodadas/lume/link#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/button#v0.1.1",
+        "joaodadas/lume/link#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1792,9 +1792,9 @@
       "title": "Botão de copiar",
       "description": "Botão nu com CopyIcon, text-muted-foreground/60, hover text-foreground, iconSize size-4, stopPropagation para linhas clicáveis e estado copiado por 1,5 s.",
       "registryDependencies": [
-        "joaodadas/lume/copy-icon#v0.1.0",
-        "joaodadas/lume/use-copied#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/copy-icon#v0.1.1",
+        "joaodadas/lume/use-copied#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1818,8 +1818,8 @@
         "motion"
       ],
       "registryDependencies": [
-        "joaodadas/lume/motion#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/motion#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1842,15 +1842,15 @@
         "motion"
       ],
       "registryDependencies": [
-        "joaodadas/lume/button#v0.1.0",
-        "joaodadas/lume/format#v0.1.0",
-        "joaodadas/lume/header-slot#v0.1.0",
-        "joaodadas/lume/input#v0.1.0",
-        "joaodadas/lume/input-group#v0.1.0",
-        "joaodadas/lume/motion#v0.1.0",
-        "joaodadas/lume/select#v0.1.0",
-        "joaodadas/lume/table#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/button#v0.1.1",
+        "joaodadas/lume/format#v0.1.1",
+        "joaodadas/lume/header-slot#v0.1.1",
+        "joaodadas/lume/input#v0.1.1",
+        "joaodadas/lume/input-group#v0.1.1",
+        "joaodadas/lume/motion#v0.1.1",
+        "joaodadas/lume/select#v0.1.1",
+        "joaodadas/lume/table#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1876,8 +1876,8 @@
       "title": "Empty state",
       "description": "Estado vazio das páginas sobre o Empty da registry: caixa tracejada, EmptyMedia variant icon com o ícone em opacity-40, título e descrição opcionais e filhos para a ação.",
       "registryDependencies": [
-        "joaodadas/lume/empty#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/empty#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1950,11 +1950,11 @@
         "zod"
       ],
       "registryDependencies": [
-        "joaodadas/lume/button#v0.1.0",
-        "joaodadas/lume/field#v0.1.0",
-        "joaodadas/lume/input#v0.1.0",
-        "joaodadas/lume/label#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/button#v0.1.1",
+        "joaodadas/lume/field#v0.1.1",
+        "joaodadas/lume/input#v0.1.1",
+        "joaodadas/lume/label#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -1975,7 +1975,7 @@
       "title": "Componentes de markdown",
       "description": "Overrides de a, table, thead, tr, th, td, img e hr para react-markdown ou Streamdown: links internos (href com /) pelo Link da indireção, externos em nova aba, tabelas planas text-xs tabular-nums com linhas border-border/40, img cru sem next/image.",
       "registryDependencies": [
-        "joaodadas/lume/link#v0.1.0"
+        "joaodadas/lume/link#v0.1.1"
       ],
       "files": [
         {
@@ -1998,8 +1998,8 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/page-header#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/page-header#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -2022,9 +2022,9 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/header-slot#v0.1.0",
-        "joaodadas/lume/link#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/header-slot#v0.1.1",
+        "joaodadas/lume/link#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -2044,7 +2044,7 @@
       "title": "Pill meter",
       "description": "Medidor de razão para o slot chart do StatCard: 32 cápsulas rounded-full em h-3.5 gap-0.75, as acesas em bg-current e as apagadas em bg-muted-foreground/10; fração positiva acende ao menos uma, null nenhuma.",
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -2069,11 +2069,11 @@
         "react-day-picker@^9.14.0"
       ],
       "registryDependencies": [
-        "joaodadas/lume/button#v0.1.0",
-        "joaodadas/lume/calendar#v0.1.0",
-        "joaodadas/lume/popover#v0.1.0",
-        "joaodadas/lume/range#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/button#v0.1.1",
+        "joaodadas/lume/calendar#v0.1.1",
+        "joaodadas/lume/popover#v0.1.1",
+        "joaodadas/lume/range#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -2099,7 +2099,7 @@
       "title": "Scroll fade",
       "description": "Viewport de rolagem com fades de h-10 em overlay (bg-linear-to-b/-t from-card to-transparent, duration-150): o de cima aparece ao rolar, o de baixo a 75% enquanto há conteúdo abaixo, recalculado no scroll e por ResizeObserver.",
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -2119,8 +2119,8 @@
       "title": "Section",
       "description": "Bloco de seção da página: cabeçalho com h2 text-sm font-medium, descrição text-xs muted e ações à direita (flex-wrap items-end, gutter PX) e os filhos abaixo em coluna gap-3.",
       "registryDependencies": [
-        "joaodadas/lume/page-header#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/page-header#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -2143,8 +2143,8 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/badge#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/badge#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -2167,12 +2167,12 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "joaodadas/lume/card#v0.1.0",
-        "joaodadas/lume/format#v0.1.0",
-        "joaodadas/lume/link#v0.1.0",
-        "joaodadas/lume/number-ticker#v0.1.0",
-        "joaodadas/lume/skeleton#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/card#v0.1.1",
+        "joaodadas/lume/format#v0.1.1",
+        "joaodadas/lume/link#v0.1.1",
+        "joaodadas/lume/number-ticker#v0.1.1",
+        "joaodadas/lume/skeleton#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -2192,8 +2192,8 @@
       "title": "Stat grid",
       "description": "Fileira de StatCards com container query: grid gap-4 em 1 coluna, 2 a partir de @lg e 4 a partir de 62rem de área de conteúdo (columns = 3 vira 1 ou 3 a partir de @2xl), com o gutter PX.",
       "registryDependencies": [
-        "joaodadas/lume/page-header#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/page-header#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -2213,9 +2213,9 @@
       "title": "Skeleton de tabela",
       "description": "TableRowsSkeleton: linhas h-12 com um Skeleton h-4 por coluna (cols com w, align, icon e sub para célula de duas linhas h-5 + h-4), alinhado como as células reais; tipo SkeletonCol exportado.",
       "registryDependencies": [
-        "joaodadas/lume/skeleton#v0.1.0",
-        "joaodadas/lume/table#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/skeleton#v0.1.1",
+        "joaodadas/lume/table#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -2282,9 +2282,9 @@
         "next-themes"
       ],
       "registryDependencies": [
-        "joaodadas/lume/dropdown-menu#v0.1.0",
-        "joaodadas/lume/motion#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/dropdown-menu#v0.1.1",
+        "joaodadas/lume/motion#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -2307,7 +2307,7 @@
         "recharts"
       ],
       "registryDependencies": [
-        "joaodadas/lume/evilcharts#v0.1.0"
+        "joaodadas/lume/evilcharts#v0.1.1"
       ],
       "files": [
         {
@@ -2331,7 +2331,7 @@
         "recharts"
       ],
       "registryDependencies": [
-        "joaodadas/lume/evilcharts#v0.1.0"
+        "joaodadas/lume/evilcharts#v0.1.1"
       ],
       "files": [
         {
@@ -2354,7 +2354,7 @@
         "recharts"
       ],
       "registryDependencies": [
-        "joaodadas/lume/evilcharts#v0.1.0"
+        "joaodadas/lume/evilcharts#v0.1.1"
       ],
       "files": [
         {
@@ -2378,7 +2378,7 @@
         "recharts"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -2432,7 +2432,7 @@
         "recharts"
       ],
       "registryDependencies": [
-        "joaodadas/lume/evilcharts#v0.1.0"
+        "joaodadas/lume/evilcharts#v0.1.1"
       ],
       "files": [
         {
@@ -2455,10 +2455,10 @@
         "recharts"
       ],
       "registryDependencies": [
-        "joaodadas/lume/evilcharts#v0.1.0",
-        "joaodadas/lume/range#v0.1.0",
-        "joaodadas/lume/range-picker#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/evilcharts#v0.1.1",
+        "joaodadas/lume/range#v0.1.1",
+        "joaodadas/lume/range-picker#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -2481,8 +2481,8 @@
         "border-beam"
       ],
       "registryDependencies": [
-        "joaodadas/lume/card#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/card#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -2505,9 +2505,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "joaodadas/lume/format#v0.1.0",
-        "joaodadas/lume/motion#v0.1.0",
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/format#v0.1.1",
+        "joaodadas/lume/motion#v0.1.1",
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -2530,7 +2530,7 @@
         "slot-text"
       ],
       "registryDependencies": [
-        "joaodadas/lume/utils#v0.1.0"
+        "joaodadas/lume/utils#v0.1.1"
       ],
       "files": [
         {
@@ -2550,14 +2550,14 @@
       "title": "Kit dados",
       "description": "Badge, context-chip, span-type, card-sparkline, pill-meter, number-ticker, copy-button e code-block.",
       "registryDependencies": [
-        "joaodadas/lume/badge#v0.1.0",
-        "joaodadas/lume/card-sparkline#v0.1.0",
-        "joaodadas/lume/code-block#v0.1.0",
-        "joaodadas/lume/context-chip#v0.1.0",
-        "joaodadas/lume/copy-button#v0.1.0",
-        "joaodadas/lume/number-ticker#v0.1.0",
-        "joaodadas/lume/pill-meter#v0.1.0",
-        "joaodadas/lume/span-type#v0.1.0"
+        "joaodadas/lume/badge#v0.1.1",
+        "joaodadas/lume/card-sparkline#v0.1.1",
+        "joaodadas/lume/code-block#v0.1.1",
+        "joaodadas/lume/context-chip#v0.1.1",
+        "joaodadas/lume/copy-button#v0.1.1",
+        "joaodadas/lume/number-ticker#v0.1.1",
+        "joaodadas/lume/pill-meter#v0.1.1",
+        "joaodadas/lume/span-type#v0.1.1"
       ],
       "meta": {
         "group": "kits",
@@ -2570,18 +2570,18 @@
       "title": "Kit feedback",
       "description": "Skeleton, empty, spinner, loader, sonner, alert, notice, dialog, alert-dialog, tooltip, popover e dropdown-menu.",
       "registryDependencies": [
-        "joaodadas/lume/alert#v0.1.0",
-        "joaodadas/lume/alert-dialog#v0.1.0",
-        "joaodadas/lume/dialog#v0.1.0",
-        "joaodadas/lume/dropdown-menu#v0.1.0",
-        "joaodadas/lume/empty#v0.1.0",
-        "joaodadas/lume/loader#v0.1.0",
-        "joaodadas/lume/notice#v0.1.0",
-        "joaodadas/lume/popover#v0.1.0",
-        "joaodadas/lume/skeleton#v0.1.0",
-        "joaodadas/lume/sonner#v0.1.0",
-        "joaodadas/lume/spinner#v0.1.0",
-        "joaodadas/lume/tooltip#v0.1.0"
+        "joaodadas/lume/alert#v0.1.1",
+        "joaodadas/lume/alert-dialog#v0.1.1",
+        "joaodadas/lume/dialog#v0.1.1",
+        "joaodadas/lume/dropdown-menu#v0.1.1",
+        "joaodadas/lume/empty#v0.1.1",
+        "joaodadas/lume/loader#v0.1.1",
+        "joaodadas/lume/notice#v0.1.1",
+        "joaodadas/lume/popover#v0.1.1",
+        "joaodadas/lume/skeleton#v0.1.1",
+        "joaodadas/lume/sonner#v0.1.1",
+        "joaodadas/lume/spinner#v0.1.1",
+        "joaodadas/lume/tooltip#v0.1.1"
       ],
       "meta": {
         "group": "kits",
@@ -2594,18 +2594,18 @@
       "title": "Kit formulário",
       "description": "Input, input-group, field, label, select, native-select, checkbox, switch, radio-group, textarea, kbd e calendar.",
       "registryDependencies": [
-        "joaodadas/lume/calendar#v0.1.0",
-        "joaodadas/lume/checkbox#v0.1.0",
-        "joaodadas/lume/field#v0.1.0",
-        "joaodadas/lume/input#v0.1.0",
-        "joaodadas/lume/input-group#v0.1.0",
-        "joaodadas/lume/kbd#v0.1.0",
-        "joaodadas/lume/label#v0.1.0",
-        "joaodadas/lume/native-select#v0.1.0",
-        "joaodadas/lume/radio-group#v0.1.0",
-        "joaodadas/lume/select#v0.1.0",
-        "joaodadas/lume/switch#v0.1.0",
-        "joaodadas/lume/textarea#v0.1.0"
+        "joaodadas/lume/calendar#v0.1.1",
+        "joaodadas/lume/checkbox#v0.1.1",
+        "joaodadas/lume/field#v0.1.1",
+        "joaodadas/lume/input#v0.1.1",
+        "joaodadas/lume/input-group#v0.1.1",
+        "joaodadas/lume/kbd#v0.1.1",
+        "joaodadas/lume/label#v0.1.1",
+        "joaodadas/lume/native-select#v0.1.1",
+        "joaodadas/lume/radio-group#v0.1.1",
+        "joaodadas/lume/select#v0.1.1",
+        "joaodadas/lume/switch#v0.1.1",
+        "joaodadas/lume/textarea#v0.1.1"
       ],
       "meta": {
         "group": "kits",
@@ -2618,13 +2618,13 @@
       "title": "Kit gráficos",
       "description": "Evil Charts (área, barras, linha, rosca), trend-charts e range-picker.",
       "registryDependencies": [
-        "joaodadas/lume/area-chart#v0.1.0",
-        "joaodadas/lume/bar-chart#v0.1.0",
-        "joaodadas/lume/donut-chart#v0.1.0",
-        "joaodadas/lume/evilcharts#v0.1.0",
-        "joaodadas/lume/line-chart#v0.1.0",
-        "joaodadas/lume/range-picker#v0.1.0",
-        "joaodadas/lume/trend-charts#v0.1.0"
+        "joaodadas/lume/area-chart#v0.1.1",
+        "joaodadas/lume/bar-chart#v0.1.1",
+        "joaodadas/lume/donut-chart#v0.1.1",
+        "joaodadas/lume/evilcharts#v0.1.1",
+        "joaodadas/lume/line-chart#v0.1.1",
+        "joaodadas/lume/range-picker#v0.1.1",
+        "joaodadas/lume/trend-charts#v0.1.1"
       ],
       "meta": {
         "group": "kits",
@@ -2637,18 +2637,18 @@
       "title": "Kit shell",
       "description": "Sidebar inset, app-shell, page-header, stat-card, stat-grid, empty-state, notice, section, theme-provider, theme-switcher e link: o esqueleto de um dashboard.",
       "registryDependencies": [
-        "joaodadas/lume/app-shell#v0.1.0",
-        "joaodadas/lume/empty-state#v0.1.0",
-        "joaodadas/lume/link#v0.1.0",
-        "joaodadas/lume/notice#v0.1.0",
-        "joaodadas/lume/page-header#v0.1.0",
-        "joaodadas/lume/section#v0.1.0",
-        "joaodadas/lume/sidebar#v0.1.0",
-        "joaodadas/lume/stat-card#v0.1.0",
-        "joaodadas/lume/stat-grid#v0.1.0",
-        "joaodadas/lume/theme-provider#v0.1.0",
-        "joaodadas/lume/theme-switcher#v0.1.0",
-        "joaodadas/lume/use-entrance-once#v0.1.0"
+        "joaodadas/lume/app-shell#v0.1.1",
+        "joaodadas/lume/empty-state#v0.1.1",
+        "joaodadas/lume/link#v0.1.1",
+        "joaodadas/lume/notice#v0.1.1",
+        "joaodadas/lume/page-header#v0.1.1",
+        "joaodadas/lume/section#v0.1.1",
+        "joaodadas/lume/sidebar#v0.1.1",
+        "joaodadas/lume/stat-card#v0.1.1",
+        "joaodadas/lume/stat-grid#v0.1.1",
+        "joaodadas/lume/theme-provider#v0.1.1",
+        "joaodadas/lume/theme-switcher#v0.1.1",
+        "joaodadas/lume/use-entrance-once#v0.1.1"
       ],
       "meta": {
         "group": "kits",
@@ -2661,13 +2661,13 @@
       "title": "Kit tabela",
       "description": "Table, data-table (toolbar, filtros na URL, ordenação, paginação), skeletons, scroll-fade, format e hooks.",
       "registryDependencies": [
-        "joaodadas/lume/data-table#v0.1.0",
-        "joaodadas/lume/format#v0.1.0",
-        "joaodadas/lume/scroll-fade#v0.1.0",
-        "joaodadas/lume/table#v0.1.0",
-        "joaodadas/lume/table-skeletons#v0.1.0",
-        "joaodadas/lume/use-debounced-value#v0.1.0",
-        "joaodadas/lume/use-delayed-loading#v0.1.0"
+        "joaodadas/lume/data-table#v0.1.1",
+        "joaodadas/lume/format#v0.1.1",
+        "joaodadas/lume/scroll-fade#v0.1.1",
+        "joaodadas/lume/table#v0.1.1",
+        "joaodadas/lume/table-skeletons#v0.1.1",
+        "joaodadas/lume/use-debounced-value#v0.1.1",
+        "joaodadas/lume/use-delayed-loading#v0.1.1"
       ],
       "meta": {
         "group": "kits",
