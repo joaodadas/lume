@@ -4,7 +4,7 @@
   "title": "Aspect ratio",
   "description": "Caixa com proporção fixa.",
   "registryDependencies": [
-    "joaodadas/lume/utils#v0.0.1"
+    "joaodadas/lume/utils#v0.1.0"
   ],
   "files": [
     {

@@ -8,8 +8,8 @@
     "@tabler/icons-react"
   ],
   "registryDependencies": [
-    "joaodadas/lume/button#v0.0.1",
-    "joaodadas/lume/utils#v0.0.1"
+    "joaodadas/lume/button#v0.1.0",
+    "joaodadas/lume/utils#v0.1.0"
   ],
   "files": [
     {

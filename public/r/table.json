@@ -4,7 +4,7 @@
   "title": "Table",
   "description": "Tabela densa: células px-8.25, header h-13, linha interativa com teclado e sticky header.",
   "registryDependencies": [
-    "joaodadas/lume/utils#v0.0.1"
+    "joaodadas/lume/utils#v0.1.0"
   ],
   "files": [
     {

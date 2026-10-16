@@ -7,10 +7,10 @@
     "recharts"
   ],
   "registryDependencies": [
-    "joaodadas/lume/evilcharts#v0.0.1",
-    "joaodadas/lume/range#v0.0.1",
-    "joaodadas/lume/range-picker#v0.0.1",
-    "joaodadas/lume/utils#v0.0.1"
+    "joaodadas/lume/evilcharts#v0.1.0",
+    "joaodadas/lume/range#v0.1.0",
+    "joaodadas/lume/range-picker#v0.1.0",
+    "joaodadas/lume/utils#v0.1.0"
   ],
   "files": [
     {

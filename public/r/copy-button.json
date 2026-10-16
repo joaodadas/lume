@@ -4,9 +4,9 @@
   "title": "Botão de copiar",
   "description": "Botão nu com CopyIcon, text-muted-foreground/60, hover text-foreground, iconSize size-4, stopPropagation para linhas clicáveis e estado copiado por 1,5 s.",
   "registryDependencies": [
-    "joaodadas/lume/copy-icon#v0.0.1",
-    "joaodadas/lume/use-copied#v0.0.1",
-    "joaodadas/lume/utils#v0.0.1"
+    "joaodadas/lume/copy-icon#v0.1.0",
+    "joaodadas/lume/use-copied#v0.1.0",
+    "joaodadas/lume/utils#v0.1.0"
   ],
   "files": [
     {
