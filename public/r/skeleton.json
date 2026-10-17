@@ -4,7 +4,7 @@
   "title": "Skeleton",
   "description": "Placeholder de carregamento em squircle.",
   "registryDependencies": [
-    "joaodadas/lume/utils#v0.1.1"
+    "joaodadas/lume/utils#v0.2.0"
   ],
   "files": [
     {

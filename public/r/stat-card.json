@@ -7,12 +7,12 @@
     "@tabler/icons-react"
   ],
   "registryDependencies": [
-    "joaodadas/lume/card#v0.1.1",
-    "joaodadas/lume/format#v0.1.1",
-    "joaodadas/lume/link#v0.1.1",
-    "joaodadas/lume/number-ticker#v0.1.1",
-    "joaodadas/lume/skeleton#v0.1.1",
-    "joaodadas/lume/utils#v0.1.1"
+    "joaodadas/lume/card#v0.2.0",
+    "joaodadas/lume/format#v0.2.0",
+    "joaodadas/lume/link#v0.2.0",
+    "joaodadas/lume/number-ticker#v0.2.0",
+    "joaodadas/lume/skeleton#v0.2.0",
+    "joaodadas/lume/utils#v0.2.0"
   ],
   "files": [
     {

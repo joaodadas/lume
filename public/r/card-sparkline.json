@@ -4,7 +4,7 @@
   "title": "Card sparkline",
   "description": "Sparkline de área para o slot chart do StatCard: SVG 100x32 em h-8 w-full, gradiente currentColor 0.4 a 0.1, traço 1.2 a 50%, último trecho tracejado com dashedLast; CardSparklinePlaceholder desenha a curva de amostra apagada quando não há série.",
   "registryDependencies": [
-    "joaodadas/lume/utils#v0.1.1"
+    "joaodadas/lume/utils#v0.2.0"
   ],
   "files": [
     {

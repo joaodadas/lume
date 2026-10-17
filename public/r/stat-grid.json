@@ -4,8 +4,8 @@
   "title": "Stat grid",
   "description": "Fileira de StatCards com container query: grid gap-4 em 1 coluna, 2 a partir de @lg e 4 a partir de 62rem de área de conteúdo (columns = 3 vira 1 ou 3 a partir de @2xl), com o gutter PX.",
   "registryDependencies": [
-    "joaodadas/lume/page-header#v0.1.1",
-    "joaodadas/lume/utils#v0.1.1"
+    "joaodadas/lume/page-header#v0.2.0",
+    "joaodadas/lume/utils#v0.2.0"
   ],
   "files": [
     {

@@ -4,7 +4,7 @@
   "title": "Pill meter",
   "description": "Medidor de razão para o slot chart do StatCard: 32 cápsulas rounded-full em h-3.5 gap-0.75, as acesas em bg-current e as apagadas em bg-muted-foreground/10; fração positiva acende ao menos uma, null nenhuma.",
   "registryDependencies": [
-    "joaodadas/lume/utils#v0.1.1"
+    "joaodadas/lume/utils#v0.2.0"
   ],
   "files": [
     {

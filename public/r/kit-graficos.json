@@ -4,13 +4,13 @@
   "title": "Kit gráficos",
   "description": "Evil Charts (área, barras, linha, rosca), trend-charts e range-picker.",
   "registryDependencies": [
-    "joaodadas/lume/area-chart#v0.1.1",
-    "joaodadas/lume/bar-chart#v0.1.1",
-    "joaodadas/lume/donut-chart#v0.1.1",
-    "joaodadas/lume/evilcharts#v0.1.1",
-    "joaodadas/lume/line-chart#v0.1.1",
-    "joaodadas/lume/range-picker#v0.1.1",
-    "joaodadas/lume/trend-charts#v0.1.1"
+    "joaodadas/lume/area-chart#v0.2.0",
+    "joaodadas/lume/bar-chart#v0.2.0",
+    "joaodadas/lume/donut-chart#v0.2.0",
+    "joaodadas/lume/evilcharts#v0.2.0",
+    "joaodadas/lume/line-chart#v0.2.0",
+    "joaodadas/lume/range-picker#v0.2.0",
+    "joaodadas/lume/trend-charts#v0.2.0"
   ],
   "meta": {
     "group": "kits",
