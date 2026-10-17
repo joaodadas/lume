@@ -41,7 +41,7 @@ fork vendorizado, ver seção Evil Charts) e `// Modificado por joaodadas/lume: 
 | `registry/base-vega/ui/badge.tsx` | `packages/ui/src/components/badge.tsx` | imports reescritos |
 | `registry/base-vega/ui/breadcrumb.tsx` | `packages/ui/src/components/breadcrumb.tsx` | imports reescritos |
 | `registry/base-vega/ui/button-group.tsx` | `packages/ui/src/components/button-group.tsx` | imports reescritos |
-| `registry/base-vega/ui/button.tsx` | `packages/ui/src/components/button.tsx` | imports reescritos |
+| `registry/base-vega/ui/button.tsx` | `packages/ui/src/components/button.tsx` | imports reescritos; hit area do `icon-xs` (v0.2.0) |
 | `registry/base-vega/ui/calendar.tsx` | `packages/ui/src/components/calendar.tsx` | imports reescritos |
 | `registry/base-vega/ui/card.tsx` | `packages/ui/src/components/card.tsx` | imports reescritos |
 | `registry/base-vega/ui/carousel.tsx` | `packages/ui/src/components/carousel.tsx` | imports reescritos |
@@ -51,10 +51,10 @@ fork vendorizado, ver seção Evil Charts) e `// Modificado por joaodadas/lume: 
 | `registry/base-vega/ui/combobox.tsx` | `packages/ui/src/components/combobox.tsx` | imports reescritos |
 | `registry/base-vega/ui/command.tsx` | `packages/ui/src/components/command.tsx` | imports reescritos |
 | `registry/base-vega/ui/context-menu.tsx` | `packages/ui/src/components/context-menu.tsx` | imports reescritos |
-| `registry/base-vega/ui/dialog.tsx` | `packages/ui/src/components/dialog.tsx` | imports reescritos |
+| `registry/base-vega/ui/dialog.tsx` | `packages/ui/src/components/dialog.tsx` | imports reescritos; `overscroll-contain` (v0.2.0) |
 | `registry/base-vega/ui/direction.tsx` | `packages/ui/src/components/direction.tsx` | imports reescritos |
-| `registry/base-vega/ui/drawer.tsx` | `packages/ui/src/components/drawer.tsx` | imports reescritos |
-| `registry/base-vega/ui/dropdown-menu.tsx` | `packages/ui/src/components/dropdown-menu.tsx` | imports reescritos |
+| `registry/base-vega/ui/drawer.tsx` | `packages/ui/src/components/drawer.tsx` | reescrito sobre Base UI Dialog no lugar do vaul (v0.2.0) |
+| `registry/base-vega/ui/dropdown-menu.tsx` | `packages/ui/src/components/dropdown-menu.tsx` | imports reescritos; `overscroll-contain` (v0.2.0) |
 | `registry/base-vega/ui/empty.tsx` | `packages/ui/src/components/empty.tsx` | imports reescritos |
 | `registry/base-vega/ui/field.tsx` | `packages/ui/src/components/field.tsx` | imports reescritos |
 | `registry/base-vega/ui/hover-card.tsx` | `packages/ui/src/components/hover-card.tsx` | imports reescritos |
@@ -69,14 +69,14 @@ fork vendorizado, ver seção Evil Charts) e `// Modificado por joaodadas/lume: 
 | `registry/base-vega/ui/native-select.tsx` | `packages/ui/src/components/native-select.tsx` | imports reescritos |
 | `registry/base-vega/ui/navigation-menu.tsx` | `packages/ui/src/components/navigation-menu.tsx` | imports reescritos |
 | `registry/base-vega/ui/pagination.tsx` | `packages/ui/src/components/pagination.tsx` | imports reescritos |
-| `registry/base-vega/ui/popover.tsx` | `packages/ui/src/components/popover.tsx` | imports reescritos |
+| `registry/base-vega/ui/popover.tsx` | `packages/ui/src/components/popover.tsx` | imports reescritos; `overscroll-contain` (v0.2.0) |
 | `registry/base-vega/ui/progress.tsx` | `packages/ui/src/components/progress.tsx` | imports reescritos |
 | `registry/base-vega/ui/radio-group.tsx` | `packages/ui/src/components/radio-group.tsx` | imports reescritos |
 | `registry/base-vega/ui/resizable.tsx` | `packages/ui/src/components/resizable.tsx` | imports reescritos |
 | `registry/base-vega/ui/scroll-area.tsx` | `packages/ui/src/components/scroll-area.tsx` | imports reescritos |
-| `registry/base-vega/ui/select.tsx` | `packages/ui/src/components/select.tsx` | imports reescritos |
+| `registry/base-vega/ui/select.tsx` | `packages/ui/src/components/select.tsx` | imports reescritos; `overscroll-contain` (v0.2.0) |
 | `registry/base-vega/ui/separator.tsx` | `packages/ui/src/components/separator.tsx` | imports reescritos |
-| `registry/base-vega/ui/sheet.tsx` | `packages/ui/src/components/sheet.tsx` | imports reescritos |
+| `registry/base-vega/ui/sheet.tsx` | `packages/ui/src/components/sheet.tsx` | imports reescritos; `overscroll-contain` (v0.2.0) |
 | `registry/base-vega/ui/sidebar.tsx` | `packages/ui/src/components/sidebar.tsx` | hsl() removido do variant outline (os tokens são oklch, hsl(var()) é CSS inválido); idem para --sidebar-accent |
 | `registry/base-vega/ui/skeleton.tsx` | `packages/ui/src/components/skeleton.tsx` | imports reescritos |
 | `registry/base-vega/ui/slider.tsx` | `packages/ui/src/components/slider.tsx` | imports reescritos |
@@ -88,7 +88,7 @@ fork vendorizado, ver seção Evil Charts) e `// Modificado por joaodadas/lume: 
 | `registry/base-vega/ui/textarea.tsx` | `packages/ui/src/components/textarea.tsx` | imports reescritos |
 | `registry/base-vega/ui/toggle-group.tsx` | `packages/ui/src/components/toggle-group.tsx` | imports reescritos |
 | `registry/base-vega/ui/toggle.tsx` | `packages/ui/src/components/toggle.tsx` | imports reescritos |
-| `registry/base-vega/ui/tooltip.tsx` | `packages/ui/src/components/tooltip.tsx` | imports reescritos |
+| `registry/base-vega/ui/tooltip.tsx` | `packages/ui/src/components/tooltip.tsx` | imports reescritos; `data-instant:duration-0` (v0.2.0) |
 
 ### Blocos adaptados
 
@@ -160,7 +160,7 @@ Instaladas pelo consumidor via `dependencies` dos itens; o lume não redistribui
 | `slot-text` | https://www.npmjs.com/package/slot-text | `rolling-text` |
 | `border-beam` | https://www.npmjs.com/package/border-beam | `border-beam-card` |
 | NumberFlow (`@number-flow/react`) | https://github.com/barvian/number-flow | fora da v0.1.0; entra com o item `number-flow` |
-| `class-variance-authority`, `clsx`, `tailwind-merge`, `motion`, `next-themes`, `sonner`, `recharts`, `react-day-picker`, `date-fns`, `shiki`, `zod`, `react-markdown`, `remark-gfm`, `cmdk`, `vaul`, `input-otp`, `embla-carousel-react`, `react-resizable-panels` | respectivos repositórios | dependências dos primitivos e blocos, todas MIT |
+| `class-variance-authority`, `clsx`, `tailwind-merge`, `motion`, `next-themes`, `sonner`, `recharts`, `react-day-picker`, `date-fns`, `shiki`, `zod`, `react-markdown`, `remark-gfm`, `cmdk`, `input-otp`, `embla-carousel-react`, `react-resizable-panels` | respectivos repositórios | dependências dos primitivos e blocos, todas MIT |
 
 Texto da licença MIT, válido para cada pacote acima com o respectivo detentor de copyright:
 

@@ -60,7 +60,7 @@ Gerado por `bun scripts/build-skill.ts` a partir de `registry.json`; não edite 
 | `context-menu` | Context menu | Menu de contexto. | `npx shadcn@latest add joaodadas/lume/context-menu#v0.1.1` |
 | `dialog` | Dialog | Modal com backdrop bg-black/20 e blur, zoom de 96% na entrada e 99% na saída. | `npx shadcn@latest add joaodadas/lume/dialog#v0.1.1` |
 | `direction` | Direction | Provider de direção de texto. | `npx shadcn@latest add joaodadas/lume/direction#v0.1.1` |
-| `drawer` | Drawer | Gaveta inferior com vaul. | `npx shadcn@latest add joaodadas/lume/drawer#v0.1.1` |
+| `drawer` | Drawer | Gaveta (bottom por padrão; top, left, right) sobre o Dialog do Base UI, sem vaul: mesma receita do Sheet com a curva de drawer do Emil Kowalski em 300 ms, alça no bottom, sem arraste nem snap points. | `npx shadcn@latest add joaodadas/lume/drawer#v0.1.1` |
 | `dropdown-menu` | Dropdown menu | Menu flutuante com popup em sombra hairline e itens com cursor-pointer. | `npx shadcn@latest add joaodadas/lume/dropdown-menu#v0.1.1` |
 | `empty` | Empty | Estado vazio tracejado, a única borda fechando caixa aceita no sistema. | `npx shadcn@latest add joaodadas/lume/empty#v0.1.1` |
 | `field` | Field | Campo completo: label, descrição, erro e layout vertical ou horizontal. | `npx shadcn@latest add joaodadas/lume/field#v0.1.1` |

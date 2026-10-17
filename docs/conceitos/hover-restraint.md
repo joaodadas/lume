@@ -31,6 +31,10 @@ que você vira quarenta vezes por dia, não.
 | Tab segmentada | sem `transition-colors` no texto; `hover:transition-colors` só no estado inativo, para o hover suavizar e a troca de aba ser seca | Foglamp `app/(app)/settings/org/org-settings-client.tsx:158-166` |
 | Sidebar por atalho (Cmd/Ctrl+B) | `transition-[left,right,width] duration-200 ease-linear` (anima mesmo por teclado: contra o artigo) | registry/base-vega/ui/sidebar.tsx:235 |
 | Craft | tooltip: o primeiro espera 400 a 700ms, os vizinhos abrem na hora; hover sem transição | craft hover-restraint.mdx |
+| Delay do tooltip: três fontes | Rauno (UI Playbook): cerca de 100 ms no primeiro, zero nos vizinhos; craft: 400 a 700 ms; Foglamp: `delay={150}` em tabela e timeline. O lume fica em 150 | https://uiplaybook.dev; craft hover-restraint.mdx; Foglamp `traces-client.tsx:642` |
+| Menu e popover | abrem instantâneo e só fazem fade ao fechar; sem fade entre itens do menu; o context menu anima só na saída | Shu Ding, On UI Animations, https://shud.in/thoughts/on-ui-animations; Raphael Salaja, 12 Principles of Animation, https://www.userinterface.wiki/12-principles-of-animation |
+| Tooltip vizinho | `data-instant:duration-0` no Popup: o Base UI marca `data-instant` quando um tooltip abre a partir de outro já aberto, e a animação cai para zero junto com o delay | registry/base-vega/ui/tooltip.tsx (v0.2.0); Emil Kowalski, 7 Practical Animation Tips (tip 3), https://emilkowal.ski/ui/7-practical-animation-tips |
+| Hover só com hover | estado hover dentro de `@media (hover: hover) and (pointer: fine)`; recomendação para componente novo, a registry não tem | Emil (skill emil-design-eng); Jakub (better-ui); Rauno (interfaces.rauno.me) |
 
 **Always**: hover de cor e fundo sem transição ou com no máximo 150ms (o `Button` é o teto);
 `TooltipProvider delay={150}` em volta de tabela, timeline ou grade com muitos gatilhos; tooltips de
@@ -39,6 +43,18 @@ um grupo de botões de ícone dentro de um único `TooltipProvider`, para só o 
 `hover:-translate-y-*`); `transition-all` em item de lista ou de nav; `delay` acima de 200ms em
 tooltip de dashboard; atraso artificial em hover.
 <!-- skill:end -->
+
+Fontes além do craft (adição do lume, levantamento de 17/10/2026). O delay do tooltip tem três
+números publicados e cada um resolve um contexto: os 100 ms do Rauno são para barra de ícones, onde o
+tooltip é o rótulo e precisa aparecer quase junto com o hover; os 400 a 700 do craft são para prosa e
+superfície grande, onde o cursor passa por cima sem querer; os 150 do Foglamp são o meio-termo de uma
+tabela com dezenas de gatilhos pequenos, rápido o bastante para ler o rótulo e lento o bastante para
+não abrir de passagem. O lume fica em 150 por isso, e mantém `delay = 0` no provider por fidelidade.
+Sobre abrir instantâneo: o Foglamp anima a entrada dos popups em 100 ms com `zoom-in-95`, contra a
+regra do Shu e do Raphael de só animar a saída; 100 ms fica abaixo do que lê como atraso, e o lume
+mantém a string canônica. O que entra na v0.2.0 é o `data-instant:duration-0` no tooltip (Emil, tip
+3), que faz o vizinho abrir sem delay e sem animação. A media query de hover é recomendação para
+componente novo: os primitivos do Foglamp não a usam e o lume não os altera.
 
 ## Onde aparece no Foglamp
 

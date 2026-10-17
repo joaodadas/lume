@@ -695,9 +695,9 @@
       "name": "drawer",
       "type": "registry:ui",
       "title": "Drawer",
-      "description": "Gaveta inferior com vaul.",
+      "description": "Gaveta (bottom por padrão; top, left, right) sobre o Dialog do Base UI, sem vaul: mesma receita do Sheet com a curva de drawer do Emil Kowalski em 300 ms, alça no bottom, sem arraste nem snap points.",
       "dependencies": [
-        "vaul"
+        "@base-ui/react"
       ],
       "registryDependencies": [
         "joaodadas/lume/utils#v0.1.1"

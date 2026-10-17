@@ -24,6 +24,8 @@ a scrollbar escondida, porque uma barra sob uma linha de chips é ruído.
 | Utilitário `scroll-fade` (máscara) | `mask-image: linear-gradient(to bottom, transparent 0, #000 var(--scroll-fade-t, 0px), #000 calc(100% - var(--scroll-fade-b, 0px)), transparent 100%)`; tamanho `min(12%, calc(var(--spacing) * 10))` (até 2.5rem); scroll-driven com `animation-timeline: scroll(self y)` e `animation-range` de `calc(var(--spacing) * 24)` (6rem) em cada ponta; sem suporte, as duas pontas ficam sempre desvanecidas | `shadcn/tailwind.css` 4.21.5 (`@utility scroll-fade`, `scroll-fade-y`, `scroll-fade-x`), importado por registry/base-vega/styles/globals.css:8 |
 | Craft (mesma ideia em CSS próprio) | `@property --fade-start` e `--fade-end` (`<length>`, inicial `0px`), fade de `2.5rem`, `animation: fade-start 1ms linear both, fade-end 1ms linear both; animation-range: 0 3rem, calc(100% - 3rem) 100%` | craft scroll-fades.mdx |
 | Scrollbar | `no-scrollbar` (de `shadcn/tailwind.css`) com qualquer das duas: a máscara desvanece a barra junto, o overlay cobre a barra | registry/base-vega/components/scroll-fade.tsx:57,61; Foglamp `scan/left-rail.tsx:76` |
+| Stops em curva | o gradiente do fade com vários stops seguindo uma curva de easing (easeOutQuad ou easeInOutCubic) em vez de dois stops lineares: o fade linear tem uma "borda" visível onde começa, o em curva não. Recomendação: o `ScrollFade` e o utilitário `scroll-fade` usam gradiente linear | Shu Ding, Smooth CSS Overlays, https://smooth-overlays.vercel.app |
+| Valores do Rauno | fade de 48 px com blur de 4 px e stop a 50%; a opacidade do fade é `scrollTop / 15`, limitada a 1 (satura depois de 15 px de rolagem, em vez de ligar e desligar) | Rauno Freiberg, Devouring Details, capítulo grátis Next.js Dev Tools, https://devouringdetails.com/prototypes/nextjs-dev-tools |
 
 **Always**: `ScrollFade` para lista dentro de card, dialog ou popover (fundo conhecido); classe
 `scroll-fade` para fundo desconhecido, imagem ou gradiente; `no-scrollbar` nos dois casos; linha
@@ -31,6 +33,16 @@ horizontal de chips com `scroll-fade-x`. **Never**: fade estático nos dois lado
 diferente do fundo (`from-card` dentro de um dialog `bg-popover` deixa uma mancha); máscara no
 container que mantém a scrollbar visível (ela some nas pontas).
 <!-- skill:end -->
+
+Fontes além do craft (adição do lume, levantamento de 17/10/2026). Dois refinamentos para quem for
+mexer no `ScrollFade`. O Shu mostra que um gradiente de dois stops (cor a 0, transparente a 100)
+distribui a opacidade de forma linear e por isso tem uma aresta perceptível onde o fade começa; com
+seis a oito stops colocados numa curva de easing a transição fica contínua, e o site dele gera o CSS
+pronto para colar. O Rauno, no capítulo grátis do Devouring Details, dá os números do fade do Next.js
+Dev Tools: 48 px de altura, blur de 4 px, stop a 50 por cento, e a opacidade do overlay proporcional
+a `scrollTop / 15` em vez de ligar de uma vez em `scrollTop > 1`. Os dois são recomendação, não
+mudança: o componente do lume mantém `from-card` e `to-transparent` com `transition-opacity
+duration-150`, que é o que o Foglamp pratica.
 
 ## Onde aparece no Foglamp
 

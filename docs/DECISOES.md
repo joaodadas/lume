@@ -22,7 +22,15 @@ Registro curto das decisões que moldam o repo. Cada uma tem a data, a escolha e
 | 2026-10-15 | Primitivos extras | Os 15 que o app do Foglamp não usa são publicados verbatim com `tier: extra`, sem vitrine até a v0.2 | Custo zero e nenhum arquivo órfão |
 | 2026-10-15 | Teal da Lyx | Recomendação: token `--brand`, não `--primary` (decisão final é da camada Lyx, em ADR próprio) | O look é cinza estrutural com cor só por significado; o `Button default` nem usa `--primary` |
 | 2026-10-15 | Placeholder de valor nulo | Texto `sem dado` em `text-muted-foreground/50`; nunca o travessão que o `formatCost` do Foglamp usa | Regra de texto do repo e o check barrariam o glifo |
+| 2026-10-17 | `drawer` | Escrito sobre o Dialog do Base UI, com a curva do post do Emil em 300 ms (os 500 ms dele incluem o arraste, que o lume não tem); `vaul` sai | O próprio Emil marcou o vaul como não mantido (último release dez/2024) e ele depende de `@radix-ui/react-dialog`, uma das duas únicas entradas de Radix num DS que é Base UI |
+| 2026-10-17 | `cmdk` | Mantido, mesmo trazendo 4 pacotes Radix | É o que o shadcn usa, inclusive no `base-nova`; a alternativa `cmdk-base` é de terceiro com um mantenedor e sem endosso do Paco nem do shadcn. Fica enquanto o shadcn mantiver; revisitar se a Dip lançar v2 |
+| 2026-10-17 | Submit de formulário | Nunca pré-desabilitado por validade; desabilita só durante o envio | Web Interface Guidelines ("Don't pre-disable submit") e Rauno: deixar submeter mostra a validação no lugar certo. O `login-form` já fazia isso; o `FRONTEND.md` passa a dizer |
+| 2026-10-17 | Escala do press | Fica em 0.97 | Fidelidade ao Foglamp e ao craft (Emil também usa 0.97). Jakub e Rauno usam 0.96; a divergência está registrada no conceito `button-press` |
+| 2026-10-17 | Som na UI | Continua fora | Nenhum produto da Lyx ou do João toca som; o Foglamp também não. Se reabrir, a referência é `@web-kits/audio` (Raphael Salaja, MIT, mantido) |
+| 2026-10-17 | `nstr` | Não entra | Os `toFixed` da registry (`card-sparkline`, evilcharts) são coordenadas de SVG e offsets de gradiente, não números de interface; os números que o usuário lê já passam por `Intl` em `lib/format.ts` |
 
 ## Fora da v0.1.0
 
 Capítulo de marketing do guia, bloco `ai-chat` (do Foggy) e HUD, `route-header` como item, `number-flow`, `model-chip` e logos de marcas (marcas registradas), migração efetiva dos fronts da Lyx (trabalho da Lyx com o guia), `lyx-bi-principal`.
+
+A v0.2.0 trouxe os conceitos dos sete design engineers da página GOATs do craft (Rauno Freiberg, Emil Kowalski, Jakub Krehel, Paco Coursey, Shu Ding, Benji Taylor, Raphael Salaja): frequência decide, duração por componente, sombra no dark, exceções da borda, hit areas, focus ring, continuidade, novelty budget e curve smoothing, cada um marcado "adição do lume" com a fonte. O levantamento está em [pesquisa/goats-do-craft.md](./pesquisa/goats-do-craft.md) e as pessoas em [referencias.md](./referencias.md#pessoas).

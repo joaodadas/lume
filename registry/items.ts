@@ -247,7 +247,12 @@ const PRIMITIVOS_EXTRA: ItemMeta[] = [
   ui("command", "Command", "Paleta de comandos com cmdk.", "extra"),
   ui("context-menu", "Context menu", "Menu de contexto.", "extra"),
   ui("direction", "Direction", "Provider de direção de texto.", "extra"),
-  ui("drawer", "Drawer", "Gaveta inferior com vaul.", "extra"),
+  ui(
+    "drawer",
+    "Drawer",
+    "Gaveta (bottom por padrão; top, left, right) sobre o Dialog do Base UI, sem vaul: mesma receita do Sheet com a curva de drawer do Emil Kowalski em 300 ms, alça no bottom, sem arraste nem snap points.",
+    "extra",
+  ),
   ui("input-otp", "Input OTP", "Campos de código de verificação.", "extra"),
   ui("item", "Item", "Linha de lista com mídia, título e ações.", "extra"),
   ui("menubar", "Menubar", "Barra de menus.", "extra"),

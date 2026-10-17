@@ -1,5 +1,5 @@
 // Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, packages/ui/src/components/button.tsx @ 2bc3bb5), Apache-2.0.
-// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*.
+// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*; size `icon-xs` com `relative after:absolute after:-inset-1` (hit area de 32 px, Rauno Freiberg e Jakub Krehel).
 import { Button as ButtonPrimitive } from "@base-ui/react/button";
 import { type VariantProps, cva } from "class-variance-authority";
 import * as React from "react";
@@ -37,8 +37,10 @@ const buttonVariants = cva(
           "h-8 gap-[5.5px] px-3 in-data-[slot=button-group]:rounded-full has-[>svg:first-child]:pl-2.5 has-[>svg:last-child]:pr-2.5",
         lg: "h-8.5 gap-1.5 px-[15px] has-[>svg:first-child]:pl-3 has-[>svg:last-child]:pr-3 [&_svg:not([class*='size-'])]:size-3.5",
         icon: "size-8",
+        // 24 px visíveis, 32 px de alvo: o pseudo-elemento expande a área de
+        // toque sem mudar o layout (mesma receita do checkbox e do switch).
         "icon-xs":
-          "size-6 rounded-full in-data-[slot=button-group]:rounded-full [&_svg:not([class*='size-'])]:size-3",
+          "relative after:absolute after:-inset-1 size-6 rounded-full in-data-[slot=button-group]:rounded-full [&_svg:not([class*='size-'])]:size-3",
         "icon-sm":
           "size-8 rounded-full in-data-[slot=button-group]:rounded-full",
         "icon-lg": "size-10",

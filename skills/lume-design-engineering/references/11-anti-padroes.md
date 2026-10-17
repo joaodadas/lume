@@ -47,6 +47,7 @@ Gerado por `bun scripts/build-skill.ts` a partir de `docs/guia/11-receita.md`, o
 ### Botões
 
 - **Never** use `destructive` cheio fora de danger zone, `mr-2` em ícone dentro de Button (o `gap` já cuida), ou `Button` dentro de `Link` (é o `render` que faz o link).
+- **Never** ponha tooltip em botão desabilitado: `disabled:pointer-events-none` o tira do hover e ele não entra na ordem de tab, então a explicação nunca chega; se o motivo importa, escreva-o num texto ao lado ou mantenha o botão habilitado e explique no clique (adição do lume; Rauno Freiberg, interfaces.rauno.me).
 - Em vez disso: use o `Button` da registry: pílula `rounded-full`, `h-8` default (`xs` `h-6`, `sm` `h-7`, `lg` `h-8.5`, `icon-xs` `size-6`, `icon-sm` e `icon` `size-8`), `active:scale-[0.97]`, `focus-visible:ring-[1.5px] focus-visible:ring-ring/50`, ícone `size-3.5` e padding reduzido do lado do ícone `has-[>svg:first-child]:pl-2.5` (`registry/base-vega/ui/button.tsx:10,34-44`). ([seção](02-primitivos.md#botões))
 
 ### Badges e chips
@@ -131,7 +132,7 @@ Gerado por `bun scripts/build-skill.ts` a partir de `docs/guia/11-receita.md`, o
 
 ### Telas de detalhe e drawers
 
-- **Never** mostre o empty state de uma seção antes dos stats chegarem (um rollup lento piscaria o vazio), nem use `Drawer`/`Sheet` para o que é linha expansível.
+- **Never** mostre o empty state de uma seção antes dos stats chegarem (um rollup lento piscaria o vazio), nem use `Drawer`/`Sheet` para o que é linha expansível: o item `drawer` é Base UI desde a v0.2.0 (sem vaul, sem Radix) e serve para painel inferior em mobile com `side="bottom"` e alça; `Sheet` é o painel lateral no desktop; a linha expansível continua sendo `TableRow aria-expanded` com `TableCell colSpan`.
 - Em vez disso: siga o esqueleto comum: `PageHeader back={navItem(href)}` com `titleLeading` (ícone da entidade) ou `titleTrailing` (id em `hidden max-w-44 truncate font-mono text-xs font-normal text-muted-foreground sm:inline` + `CopyButton`), linha de `ContextChip` em `mt-1 flex flex-wrap items-center gap-2 text-xs px-6`, faixa de `StatCard size="sm"` em `grid grid-cols-2 gap-4 md:grid-cols-4 px-8 mt-1`, cards de gráfico e a tabela. ([seção](03-shell-paginas-tabelas.md#telas-de-detalhe-e-drawers))
 
 ### Assistente de AI (chat)
@@ -152,7 +153,7 @@ Gerado por `bun scripts/build-skill.ts` a partir de `docs/guia/11-receita.md`, o
 ### Regras para agentes
 
 - **Never** instale biblioteca de componentes, ícones, tabela, estado global (Zustand, Redux, Jotai) ou CSS file por componente; se parecer necessário, levante antes.
-- Em vez disso: instale e use junto: `npx skills add joaodadas/lume --skill lume-design-engineering` (este arquivo gerado em `SKILL.md` + `references/`), `npx skills add gustavo-fior/craft` (a teoria; o lume cita o craft, não o substitui), `web-design-guidelines` de `vercel-labs/agent-skills` (reviewer que reporta `arquivo:linha`) e `emilkowalski/skills` (animação); a ordem de leitura está em `docs/referencias.md`. ([seção](10-adocao.md#regras-para-agentes))
+- Em vez disso: instale e use junto: `npx skills add joaodadas/lume --skill lume-design-engineering` (este arquivo gerado em `SKILL.md` + `references/`), `npx skills add gustavo-fior/craft` (a teoria; o lume cita o craft, não o substitui), `web-design-guidelines` de `vercel-labs/agent-skills` (reviewer que reporta `arquivo:linha`), `emilkowalski/skills` (animação; as sub-skills que valem são `review-animations`, `find-animation-opportunities`, `ask-sonner` e `break-ui`), `jakubkrehel/skills` (`better-ui` para superfícies e tipografia, `interface-review` para revisão com severidade) e `raphaelsalaja/userinterface-wiki` (150 regras de movimento e a11y; zero cortado e som ficam desligados no lume); a ordem de leitura está em `docs/referencias.md`. ([seção](10-adocao.md#regras-para-agentes))
 
 ## Do guia: 11. Receita: do zero a um app com a cara do Foglamp
 

@@ -22,6 +22,7 @@ Porquê: abaixo de 700ms o skeleton só piscaria; o que pinta primeiro no slot l
 - **Always** monte um único `<Toaster />` no root (item `sonner`): ícones Tabler filled de 16px, só success verde e error vermelho, `--normal-bg: var(--popover)`, raio `--radius`, tema do `useTheme`.
 - **Always** centralize erro de query em `QueryCache.onError` junto do `QueryClient` (`toast.error(error.message, { action: { label: "tentar de novo", onClick: query.invalidate } })`, apps/web/src/utils/trpc.ts:21-31) e, no lume, também `MutationCache.onError` global (adição do lume; o Foglamp repete `onError: (e) => toast.error(e.message)` em 22 mutations).
 - **Always** escreva sucesso curto e nominal, sem ponto final: "Projeto criado", "Convite enviado", "Chave revogada".
+- **Always** deixe `role="status"` (o padrão do sonner) valer para tudo, inclusive `toast.error`; só erro de rede ou perda de dado merece `role="alert"`. Erro que exige uma ação do usuário fica na tela até ser dispensado (`duration: Infinity` com `action`), e nenhum estado é comunicado só por movimento: o toast tem ícone e texto antes de ter animação (adição do lume; Rauno Freiberg, UI Playbook; Jakub Krehel, better-accessibility).
 - **Never** use `alert()`, toast para cópia (o ícone vira check), para abrir dialog ou trocar aba, nem `richColors`/`closeButton`.
 
 Porquê: toast é feedback de rede e de mutation; o resto da interface já confirma pelo próprio estado.

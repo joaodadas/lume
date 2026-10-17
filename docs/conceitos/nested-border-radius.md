@@ -32,12 +32,21 @@ apertado no mesmo raio, por isso cada par plano/squircle sobe o raio na variante
 | Command e item | `rounded-lg squircle:rounded-3xl! corner-squircle ... p-1`; item `rounded-lg`, e `in-data-[slot=dialog-content]:rounded-2xl!` quando o command vira dialog | registry/base-vega/ui/command.tsx:30,161 |
 | Dialog | `rounded-2xl squircle:rounded-[40px] corner-squircle ... p-6` | registry/base-vega/ui/dialog.tsx:58 |
 | Tile de ícone da nav dentro do botão | tile `rounded-[5px] squircle:rounded-xl p-0.5 corner-squircle`; botão `rounded-md squircle:rounded-xl corner-squircle p-2` | registry/base-vega/blocks/app-shell/nav.ts:39; ui/sidebar.tsx:480 |
+| Corte do padding | a conta `inner = outer - inset` vale até 24 px de padding; acima disso, pai e filho são superfícies separadas e cada um escolhe o raio pela escala. O dialog do Foglamp (`p-6`, 24 px) fica exatamente no corte: por isso o command dentro do dialog usa raio próprio, `in-data-[slot=dialog-content]:rounded-2xl!` | Jakub Krehel, better-ui SKILL.md, https://github.com/jakubkrehel/skills; registry/base-vega/ui/dialog.tsx:58; command.tsx:161 |
 
 **Always**: calcular o raio interno a partir do pai e do padding; `corner-squircle` nos dois níveis;
 piso `rounded-sm` quando a conta dá zero ou negativo. **Never**: o mesmo `rounded-*` no pai e no
 filho com padding entre eles; raio fora da escala (`rounded-[7px]`) sem comentário com a conta;
 `corner-squircle` só no pai esperando que o filho herde.
 <!-- skill:end -->
+
+Fontes além do craft (adição do lume, levantamento de 17/10/2026). A fórmula do artigo não diz
+quando parar, e o Jakub diz: a partir de 24 px de padding, o filho está longe demais da borda do pai
+para o olho ler os dois cantos como concêntricos, e forçar a conta dá raios internos minúsculos ou
+negativos que parecem erro. Acima do corte, cada caixa é uma superfície por conta própria e usa a
+escala normal (`--radius` e os pares plano/squircle do `globals.css`). O Foglamp chega no mesmo
+resultado pela prática: dentro do dialog de `p-6` ninguém subtrai 24 px do `rounded-2xl`; o command
+que vira dialog troca para um raio próprio em vez de herdar a conta do pai.
 
 ## Onde aparece no Foglamp
 

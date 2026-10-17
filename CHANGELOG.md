@@ -10,13 +10,72 @@ para aplicar. Quando um item muda de API, a seção traz "Como migrar".
 
 ## [Não lançado]
 
-### Próximo (fora da v0.1.0)
+### Próximo (fora da v0.2.0)
 
 - Capítulo de marketing do guia.
 - Bloco `ai-chat` (do Foggy) e o HUD.
 - `route-header` (trio header, loading e page) como item `nextOnly`.
 - `number-flow`, `model-chip` e logos de marcas.
 - Migração efetiva dos fronts da Lyx (trabalho da camada `lyx-ds`, com o guia de adoção).
+
+## [0.2.0] - 2026-10-17
+
+Esta versão incorpora o levantamento dos sete design engineers que o craft do
+Gustavo Fior credita (Rauno Freiberg, Emil Kowalski, Jakub Krehel, Paco Coursey,
+Shu Ding, Benji Taylor e Raphael Salaja). O que entrou são regras e conceitos
+com fonte primária; de código, só o que a regra pedia. O levantamento está em
+`docs/pesquisa/goats-do-craft.md`.
+
+### Adicionado
+
+- Nove conceitos em `docs/conceitos/`, marcados como adição do lume e com fonte
+  nos autores: frequência decide, duração por componente, sombra no dark,
+  exceções da borda, hit areas, focus ring, continuidade, novelty budget e
+  curve smoothing. Cinco conceitos do craft ganharam fontes além do craft
+  (hover-restraint, button-press, image-outlines, nested-border-radius,
+  scroll-fades).
+- `docs/referencias.md`: seção Pessoas com os sete autores, leituras novas em
+  grupos, skills `jakubkrehel/skills` e `raphaelsalaja/userinterface-wiki`
+  como recomendadas, `react-best-practices` e `oklch-skill` como opcionais.
+- `FRONTEND.md`: regras novas em Sombra, Tipografia, Botões, Overlays, Toasts,
+  Movimento, Acessibilidade e Regras para agentes (duração por componente,
+  frequência decide, menu abre instantâneo e fecha com fade, hit area mínima,
+  setas em lista, peso mínimo 400, texto em rem, submit não pré-desabilitado).
+- `button`: size `icon-xs` expande a área de toque para 32 px com
+  `relative after:absolute after:-inset-1`.
+- `tooltip`: `data-instant:duration-0`, tooltip vizinho abre sem animação.
+- `dialog`, `sheet`, `drawer`, `dropdown-menu`, `select`, `popover`:
+  `overscroll-contain` no popup rolável.
+- Skill `lume-design-engineering` regenerada com tudo acima.
+
+### Mudado
+
+- `drawer` reescrito sobre o Dialog do Base UI, sem `vaul` (o autor marcou o
+  pacote como não mantido e ele depende de Radix Dialog). API: `direction` do
+  Root virou `side` do `DrawerContent` (bottom padrão; top, left, right), como
+  no Sheet; sem arraste nem snap points; transição de 300 ms com a curva de
+  drawer do Emil Kowalski. O `scripts/sync-upstream.ts` não sobrescreve mais
+  esse arquivo.
+- Correção de atribuição: as Web Interface Guidelines da skill são de
+  `vercel-labs/web-interface-guidelines` (John Pham, MIT); a lista de 2023 do
+  Rauno é `interfaces.rauno.me`; `cmdk` é do Paco Coursey (hoje na org Dip).
+
+### Como migrar
+
+- Quem usava `<Drawer direction="right">` passa a usar
+  `<DrawerContent side="right">`. Reinstale com
+  `npx shadcn@latest add joaodadas/lume/drawer#v0.2.0 --overwrite` e remova
+  `vaul` do `package.json` se nada mais o usar.
+- Os outros itens mudam só classes: `--overwrite` nos itens `button`,
+  `tooltip`, `dialog`, `sheet`, `dropdown-menu`, `select` e `popover`, ou
+  `--diff` para ver antes.
+
+### Decisões registradas (`docs/DECISOES.md`)
+
+- `cmdk` continua, apesar de trazer Radix: é o que o shadcn usa.
+- Press fica em 0.97 (Jakub e Rauno usam 0.96).
+- Som continua fora.
+- `nstr` não entrou: os `toFixed` da registry são coordenadas de SVG.
 
 ## [0.1.1] - 2026-10-16
 

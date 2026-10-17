@@ -25,6 +25,8 @@ hover, e desabilitado não aperta.
 | Sidebar (press por cor, não por escala) | `active:bg-sidebar-accent/70 active:text-sidebar-accent-foreground` | registry/base-vega/ui/sidebar.tsx:480 |
 | Linha de tabela, card, tab | sem press | registry/base-vega/ui/table.tsx:170; ui/card.tsx:17; ui/tabs.tsx:63 |
 | Receita do craft (botão fora do DS) | `transition-transform duration-100 ease-out active:scale-[0.97] disabled:active:scale-100 motion-reduce:transition-none [-webkit-tap-highlight-color:transparent]` | craft button-press.mdx |
+| Proporção ao gatilho | a escala é proporcional ao tamanho: dialog entra de cerca de 0.8, nunca de 0 (Rauno); nunca partir de scale zero, entrar de 0.95 ou acima de 0.9 (Emil). No Foglamp o dialog entra em `zoom-in-[96%]` e sai em `zoom-out-[99%]`, os popups em `zoom-in-95` | Rauno Freiberg, https://interfaces.rauno.me; Emil Kowalski, 7 Practical Animation Tips (tip 2), https://emilkowal.ski/ui/7-practical-animation-tips; registry/base-vega/ui/dialog.tsx:58; dropdown-menu.tsx:47 |
+| Divergência 0.96 contra 0.97 | Jakub: 0.96 em 150 ms ease-out, disabled nunca escala (better-ui); Rauno: cerca de 0.96 (interfaces). Craft, Emil e Foglamp: 0.97. Decisão do lume: 0.97, fechada | Jakub Krehel, https://github.com/jakubkrehel/skills; Rauno, https://interfaces.rauno.me; Emil, 7 Practical Animation Tips (tip 1) |
 
 **Always**: press só em botão e em chip clicável pequeno; `active:scale-100` em todo botão que abre
 popover, dropdown, select ou date picker; `transition-transform` (não `all`) quando escrever o seu.
@@ -37,6 +39,16 @@ a cor do hover e a escala), não só `transform`, e não limpa o tap highlight d
 `motion-reduce`. O lume mantém a string do Foglamp no `button` por fidelidade visual; para um botão
 novo fora do DS, use a receita do craft. No iOS Safari o `:active` só dispara se algo na página
 escuta touch; o React já escuta, então em app React isso nunca aparece.
+
+Fontes além do craft (adição do lume, levantamento de 17/10/2026). O press é o caso menor de uma
+regra geral que Rauno e Emil escrevem igual: a amplitude da animação é proporcional ao tamanho do que
+se move. Um botão de 32 px a 0.97 desloca a borda em meio pixel; um dialog de 400 px a 0.97 desloca
+seis, e por isso o dialog do Foglamp entra de 96 por cento e os popups de 95, nunca de zero (partir
+de scale zero faz o elemento "nascer" de um ponto, o que nenhuma superfície real faz). A divergência
+de número é pequena e está registrada, não aberta: Jakub e Rauno usam 0.96, o craft, o Emil e o
+Foglamp usam 0.97; o lume fica em 0.97 porque é o valor do código de origem e a diferença de um
+centésimo não é perceptível num botão de 32 px. O que vale do Jakub é o complemento: disabled nunca
+escala (o Foglamp garante por `disabled:pointer-events-none`) e a transição fica só em `transform`.
 
 ## Onde aparece no Foglamp
 

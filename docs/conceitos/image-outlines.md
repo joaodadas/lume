@@ -24,6 +24,7 @@ ou `box-shadow` inset pinta por cima dos pixels de borda. Preto no light, branco
 | Uso em card com gradiente | `border-overlay relative h-32 shrink-0 overflow-hidden rounded-xl squircle:rounded-[36px] corner-squircle bg-linear-to-br shadow-(--custom-shadow)` | Foglamp `apps/web/src/components/scan/personality-card.tsx:17` |
 | Avatar | `after:absolute after:inset-0 after:rounded-full after:shadow-(--custom-shadow) after:mix-blend-darken` + `dark:after:mix-blend-lighten` (o hairline de 0.5px a 6% da sombra do sistema faz o papel do outline; o blend garante que escurece no light e clareia no dark sobre qualquer foto) | registry/base-vega/ui/avatar.tsx:22 |
 | Faixa de opacidade | 10% padrão; entre 5% e 20% | craft image-outlines.mdx |
+| Cor da linha | preto puro ou branco puro a 10%: `oklch(0 0 0 / 0.1)` no light e `oklch(1 0 0 / 0.1)` no dark, com `outline-offset: -1px`; nunca um cinza da paleta (`--border`), porque a cor sólida tinge a borda da foto em vez de só escurecer ou clarear o que está embaixo | Jakub Krehel, better-ui, https://github.com/jakubkrehel/skills |
 
 **Always**: a linha vai por cima da imagem (`outline` com offset negativo, `box-shadow` inset ou
 pseudo-elemento), nunca `border`; cor por tema. **Never**: `ring-1 ring-border` em imagem (no light
@@ -31,6 +32,14 @@ pseudo-elemento), nunca `border`; cor por tema. **Never**: `ring-1 ring-border` 
 `* { @apply border-border outline-ring/50 }` do globals.css:283 daria a cor do `ring`); linha em
 logo SVG monocromático.
 <!-- skill:end -->
+
+Fontes além do craft (adição do lume, levantamento de 17/10/2026). O Jakub, que o craft credita por
+este conceito, fecha a proibição que o artigo deixa implícita: a linha é preto puro ou branco puro
+com alfa, nunca um cinza opaco da paleta. A razão é ótica: preto a 10 por cento sobre qualquer pixel
+só o escurece um décimo, e branco a 10 por cento só o clareia; um cinza sólido como `--border`
+substitui o pixel por uma cor fixa, e numa foto quente a linha fica fria, numa foto escura fica
+clara. É o mesmo motivo do `mix-blend-darken` e `dark:mix-blend-lighten` no `avatar` do Foglamp: o
+blend garante que a sombra só escurece no light e só clareia no dark, seja qual for a foto.
 
 ## Onde aparece no Foglamp
 

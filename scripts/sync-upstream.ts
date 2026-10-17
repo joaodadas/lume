@@ -158,6 +158,13 @@ async function walk(dir: string): Promise<string[]> {
   return out;
 }
 
+// Arquivos que o lume reescreveu por inteiro: o sync registra a origem no
+// mapa, mas não sobrescreve. Mudança upstream nesses arquivos é revisada à mão.
+const REESCRITOS: Record<string, string> = {
+  "registry/base-vega/ui/drawer.tsx":
+    "reescrito sobre @base-ui/react/dialog no lugar do vaul (v0.2.0); o sync não sobrescreve",
+};
+
 function applyPatches(content: string, patches: Patch[], file: string) {
   let out = content;
   const notes: string[] = [];
@@ -188,6 +195,12 @@ for (const source of SOURCES) {
     const relDest = rel.replace(/^ui(\/|$)/, "core$1");
     const dest = path.join(ROOT, source.to, relDest);
     const destRel = path.relative(ROOT, dest).split(path.sep).join("/");
+    const reescrito = REESCRITOS[destRel];
+    if (reescrito) {
+      map.files[destRel] = { upstream: upstreamPath, patches: [reescrito] };
+      same++;
+      continue;
+    }
     let content = await readFile(abs, "utf8");
     for (const [re, to] of source.rewrites) content = content.replace(re, to);
     const { out, notes } = applyPatches(

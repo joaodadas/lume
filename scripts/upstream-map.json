@@ -95,7 +95,9 @@
     },
     "registry/base-vega/ui/drawer.tsx": {
       "upstream": "packages/ui/src/components/drawer.tsx",
-      "patches": []
+      "patches": [
+        "reescrito sobre @base-ui/react/dialog no lugar do vaul (v0.2.0); o sync não sobrescreve"
+      ]
     },
     "registry/base-vega/ui/empty.tsx": {
       "upstream": "packages/ui/src/components/empty.tsx",
