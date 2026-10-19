@@ -24,11 +24,14 @@ export function SiteNav() {
       <div className="mx-auto flex h-12 max-w-6xl items-center gap-6 px-6">
         <Link
           href="/"
-          className="font-display text-base font-[450] tracking-[-0.02em] text-foreground"
+          className="shrink-0 font-display text-base font-[450] tracking-[-0.02em] text-foreground"
         >
           lume
         </Link>
-        <nav aria-label="Principal" className="flex items-center gap-1">
+        <nav
+          aria-label="Principal"
+          className="flex min-w-0 items-center gap-1 overflow-x-auto [scrollbar-width:none]"
+        >
           {LINKS.map((l) => {
             // Ativo quando a rota atual é a do link ou uma filha dele.
             const active =
@@ -39,7 +42,7 @@ export function SiteNav() {
                 href={l.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "rounded-full px-2.5 py-1 text-sm transition-colors hover:text-foreground",
+                  "shrink-0 rounded-full px-2.5 py-1 text-sm transition-colors hover:text-foreground",
                   active ? "text-foreground" : "text-muted-foreground",
                 )}
               >
@@ -48,7 +51,7 @@ export function SiteNav() {
             );
           })}
         </nav>
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex shrink-0 items-center gap-2">
           {/* Âncora direta com as classes do botão: assim o <a> já carrega o
               conteúdo acessível, sem depender do render do Button. */}
           <a
