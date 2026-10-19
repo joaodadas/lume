@@ -27,6 +27,7 @@ Registro curto das decisões que moldam o repo. Cada uma tem a data, a escolha e
 | 2026-10-17 | Submit de formulário | Nunca pré-desabilitado por validade; desabilita só durante o envio | Web Interface Guidelines ("Don't pre-disable submit") e Rauno: deixar submeter mostra a validação no lugar certo. O `login-form` já fazia isso; o `FRONTEND.md` passa a dizer |
 | 2026-10-17 | Escala do press | Fica em 0.97 | Fidelidade ao Foglamp e ao craft (Emil também usa 0.97). Jakub e Rauno usam 0.96; a divergência está registrada no conceito `button-press` |
 | 2026-10-17 | Som na UI | Continua fora | Nenhum produto da Lyx ou do João toca som; o Foglamp também não. Se reabrir, a referência é `@web-kits/audio` (Raphael Salaja, MIT, mantido) |
+| 2026-10-19 | Escalas de cor e tipografia | Guideline sobre as paletas do Tailwind v4 e os tokens que já existem (`docs/guia/13-cor-e-tipografia.md`), com o papel de cada degrau e de cada texto; layout e tipografia viram snippets nos docs, sem token novo e sem componente `Flex`, `Text` ou `Heading` | O lume é guia para agentes, não biblioteca nova; as 12 etapas do Radix Colors cabem nos degraus que a registry já usa. Tema configurável (accent, radius, scale) fica para quando um produto pedir |
 | 2026-10-17 | `nstr` | Não entra | Os `toFixed` da registry (`card-sparkline`, evilcharts) são coordenadas de SVG e offsets de gradiente, não números de interface; os números que o usuário lê já passam por `Intl` em `lib/format.ts` |
 
 ## Fora da v0.1.0

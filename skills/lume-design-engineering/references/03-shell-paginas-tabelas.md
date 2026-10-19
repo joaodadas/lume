@@ -1,6 +1,6 @@
 # Shell, páginas e tabelas
 
-Gerado por `bun scripts/build-skill.ts` a partir de `FRONTEND.md`, `docs/guia/03-shell-e-paginas.md`, `docs/guia/04-dados.md`, `docs/guia/05-telas-de-detalhe.md`; não edite à mão. Caminhos sem prefixo são relativos à raiz de https://github.com/joaodadas/lume; `apps/web/` e `packages/ui/` são do Foglamp (commit `2bc3bb5`).
+Gerado por `bun scripts/build-skill.ts` a partir de `FRONTEND.md`, `docs/guia/03-shell-e-paginas.md`, `docs/guia/04-dados.md`, `docs/guia/05-telas-de-detalhe.md`, `docs/guia/13-cor-e-tipografia.md`; não edite à mão. Caminhos sem prefixo são relativos à raiz de https://github.com/joaodadas/lume; `apps/web/` e `packages/ui/` são do Foglamp (commit `2bc3bb5`).
 
 ## Espaçamento e ritmo
 
@@ -219,3 +219,47 @@ O espaçamento vem do wrapper de prosa, por seletor arbitrário, não dos compon
 - `useCopied(timeoutMs = 1500)` (registry/base-vega/hooks/use-copied.ts:13): `{ copied, markCopied, resetCopied }`; o timer é limpo no unmount e na re-cópia. 1500 ms no `CopyButton`; 2000 ms no `CodeBlock` e em botões de prompt.
 - `CopyIcon` (registry/base-vega/components/copy-icon.tsx:28-52): `span.relative.inline-flex` > `AnimatePresence mode="popLayout" initial={false}` > `motion.span key={copied ? "check" : "copy"}` com `initial={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}`, `animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}`, `exit` igual ao `initial`, `transition={COPY_SPRING}` (`{ type: "spring", duration: 0.25, bounce: 0 }`, registry/base-vega/lib/motion.ts:41-45). `IconCopyFilled` vira `IconCircleCheckFilled` em `text-green-600 dark:text-green-400`; dentro de um `Button` default (fundo invertido) passe `checkClassName="text-green-400 dark:text-green-600"`. `popLayout` + `relative` põem o ícone que sai sobre o que entra em vez de empilhar por um frame.
 - `CopyButton({ value, title, stopPropagation?, iconSize = "size-4" })` (registry/base-vega/components/copy-button.tsx:35-53): `button` nu, não o primitivo, `inline-flex shrink-0 items-center justify-center rounded p-1 text-muted-foreground/60 cursor-pointer transition-colors hover:text-foreground`; `title` obrigatório; `stopPropagation` dentro de linha clicável; nunca aninhe o botão num toggle, ponha como irmão; copie a string original, nunca o DOM animado.
+
+## Do guia: 13. Escalas de cor e tipografia: papel de cada degrau e de cada texto
+
+### Snippets de layout
+
+O lume não tem `Flex`, `Grid`, `Container` nem `Box`: são classes. Estes são os moldes que a registry já usa; copie e troque só o conteúdo.
+
+Coluna da página, dentro do `SidebarInset` (`registry/base-vega/blocks/app-shell/app-shell.tsx:238`):
+
+```tsx
+<div className="flex flex-col gap-4 py-6 px-0 pb-16">{/* header, toolbar, seções */}</div>
+```
+
+Cabeçalho de seção com ações à direita, no gutter `PX` (`px-4 md:px-8`, `registry/base-vega/components/section.tsx:24-31`):
+
+```tsx
+<section className="flex flex-col gap-3">
+  <div className={cn("flex flex-wrap items-end justify-between gap-2", PX)}>
+    <div className="flex flex-col gap-0.5">
+      <h2 className="text-sm font-medium">Uso por modelo</h2>
+      <p className="text-xs text-muted-foreground text-pretty">Últimos 30 dias</p>
+    </div>
+    <Button variant="outline" size="sm">Exportar</Button>
+  </div>
+  {/* conteúdo com o próprio gutter */}
+</section>
+```
+
+Grade de métricas que reage à largura do painel, não da janela (`registry/base-vega/components/stat-grid.tsx:24-31`; prefira o item `stat-grid`):
+
+```tsx
+<section className={cn("@container", PX)}>
+  <div className="grid gap-4 @lg:grid-cols-2 @min-[62rem]:grid-cols-4">{/* StatCard size="sm" */}</div>
+</section>
+```
+
+Linha de itens e pilha:
+
+```tsx
+<div className="flex items-center gap-2">{/* ícone + texto, chips */}</div>
+<div className="flex min-w-0 flex-col gap-1">{/* rótulo em cima, valor embaixo */}</div>
+```
+
+Container de marketing e do site: `mx-auto w-full max-w-7xl px-5 sm:px-8` (Foglamp, landing) ou `container mx-auto max-w-6xl px-6 py-10` (site do lume, `app/componentes/page.tsx`). Dentro do app não há container: a largura é a do inset.

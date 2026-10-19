@@ -1,6 +1,6 @@
 # Dados e cor
 
-Gerado por `bun scripts/build-skill.ts` a partir de `FRONTEND.md`, `docs/guia/04-dados.md`; não edite à mão. Caminhos sem prefixo são relativos à raiz de https://github.com/joaodadas/lume; `apps/web/` e `packages/ui/` são do Foglamp (commit `2bc3bb5`).
+Gerado por `bun scripts/build-skill.ts` a partir de `FRONTEND.md`, `docs/guia/04-dados.md`, `docs/guia/13-cor-e-tipografia.md`; não edite à mão. Caminhos sem prefixo são relativos à raiz de https://github.com/joaodadas/lume; `apps/web/` e `packages/ui/` são do Foglamp (commit `2bc3bb5`).
 
 ## Números, datas e formatação
 
@@ -20,6 +20,7 @@ Porquê: número consistente é a cara de um dashboard; um placeholder de texto 
 
 - **Always** use a tabela semântica fixa: emerald = ok, pass e embedding; rose = erro e falha; red = contagem de erro em célula; amber = aviso, abortado e agente; violet = llm; blue = tool; sky = sessões; orange = agentes; fuchsia = evals; yellow = alertas; lime = "varia por run". Paleta neutra `--chart-1..5` (cinzas iguais nos dois temas) para série sem semântica; `var(--destructive)` para erro em gráfico.
 - **Always** tinja no par que lê nos dois temas: tile `bg-{c}-100 dark:bg-{c}-950 text-{c}-500`, texto `text-{c}-600 dark:text-{c}-400`, badge `bg-{c}-500/10 text-{c}-700 dark:bg-{c}-500/15 dark:text-{c}-300`.
+- **Always** escolha o degrau da paleta pelo papel, nunca pelo número: fundo translúcido `-500/10` (`/15` no dark) com hover `-500/20`, fundo opaco `-100`/`-950`, sólido `-500` só em ícone, ponto e barra de série, texto na página `-600`/`-400`, texto sobre fundo tingido `-700`/`-300`, parágrafo em caixa tingida `-900`/`-200`, anel de foco `-500/20`/`-500/40`. No dark o degrau vira o simétrico em torno do 500. Degrau fora dessa lista (`-50`, `-200` e `-800` como fundo ou borda) não entra em composição nova; o cinza segue a mesma lógica pelos tokens. As tabelas por papel, a escala neutra e os estados estão em `docs/guia/13-cor-e-tipografia.md` (adição do lume).
 - **Always** faça tile de ícone 18px com `bg-{c}-100 dark:bg-{c}-950 rounded-[5px] squircle:rounded-xl p-0.5 corner-squircle text-{c}-500 shadow-[inset_0_0_0_1px_rgba(R,G,B,0.14),0_2px_6px_-2px_rgba(R,G,B,0.25)] dark:shadow-(--custom-shadow)` (apps/web/src/components/app/nav.ts:43-44; `navTile(color)` no `app-shell`): anel interno a 14% e drop a 25% no light, token neutro no dark.
 - **Always** centralize "o que cada opção significa" num `.ts` sem JSX (ícone, `badgeVariant`, cor, unidade), consumido por lista, dialog e detalhe; cor por entidade é hash determinístico (djb2) sobre 16 tons `*-500`; escala de calor por quintil `text-green-600 dark:text-green-400` até `text-red-600 dark:text-red-400`, classes literais para o Tailwind enxergar.
 - **Never** invente cor por tela, use `slate` para "outro" (é `neutral`), ou coloque cor cromática num gráfico sem significado fixo.
@@ -115,3 +116,45 @@ Porquê: a tabela cinza deixa a cor contar a história; se cada tela escolhesse 
 | Limiar (`Threshold`) | `var(--destructive)`, `strokeDasharray "4 4"` (registry/base-vega/components/evilcharts/charts/area-chart.tsx:762) |
 
 Hex é aceito aqui porque a cor é dado (série, marca), sempre com comentário; `themed(color)` (trend-charts.tsx:20) devolve `{ light: [color], dark: [color] }` porque o `ChartConfig` exige cor por tema e os tokens já flipam.
+
+## Do guia: 13. Escalas de cor e tipografia: papel de cada degrau e de cada texto
+
+### Escala cromática
+
+Seis degraus têm papel, e cada um tem o seu espelho no dark. `{c}` é uma das cores da seção seguinte. Use só estas combinações:
+
+| Papel | Light | Dark | Onde |
+|---|---|---|---|
+| Fundo translúcido (badge, chip de tipo) | `bg-{c}-500/10` | `dark:bg-{c}-500/15` | `registry/base-vega/ui/badge.tsx:21-36` |
+| Hover do fundo translúcido | `[a]:hover:bg-{c}-500/20` | igual | `registry/base-vega/ui/badge.tsx:21-36` |
+| Fundo opaco (tile de ícone) | `bg-{c}-100` | `dark:bg-{c}-950` | `registry/base-vega/blocks/app-shell/nav.ts:39-53` |
+| Aresta | `shadow-[var(--custom-shadow-{c})]` | o token já flipa | `registry/base-vega/ui/badge.tsx:21-36` |
+| Aresta de erro em chip | `border-{c}-500/40` | `dark:shadow-[0_0_0_1px_rgba(R,G,B,0.4)]` | `registry/base-vega/components/context-chip.tsx:20-22` |
+| Anel de foco | `focus-visible:ring-{c}-500/20` | `dark:focus-visible:ring-{c}-500/40` | `registry/base-vega/ui/badge.tsx:21-36` |
+| Sólido: ícone, ponto, barra de série | `text-{c}-500`, `bg-{c}-500` | igual | `registry/base-vega/blocks/app-shell/nav.ts:39-53`, `registry/base-vega/components/span-type.tsx:46-49` |
+| Texto colorido sobre a página | `text-{c}-600` | `dark:text-{c}-400` | `registry/base-vega/components/context-chip.tsx:20`, `registry/base-vega/components/span-type.tsx:73-80` |
+| Texto sobre fundo tingido | `text-{c}-700` | `dark:text-{c}-300` (rose e red: `-400`; orange fica em `text-orange-600` e `dark:text-orange-400`) | `registry/base-vega/ui/badge.tsx:21-36` |
+| Parágrafo em caixa tingida | `text-{c}-900` | `dark:text-{c}-200` | `registry/base-vega/components/notice.tsx:22-32` |
+
+Regra do espelho: no dark o degrau vira o simétrico em torno do 500 (100 e 950, 600 e 400, 700 e 300, 900 e 200), o fundo translúcido sobe de 10% para 15% e o anel de foco de 20% para 40%; o 500 não muda. Degraus sem papel (`50`, `200` e `800` como fundo ou borda, `300` e `400` no light, `600` e `700` no dark) não entram em composição nova. Exceção conhecida: o delta do `StatCard` usa `text-emerald-600 dark:text-emerald-500` e `text-red-500` (`registry/base-vega/components/stat-card.tsx:206-207`).
+
+### Cores que existem
+
+O look é cinza com cor só por significado. As cores com papel são estas; cor nova abre issue antes (ver `CONTRIBUTING.md`).
+
+| Cor | Significado | `Badge variant` | `--custom-shadow-{c}` | Tile em `nav.ts` |
+|---|---|---|---|---|
+| emerald | ok, pass, embedding | sim | sim | sim |
+| green | ponta boa da escala de calor (`HeatCell`) | sim | sim | não |
+| rose | erro, falha | sim | sim | sim |
+| red | contagem de erro em célula | sim | sim | não |
+| amber | aviso, abortado, agente | sim | sim | sim |
+| orange | agentes | sim | sim | sim |
+| yellow | alertas | não | não | sim |
+| violet | llm | sim | sim | sim |
+| blue | tool | sim | sim | sim |
+| sky | sessões | sim | sim | sim |
+| fuchsia | evals | sim | sim | sim |
+| lime | "varia por run" | não | não | não |
+
+Erro de interface (campo inválido, ação destrutiva) usa o token `destructive`, não `rose` nem `red`: `text-destructive`, `bg-destructive/10`, `aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40`. Série de gráfico sem significado usa `--chart-1..5` (cinzas). Cor por entidade é hash sobre 16 tons `-500`, em classes literais.
