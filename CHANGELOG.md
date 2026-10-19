@@ -10,6 +10,11 @@ para aplicar. Quando um item muda de API, a seção traz "Como migrar".
 
 ## [Não lançado]
 
+### Corrigido
+
+- Site: `/botoes` ganha o `SiteNav` no topo, como as demais rotas.
+- Site: o `SiteNav` cabe em 390px de largura; os links rolam na horizontal em vez de alargar a página.
+
 ### Próximo (fora da v0.2.0)
 
 - Capítulo de marketing do guia.
