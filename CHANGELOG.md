@@ -12,9 +12,9 @@ para aplicar. Quando um item muda de API, a seção traz "Como migrar".
 
 ### Adicionado
 
-- Guia: capítulo `13-cor-e-tipografia` com o papel de cada degrau da escala neutra e da cromática (fundo, hover, borda, sólido, texto, estados e o espelho no dark), as cores que existem, as famílias, os tamanhos, os papéis tipográficos com a classe da registry e snippets de layout e texto em Tailwind. Nenhum token novo.
+- Guia: capítulo `13-cor-e-tipografia`, a versão para agentes: tabelas da escala neutra e da cromática por papel (com o espelho no dark), cores que existem, estados, famílias, tamanhos, papéis tipográficos com a classe da registry e snippets de layout e texto. Nenhum token novo.
+- Site: `/cor-e-tipografia`, a versão para pessoas: exemplo renderizado, faça e evite e código separado em abas Prévia e Código. Capturas em `docs/verificacao/v0.2.1/`.
 - `FRONTEND.md`: regras de degrau por papel (Cor com significado) e de texto por papel (Tipografia); skill `lume-design-engineering` regenerada.
-- Site: vitrine `/cor-e-tipografia`, com capturas em `docs/verificacao/v0.2.1/`.
 
 ### Próximo (fora da v0.2.0)
 

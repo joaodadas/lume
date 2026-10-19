@@ -55,7 +55,7 @@ Porquê: card e popover são o mesmo material, e um tooltip invertido lê como p
 - **Always** limite o peso a `font-medium` no app (títulos, rótulos, botão, badge) com `tracking-tight` em título e valor de StatCard, e `font-normal` para desfazer o `font-medium` do Button em chips; `font-semibold` e `font-[450]` só em display de marketing com `font-display`; `text-balance` em título, `text-pretty` em parágrafo de apoio, `truncate` em célula e chip com texto livre.
 - **Always** use `tabular-nums` em todo número (`TableCell align="right"` já injeta `text-right tabular-nums`, `table.tsx:17-21`) e `font-mono` só para ids, chaves, código e eyebrows (`font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground`); `font-mono` resolve na Geist Mono Variable (`globals.css:228-230`).
 - **Always** mantenha dois pisos em texto de app: peso 400 (`font-normal`) é o mínimo abaixo de 18 px, nunca 300; 13 px é o menor tamanho de leitura corrida, e 11 e 10 px ficam restritos a eyebrow e micro-rótulo mono em caixa alta. Tamanho de texto vai em `rem` (todo `text-*` do Tailwind já é), nunca em px literal (os degraus 13, 11 e 10 px do Foglamp são a exceção aceita): `rem` respeita o ajuste de tamanho de fonte do navegador, que é separado do zoom (adição do lume; Jakub Krehel, better-typography; Rauno Freiberg, interfaces.rauno.me; Paco Coursey, paco.me/writing/px-vs-rem).
-- **Always** escreva texto pelo papel e copie a string da registry: título de página `text-base font-medium tracking-tight`, título de seção `text-sm font-medium`, texto de apoio `text-sm text-muted-foreground text-balance`, descrição curta `text-xs text-muted-foreground text-pretty`, rótulo `text-sm leading-none font-medium`, código e id `font-mono text-xs text-foreground`. Layout e tipografia são classes, com os snippets de `docs/guia/13-cor-e-tipografia.md`, nunca componente próprio (`Flex`, `Grid`, `Container`, `Text`, `Heading` à la Radix Themes) (adição do lume).
+- **Always** escreva texto pelo papel, copiando a string da tabela de papéis tipográficos de `docs/guia/13-cor-e-tipografia.md` (título de página `text-base font-medium tracking-tight`, seção `text-sm font-medium`, apoio `text-sm text-muted-foreground text-balance`); layout e tipografia são classes e snippets, nunca componente `Flex`, `Text` ou `Heading` (adição do lume).
 - **Never** use `text-2xl` no app, `font-bold`, ou mono para alinhar números: dígitos tabulares em Inter resolvem.
 
 Porquê: 501 das 594 ocorrências de tamanho no Foglamp são `text-sm` e `text-xs`; a hierarquia vem de peso 500, tracking e cor muda, não de tamanho.
@@ -287,136 +287,108 @@ Tons: `-500` 216, `-400` 140, `-600` 107, `-500/10` 31, `-700` 29, `-100` 28, `-
 | `aria-pressed` / `aria-expanded` / `aria-invalid` / `aria-current` / `aria-live` | 12 / 10 / 9 / 4 / 1 | pílulas e filtros; gatilhos; campos; nav; `polite` |
 | `tabIndex`; teclado | 5 | linhas interativas (`tabIndex 0` + Enter e Espaço, `table.tsx:147-163`); `Cmd/Ctrl+B` na sidebar, `Kbd` dentro de botões espelha o atalho, foco de menu é o próprio hover (`focus:bg-accent`) |
 
-## Do guia: 13. Escalas de cor e tipografia: papel de cada degrau e de cada texto
+## Do guia: 13. Cor e tipografia: tabelas para agentes
 
 ### Escala neutra
 
-Os tokens são degraus da paleta `neutral`. Escolha pelo papel, nunca pelo número:
-
-| Papel | Classe | Light | Dark | Onde |
-|---|---|---|---|---|
-| Canvas atrás do inset | `bg-sidebar` | 0.975 | 0.145 (950) | `registry/base-vega/ui/sidebar.tsx` |
-| Página | `bg-background` | 0.99 | 0.17 | `globals.css`, `html` e `body` |
-| Superfície (card, popover, dialog) | `bg-card`, `bg-popover` | branco | 0.205 (900) | `registry/base-vega/ui/card.tsx:17` |
-| Fundo de chip, skeleton, código | `bg-muted` | 100 | 800 | `registry/base-vega/ui/skeleton.tsx:10` |
-| Hover e aberto | `hover:bg-muted/50 aria-expanded:bg-muted/50 dark:hover:bg-muted dark:aria-expanded:bg-muted` | 100 a 50% | 800 | `registry/base-vega/components/context-chip.tsx:13` |
-| Item ativo da navegação | `dark:data-active:bg-sidebar-accent/50 data-active:bg-sidebar-accent/70` | 0.95 a 70% | 800 a 50% | `registry/base-vega/ui/sidebar.tsx:480` |
-| Divisória | `border-border/40`, `border-border/50` | 200 | branco a 10% | `registry/base-vega/ui/table.tsx:169`, lista fechada em Onde a borda vale |
-| Aresta de superfície | `shadow-(--custom-shadow)` | anel 0.5px a 6% | inset branco a 3% | `registry/base-vega/ui/card.tsx:17` |
-| Anel de foco | `focus-visible:ring-[1.5px] focus-visible:ring-ring/50` | 400 a 50% | 500 a 50% | `registry/base-vega/ui/button.tsx:10` |
-| Sólido (ação principal) | `bg-neutral-800 dark:bg-neutral-100` | 800 | 100 | `registry/base-vega/ui/button.tsx:15` |
-| Texto secundário | `text-muted-foreground` | 500 | 400 | todo `Description` |
-| Placeholder, meta, ícone apagado | `text-muted-foreground/50` | 500 a 50% | 400 a 50% | `registry/base-vega/blocks/data-table/data-table.tsx:376` |
-| Texto principal | `text-foreground` | 950 | 50 | herdado do `body` |
-
-`neutral` cru só onde o token não alcança (o sólido do Button, a gaveta de linha expandida do Foglamp, `bg-neutral-100 dark:bg-card`); `slate`, `gray`, `zinc` e `stone` nunca.
+| Papel | Classe | Light | Dark |
+|---|---|---|---|
+| Canvas atrás do inset | `bg-sidebar` | 0.975 | 0.145 (950) |
+| Página | `bg-background` | 0.99 | 0.17 |
+| Superfície | `bg-card`, `bg-popover` | branco | 0.205 (900) |
+| Chip, skeleton, código | `bg-muted` | 100 | 800 |
+| Hover | `hover:bg-muted/50`, `dark:hover:bg-muted` | 100 a 50% | 800 |
+| Item ativo | `data-active:bg-sidebar-accent/70`, `dark:data-active:bg-sidebar-accent/50` | 0.95 a 70% | 800 a 50% |
+| Divisória | `border-border/40`, `border-border/50` | 200 | branco a 10% |
+| Aresta de superfície | `shadow-(--custom-shadow)` | anel 0.5px a 6% | inset branco a 3% |
+| Anel de foco | `focus-visible:ring-[1.5px] focus-visible:ring-ring/50` | 400 a 50% | 500 a 50% |
+| Sólido | `bg-neutral-800 dark:bg-neutral-100` | 800 | 100 |
+| Texto secundário | `text-muted-foreground` | 500 | 400 |
+| Placeholder, meta | `text-muted-foreground/50` | 500 a 50% | 400 a 50% |
+| Texto principal | `text-foreground` | 950 | 50 |
 
 ### Estados
 
-| Estado | Cinza | Cor cromática |
+| Estado | Cinza | Cor |
 |---|---|---|
-| Hover | `hover:bg-muted/50` (light), `dark:hover:bg-muted` | `[a]:hover:bg-{c}-500/20` |
-| Aberto (`aria-expanded`) | `aria-expanded:bg-muted/50`, `dark:aria-expanded:bg-muted` | sem uso |
-| Selecionado | `data-active:bg-sidebar-accent/70`, `dark:data-active:bg-sidebar-accent/50` | sem uso |
-| Foco | `focus-visible:ring-[1.5px] focus-visible:ring-ring/50` | `focus-visible:ring-{c}-500/20 dark:focus-visible:ring-{c}-500/40` |
+| Hover | `hover:bg-muted/50`, `dark:hover:bg-muted` | `[a]:hover:bg-{c}-500/20` |
+| Aberto | `aria-expanded:bg-muted/50`, `dark:aria-expanded:bg-muted` | sem uso |
+| Selecionado | `data-active:bg-sidebar-accent/70` | sem uso |
+| Foco | `focus-visible:ring-[1.5px] focus-visible:ring-ring/50` | `focus-visible:ring-{c}-500/20` |
 | Inválido | `aria-invalid:border-destructive aria-invalid:ring-[1.5px] aria-invalid:ring-destructive/20` | só `destructive` |
 | Desabilitado | `disabled:opacity-50` | `disabled:opacity-50` |
-| Item destrutivo em menu | `focus:bg-destructive/10` | sem uso |
-
-Hover troca fundo ou cor, nunca escala; o press (`active:scale-[0.97]`) é só do Button ([09-movimento](06-movimento.md)).
+| Item destrutivo de menu | `focus:bg-destructive/10` | sem uso |
 
 ### Famílias
 
 | Família | Utility | Papel | Nunca |
 |---|---|---|---|
-| Inter Variable (eixo `opsz`) | `font-sans`, já no `html` e no `body` | todo texto do app | trocar por outra sans |
-| Inter como heading | `font-heading` | título de Card, Dialog, Sheet, Drawer, Empty e AlertDialog | em texto que não é título |
-| Host Grotesk Variable | `font-display` (item `font-display`) | título de marketing e do site | dentro do app |
-| Geist Mono Variable | `font-mono` | id, chave, código, payload, eyebrow em caixa alta | número de tabela (Inter com `tabular-nums` alinha) |
+| Inter Variable | `font-sans` | todo texto do app | outra sans |
+| Inter como heading | `font-heading` | título de Card, Dialog, Sheet, Drawer, Empty | texto que não é título |
+| Host Grotesk Variable | `font-display` | marketing e título do site | dentro do app |
+| Geist Mono Variable | `font-mono` | id, chave, código, eyebrow | número de tabela |
 
 ### Tamanhos
 
-Escala do Tailwind sem customização, em `rem`. O app vive em `text-sm` e `text-xs`; a hierarquia vem de peso, tracking e cor, não de tamanho.
-
-| Classe | Tamanho e entrelinha | Papel |
+| Classe | px | Papel |
 |---|---|---|
-| `text-[10px]` | 10px | badge `sm`, micro rótulo em caixa alta |
-| `text-[11px]` | 11px | eyebrow mono (site e Foglamp) |
-| `text-xs` | 12px / 16px | meta, legenda, descrição curta, badge `md`, tooltip, delta |
-| `text-[13px]` | 13px | valor denso de painel, par rótulo e valor (Foglamp, [05-telas-de-detalhe](03-shell-paginas-tabelas.md)) |
-| `text-sm` | 14px / 20px | corpo, rótulo, título de seção, título de card `sm` |
-| `text-base` | 16px / 24px | título de página, de card default e de dialog; input abaixo de `md` |
-| `text-lg` | 18px / 28px | título de passo no `login-form`; corpo de marketing |
-| `text-xl` | 20px / 28px | título de tela de auth (`login-form`) |
-| `text-3xl`, `text-4xl` | 30px, 36px | display de marketing e do site, sempre com `font-display` |
-
-`text-2xl` não existe no app. 13 px é o menor tamanho de leitura corrida; 10 e 11 px só em rótulo curto.
+| `text-[10px]` | 10 | badge `sm` |
+| `text-[11px]` | 11 | eyebrow mono (site e Foglamp) |
+| `text-xs` | 12 | meta, legenda, descrição curta, badge `md`, tooltip, delta |
+| `text-[13px]` | 13 | valor denso de painel (Foglamp) |
+| `text-sm` | 14 | corpo, rótulo, título de seção, título de card `sm` |
+| `text-base` | 16 | título de página, card e dialog; input abaixo de `md` |
+| `text-lg` | 18 | título de passo do `login-form`, corpo de marketing |
+| `text-xl` | 20 | título de auth |
+| `text-3xl`, `text-4xl` | 30, 36 | display com `font-display`, fora do app |
 
 ### Papéis tipográficos
 
-O equivalente aos `Heading` e `Text` do Radix Themes, em classes. Copie a string, não invente uma parecida.
-
 | Papel | Classe | Onde |
 |---|---|---|
-| Título de página (`h1`) | `text-base font-medium tracking-tight` | `registry/base-vega/components/page-header.tsx:84` |
+| Título de página | `text-base font-medium tracking-tight` | `registry/base-vega/components/page-header.tsx:84` |
 | Título de card | `font-heading text-base leading-normal font-medium group-data-[size=sm]/card:text-sm` | `registry/base-vega/ui/card.tsx:43` |
 | Título de dialog | `font-heading leading-none font-medium text-base` | `registry/base-vega/ui/dialog.tsx:126` |
-| Título de seção (`h2`) | `text-sm font-medium` | `registry/base-vega/components/section.tsx:27` |
-| Título de estado vazio | `font-heading text-sm font-medium tracking-tight` | `registry/base-vega/ui/empty.tsx:65` |
-| Título de tela de auth | `text-xl font-medium text-balance` | `registry/base-vega/blocks/login-form/login-form.tsx:200` |
-| Corpo | `text-sm` (herdado da superfície) | `registry/base-vega/ui/card.tsx:17` |
+| Título de seção | `text-sm font-medium` | `registry/base-vega/components/section.tsx:27` |
+| Título de vazio | `font-heading text-sm font-medium tracking-tight` | `registry/base-vega/ui/empty.tsx:65` |
+| Título de auth | `text-xl font-medium text-balance` | `registry/base-vega/blocks/login-form/login-form.tsx:200` |
 | Texto de apoio | `text-sm text-muted-foreground text-balance` | `registry/base-vega/ui/card.tsx:55` |
 | Descrição curta | `text-xs text-muted-foreground text-pretty` | `registry/base-vega/components/section.tsx:29` |
 | Descrição de vazio | `text-xs/relaxed text-muted-foreground` | `registry/base-vega/ui/empty.tsx:78` |
 | Rótulo de campo | `text-sm leading-none font-medium` | `registry/base-vega/ui/label.tsx:14` |
-| Valor de métrica | `tracking-tight tabular-nums` no `CardTitle` | `registry/base-vega/components/stat-card.tsx:134` |
+| Valor de métrica | `tracking-tight tabular-nums` | `registry/base-vega/components/stat-card.tsx:134` |
 | Delta | `text-xs font-[470] tabular-nums` | `registry/base-vega/components/stat-card.tsx:204` |
-| Número em coluna | `text-right tabular-nums` (`TableCell align="right"`) | `registry/base-vega/ui/table.tsx:20` |
+| Número em coluna | `text-right tabular-nums` | `registry/base-vega/ui/table.tsx:20` |
 | Código e id | `font-mono text-xs text-foreground` | `registry/base-vega/components/rolling-text.tsx:65` |
 | Link em texto | `font-medium text-primary underline underline-offset-2` | `registry/base-vega/components/markdown-components.tsx:25` |
-| Link discreto | `Button variant="link"`: `text-foreground underline decoration-foreground/20 underline-offset-4 hover:decoration-foreground` | `registry/base-vega/ui/button.tsx:31` |
-| Tecla | `Kbd` (`font-sans text-xs font-medium`) | `registry/base-vega/ui/kbd.tsx:10` |
-| Eyebrow | `font-mono text-[11px] font-medium tracking-[0.18em] text-muted-foreground uppercase` | site, `app/guia/page.tsx:50` (eyebrow do Foglamp) |
-| Display | `font-display text-3xl font-[450] tracking-[-0.025em] text-balance` | site, `app/guia/page.tsx:22`; `tracking-[-0.025em]` é o mesmo valor de `tracking-tight` |
+| Tecla | `Kbd` | `registry/base-vega/ui/kbd.tsx:10` |
+| Eyebrow | `font-mono text-[11px] font-medium tracking-[0.18em] text-muted-foreground uppercase` | site, `app/guia/page.tsx:50` |
+| Display | `font-display text-3xl font-[450] tracking-[-0.025em] text-balance` | site, `app/guia/page.tsx:22` |
 
-### Peso, tracking e entrelinha
-
-| Eixo | Valores com papel | Fora |
+| Eixo | Com papel | Fora |
 |---|---|---|
-| Peso | `font-normal` (400, piso abaixo de 18px), `font-medium` (500, teto no app), `font-[470]` (delta), `font-[450]` (display) | `font-light`, `font-semibold` e `font-bold` no app |
-| Tracking | `tracking-tight` em título e valor; `tracking-[0.18em]` só em eyebrow `uppercase`; corpo sem tracking (o `opsz` da Inter ajusta) | tracking positivo em minúscula |
-| Entrelinha | `leading-none` em rótulo e título de uma linha; `leading-normal` no título de card; `text-xs/relaxed` e `leading-relaxed` em texto de várias linhas | `leading-loose` |
-| Quebra | `text-balance` em título, `text-pretty` em parágrafo, `truncate` em célula e chip | quebra manual com `<br>` |
+| Peso | `font-normal`, `font-medium` (teto do app), `font-[470]` (delta), `font-[450]` (display) | `font-light`, `font-semibold`, `font-bold` |
+| Tracking | `tracking-tight` em título e valor; `tracking-[0.18em]` só com `uppercase` | tracking positivo em minúscula |
+| Entrelinha | `leading-none` em uma linha; `text-xs/relaxed` em várias | `leading-loose` |
+| Quebra | `text-balance` em título, `text-pretty` em parágrafo, `truncate` em célula | `<br>` manual |
 
 ### Snippets de texto
 
 ```tsx
 <h1 className="text-base font-medium tracking-tight">Traces</h1>
 <h2 className="text-sm font-medium">Uso por modelo</h2>
-<p className="text-sm text-muted-foreground text-balance">Texto de apoio de uma ou duas linhas.</p>
-<p className="text-xs text-muted-foreground text-pretty">Legenda ou descrição curta.</p>
+<p className="text-sm text-muted-foreground text-balance">Texto de apoio.</p>
+<p className="text-xs text-muted-foreground text-pretty">Legenda.</p>
 <span className="text-sm tabular-nums">{formatCount(1234)}</span>
 <span className="text-xs text-muted-foreground/50">{EMPTY}</span>
-```
-
-Código e id inline: `font-mono text-xs text-foreground`, com fundo só quando o código está no meio de prosa (`rounded-sm bg-muted px-1 py-0.5 font-mono text-xs`, o `code` do `/guia` em `components/guia/markdown.tsx`). Bloco de código é o item `code-block`, nunca um `<pre>` estilizado à mão.
-
-```tsx
 <code className="font-mono text-xs text-foreground">tr_8f2a91</code>
 <CodeBlock code={payload} lang="json" />
 ```
 
-Citação (adição do lume: a registry não tem uma). É linha, não caixa: a aresta da esquerda é um divisor, como nas [exceções da borda](09-conceitos-craft.md#exceções-da-borda).
+Citação (adição do lume; a aresta é divisor, não caixa):
 
 ```tsx
 <blockquote className="border-l-2 border-border/50 pl-3 text-sm text-muted-foreground text-pretty">
   A frase citada.
 </blockquote>
-```
-
-Eyebrow acima de um título e display de marketing (fora do app):
-
-```tsx
-<p className="font-mono text-[11px] font-medium tracking-[0.18em] text-muted-foreground uppercase">Guia</p>
-<h1 className="font-display text-3xl font-[450] tracking-[-0.025em] text-balance">Título de marketing</h1>
 ```
