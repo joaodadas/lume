@@ -1,7 +1,7 @@
 // Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/app/buttons/page.tsx @ 2bc3bb5), Apache-2.0.
 // Modificado por joaodadas/lume: imports da registry, texto em pt-BR, listas de
 // variants e sizes completas (ghost-destructive, badges red/fuchsia/sky/outline,
-// size sm do badge e tamanhos icon do botão).
+// size sm do badge e tamanhos icon do botão) e o SiteNav no topo.
 "use client";
 
 import {
@@ -50,6 +50,7 @@ import {
 import { useTheme } from "next-themes";
 import { useEffect } from "react";
 
+import { SiteNav } from "@/components/site-nav";
 import { Badge } from "@/registry/base-vega/ui/badge";
 import { Button } from "@/registry/base-vega/ui/button";
 import { Kbd } from "@/registry/base-vega/ui/kbd";
@@ -192,66 +193,73 @@ export default function BotoesPage() {
   let slot = 0;
 
   return (
-    <main className="mx-auto flex max-w-4xl flex-col gap-12 px-6 py-12">
-      <div>
-        <h1 className="text-lg font-semibold">Botões e badges</h1>
-        <p className="text-sm text-muted-foreground">
-          Aperte <Kbd>T</Kbd> para alternar o tema
-        </p>
-      </div>
-
-      <section className="flex flex-col gap-4">
-        <h2 className="text-sm font-semibold text-muted-foreground">Botões</h2>
-        <div className="flex flex-col gap-3">
-          {BUTTON_VARIANTS.map((variant) => (
-            <Row key={variant} label={variant}>
-              {BUTTON_SIZES.map((size) => {
-                const { Icon, leading } = pick(slot++);
-                return (
-                  <Button key={size} variant={variant} size={size}>
-                    {leading && <Icon />}
-                    Botão
-                    {!leading && <Icon />}
-                  </Button>
-                );
-              })}
-              {ICON_SIZES.map((size) => {
-                const { Icon } = pick(slot++);
-                return (
-                  <Button
-                    key={size}
-                    variant={variant}
-                    size={size}
-                    aria-label={`${variant} ${size}`}
-                  >
-                    <Icon />
-                  </Button>
-                );
-              })}
-            </Row>
-          ))}
+    <div className="min-h-svh bg-background">
+      <SiteNav />
+      <main className="mx-auto flex max-w-4xl flex-col gap-12 px-6 py-12">
+        <div>
+          <h1 className="text-lg font-semibold">Botões e badges</h1>
+          <p className="text-sm text-muted-foreground">
+            Aperte <Kbd>T</Kbd> para alternar o tema
+          </p>
         </div>
-      </section>
 
-      <section className="flex flex-col gap-4">
-        <h2 className="text-sm font-semibold text-muted-foreground">Badges</h2>
-        <div className="flex flex-col gap-3">
-          {BADGE_VARIANTS.map((variant) => (
-            <Row key={variant} label={variant}>
-              {BADGE_SIZES.map((size) => {
-                const { Icon, leading } = pick(slot++);
-                return (
-                  <Badge key={size} variant={variant} size={size}>
-                    {leading && <Icon />}
-                    Badge
-                    {!leading && <Icon />}
-                  </Badge>
-                );
-              })}
-            </Row>
-          ))}
-        </div>
-      </section>
-    </main>
+        <section className="flex flex-col gap-4">
+          <h2 className="text-sm font-semibold text-muted-foreground">
+            Botões
+          </h2>
+          <div className="flex flex-col gap-3">
+            {BUTTON_VARIANTS.map((variant) => (
+              <Row key={variant} label={variant}>
+                {BUTTON_SIZES.map((size) => {
+                  const { Icon, leading } = pick(slot++);
+                  return (
+                    <Button key={size} variant={variant} size={size}>
+                      {leading && <Icon />}
+                      Botão
+                      {!leading && <Icon />}
+                    </Button>
+                  );
+                })}
+                {ICON_SIZES.map((size) => {
+                  const { Icon } = pick(slot++);
+                  return (
+                    <Button
+                      key={size}
+                      variant={variant}
+                      size={size}
+                      aria-label={`${variant} ${size}`}
+                    >
+                      <Icon />
+                    </Button>
+                  );
+                })}
+              </Row>
+            ))}
+          </div>
+        </section>
+
+        <section className="flex flex-col gap-4">
+          <h2 className="text-sm font-semibold text-muted-foreground">
+            Badges
+          </h2>
+          <div className="flex flex-col gap-3">
+            {BADGE_VARIANTS.map((variant) => (
+              <Row key={variant} label={variant}>
+                {BADGE_SIZES.map((size) => {
+                  const { Icon, leading } = pick(slot++);
+                  return (
+                    <Badge key={size} variant={variant} size={size}>
+                      {leading && <Icon />}
+                      Badge
+                      {!leading && <Icon />}
+                    </Badge>
+                  );
+                })}
+              </Row>
+            ))}
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }
