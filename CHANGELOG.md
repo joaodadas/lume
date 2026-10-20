@@ -14,6 +14,7 @@ para aplicar. Quando um item muda de API, a seção traz "Como migrar".
 
 - Guia: capítulo `13-cor-e-tipografia`, a versão para agentes: tabelas da escala neutra e da cromática por papel (com o espelho no dark), cores que existem, estados, famílias, tamanhos, papéis tipográficos com a classe da registry, escala de `gap` por papel e snippets de layout e texto. Nenhum token novo.
 - Site: página `/foundations` (item Foundations no menu), a versão para pessoas: exemplo renderizado, faça e evite e código separado em abas Prévia e Código. No `/guia`, o capítulo 13 abre essa página; o markdown fica para agentes. Capturas em `docs/verificacao/v0.2.1/`.
+- Site: `/componentes` mostra o código de uso de cada seção em abas Prévia e Código e ganha as composições combobox com busca, multi-select com chips, date picker, período (date range) e command.
 - `FRONTEND.md`: regras de degrau por papel (Cor com significado) e de texto por papel (Tipografia); skill `lume-design-engineering` regenerada.
 
 ### Próximo (fora da v0.2.0)
