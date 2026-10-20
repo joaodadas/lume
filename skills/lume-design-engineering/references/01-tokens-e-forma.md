@@ -287,7 +287,7 @@ Tons: `-500` 216, `-400` 140, `-600` 107, `-500/10` 31, `-700` 29, `-100` 28, `-
 | `aria-pressed` / `aria-expanded` / `aria-invalid` / `aria-current` / `aria-live` | 12 / 10 / 9 / 4 / 1 | pílulas e filtros; gatilhos; campos; nav; `polite` |
 | `tabIndex`; teclado | 5 | linhas interativas (`tabIndex 0` + Enter e Espaço, `table.tsx:147-163`); `Cmd/Ctrl+B` na sidebar, `Kbd` dentro de botões espelha o atalho, foco de menu é o próprio hover (`focus:bg-accent`) |
 
-## Do guia: 13. Cor e tipografia: tabelas para agentes
+## Do guia: 13. Cor, tipografia e espaçamento: tabelas para agentes
 
 ### Escala neutra
 

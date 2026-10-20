@@ -117,7 +117,7 @@ Porquê: a tabela cinza deixa a cor contar a história; se cada tela escolhesse 
 
 Hex é aceito aqui porque a cor é dado (série, marca), sempre com comentário; `themed(color)` (trend-charts.tsx:20) devolve `{ light: [color], dark: [color] }` porque o `ChartConfig` exige cor por tema e os tokens já flipam.
 
-## Do guia: 13. Cor e tipografia: tabelas para agentes
+## Do guia: 13. Cor, tipografia e espaçamento: tabelas para agentes
 
 ### Escala cromática
 

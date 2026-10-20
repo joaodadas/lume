@@ -220,7 +220,22 @@ O espaçamento vem do wrapper de prosa, por seletor arbitrário, não dos compon
 - `CopyIcon` (registry/base-vega/components/copy-icon.tsx:28-52): `span.relative.inline-flex` > `AnimatePresence mode="popLayout" initial={false}` > `motion.span key={copied ? "check" : "copy"}` com `initial={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}`, `animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}`, `exit` igual ao `initial`, `transition={COPY_SPRING}` (`{ type: "spring", duration: 0.25, bounce: 0 }`, registry/base-vega/lib/motion.ts:41-45). `IconCopyFilled` vira `IconCircleCheckFilled` em `text-green-600 dark:text-green-400`; dentro de um `Button` default (fundo invertido) passe `checkClassName="text-green-400 dark:text-green-600"`. `popLayout` + `relative` põem o ícone que sai sobre o que entra em vez de empilhar por um frame.
 - `CopyButton({ value, title, stopPropagation?, iconSize = "size-4" })` (registry/base-vega/components/copy-button.tsx:35-53): `button` nu, não o primitivo, `inline-flex shrink-0 items-center justify-center rounded p-1 text-muted-foreground/60 cursor-pointer transition-colors hover:text-foreground`; `title` obrigatório; `stopPropagation` dentro de linha clicável; nunca aninhe o botão num toggle, ponha como irmão; copie a string original, nunca o DOM animado.
 
-## Do guia: 13. Cor e tipografia: tabelas para agentes
+## Do guia: 13. Cor, tipografia e espaçamento: tabelas para agentes
+
+### Espaçamento
+
+| Classe | px | Papel | Onde |
+|---|---|---|---|
+| `gap-0.5` | 2 | título e descrição colados | `registry/base-vega/components/section.tsx:26` |
+| `gap-1` | 4 | rótulo sobre valor | `registry/base-vega/ui/sidebar.tsx:462` |
+| `gap-1.5` | 6 | ícone e texto | `registry/base-vega/components/page-header.tsx:68` |
+| `gap-2` | 8 | controles lado a lado, ícone e título | `registry/base-vega/blocks/data-table/data-table.tsx:316` |
+| `gap-3` | 12 | cabeçalho de seção e conteúdo | `registry/base-vega/components/section.tsx:24` |
+| `gap-4` | 16 | blocos da página, grade de cards, card | `registry/base-vega/blocks/app-shell/app-shell.tsx:238` |
+| `gap-6` | 24 | grupos de um dialog ou form | `registry/base-vega/ui/dialog.tsx:58` |
+
+- Espaço mora no pai (`flex flex-col gap-*`, `grid gap-*`); margem só para ajuste fino (`mt-1`, `mt-2`, `-mt-2`).
+- Fora: `space-y-*`, `space-x-*` e valor arbitrário (`p-[13px]`) sem comentário.
 
 ### Snippets de layout
 

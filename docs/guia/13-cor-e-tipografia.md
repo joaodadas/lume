@@ -1,4 +1,4 @@
-# 13. Cor e tipografia: tabelas para agentes
+# 13. Cor, tipografia e espaçamento: tabelas para agentes
 
 Origem: adição do lume, a partir das classes de `registry/base-vega/`. Este capítulo é a versão para agentes, só tabelas e snippets, e vira a skill. A versão para pessoas, com exemplo, faça e evite, é a página `/foundations` do site (`app/foundations/page.tsx`), e o `/guia` leva para ela. Valores dos tokens e carregamento das fontes: [01-fundacoes](./01-fundacoes.md).
 
@@ -138,6 +138,25 @@ Origem: adição do lume, a partir das classes de `registry/base-vega/`. Este ca
 | Tracking | `tracking-tight` em título e valor; `tracking-[0.18em]` só com `uppercase` | tracking positivo em minúscula |
 | Entrelinha | `leading-none` em uma linha; `text-xs/relaxed` em várias | `leading-loose` |
 | Quebra | `text-balance` em título, `text-pretty` em parágrafo, `truncate` em célula | `<br>` manual |
+<!-- skill:end -->
+
+## Espaçamento
+
+Gutters da página (`px-8`, `px-6`, `px-8.25`), ritmo vertical e padding de card estão na tabela "Ritmo vertical e gutters" de [03-shell-e-paginas](./03-shell-e-paginas.md); aqui fica a escala de `gap` por papel.
+
+<!-- skill:start -->
+| Classe | px | Papel | Onde |
+|---|---|---|---|
+| `gap-0.5` | 2 | título e descrição colados | `registry/base-vega/components/section.tsx:26` |
+| `gap-1` | 4 | rótulo sobre valor | `registry/base-vega/ui/sidebar.tsx:462` |
+| `gap-1.5` | 6 | ícone e texto | `registry/base-vega/components/page-header.tsx:68` |
+| `gap-2` | 8 | controles lado a lado, ícone e título | `registry/base-vega/blocks/data-table/data-table.tsx:316` |
+| `gap-3` | 12 | cabeçalho de seção e conteúdo | `registry/base-vega/components/section.tsx:24` |
+| `gap-4` | 16 | blocos da página, grade de cards, card | `registry/base-vega/blocks/app-shell/app-shell.tsx:238` |
+| `gap-6` | 24 | grupos de um dialog ou form | `registry/base-vega/ui/dialog.tsx:58` |
+
+- Espaço mora no pai (`flex flex-col gap-*`, `grid gap-*`); margem só para ajuste fino (`mt-1`, `mt-2`, `-mt-2`).
+- Fora: `space-y-*`, `space-x-*` e valor arbitrário (`p-[13px]`) sem comentário.
 <!-- skill:end -->
 
 ## Snippets de layout

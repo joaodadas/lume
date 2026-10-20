@@ -30,6 +30,7 @@ const SECOES = [
   { id: "familias", nome: "Famílias" },
   { id: "tamanhos", nome: "Tamanhos" },
   { id: "papeis", nome: "Papéis de texto" },
+  { id: "espacamento", nome: "Espaçamento" },
   { id: "snippets", nome: "Snippets" },
 ] as const;
 
@@ -186,6 +187,25 @@ const PAPEIS = [
 ] as const;
 
 const VALORES = ["1.284,90", "87,10", "12.030,00"];
+
+// Uma string completa por degrau, para o Tailwind enxergar cada classe.
+const GAPS = [
+  { classe: "gap-0.5", px: "2", papel: "Título e descrição colados" },
+  { classe: "gap-1", px: "4", papel: "Rótulo sobre valor" },
+  { classe: "gap-1.5", px: "6", papel: "Ícone e texto" },
+  { classe: "gap-2", px: "8", papel: "Controles lado a lado" },
+  { classe: "gap-3", px: "12", papel: "Cabeçalho de seção e conteúdo" },
+  { classe: "gap-4", px: "16", papel: "Blocos da página, grade de cards" },
+  { classe: "gap-6", px: "24", papel: "Grupos de um dialog ou form" },
+] as const;
+
+const GUTTERS = [
+  { classe: "px-8", px: "32", papel: "Texto: header, grids, vazio" },
+  { classe: "px-6", px: "24", papel: "Controle: toolbar, paginação" },
+  { classe: "px-8.25", px: "33", papel: "Célula de tabela" },
+] as const;
+
+const BLOCOS_DE_RITMO = ["Header", "Toolbar", "Tabela"];
 
 const CODIGO_SECAO = `<section className="flex flex-col gap-3">
   <div className={cn("flex flex-wrap items-end justify-between gap-2", PX)}>
@@ -761,8 +781,114 @@ export default function FoundationsPage() {
             </Secao>
 
             <Secao
-              id="snippets"
+              id="espacamento"
               numero="07"
+              titulo="Espaçamento"
+              orientacao="Poucos valores repetidos: gap no pai, gutter da página e padding do card. Margem só para ajuste fino."
+            >
+              <div className="flex flex-col divide-y divide-border/40">
+                {GAPS.map((g) => (
+                  <div
+                    key={g.classe}
+                    className="grid grid-cols-[3rem_1fr] items-center gap-4 py-3 sm:grid-cols-[3rem_8rem_1fr_minmax(0,10rem)]"
+                  >
+                    <span className="font-mono text-xs text-muted-foreground tabular-nums">
+                      {g.px}px
+                    </span>
+                    <div
+                      className={cn(
+                        "flex h-8 w-fit rounded-sm bg-sky-500/25",
+                        g.classe,
+                      )}
+                    >
+                      <span className="w-8 rounded-sm bg-card shadow-(--custom-shadow)" />
+                      <span className="w-8 rounded-sm bg-card shadow-(--custom-shadow)" />
+                    </div>
+                    <span className="col-start-2 text-sm sm:col-start-auto">
+                      {g.papel}
+                    </span>
+                    <span className="col-start-2 sm:col-start-auto">
+                      <Codigo>{g.classe}</Codigo>
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <figure className="flex flex-col gap-3">
+                <div className="relative overflow-hidden rounded-lg squircle:rounded-3xl corner-squircle bg-card py-4 shadow-(--custom-shadow)">
+                  <span className="absolute inset-y-0 left-8 w-px bg-sky-500/60" />
+                  <div className="px-8 pb-3 text-base font-medium tracking-tight">
+                    Traces
+                  </div>
+                  <div className="flex items-center gap-2 px-6 pb-3">
+                    <Button variant="outline" size="sm">
+                      Status
+                    </Button>
+                    <Button variant="outline" size="sm">
+                      Modelo
+                    </Button>
+                  </div>
+                  {["chat.completions", "embeddings"].map((linha) => (
+                    <div
+                      key={linha}
+                      className="border-t border-border/50 px-8.25 py-2 text-sm"
+                    >
+                      {linha}
+                    </div>
+                  ))}
+                </div>
+                <figcaption className="grid gap-2 sm:grid-cols-3">
+                  {GUTTERS.map((g) => (
+                    <span key={g.classe} className="flex flex-col gap-1">
+                      <span className="text-xs font-medium">
+                        {g.px}px, {g.papel.toLowerCase()}
+                      </span>
+                      <Codigo>{g.classe}</Codigo>
+                    </span>
+                  ))}
+                </figcaption>
+              </figure>
+
+              <FacaEvite
+                faca={{
+                  visual: (
+                    <div className="flex w-40 flex-col gap-3">
+                      {BLOCOS_DE_RITMO.map((b) => (
+                        <span
+                          key={b}
+                          className="rounded-sm bg-muted px-2 py-1 text-xs"
+                        >
+                          {b}
+                        </span>
+                      ))}
+                    </div>
+                  ),
+                  texto:
+                    "Pilha com um gap no pai: o ritmo é igual entre todos os blocos.",
+                }}
+                evite={{
+                  visual: (
+                    <div className="flex w-40 flex-col">
+                      <span className="rounded-sm bg-muted px-2 py-1 text-xs">
+                        Header
+                      </span>
+                      <span className="mt-5 rounded-sm bg-muted px-2 py-1 text-xs">
+                        Toolbar
+                      </span>
+                      <span className="mt-1 rounded-sm bg-muted px-2 py-1 text-xs">
+                        Tabela
+                      </span>
+                    </div>
+                  ),
+                  texto:
+                    "Margem solta em cada filho: cada bloco ganha um espaço diferente.",
+                }}
+              />
+            </Secao>
+
+            <Secao
+              id="snippets"
+              numero="08"
               titulo="Snippets"
               orientacao="Layout é classe, não componente. Veja a prévia e copie da aba Código."
             >

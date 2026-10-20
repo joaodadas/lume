@@ -123,6 +123,7 @@ const GUIA_MAP: Record<
     desvios: [
       ["Escala cromática", "04-dados-e-cor"],
       ["Cores que existem", "04-dados-e-cor"],
+      ["Espaçamento", "03-shell-paginas-tabelas"],
       ["Snippets de layout", "03-shell-paginas-tabelas"],
     ],
   },
