@@ -3,7 +3,7 @@
 // component: o slug ativo vem dos params, sem hook de rota. Arquivo do site.
 import Link from "next/link";
 
-import { docsPorGrupo } from "@/components/guia/docs";
+import { docsPorGrupo, hrefDoDoc } from "@/components/guia/docs";
 import { cn } from "@/registry/base-vega/lib/utils";
 
 export function Sumario({
@@ -40,7 +40,7 @@ export function Sumario({
             return (
               <Link
                 key={d.slug}
-                href={`/guia/${d.slug}`}
+                href={hrefDoDoc(d)}
                 aria-current={atual ? "page" : undefined}
                 className={cn(
                   "truncate rounded-md px-2 py-1 transition-colors hover:bg-muted hover:text-foreground",

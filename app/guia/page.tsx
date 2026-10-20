@@ -5,7 +5,7 @@ import { IconFileText } from "@tabler/icons-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { docsPorGrupo } from "@/components/guia/docs";
+import { docsPorGrupo, hrefDoDoc } from "@/components/guia/docs";
 import { GuiaShell } from "@/components/guia/guia-shell";
 
 export const metadata: Metadata = {
@@ -54,7 +54,7 @@ export default function GuiaIndexPage() {
               {docs.map((d) => (
                 <li key={d.slug}>
                   <Link
-                    href={`/guia/${d.slug}`}
+                    href={hrefDoDoc(d)}
                     className="group flex items-start gap-3 rounded-md py-3 transition-colors hover:bg-muted/50 sm:-mx-2 sm:px-2"
                   >
                     <IconFileText className="mt-0.5 size-4 shrink-0 text-muted-foreground/60 transition-colors group-hover:text-foreground" />

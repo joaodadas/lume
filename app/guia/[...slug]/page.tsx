@@ -6,9 +6,9 @@
 // dynamicParams = false).
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
-import { lerDoc, listarDocs } from "@/components/guia/docs";
+import { hrefDoDoc, lerDoc, listarDocs } from "@/components/guia/docs";
 import { GuiaShell } from "@/components/guia/guia-shell";
 import { DocMarkdown } from "@/components/guia/markdown";
 
@@ -41,6 +41,8 @@ export default async function GuiaDocPage({
   const resultado = lerDoc(slug.join("/"));
   if (!resultado) notFound();
   const { doc, markdown } = resultado;
+  const href = hrefDoDoc(doc);
+  if (href !== `/guia/${doc.slug}`) redirect(href);
 
   return (
     <GuiaShell ativo={doc.slug}>
