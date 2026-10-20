@@ -1,6 +1,6 @@
 # Tokens e forma
 
-Gerado por `bun scripts/build-skill.ts` a partir de `FRONTEND.md`, `docs/guia/01-fundacoes.md`, `docs/guia/10-fingerprint.md`; não edite à mão. Caminhos sem prefixo são relativos à raiz de https://github.com/joaodadas/lume; `apps/web/` e `packages/ui/` são do Foglamp (commit `2bc3bb5`).
+Gerado por `bun scripts/build-skill.ts` a partir de `FRONTEND.md`, `docs/guia/01-fundacoes.md`, `docs/guia/10-fingerprint.md`, `docs/guia/13-cor-e-tipografia.md`; não edite à mão. Caminhos sem prefixo são relativos à raiz de https://github.com/joaodadas/lume; `apps/web/` e `packages/ui/` são do Foglamp (commit `2bc3bb5`).
 
 ## Tokens e cor
 
@@ -55,6 +55,7 @@ Porquê: card e popover são o mesmo material, e um tooltip invertido lê como p
 - **Always** limite o peso a `font-medium` no app (títulos, rótulos, botão, badge) com `tracking-tight` em título e valor de StatCard, e `font-normal` para desfazer o `font-medium` do Button em chips; `font-semibold` e `font-[450]` só em display de marketing com `font-display`; `text-balance` em título, `text-pretty` em parágrafo de apoio, `truncate` em célula e chip com texto livre.
 - **Always** use `tabular-nums` em todo número (`TableCell align="right"` já injeta `text-right tabular-nums`, `table.tsx:17-21`) e `font-mono` só para ids, chaves, código e eyebrows (`font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground`); `font-mono` resolve na Geist Mono Variable (`globals.css:228-230`).
 - **Always** mantenha dois pisos em texto de app: peso 400 (`font-normal`) é o mínimo abaixo de 18 px, nunca 300; 13 px é o menor tamanho de leitura corrida, e 11 e 10 px ficam restritos a eyebrow e micro-rótulo mono em caixa alta. Tamanho de texto vai em `rem` (todo `text-*` do Tailwind já é), nunca em px literal (os degraus 13, 11 e 10 px do Foglamp são a exceção aceita): `rem` respeita o ajuste de tamanho de fonte do navegador, que é separado do zoom (adição do lume; Jakub Krehel, better-typography; Rauno Freiberg, interfaces.rauno.me; Paco Coursey, paco.me/writing/px-vs-rem).
+- **Always** escreva texto pelo papel, copiando a string da tabela de papéis tipográficos de `docs/guia/13-cor-e-tipografia.md` (título de página `text-base font-medium tracking-tight`, seção `text-sm font-medium`, apoio `text-sm text-muted-foreground text-balance`); layout e tipografia são classes e snippets, nunca componente `Flex`, `Text` ou `Heading` (adição do lume).
 - **Never** use `text-2xl` no app, `font-bold`, ou mono para alinhar números: dígitos tabulares em Inter resolvem.
 
 Porquê: 501 das 594 ocorrências de tamanho no Foglamp são `text-sm` e `text-xs`; a hierarquia vem de peso 500, tracking e cor muda, não de tamanho.
@@ -285,3 +286,109 @@ Tons: `-500` 216, `-400` 140, `-600` 107, `-500/10` 31, `-700` 29, `-100` 28, `-
 | `role` | 28 | `status` (Spinner, TextShimmerLoader), `alert` (Alert, FieldError), `separator` com `aria-orientation="vertical"` nos handles, `tab`/`tablist`, `user`/`assistant` nas bolhas |
 | `aria-pressed` / `aria-expanded` / `aria-invalid` / `aria-current` / `aria-live` | 12 / 10 / 9 / 4 / 1 | pílulas e filtros; gatilhos; campos; nav; `polite` |
 | `tabIndex`; teclado | 5 | linhas interativas (`tabIndex 0` + Enter e Espaço, `table.tsx:147-163`); `Cmd/Ctrl+B` na sidebar, `Kbd` dentro de botões espelha o atalho, foco de menu é o próprio hover (`focus:bg-accent`) |
+
+## Do guia: 13. Cor, tipografia e espaçamento: tabelas para agentes
+
+### Escala neutra
+
+| Papel | Classe | Light | Dark |
+|---|---|---|---|
+| Canvas atrás do inset | `bg-sidebar` | 0.975 | 0.145 (950) |
+| Página | `bg-background` | 0.99 | 0.17 |
+| Superfície | `bg-card`, `bg-popover` | branco | 0.205 (900) |
+| Chip, skeleton, código | `bg-muted` | 100 | 800 |
+| Hover | `hover:bg-muted/50`, `dark:hover:bg-muted` | 100 a 50% | 800 |
+| Item ativo | `data-active:bg-sidebar-accent/70`, `dark:data-active:bg-sidebar-accent/50` | 0.95 a 70% | 800 a 50% |
+| Divisória | `border-border/40`, `border-border/50` | 200 | branco a 10% |
+| Aresta de superfície | `shadow-(--custom-shadow)` | anel 0.5px a 6% | inset branco a 3% |
+| Anel de foco | `focus-visible:ring-[1.5px] focus-visible:ring-ring/50` | 400 a 50% | 500 a 50% |
+| Sólido | `bg-neutral-800 dark:bg-neutral-100` | 800 | 100 |
+| Texto secundário | `text-muted-foreground` | 500 | 400 |
+| Placeholder, meta | `text-muted-foreground/50` | 500 a 50% | 400 a 50% |
+| Texto principal | `text-foreground` | 950 | 50 |
+
+### Estados
+
+| Estado | Cinza | Cor |
+|---|---|---|
+| Hover | `hover:bg-muted/50`, `dark:hover:bg-muted` | `[a]:hover:bg-{c}-500/20` |
+| Aberto | `aria-expanded:bg-muted/50`, `dark:aria-expanded:bg-muted` | sem uso |
+| Selecionado | `data-active:bg-sidebar-accent/70` | sem uso |
+| Foco | `focus-visible:ring-[1.5px] focus-visible:ring-ring/50` | `focus-visible:ring-{c}-500/20` |
+| Inválido | `aria-invalid:border-destructive aria-invalid:ring-[1.5px] aria-invalid:ring-destructive/20` | só `destructive` |
+| Desabilitado | `disabled:opacity-50` | `disabled:opacity-50` |
+| Item destrutivo de menu | `focus:bg-destructive/10` | sem uso |
+
+### Famílias
+
+| Família | Utility | Papel | Nunca |
+|---|---|---|---|
+| Inter Variable | `font-sans` | todo texto do app | outra sans |
+| Inter como heading | `font-heading` | título de Card, Dialog, Sheet, Drawer, Empty | texto que não é título |
+| Host Grotesk Variable | `font-display` | marketing e título do site | dentro do app |
+| Geist Mono Variable | `font-mono` | id, chave, código, eyebrow | número de tabela |
+
+### Tamanhos
+
+| Classe | px | Papel |
+|---|---|---|
+| `text-[10px]` | 10 | badge `sm` |
+| `text-[11px]` | 11 | eyebrow mono (site e Foglamp) |
+| `text-xs` | 12 | meta, legenda, descrição curta, badge `md`, tooltip, delta |
+| `text-[13px]` | 13 | valor denso de painel (Foglamp) |
+| `text-sm` | 14 | corpo, rótulo, título de seção, título de card `sm` |
+| `text-base` | 16 | título de página, card e dialog; input abaixo de `md` |
+| `text-lg` | 18 | título de passo do `login-form`, corpo de marketing |
+| `text-xl` | 20 | título de auth |
+| `text-3xl`, `text-4xl` | 30, 36 | display com `font-display`, fora do app |
+
+### Papéis tipográficos
+
+| Papel | Classe | Onde |
+|---|---|---|
+| Título de página | `text-base font-medium tracking-tight` | `registry/base-vega/components/page-header.tsx:84` |
+| Título de card | `font-heading text-base leading-normal font-medium group-data-[size=sm]/card:text-sm` | `registry/base-vega/ui/card.tsx:43` |
+| Título de dialog | `font-heading leading-none font-medium text-base` | `registry/base-vega/ui/dialog.tsx:126` |
+| Título de seção | `text-sm font-medium` | `registry/base-vega/components/section.tsx:27` |
+| Título de vazio | `font-heading text-sm font-medium tracking-tight` | `registry/base-vega/ui/empty.tsx:65` |
+| Título de auth | `text-xl font-medium text-balance` | `registry/base-vega/blocks/login-form/login-form.tsx:200` |
+| Texto de apoio | `text-sm text-muted-foreground text-balance` | `registry/base-vega/ui/card.tsx:55` |
+| Descrição curta | `text-xs text-muted-foreground text-pretty` | `registry/base-vega/components/section.tsx:29` |
+| Descrição de vazio | `text-xs/relaxed text-muted-foreground` | `registry/base-vega/ui/empty.tsx:78` |
+| Rótulo de campo | `text-sm leading-none font-medium` | `registry/base-vega/ui/label.tsx:14` |
+| Valor de métrica | `tracking-tight tabular-nums` | `registry/base-vega/components/stat-card.tsx:134` |
+| Delta | `text-xs font-[470] tabular-nums` | `registry/base-vega/components/stat-card.tsx:204` |
+| Número em coluna | `text-right tabular-nums` | `registry/base-vega/ui/table.tsx:20` |
+| Código e id | `font-mono text-xs text-foreground` | `registry/base-vega/components/rolling-text.tsx:65` |
+| Link em texto | `font-medium text-primary underline underline-offset-2` | `registry/base-vega/components/markdown-components.tsx:25` |
+| Tecla | `Kbd` | `registry/base-vega/ui/kbd.tsx:10` |
+| Eyebrow | `font-mono text-[11px] font-medium tracking-[0.18em] text-muted-foreground uppercase` | site, `app/guia/page.tsx:50` |
+| Display | `font-display text-3xl font-[450] tracking-[-0.025em] text-balance` | site, `app/guia/page.tsx:22` |
+
+| Eixo | Com papel | Fora |
+|---|---|---|
+| Peso | `font-normal`, `font-medium` (teto do app), `font-[470]` (delta), `font-[450]` (display) | `font-light`, `font-semibold`, `font-bold` |
+| Tracking | `tracking-tight` em título e valor; `tracking-[0.18em]` só com `uppercase` | tracking positivo em minúscula |
+| Entrelinha | `leading-none` em uma linha; `text-xs/relaxed` em várias | `leading-loose` |
+| Quebra | `text-balance` em título, `text-pretty` em parágrafo, `truncate` em célula | `<br>` manual |
+
+### Snippets de texto
+
+```tsx
+<h1 className="text-base font-medium tracking-tight">Traces</h1>
+<h2 className="text-sm font-medium">Uso por modelo</h2>
+<p className="text-sm text-muted-foreground text-balance">Texto de apoio.</p>
+<p className="text-xs text-muted-foreground text-pretty">Legenda.</p>
+<span className="text-sm tabular-nums">{formatCount(1234)}</span>
+<span className="text-xs text-muted-foreground/50">{EMPTY}</span>
+<code className="font-mono text-xs text-foreground">tr_8f2a91</code>
+<CodeBlock code={payload} lang="json" />
+```
+
+Citação (adição do lume; a aresta é divisor, não caixa):
+
+```tsx
+<blockquote className="border-l-2 border-border/50 pl-3 text-sm text-muted-foreground text-pretty">
+  A frase citada.
+</blockquote>
+```

@@ -118,6 +118,15 @@ const GUIA_MAP: Record<
     ],
   },
   "12-marketing": { padrao: null },
+  "13-cor-e-tipografia": {
+    padrao: "01-tokens-e-forma",
+    desvios: [
+      ["Escala cromática", "04-dados-e-cor"],
+      ["Cores que existem", "04-dados-e-cor"],
+      ["Espaçamento", "03-shell-paginas-tabelas"],
+      ["Snippets de layout", "03-shell-paginas-tabelas"],
+    ],
+  },
   glossario: { padrao: null },
 };
 

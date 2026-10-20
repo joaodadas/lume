@@ -136,6 +136,16 @@ function slugDoNome(nome: string) {
   return nome.replace(/\.md$/, "").toLowerCase();
 }
 
+// Documento com versão visual para pessoas: o site leva para a página, e o
+// markdown fica para agentes (skill, arquivo no GitHub).
+const PAGINA_VISUAL: Record<string, string> = {
+  "guia/13-cor-e-tipografia": "/foundations",
+};
+
+export function hrefDoDoc(doc: Doc) {
+  return PAGINA_VISUAL[doc.slug] ?? `/guia/${doc.slug}`;
+}
+
 let cache: Doc[] | null = null;
 
 export function listarDocs(): Doc[] {
@@ -194,7 +204,7 @@ export function rotaDoLink(docAtual: Doc, href: string): string | null {
     (d) => d.arquivo.toLowerCase() === alvo.toLowerCase(),
   );
   if (!doc) return null;
-  return `/guia/${doc.slug}${hash ? `#${hash}` : ""}`;
+  return `${hrefDoDoc(doc)}${hash ? `#${hash}` : ""}`;
 }
 
 // Caminho de um arquivo do repo citado por link relativo (sem .md) vira link

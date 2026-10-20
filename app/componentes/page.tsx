@@ -4,6 +4,7 @@
 import {
   IconAlarm,
   IconBell,
+  IconCalendarFilled,
   IconChartBar,
   IconChevronDown,
   IconHome,
@@ -15,6 +16,8 @@ import {
   IconUser,
 } from "@tabler/icons-react";
 import { ptBR } from "date-fns/locale";
+import { useState } from "react";
+import type { DateRange } from "react-day-picker";
 import { toast } from "sonner";
 
 import {
@@ -25,6 +28,7 @@ import {
   VariantColumn,
 } from "@/components/showcase-shell";
 import { SiteNav } from "@/components/site-nav";
+import { formatRangeLabel } from "@/registry/base-vega/lib/range";
 import {
   Accordion,
   AccordionContent,
@@ -72,12 +76,28 @@ import {
 } from "@/registry/base-vega/ui/collapsible";
 import {
   Combobox,
+  ComboboxChip,
+  ComboboxChips,
+  ComboboxChipsInput,
   ComboboxContent,
   ComboboxEmpty,
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
+  ComboboxTrigger,
+  ComboboxValue,
+  useComboboxAnchor,
 } from "@/registry/base-vega/ui/combobox";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/registry/base-vega/ui/command";
 import {
   Dialog,
   DialogContent,
@@ -210,6 +230,8 @@ import {
   TooltipTrigger,
 } from "@/registry/base-vega/ui/tooltip";
 
+import { SNIPPETS } from "./snippets";
+
 // Listas completas lidas de button.tsx e badge.tsx: a vitrine mostra tudo o
 // que o cva aceita, inclusive ghost-destructive e os tamanhos icon.
 const BUTTON_VARIANTS = [
@@ -241,6 +263,15 @@ const BADGE_VARIANTS = [
 ] as const;
 const BADGE_SIZES = ["sm", "md", "lg"] as const;
 
+const MODELOS = [
+  "gpt-5",
+  "gpt-5-mini",
+  "claude-opus-5-5",
+  "claude-sonnet-5-5",
+  "gemini-3-pro",
+  "llama-5-70b",
+];
+
 const FRUTAS = [
   "Abacaxi",
   "Banana",
@@ -270,6 +301,8 @@ const SECOES = [
   { id: "select", nome: "Select" },
   { id: "native-select", nome: "Native select" },
   { id: "combobox", nome: "Combobox" },
+  { id: "combobox-busca", nome: "Combobox com busca" },
+  { id: "multi-select", nome: "Multi-select" },
   { id: "toggle", nome: "Toggle" },
   { id: "checkbox-radio-switch", nome: "Checkbox / Radio / Switch" },
   { id: "progress", nome: "Progress" },
@@ -282,8 +315,11 @@ const SECOES = [
   { id: "pagination", nome: "Pagination" },
   { id: "overlays", nome: "Overlays" },
   { id: "hover-card", nome: "Hover card" },
+  { id: "command", nome: "Command" },
   { id: "empty", nome: "Empty" },
   { id: "calendar", nome: "Calendar" },
+  { id: "date-picker", nome: "Date picker" },
+  { id: "periodo", nome: "Período" },
   { id: "table", nome: "Table" },
   { id: "scroll-area-separator", nome: "Scroll area / Separator" },
   { id: "kbd", nome: "Kbd" },
@@ -292,6 +328,10 @@ const SECOES = [
 ] as const satisfies readonly ShowcaseSection[];
 
 export default function ComponentesPage() {
+  const anchor = useComboboxAnchor();
+  const [data, setData] = useState<Date | undefined>(HOJE);
+  const [periodo, setPeriodo] = useState<DateRange | undefined>(INTERVALO);
+
   return (
     <div className="min-h-svh bg-background">
       <SiteNav />
@@ -301,8 +341,9 @@ export default function ComponentesPage() {
             Componentes
           </h1>
           <p className="max-w-prose text-sm text-muted-foreground text-pretty">
-            Os 41 primitivos core do lume, em grades de variante por tamanho,
-            com as props reais de cada arquivo em registry/base-vega/ui.
+            Os 41 primitivos core do lume e as composições mais usadas (combobox
+            com busca, multi-select, date picker, período e command), com a
+            prévia e o código de uso de cada um.
           </p>
         </div>
 
@@ -315,6 +356,7 @@ export default function ComponentesPage() {
             <div className="flex min-w-0 flex-col">
               <ComponentSection
                 id="botao"
+                code={SNIPPETS.botao}
                 name="Botão"
                 description="Variantes × tamanhos"
               >
@@ -344,6 +386,7 @@ export default function ComponentesPage() {
 
               <ComponentSection
                 id="badge"
+                code={SNIPPETS.badge}
                 name="Badge"
                 description="Variantes × tamanhos"
               >
@@ -365,7 +408,11 @@ export default function ComponentesPage() {
                 ))}
               </ComponentSection>
 
-              <ComponentSection id="alerta" name="Alerta">
+              <ComponentSection
+                id="alerta"
+                code={SNIPPETS.alerta}
+                name="Alerta"
+              >
                 <VariantColumn label="default">
                   <Alert>
                     <IconInfoCircle />
@@ -384,7 +431,11 @@ export default function ComponentesPage() {
                 </VariantColumn>
               </ComponentSection>
 
-              <ComponentSection id="avatar" name="Avatar">
+              <ComponentSection
+                id="avatar"
+                code={SNIPPETS.avatar}
+                name="Avatar"
+              >
                 <VariantColumn label="tamanhos">
                   <SizeRow label="xs">
                     <Avatar size="xs">
@@ -429,7 +480,7 @@ export default function ComponentesPage() {
                 </VariantColumn>
               </ComponentSection>
 
-              <ComponentSection id="input" name="Input">
+              <ComponentSection id="input" code={SNIPPETS.input} name="Input">
                 <VariantColumn label="default">
                   <Input placeholder="email@exemplo.com" />
                   <Input placeholder="Desabilitado" disabled />
@@ -451,7 +502,7 @@ export default function ComponentesPage() {
                 </VariantColumn>
               </ComponentSection>
 
-              <ComponentSection id="field" name="Field">
+              <ComponentSection id="field" code={SNIPPETS.field} name="Field">
                 <VariantColumn label="vertical" className="min-w-[260px]">
                   <Field className="w-[240px]">
                     <FieldLabel htmlFor="field-email">E-mail</FieldLabel>
@@ -469,7 +520,11 @@ export default function ComponentesPage() {
                 </VariantColumn>
               </ComponentSection>
 
-              <ComponentSection id="select" name="Select">
+              <ComponentSection
+                id="select"
+                code={SNIPPETS.select}
+                name="Select"
+              >
                 <VariantColumn label="tamanho default">
                   <Select defaultValue="maca">
                     <SelectTrigger className="w-[180px]">
@@ -498,6 +553,7 @@ export default function ComponentesPage() {
 
               <ComponentSection
                 id="native-select"
+                code={SNIPPETS["native-select"]}
                 name="Native select"
                 description="<select> nativo com a casca do sistema"
               >
@@ -532,6 +588,7 @@ export default function ComponentesPage() {
 
               <ComponentSection
                 id="combobox"
+                code={SNIPPETS.combobox}
                 name="Combobox"
                 description="Select com filtro"
               >
@@ -555,7 +612,81 @@ export default function ComponentesPage() {
                 </VariantColumn>
               </ComponentSection>
 
-              <ComponentSection id="toggle" name="Toggle">
+              <ComponentSection
+                id="combobox-busca"
+                code={SNIPPETS["combobox-busca"]}
+                name="Combobox com busca"
+                description="Gatilho de botão e busca dentro do popup"
+              >
+                <VariantColumn label="default" className="min-w-[260px]">
+                  <Combobox items={MODELOS} defaultValue={null}>
+                    <ComboboxTrigger
+                      render={
+                        <Button
+                          variant="outline"
+                          className="w-56 justify-between font-normal"
+                        />
+                      }
+                    >
+                      <ComboboxValue placeholder="Escolha um modelo" />
+                    </ComboboxTrigger>
+                    <ComboboxContent>
+                      <ComboboxInput
+                        showTrigger={false}
+                        placeholder="Buscar modelo"
+                      />
+                      <ComboboxEmpty>Nenhum modelo encontrado.</ComboboxEmpty>
+                      <ComboboxList>
+                        {(item: string) => (
+                          <ComboboxItem key={item} value={item}>
+                            {item}
+                          </ComboboxItem>
+                        )}
+                      </ComboboxList>
+                    </ComboboxContent>
+                  </Combobox>
+                </VariantColumn>
+              </ComponentSection>
+
+              <ComponentSection
+                id="multi-select"
+                code={SNIPPETS["multi-select"]}
+                name="Multi-select"
+                description="Combobox múltiplo com chips"
+              >
+                <VariantColumn label="default" className="min-w-[300px]">
+                  <Combobox multiple items={MODELOS} defaultValue={["gpt-5"]}>
+                    <ComboboxChips ref={anchor} className="w-72">
+                      <ComboboxValue>
+                        {(valores: string[]) => (
+                          <>
+                            {valores.map((v) => (
+                              <ComboboxChip key={v}>{v}</ComboboxChip>
+                            ))}
+                            <ComboboxChipsInput placeholder="Adicionar modelo" />
+                          </>
+                        )}
+                      </ComboboxValue>
+                    </ComboboxChips>
+                    <ComboboxContent anchor={anchor}>
+                      <ComboboxEmpty>Nenhum modelo encontrado.</ComboboxEmpty>
+                      <ComboboxList>
+                        {(item: string) => (
+                          <ComboboxItem key={item} value={item}>
+                            {item}
+                          </ComboboxItem>
+                        )}
+                      </ComboboxList>
+                    </ComboboxContent>
+                  </Combobox>
+                </VariantColumn>
+              </ComponentSection>
+
+              <ComponentSection
+                id="toggle"
+                code={SNIPPETS.toggle}
+                name="Toggle"
+              >
                 <VariantColumn label="default">
                   <SizeRow label="sm">
                     <Toggle size="sm">Negrito</Toggle>
@@ -598,6 +729,7 @@ export default function ComponentesPage() {
 
               <ComponentSection
                 id="checkbox-radio-switch"
+                code={SNIPPETS["checkbox-radio-switch"]}
                 name="Checkbox / Radio / Switch"
               >
                 <VariantColumn label="checkbox">
@@ -648,6 +780,7 @@ export default function ComponentesPage() {
 
               <ComponentSection
                 id="progress"
+                code={SNIPPETS.progress}
                 name="Progress"
                 description="Trilha h-1.5 em bg-muted, indicador em bg-primary"
               >
@@ -666,6 +799,7 @@ export default function ComponentesPage() {
 
               <ComponentSection
                 id="loader"
+                code={SNIPPETS.loader}
                 name="Loader"
                 description="TextShimmerLoader: gradiente varrendo o texto"
               >
@@ -685,7 +819,11 @@ export default function ComponentesPage() {
                 </VariantColumn>
               </ComponentSection>
 
-              <ComponentSection id="skeleton-spinner" name="Skeleton / Spinner">
+              <ComponentSection
+                id="skeleton-spinner"
+                code={SNIPPETS["skeleton-spinner"]}
+                name="Skeleton / Spinner"
+              >
                 <VariantColumn label="skeleton" className="min-w-[260px]">
                   <Skeleton className="h-4 w-[220px]" />
                   <Skeleton className="h-4 w-[180px]" />
@@ -704,7 +842,7 @@ export default function ComponentesPage() {
                 </VariantColumn>
               </ComponentSection>
 
-              <ComponentSection id="card" name="Card">
+              <ComponentSection id="card" code={SNIPPETS.card} name="Card">
                 <VariantColumn label="default" className="min-w-[280px]">
                   <Card className="w-[260px]">
                     <CardHeader>
@@ -731,7 +869,7 @@ export default function ComponentesPage() {
                 </VariantColumn>
               </ComponentSection>
 
-              <ComponentSection id="tabs" name="Tabs">
+              <ComponentSection id="tabs" code={SNIPPETS.tabs} name="Tabs">
                 <VariantColumn label="default">
                   <Tabs defaultValue="visao" className="w-[260px]">
                     <TabsList>
@@ -774,7 +912,11 @@ export default function ComponentesPage() {
                 </VariantColumn>
               </ComponentSection>
 
-              <ComponentSection id="accordion" name="Accordion">
+              <ComponentSection
+                id="accordion"
+                code={SNIPPETS.accordion}
+                name="Accordion"
+              >
                 <VariantColumn label="single" className="min-w-[300px]">
                   <Accordion className="w-[280px]">
                     <AccordionItem value="a">
@@ -793,7 +935,11 @@ export default function ComponentesPage() {
                 </VariantColumn>
               </ComponentSection>
 
-              <ComponentSection id="collapsible" name="Collapsible">
+              <ComponentSection
+                id="collapsible"
+                code={SNIPPETS.collapsible}
+                name="Collapsible"
+              >
                 <VariantColumn label="default">
                   <Collapsible className="w-[240px]">
                     <CollapsibleTrigger render={<Button variant="outline" />}>
@@ -806,7 +952,11 @@ export default function ComponentesPage() {
                 </VariantColumn>
               </ComponentSection>
 
-              <ComponentSection id="pagination" name="Pagination">
+              <ComponentSection
+                id="pagination"
+                code={SNIPPETS.pagination}
+                name="Pagination"
+              >
                 <VariantColumn label="default">
                   <Pagination>
                     <PaginationContent>
@@ -837,6 +987,7 @@ export default function ComponentesPage() {
 
               <ComponentSection
                 id="overlays"
+                code={SNIPPETS.overlays}
                 name="Overlays"
                 description="Gatilhos: clique para abrir"
               >
@@ -959,6 +1110,7 @@ export default function ComponentesPage() {
 
               <ComponentSection
                 id="hover-card"
+                code={SNIPPETS["hover-card"]}
                 name="Hover card"
                 description="Prévia ao passar o mouse (Base UI PreviewCard)"
               >
@@ -984,7 +1136,46 @@ export default function ComponentesPage() {
                 </VariantColumn>
               </ComponentSection>
 
-              <ComponentSection id="empty" name="Empty">
+              <ComponentSection
+                id="command"
+                code={SNIPPETS.command}
+                name="Command"
+                description="Paleta com busca, grupos e atalhos (cmdk)"
+              >
+                <VariantColumn label="inline" className="min-w-[320px]">
+                  <Command className="w-80 shadow-(--custom-shadow)">
+                    <CommandInput placeholder="Buscar comando" />
+                    <CommandList>
+                      <CommandEmpty>Nenhum comando encontrado.</CommandEmpty>
+                      <CommandGroup heading="Navegar">
+                        <CommandItem>
+                          <IconHome />
+                          Início
+                        </CommandItem>
+                        <CommandItem>
+                          <IconChartBar />
+                          Relatórios
+                        </CommandItem>
+                      </CommandGroup>
+                      <CommandSeparator />
+                      <CommandGroup heading="Conta">
+                        <CommandItem>
+                          <IconUser />
+                          Perfil
+                          <CommandShortcut>⌘P</CommandShortcut>
+                        </CommandItem>
+                        <CommandItem>
+                          <IconSettings />
+                          Configurações
+                          <CommandShortcut>⌘,</CommandShortcut>
+                        </CommandItem>
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </VariantColumn>
+              </ComponentSection>
+
+              <ComponentSection id="empty" code={SNIPPETS.empty} name="Empty">
                 <VariantColumn label="default" className="min-w-[320px]">
                   <Empty className="w-[300px]">
                     <EmptyHeader>
@@ -1002,7 +1193,11 @@ export default function ComponentesPage() {
                 </VariantColumn>
               </ComponentSection>
 
-              <ComponentSection id="calendar" name="Calendar">
+              <ComponentSection
+                id="calendar"
+                code={SNIPPETS.calendar}
+                name="Calendar"
+              >
                 <VariantColumn label="único" className="min-w-[280px]">
                   <Calendar
                     mode="single"
@@ -1025,7 +1220,76 @@ export default function ComponentesPage() {
                 </VariantColumn>
               </ComponentSection>
 
-              <ComponentSection id="table" name="Table">
+              <ComponentSection
+                id="date-picker"
+                code={SNIPPETS["date-picker"]}
+                name="Date picker"
+                description="Popover com Calendar, data no gatilho"
+              >
+                <VariantColumn label="default" className="min-w-[260px]">
+                  <Popover>
+                    <PopoverTrigger
+                      render={
+                        <Button
+                          variant="outline"
+                          className="w-56 justify-start font-normal"
+                        />
+                      }
+                    >
+                      <IconCalendarFilled />
+                      {data ? formatRangeLabel(data, data) : "Escolha uma data"}
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={data}
+                        onSelect={setData}
+                        locale={ptBR}
+                        today={HOJE}
+                        defaultMonth={HOJE}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </VariantColumn>
+              </ComponentSection>
+
+              <ComponentSection
+                id="periodo"
+                code={SNIPPETS.periodo}
+                name="Período"
+                description="Date range picker: dois meses no popover"
+              >
+                <VariantColumn label="default" className="min-w-[280px]">
+                  <Popover>
+                    <PopoverTrigger
+                      render={
+                        <Button
+                          variant="outline"
+                          className="justify-start font-normal"
+                        />
+                      }
+                    >
+                      <IconCalendarFilled />
+                      {periodo?.from && periodo.to
+                        ? formatRangeLabel(periodo.from, periodo.to)
+                        : "Escolha um período"}
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="range"
+                        numberOfMonths={2}
+                        selected={periodo}
+                        onSelect={setPeriodo}
+                        locale={ptBR}
+                        today={HOJE}
+                        defaultMonth={HOJE}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </VariantColumn>
+              </ComponentSection>
+
+              <ComponentSection id="table" code={SNIPPETS.table} name="Table">
                 <VariantColumn label="default" className="min-w-[400px]">
                   <Table className="w-[400px]">
                     <TableHeader>
@@ -1093,6 +1357,7 @@ export default function ComponentesPage() {
 
               <ComponentSection
                 id="scroll-area-separator"
+                code={SNIPPETS["scroll-area-separator"]}
                 name="Scroll area / Separator"
               >
                 <VariantColumn label="scroll area" className="min-w-[260px]">
@@ -1118,7 +1383,7 @@ export default function ComponentesPage() {
                 </VariantColumn>
               </ComponentSection>
 
-              <ComponentSection id="kbd" name="Kbd">
+              <ComponentSection id="kbd" code={SNIPPETS.kbd} name="Kbd">
                 <VariantColumn label="único">
                   <Kbd>⌘</Kbd>
                   <Kbd>K</Kbd>
@@ -1133,6 +1398,7 @@ export default function ComponentesPage() {
 
               <ComponentSection
                 id="sidebar"
+                code={SNIPPETS.sidebar}
                 name="Sidebar"
                 description="Amostra com collapsible none, sem ocupar a página"
               >
@@ -1210,6 +1476,7 @@ export default function ComponentesPage() {
 
               <ComponentSection
                 id="sonner"
+                code={SNIPPETS.sonner}
                 name="Toast"
                 description="Sonner, com o Toaster montado no layout"
               >

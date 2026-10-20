@@ -1,7 +1,14 @@
 // Casca da vitrine /componentes: seção com âncora, coluna de variante, linha de tamanho e o sumário lateral. Derivada do showcase-shell.tsx do boilerplate (João Vitor Dadas), sem upstream no Foglamp.
 import type * as React from "react";
 
+import { CodeBlock } from "@/registry/base-vega/components/code-block";
 import { cn } from "@/registry/base-vega/lib/utils";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/registry/base-vega/ui/tabs";
 
 export type ShowcaseSection = {
   id: string;
@@ -15,13 +22,17 @@ export function ComponentSection({
   id,
   name,
   description,
+  code,
   children,
 }: {
   id: string;
   name: string;
   description?: string;
+  /** Snippet de uso: com ele a seção ganha as abas Prévia e Código. */
+  code?: string;
   children: React.ReactNode;
 }) {
+  const previa = <div className="flex flex-wrap gap-6">{children}</div>;
   return (
     <section
       id={id}
@@ -35,7 +46,22 @@ export function ComponentSection({
           <p className="mt-1 text-xs text-muted-foreground">{description}</p>
         ) : null}
       </div>
-      <div className="flex flex-wrap gap-6">{children}</div>
+      {code ? (
+        <Tabs defaultValue="previa" className="min-w-0">
+          <TabsList>
+            <TabsTrigger value="previa">Prévia</TabsTrigger>
+            <TabsTrigger value="codigo">Código</TabsTrigger>
+          </TabsList>
+          <TabsContent value="previa" className="pt-4">
+            {previa}
+          </TabsContent>
+          <TabsContent value="codigo" className="pt-4">
+            <CodeBlock code={code} />
+          </TabsContent>
+        </Tabs>
+      ) : (
+        previa
+      )}
     </section>
   );
 }
