@@ -1,4 +1,4 @@
-// Guia visual de cor e tipografia, a versão para pessoas: exemplo renderizado, faça e evite e código à parte. A versão para agentes é docs/guia/13-cor-e-tipografia.md, que vira a skill. Arquivo do site, fora da registry.
+// Fundações (/fundacoes): escalas de cor e tipografia na versão para pessoas, exemplo renderizado, faça e evite e código à parte. A versão para agentes é docs/guia/13-cor-e-tipografia.md, que vira a skill. Arquivo do site, fora da registry.
 "use client";
 
 import {
@@ -6,7 +6,6 @@ import {
   IconCircleCheckFilled,
   IconCircleXFilled,
 } from "@tabler/icons-react";
-import Link from "next/link";
 
 import { ShowcaseToc } from "@/components/showcase-shell";
 import { SiteNav } from "@/components/site-nav";
@@ -358,30 +357,32 @@ function Estado({
   );
 }
 
-export default function CorETipografiaPage() {
+export default function FundacoesPage() {
   return (
     <div className="min-h-svh bg-background">
       <SiteNav />
       <main className="container mx-auto max-w-6xl px-6 py-10">
         <div className="flex flex-col gap-4 pb-10">
           <h1 className="font-display text-3xl font-[450] tracking-[-0.025em] text-balance">
-            Cor e tipografia
+            Fundações
           </h1>
           <p className="max-w-prose text-sm text-muted-foreground text-pretty">
-            Qual cinza, qual cor e qual texto usar em cada lugar, com o exemplo
-            ao lado. Nada aqui é componente novo: são os tokens e as classes que
-            a registry já usa.
+            Escalas de cor e tipografia: qual cinza, qual cor e qual texto usar
+            em cada lugar, com o exemplo ao lado. Nada aqui é componente novo:
+            são os tokens e as classes que a registry já usa.
           </p>
           <aside className="flex max-w-prose flex-col gap-1 rounded-lg squircle:rounded-3xl corner-squircle bg-muted/50 px-4 py-3 text-sm">
             <span className="font-medium">Esta página é para pessoas.</span>
             <span className="text-muted-foreground text-pretty">
               Agentes leem as mesmas regras em tabela no{" "}
-              <Link
-                href="/guia/guia/13-cor-e-tipografia"
+              <a
+                href="https://github.com/joaodadas/lume/blob/main/docs/guia/13-cor-e-tipografia.md"
+                target="_blank"
+                rel="noreferrer"
                 className="font-medium text-foreground underline decoration-border underline-offset-2 hover:decoration-foreground"
               >
                 capítulo 13 do guia
-              </Link>
+              </a>
               , que vira a skill lume-design-engineering.
             </span>
           </aside>

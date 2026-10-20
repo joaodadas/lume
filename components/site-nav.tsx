@@ -10,6 +10,7 @@ import { cn } from "@/registry/base-vega/lib/utils";
 import { buttonVariants } from "@/registry/base-vega/ui/button";
 
 const LINKS = [
+  { href: "/fundacoes", label: "Fundações" },
   { href: "/componentes", label: "Componentes" },
   { href: "/blocos", label: "Blocos" },
   { href: "/botoes", label: "Botões" },
