@@ -139,7 +139,7 @@ function slugDoNome(nome: string) {
 // Documento com versão visual para pessoas: o site leva para a página, e o
 // markdown fica para agentes (skill, arquivo no GitHub).
 const PAGINA_VISUAL: Record<string, string> = {
-  "guia/13-cor-e-tipografia": "/fundacoes",
+  "guia/13-cor-e-tipografia": "/foundations",
 };
 
 export function hrefDoDoc(doc: Doc) {

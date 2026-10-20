@@ -1,8 +1,8 @@
 # 13. Cor e tipografia: tabelas para agentes
 
-Origem: adição do lume, a partir das classes de `registry/base-vega/`. Este capítulo é a versão para agentes, só tabelas e snippets, e vira a skill. A versão para pessoas, com exemplo, faça e evite, é a página `/fundacoes` do site (`app/fundacoes/page.tsx`), e o `/guia` leva para ela. Valores dos tokens e carregamento das fontes: [01-fundacoes](./01-fundacoes.md).
+Origem: adição do lume, a partir das classes de `registry/base-vega/`. Este capítulo é a versão para agentes, só tabelas e snippets, e vira a skill. A versão para pessoas, com exemplo, faça e evite, é a página `/foundations` do site (`app/foundations/page.tsx`), e o `/guia` leva para ela. Valores dos tokens e carregamento das fontes: [01-fundacoes](./01-fundacoes.md).
 
-![Página visual Fundações, light, 1440](https://raw.githubusercontent.com/joaodadas/lume/main/docs/verificacao/v0.2.1/fundacoes-light-1440.png)
+![Página visual Foundations, light, 1440](https://raw.githubusercontent.com/joaodadas/lume/main/docs/verificacao/v0.2.1/foundations-light-1440.png)
 
 ## Escala neutra
 

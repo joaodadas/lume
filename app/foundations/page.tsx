@@ -1,4 +1,4 @@
-// Fundações (/fundacoes): escalas de cor e tipografia na versão para pessoas, exemplo renderizado, faça e evite e código à parte. A versão para agentes é docs/guia/13-cor-e-tipografia.md, que vira a skill. Arquivo do site, fora da registry.
+// Foundations (/foundations): escalas de cor e tipografia na versão para pessoas, exemplo renderizado, faça e evite e código à parte. A versão para agentes é docs/guia/13-cor-e-tipografia.md, que vira a skill. Arquivo do site, fora da registry.
 "use client";
 
 import {
@@ -357,14 +357,14 @@ function Estado({
   );
 }
 
-export default function FundacoesPage() {
+export default function FoundationsPage() {
   return (
     <div className="min-h-svh bg-background">
       <SiteNav />
       <main className="container mx-auto max-w-6xl px-6 py-10">
         <div className="flex flex-col gap-4 pb-10">
           <h1 className="font-display text-3xl font-[450] tracking-[-0.025em] text-balance">
-            Fundações
+            Foundations
           </h1>
           <p className="max-w-prose text-sm text-muted-foreground text-pretty">
             Escalas de cor e tipografia: qual cinza, qual cor e qual texto usar
