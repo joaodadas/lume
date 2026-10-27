@@ -1,6 +1,6 @@
 # Camada Lyx: `Lyx-Engenharia/lyx-ds` sobre a base pública
 
-Origem: plano do lume (seção Camada Lyx e Governança), `lyx-front-template/src/app/globals.css` (tokens 52W) e `AGENTS.md` ao lado. A base `joaodadas/lume` é pública e neutra (cinza estrutural, cara do Foglamp); tudo que é marca da Lyx (teal, logo, login, shell com switcher de portal, blocos `hub-*`) vive num repo privado que depende da base por tag. Nesta entrega o `lyx-ds` é esqueleto e contrato; o conteúdo entra com o Jefferson.
+Origem: plano do lume (seção Camada Lyx e Governança), `lyx-front-template/src/app/globals.css` (tokens 52W) e `AGENTS.md` ao lado. A base `joaodadas/lume` é pública e neutra (cinza estrutural, cara do Foglamp); tudo que é da Lyx (logo, login, shell com seletor de sistema, blocos `hub-*`) vive num repo privado que depende da base por tag. Por enquanto a Lyx usa as cores do Foglamp, sem teal (decisão de 26/10/2026); o caminho para uma identidade própria está em [identidade-visual](./identidade-visual.md). Nesta entrega o `lyx-ds` é esqueleto e contrato; o conteúdo entra com o Jefferson.
 
 ## Esqueleto do repo
 
@@ -13,51 +13,31 @@ lyx-ds/
   AGENTS.md  CODEOWNERS (João e Jefferson)  scripts/{check,release}.ts reduzidos
 ```
 
-Sem site: a Lyx instala do GitHub (`npx shadcn@latest add Lyx-Engenharia/lyx-ds/<item>#v0.1.0`) ou pelo alias `@lyx` apontando para a Contents API. Todo `registryDependencies` para a base usa o endereço completo com tag (`joaodadas/lume/<item>#v0.1.0`): refs não são herdadas. Nenhum item da Lyx declara dependência no `base`, para o `theme-lyx` nunca ser instalado no mesmo comando que ele (quando os dois entram juntos, o `base` vence). Os repos `lyx-design-system-v2` e `lyx-design-system-bi-v2` são arquivados com um README apontando para cá.
+Sem site: a Lyx instala do GitHub (`npx shadcn@latest add Lyx-Engenharia/lyx-ds/<item>#v0.1.0`) ou pelo alias `@lyx` apontando para a Contents API. Todo `registryDependencies` para a base usa o endereço completo com tag (`joaodadas/lume/<item>#v0.2.0`): refs não são herdadas. Nenhum item da Lyx declara dependência no `base`, para o `theme-lyx` nunca ser instalado no mesmo comando que ele (quando os dois entram juntos, o `base` vence). Os repos `lyx-design-system-v2` e `lyx-design-system-bi-v2` são arquivados com um README apontando para cá.
 
 ## Itens
 
 | Item | Tipo | O que é | Depende de |
 |---|---|---|---|
-| `theme-lyx` | `registry:theme` | Só `cssVars`: `--brand`, `--brand-foreground`, `--custom-shadow-brand` nos dois temas e `color-brand` no `theme`; mais um `css` que estende a variante dark para `.dark` e `[data-theme="dark"]` ao mesmo tempo, para os fronts atuais migrarem o toggle depois dos componentes | nada |
-| `lyx-logo` | `registry:component` | Portado de `lyx-front-template/src/components/ui/lyx-logo.tsx` (SVG `viewBox="0 0 120 110"`, `currentColor`, `aria-label="Lyx"`, prop `size`) | `joaodadas/lume/utils#v0.1.0` |
-| `lyx-login` | `registry:block` | O redesign do Jefferson sobre o `login-form` da base (presentacional: `{ brand, methods, onPassword, onMagicLink, onGoogle, onForgot, pending, error }`); o Better Auth fica no front | `joaodadas/lume/login-form#v0.1.0`, `lyx-logo` |
-| `lyx-shell` | `registry:block` | `app-shell` da base com `brand={<LyxLogo />}`, switcher de portal, link para o Hub (`https://hub.lyxai.com.br`, como em `painel/src/app/shell.tsx:107-109`) e menu de conta com sair | `joaodadas/lume/app-shell#v0.1.0`, `lyx-logo` |
-| `badge`, `button` | `registry:ui` | Sobrescrevem o item da base acrescentando a variant `brand` (`bg-brand`, `text-brand-foreground` e a sombra `--custom-shadow-brand`); o `CHANGELOG.md` da base avisa quando `button.tsx` ou `badge.tsx` mudarem, e o `check.ts` daqui compara o resto do arquivo com o da base | `joaodadas/lume/utils#v0.1.0` |
-| `lyx-guide` | `registry:item` | Depende do `guia` da base e instala `docs/LYX.md` como `~/docs/lume/LYX.md` | `joaodadas/lume/guia#v0.1.0` |
+| `theme-lyx` | `registry:theme` | Por enquanto sem cor: só o `css` que estende a variante dark para `.dark` e `[data-theme="dark"]` ao mesmo tempo, para os fronts atuais migrarem o toggle depois dos componentes. As cores da Lyx entram aqui no dia em que ela tiver identidade própria ([identidade-visual](./identidade-visual.md)) | nada |
+| `lyx-logo` | `registry:component` | Portado de `lyx-front-template/src/components/ui/lyx-logo.tsx` (SVG `viewBox="0 0 120 110"`, `currentColor`, `aria-label="Lyx"`, prop `size`) | `joaodadas/lume/utils#v0.2.0` |
+| `lyx-login` | `registry:block` | O redesign do Jefferson sobre o `login-form` da base (presentacional: `{ brand, methods, onPassword, onMagicLink, onGoogle, onForgot, pending, error }`); o Better Auth fica no front | `joaodadas/lume/login-form#v0.2.0`, `lyx-logo` |
+| `lyx-shell` | `registry:block` | `app-shell` da base em `layout="sidebar"` (a barra de zonas nunca é navegação principal de front da Lyx) com `brand={<LyxLogo />}`, seletor de sistema (`ContextSwitcher` sobre `/sistemas/catalog` e `/me/profile`; o portal do monolito hoje é sempre `hub`, então o seletor troca de sistema, não de portal), link para o Hub (`https://hub.lyxai.com.br`, como em `painel/src/app/shell.tsx:107-109`) e menu de conta com "Voltar ao Hub" (mantém o SSO) e "Sair de todos os sistemas" (signOut) como dois itens separados do `userMenu` | `joaodadas/lume/app-shell#v0.2.0`, `lyx-logo` |
+| `lyx-guide` | `registry:item` | Depende do `guia` da base e instala `docs/LYX.md` como `~/docs/lume/LYX.md` | `joaodadas/lume/guia#v0.2.0` |
 
-## Teal `#025864`: `--brand`, não `--primary`
+## Cor: a do Foglamp, por enquanto
 
 <!-- skill:start -->
-Recomendação da base (a decisão final é da camada Lyx, registrada num ADR curto do `lyx-ds` para o Jefferson poder discordar com argumento): o teal entra como token `--brand`, e `--primary` fica cinza como no Foglamp.
-
-| Onde o teal entra | Como |
-|---|---|
-| Logo e tile de marca na sidebar | `LyxLogo className="text-brand"`; tile pela receita do `navTile` com os rgba do teal |
-| Login | fundo do painel de marca e o CTA |
-| `Badge variant="brand"` | status de marca, nunca estado (estado continua emerald, rose, amber) |
-| `Button variant="brand"` | no máximo um por tela, o CTA principal; o resto `default`, `secondary`, `ghost` |
-
-| Token | Light | Dark |
-|---|---|---|
-| `--brand` | `#025864` | `#03A698` (o teal claro que a 52W já usa no dark) |
-| `--brand-foreground` | `#ffffff` | `oklch(0.145 0 0)` |
-| `--custom-shadow-brand` | `0 0 0 .5px rgba(2,88,100,.25), 0 .5px 2px -.5px rgba(2,88,100,.18), 0 2px 4px 0 rgba(2,88,100,.12)` | `0 0 0 .5px rgba(3,166,152,.25), 0 .5px 2px -.5px rgba(3,166,152,.18), 0 2px 4px 0 rgba(3,166,152,.12)` |
-| `--color-brand` (`@theme inline`) | `var(--brand)` | |
-
-A fórmula da sombra colorida é a mesma dos badges da base (`--custom-shadow-emerald`, `--custom-shadow-sky`...): anel de meio pixel a 25%, uma sombra curta a 18% e uma de 4px a 12%, todas na cor.
+A Lyx usa as cores do Foglamp como vêm no `base`: sem teal, sem `--brand` e sem variante `brand` no `Badge` ou no `Button` (decisão de 26/10/2026, em `docs/DECISOES.md`). O `LyxLogo` entra em `currentColor`, na cor do texto. Quando a Lyx quiser identidade própria, o caminho está em [identidade-visual](./identidade-visual.md), com o teal como exemplo (`--brand`, não `--primary`).
 <!-- skill:end -->
-
-Porquê `--brand`: o look é cinza estrutural com cor só por significado; o `Button default` da base nem usa `--primary` (é `bg-neutral-800 dark:bg-neutral-100`, `registry/base-vega/ui/button.tsx`), então pintar `--primary` de teal mudaria pouco e ainda tingiria `ring`, `selection:bg-primary/10` e todo `text-primary` do app. O guia de design do João no `lyx-qualidade-front` já fixou "cor em quatro lugares" (logo de terceiro, glifo de status, ícone destrutivo, quadrado de marca) e o tile da marca é o quarto lugar. Se a Lyx decidir `--primary`, o `theme-lyx` passa a sobrescrever `primary`, `primary-foreground`, `ring` e `sidebar-primary` (este último a base não define; o item o cria).
 
 O `css` do `theme-lyx` para a transição dos fronts (ver passo 4 de [migracao-52w](./migracao-52w.md)):
 
 ```css
 @custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
-[data-theme="dark"] { --brand: #03A698; --brand-foreground: oklch(0.145 0 0); }
 ```
 
-Isso cobre `dark:` nas utilities e os tokens de marca; os tokens da base (`--background`, `--card`...) só flipam com `.dark`, por isso o toggle dos fronts migra cedo para `next-themes` com `attribute="class"`.
+Isso cobre `dark:` nas utilities; os tokens da base (`--background`, `--card`...) só flipam com `.dark`, por isso o toggle dos fronts migra cedo para `next-themes` com `attribute="class"`.
 
 ## `components.json` de um front Lyx (Next 16 com `src/`)
 
@@ -71,7 +51,7 @@ Isso cobre `dark:` nas utilities e os tokens de marca; os tokens da base (`--bac
   "iconLibrary": "tabler",
   "aliases": { "components": "@/components", "utils": "@/lib/utils", "ui": "@/components/ui", "lib": "@/lib", "hooks": "@/hooks" },
   "registries": {
-    "@lume": "https://raw.githubusercontent.com/joaodadas/lume/v0.1.0/public/r/{name}.json",
+    "@lume": "https://raw.githubusercontent.com/joaodadas/lume/v0.2.0/public/r/{name}.json",
     "@lyx": {
       "url": "https://api.github.com/repos/Lyx-Engenharia/lyx-ds/contents/public/r/{name}.json",
       "params": { "ref": "v0.1.0" },
@@ -90,14 +70,14 @@ Isso cobre `dark:` nas utilities e os tokens de marca; os tokens da base (`--bac
 Dev (com `gh auth login` feito; a CLI 4.19+ usa o token do `gh` para repo privado no modo GitHub):
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y          # nunca -d; fallback: init https://lume-ashmont.vercel.app/r/base.json -y
+npx shadcn@latest init joaodadas/lume/base#v0.2.0 -y          # nunca -d; fallback: init https://lume-ashmont.vercel.app/r/base.json -y
 npx shadcn@latest add Lyx-Engenharia/lyx-ds/theme-lyx#v0.1.0   # sozinho, depois do init, para o tema vencer o base
 npx shadcn@latest add Lyx-Engenharia/lyx-ds/lyx-shell#v0.1.0 Lyx-Engenharia/lyx-ds/lyx-login#v0.1.0 Lyx-Engenharia/lyx-ds/lyx-guide#v0.1.0
-npx shadcn@latest add joaodadas/lume/link-next#v0.1.0 --overwrite
+npx shadcn@latest add joaodadas/lume/link-next#v0.2.0 --overwrite
 npx skills add joaodadas/lume --skill lume-design-engineering
 ```
 
-Conferir depois: `grep -n "\-\-brand" src/app/globals.css` mostra `--brand` em `:root`, `.dark` e `[data-theme="dark"]` e `--color-brand` no `@theme inline`; `grep -c "sidebar-primary" src/app/globals.css` dá 0 (se der mais, o `init` rodou com `-d`: refaça); `ls components/link.tsx docs/lume/LYX.md` existem; `grep -rl "@/registry/" src` não devolve nada.
+Conferir depois: `grep -c "\-\-brand" src/app/globals.css` dá 0 (a Lyx usa as cores do Foglamp); `grep -c "sidebar-primary" src/app/globals.css` dá 0 (se der mais, o `init` rodou com `-d`: refaça); `ls components/link.tsx docs/lume/LYX.md` existem; `grep -rl "@/registry/" src` não devolve nada.
 
 CI (sem `gh`): `GH_TOKEN` para o modo GitHub e `GITHUB_TOKEN` para o alias `@lyx`, os dois o mesmo PAT Contents read-only guardado como secret:
 
@@ -108,7 +88,7 @@ CI (sem `gh`): `GH_TOKEN` para o modo GitHub e `GITHUB_TOKEN` para o alias `@lyx
     GITHUB_TOKEN: ${{ secrets.LYX_DS_TOKEN }}
 ```
 
-No `lyx-ds`, o `check.ts` reduzido roda em PR: sem travessão em docs, sem hex fora de `theme-lyx`, `registry.json` igual ao regenerado, `public/r` atualizado, variant `brand` presente em `badge` e `button` e o resto desses dois arquivos igual ao da base na tag fixada; `release.ts` grava a versão, regenera, exige `CHANGELOG.md`, tag e `gh release create`.
+No `lyx-ds`, o `check.ts` reduzido roda em PR: sem travessão em docs, sem hex fora de `theme-lyx`, `registry.json` igual ao regenerado, `public/r` atualizado e o `theme-lyx` só com token de cor (fonte, raio, espaço e sombra são da base, ver [identidade-visual](./identidade-visual.md)); `release.ts` grava a versão, regenera, exige `CHANGELOG.md`, tag e `gh release create`.
 
 ## Governança
 
@@ -120,4 +100,4 @@ No `lyx-ds`, o `check.ts` reduzido roda em PR: sem travessão em docs, sem hex f
 
 ## O que não copiar
 
-Da 52W para o `theme-lyx`: `--color-primary: var(--accent)`, `--color-ring: var(--accent)` e `--color-chart-1: var(--accent)` (o teal não é primary, ring nem série de gráfico), `--shadow-accent: 0 0 0 3px var(--accent-glow)` (anel de 3px não existe no sistema; foco é `focus-visible:ring-[1.5px] focus-visible:ring-ring/50`, `registry/base-vega/ui/button.tsx:10`), `--accent-glow` e `--glass-*` (sem glow, sem glass no app), e os `--radius-*` próprios (os pares de raio são os da base). Do template: `lyx-logo.tsx` vem inteiro, mas o `boxShadow: "0 4px 12px rgba(2, 88, 100, 0.25)"` do tile em `dashboard/layout.tsx:105` vira `--custom-shadow-brand`.
+Da 52W, nenhuma cor entra no `theme-lyx` por enquanto. No dia em que o teal voltar, continuam de fora: `--color-primary: var(--accent)`, `--color-ring: var(--accent)` e `--color-chart-1: var(--accent)` (o teal não é primary, ring nem série de gráfico), `--shadow-accent: 0 0 0 3px var(--accent-glow)` (anel de 3px não existe no sistema; foco é `focus-visible:ring-[1.5px] focus-visible:ring-ring/50`, `registry/base-vega/ui/button.tsx:10`), `--accent-glow` e `--glass-*` (sem glow, sem glass no app), e os `--radius-*` próprios (os pares de raio são os da base). Do template: `lyx-logo.tsx` vem inteiro, mas o `boxShadow: "0 4px 12px rgba(2, 88, 100, 0.25)"` do tile em `dashboard/layout.tsx:105` sai; com o teal de volta, ele vira `--custom-shadow-brand`.

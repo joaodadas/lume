@@ -572,6 +572,8 @@ duração e de easing.
 | Popup frequente | `duration-100` em dropdown, select, popover, context menu, hover card e menubar; o tooltip não tem classe de duração e fica nos 150 ms padrão do `tw-animate-css` | registry/base-vega/ui/dropdown-menu.tsx:47; select.tsx:133; popover.tsx:42; tooltip.tsx:58 |
 | Filtro de tabela | as linhas trocam sem transição; só o botão Limpar entra em 0.13 s com `easeOut` | registry/base-vega/blocks/data-table/data-table.tsx:659-662 |
 | Valor que muda em stat card | `number-ticker` anima 0.6 s só quando o valor muda depois do mount; a primeira pintura é estática | registry/base-vega/components/number-ticker.tsx:50-54 |
+| Atalho que recolhe a sidebar | sem transição: o `AppShell` marca `data-instant` no canvas por dois frames e `[&[data-instant]_*]:transition-none` corta tudo; pelo clique, os 200 ms do primitivo com `EASE` | registry/base-vega/blocks/app-shell/app-shell.tsx |
+| Menus do shell (seletor de contexto, zona, trilho e ⋯) | `data-open:duration-0` sobre a string canônica: a entrada é 0 e a saída faz o fade de 100 ms | `nav-list.tsx` e `shell-parts.tsx` em registry/base-vega/blocks/app-shell/ |
 
 **Always**: classifique a interação pela faixa antes de animar; na faixa alta, feedback por cor ou
 fundo sem transição (`transition-none` ou nada); na faixa média, `duration-100` e só opacidade e
@@ -586,12 +588,12 @@ Parcial. A favor: `packages/ui/src/components/sidebar.tsx` (hover sem transiçã
 `packages/ui` em 100 ms, `apps/web/src/components/app/data-table.tsx` (o filtro troca as linhas a
 seco, só o Clear filters entra em 0.13 s), `org-settings-client.tsx:158-166` (texto da tab vira sem
 fade), `checkbox.tsx:20` e `range-picker.tsx:205` com `transition-none`, `copy-icon.tsx` com
-`initial={false}`. Contra: a sidebar desliza 200 ms mesmo por Cmd/Ctrl+B (`sidebar.tsx:235`) e
-`transition-colors` em 63 lugares.
+`initial={false}`. Contra: a sidebar desliza 200 ms mesmo por Cmd/Ctrl+B (`sidebar.tsx:235`; o `AppShell` corta a
+transição no atalho com `data-instant`) e `transition-colors` em 63 lugares.
 
 ### No lume
 
-- Itens: `sidebar`, `dropdown-menu`, `select`, `popover`, `tooltip`, `data-table`, `number-ticker`, `checkbox`, `range-picker`, `motion` (o comentário de `lib/motion.ts` fixa as faixas de duração; a tabela acima diz quando a duração é zero).
+- Itens: `sidebar`, `app-shell`, `dropdown-menu`, `select`, `popover`, `tooltip`, `data-table`, `number-ticker`, `checkbox`, `range-picker`, `motion` (o comentário de `lib/motion.ts` fixa as faixas de duração; a tabela acima diz quando a duração é zero).
 - FRONTEND.md: seções Movimento (hover instantâneo ou só de cor, `initial={false}` no que já está no lugar) e Overlays e menus (string canônica de popup em `duration-100`). Guia: `docs/guia/09-movimento.md`.
 - Conceitos vizinhos: [Hover Restraint](#hover-restraint) (a faixa alta aplicada ao hover), [Duração por componente](#duração-por-componente) (quanto, depois de decidir se) e [Novelty budget](#novelty-budget) (o lado da novidade na balança do Rauno).
 
@@ -689,7 +691,8 @@ que você vira quarenta vezes por dia, não.
 | Tooltip em tabela e timeline | `<TooltipProvider delay={150}>` envolvendo a página | Foglamp `app/(app)/traces/traces-client.tsx:642`, `sessions/sessions-client.tsx:288`, `agents/agents-client.tsx:227`, `workflows/workflows-client.tsx:229`, `evals/evals-client.tsx:841`, `traces/[traceId]/trace-detail-client.tsx:1078`, `components/app/trace-timeline.tsx:503` |
 | Tooltip em prosa | `delay={200}` | Foglamp `apps/web/src/components/app/prompt-prose.tsx:197` |
 | Tab segmentada | sem `transition-colors` no texto; `hover:transition-colors` só no estado inativo, para o hover suavizar e a troca de aba ser seca | Foglamp `app/(app)/settings/org/org-settings-client.tsx:158-166` |
-| Sidebar por atalho (Cmd/Ctrl+B) | `transition-[left,right,width] duration-200 ease-linear` (anima mesmo por teclado: contra o artigo) | registry/base-vega/ui/sidebar.tsx:235 |
+| Sidebar por atalho (Cmd/Ctrl+B) | `transition-[left,right,width] duration-200 ease-linear` (anima mesmo por teclado: contra o artigo); o `AppShell` corta a transição no atalho com `data-instant` no canvas por dois frames e `[&[data-instant]_*]:transition-none` | registry/base-vega/ui/sidebar.tsx:235; registry/base-vega/blocks/app-shell/app-shell.tsx |
+| Tooltip do trilho | `TooltipProvider delay={150}` em volta da sidebar, montado pelo `AppShell`: o primeiro espera 150 ms e os vizinhos abrem na hora | registry/base-vega/blocks/app-shell/app-shell.tsx |
 | Craft | tooltip: o primeiro espera 400 a 700ms, os vizinhos abrem na hora; hover sem transição | craft hover-restraint.mdx |
 | Delay do tooltip: três fontes | Rauno (UI Playbook): cerca de 100 ms no primeiro, zero nos vizinhos; craft: 400 a 700 ms; Foglamp: `delay={150}` em tabela e timeline. O lume fica em 150 | https://uiplaybook.dev; craft hover-restraint.mdx; Foglamp `traces-client.tsx:642` |
 | Menu e popover | abrem instantâneo e só fazem fade ao fechar; sem fade entre itens do menu; o context menu anima só na saída | Shu Ding, On UI Animations, https://shud.in/thoughts/on-ui-animations; Raphael Salaja, 12 Principles of Animation, https://www.userinterface.wiki/12-principles-of-animation |
@@ -727,9 +730,9 @@ o Foglamp prefere 150ms nas tabelas e aceita o tooltip abrir de passagem), e a s
 
 ### No lume
 
-- Itens: `button`, `sidebar`, `checkbox`, `tooltip`, `navigation-menu`, `range-picker`, `app-shell` (`nav-icon.tsx:41,48` faz o crossfade outline/filled em `transition-opacity duration-100 ease-in-out` só na troca de item ativo, não no hover).
+- Itens: `button`, `sidebar`, `checkbox`, `tooltip`, `navigation-menu`, `range-picker`, `app-shell` (`nav-icon.tsx:47,54` faz o crossfade outline/filled em `transition-opacity duration-100 ease-in-out` só na troca de item ativo, não no hover).
 - FRONTEND.md: seção 19 (Overlays e menus: `TooltipProvider delay={150}` em tabelas) e seção 21 (Movimento). Guia: `docs/guia/09-movimento.md`.
-- O lume mantém `delay = 0` no `tooltip` por fidelidade; a regra praticada é `delay={150}` em tabela, e quem coloca o provider é a página, como nas seis páginas de lista do Foglamp. O `data-table` não envolve a tabela num provider.
+- O lume mantém `delay = 0` no `tooltip` por fidelidade; a regra praticada é `delay={150}` em tabela, e quem coloca o provider é a página, como nas seis páginas de lista do Foglamp. O `data-table` não envolve a tabela num provider. A exceção é o `app-shell`, que monta `TooltipProvider delay={150}` em volta da sidebar para o tooltip do trilho, e que recolhe pelo atalho sem transição.
 
 ## HTML Background
 
@@ -754,6 +757,7 @@ token precisa seguir o tema ativo, senão o flash volta num dos modos.
 | Root pintado (adição do lume) | `html { @apply font-sans bg-background; }` dentro de `@layer base` | registry/base-vega/styles/globals.css:285-289 |
 | Body | `body { @apply font-sans bg-background text-foreground selection:bg-primary/10; }` | registry/base-vega/styles/globals.css:290-292 |
 | Token por tema | `--background: oklch(0.99 0 0)` no `:root`, `oklch(0.17 0 0)` no `.dark` | registry/base-vega/styles/globals.css:23,133 |
+| Página solta (adição do lume) | o `main` raiz é o canvas (`bg-sidebar`) e leva `[html:has(&)]:bg-sidebar`, que gera `html:has(...)` e pinta o documento no mesmo tom enquanto a página está montada | docs/guia/03-shell-e-paginas.md, Página solta |
 | Tema no root antes da primeira pintura | `theme-provider` (next-themes; o app passa `attribute="class" defaultTheme="dark" enableSystem`, como em app/layout.tsx:24-26) ou `theme-provider-csp` com `public/theme.js` (sem script inline, `defaultTheme = "dark"`) | registry/base-vega/components/theme-provider.tsx; theme-provider-csp.tsx:59; registry/base-vega/public/theme.js |
 | `theme-color` | não usado no Foglamp nem no lume; se adicionar, manter em sincronia com o tema | craft html-background.mdx |
 | `overscroll-behavior: none` | não usar por padrão: o bounce é parte da plataforma | craft html-background.mdx |
@@ -775,7 +779,8 @@ overscroll do Safari mostra branco.
 ### No lume
 
 - O `base` adota o conceito: `html { @apply font-sans bg-background }` em `@layer base` (adição do lume, comentada no globals.css:285-286). É a única diferença de `@layer base` em relação ao Foglamp além das fontes via Fontsource.
-- Itens: `base`, `theme-provider`, `theme-provider-csp`, `app-shell` (o canvas do shell usa `--sidebar`, um passo mais escuro que `--background`; ver `docs/guia/03-shell-e-paginas.md`. O `html` continua com `--background`, que é a cor do inset e das páginas sem shell, como o login).
+- Itens: `base`, `theme-provider`, `theme-provider-csp`, `app-shell` (o canvas do shell usa `--sidebar`, um passo mais escuro que `--background`; ver `docs/guia/03-shell-e-paginas.md`. O `html` continua com `--background`, a cor do inset).
+- A página solta (login, link por token, convite) não fica em `--background`: o `main` raiz pinta o canvas `bg-sidebar`. Para o overscroll do Safari não mostrar acima e abaixo dela o passo mais claro do `--background` (0,17 contra 0,145 de luminosidade no escuro, 0,99 contra 0,975 no claro), o mesmo `main` leva `[html:has(&)]:bg-sidebar`, e o documento acompanha o canvas só enquanto a página está montada.
 - FRONTEND.md: seção 3 (Tokens e cor), seção 22 (Dark mode) e seção 29 (Next.js e Vite: no Vite a classe do tema entra no `index.html` pelo `public/assets/tema.js`, ver `docs/adocao/vite.md`).
 - Teste: abra o app no Safari (macOS ou iOS) no dark, puxe além do topo e além do fim; nada branco pode aparecer.
 
@@ -919,14 +924,14 @@ apertado no mesmo raio, por isso cada par plano/squircle sobe o raio na variante
 
 | Par externo e interno | Classes exatas | Arquivo |
 |---|---|---|
-| Canvas e inset do shell | canvas com `m-2`; inset `md:rounded-lg squircle:md:rounded-3xl` | registry/base-vega/blocks/app-shell/app-shell.tsx:215 |
+| Canvas e inset do shell | canvas com `m-2`; inset `md:rounded-lg squircle:md:rounded-3xl` | registry/base-vega/blocks/app-shell/app-shell.tsx:529 |
 | Card e imagem interna | `rounded-lg squircle:rounded-3xl corner-squircle` e `*:[img:first-child]:rounded-t-3xl *:[img:first-child]:corner-squircle` (imagem encosta na borda: inset 0, mesmo raio) | registry/base-vega/ui/card.tsx:17 |
 | Popover e preset do range picker | popover `rounded-lg squircle:rounded-3xl` com coluna `p-3`; preset `rounded-sm squircle:rounded-xl corner-squircle` (comentário: raio do popover menos os 12px de padding, com piso onde o plano ficaria negativo) | registry/base-vega/ui/popover.tsx:42; blocks/range-picker/range-picker.tsx:191-194 |
 | Lista de tabs e trigger | lista `rounded-md squircle:rounded-2xl corner-squircle ... p-[3px]`; trigger `rounded-md squircle:rounded-xl corner-squircle` | registry/base-vega/ui/tabs.tsx:29,63 |
 | Input group e botão interno | grupo `h-9 ... rounded-md squircle:rounded-xl corner-squircle`; botão `xs` e `icon-xs` `rounded-[calc(var(--radius)-5px)]`; `kbd` idem | registry/base-vega/ui/input-group.tsx:19,28,75,78 |
 | Command e item | `rounded-lg squircle:rounded-3xl! corner-squircle ... p-1`; item `rounded-lg`, e `in-data-[slot=dialog-content]:rounded-2xl!` quando o command vira dialog | registry/base-vega/ui/command.tsx:30,161 |
 | Dialog | `rounded-2xl squircle:rounded-[40px] corner-squircle ... p-6` | registry/base-vega/ui/dialog.tsx:58 |
-| Tile de ícone da nav dentro do botão | tile `rounded-[5px] squircle:rounded-xl p-0.5 corner-squircle`; botão `rounded-md squircle:rounded-xl corner-squircle p-2` | registry/base-vega/blocks/app-shell/nav.ts:39; ui/sidebar.tsx:480 |
+| Tile de ícone da nav dentro do botão | tile `rounded-[5px] squircle:rounded-xl p-0.5 corner-squircle`; botão `rounded-md squircle:rounded-xl corner-squircle p-2` | registry/base-vega/blocks/app-shell/nav.ts:85-101; ui/sidebar.tsx:480 |
 | Corte do padding | a conta `inner = outer - inset` vale até 24 px de padding; acima disso, pai e filho são superfícies separadas e cada um escolhe o raio pela escala. O dialog do Foglamp (`p-6`, 24 px) fica exatamente no corte: por isso o command dentro do dialog usa raio próprio, `in-data-[slot=dialog-content]:rounded-2xl!` | Jakub Krehel, better-ui SKILL.md, https://github.com/jakubkrehel/skills; registry/base-vega/ui/dialog.tsx:58; command.tsx:161 |
 
 **Always**: calcular o raio interno a partir do pai e do padding; `corner-squircle` nos dois níveis;
@@ -1097,7 +1102,7 @@ desde que a fonte carregada traga o eixo.
 | Seta de link externo em chip | `size-3.5 shrink-0 -ml-0.5 mt-px text-muted-foreground` | registry/base-vega/components/context-chip.tsx:122 |
 | Ícone do `Alert` ao lado do título | `*:[svg]:row-span-2 *:[svg]:translate-y-0.5` | registry/base-vega/ui/alert.tsx:9 |
 | Checkbox ou radio dentro de `Field` horizontal | `[&>[role=checkbox],[role=radio]]:mt-px` | registry/base-vega/ui/field.tsx:63,65 |
-| Slot de ações do `PageHeader` | `flex items-center gap-2 translate-y-1 empty:hidden` (comentário: desce para o picker alinhar com o texto do título) | registry/base-vega/components/page-header.tsx:99-102 |
+| Slot de ações do `PageHeader` | `flex items-center gap-2 translate-y-1 empty:hidden` (comentário: desce para o picker alinhar com o texto do título) | registry/base-vega/components/page-header.tsx:106-109 |
 | Submenu da sidebar e seu item | `translate-x-px` na lista, `-translate-x-px` no item, para a borda esquerda casar com a linha | registry/base-vega/ui/sidebar.tsx:647,685 |
 | Seta do tooltip | `translate-y-[calc(-50%-2px)] rotate-45 rounded-[2px]` | registry/base-vega/ui/tooltip.tsx:64 |
 | Eixo `opsz` da Inter | `@import "@fontsource-variable/inter/opsz.css"` | registry/base-vega/styles/globals.css:9 |

@@ -9,7 +9,7 @@ Gerado por `bun scripts/build-skill.ts` a partir de `FRONTEND.md`, `docs/guia/11
 Regras para construir qualquer interface com o lume. Toda regra é dura salvo indicação em contrário: se um padrão não cabe, levante antes de contornar. O texto segue a regra praticada no código do Foglamp (github.com/foglamp-labs/foglamp, commit `2bc3bb5`, Apache 2.0), não o `FRONTEND.md` original dele; onde os dois divergem (tema padrão `dark`, `motion/react` em uso, borda aceita em linha de tabela, divisor e campo no dark, `QueryCache.onError` em `utils/trpc.ts`, nenhum `error.tsx`), vale o código. Adições próprias estão marcadas com "(adição do lume)". A leitura longa, com tabelas e valores, fica em `docs/guia`; os conceitos do craft (Gustavo Fior, MIT) em `docs/conceitos`; as decisões do repo em `docs/DECISOES.md`.
 
 - **Always** leia caminhos sem prefixo como relativos à raiz deste repo (`registry/base-vega/ui/button.tsx:10`); caminhos que começam em `apps/web/` ou `packages/ui/` são do Foglamp, citados para o que ainda não virou item da registry.
-- **Always** instale pela registry: `npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y` (sem `-d`: o `-d` ignora o `base` e instala o style padrão por cima) e `npx shadcn@latest add joaodadas/lume/<item>#v0.1.0`; a skill vem com `npx skills add joaodadas/lume --skill lume-design-engineering`.
+- **Always** instale pela registry: `npx shadcn@latest init joaodadas/lume/base#v0.2.0 -y` (sem `-d`: o `-d` ignora o `base` e instala o style padrão por cima) e `npx shadcn@latest add joaodadas/lume/<item>#v0.2.0`; a skill vem com `npx skills add joaodadas/lume --skill lume-design-engineering`.
 Porquê: o lume é uma cópia fiel de um sistema que está no ar; a autoridade é o código, e este arquivo é o que dev e agente leem antes de escrever qualquer tela.
 
 ## Layout do projeto
@@ -30,7 +30,7 @@ Porquê: o Foglamp tem um pacote de UI como fonte única (`packages/ui`) e um ap
 - **Always** no Next: trio por rota (`header.tsx` com um `RouteHeader`, `loading.tsx` só com ele, `page.tsx` com o client ou `Suspense fallback={<XHeader />}` quando lê `useSearchParams`); `params` e `searchParams` são `Promise` e o server resolve e passa como prop; instale `link-next` (mesmo caminho `components/link.tsx`, sobre `next/link` com `prefetch`); imagens por `next/image` com `alt` obrigatório.
 - **Always** no Vite (como o painel do lyx-pr-agent): instale `link` no lugar de `link-next` (os dois gravam o mesmo `components/link.tsx`; o `link` é um `<a>` puro com `href` string, sem adaptador de rota); `useUrlFilters` (`registry/base-vega/blocks/data-table/url-filters.ts`) funciona sem roteador porque lê `window.location.search` por `useSyncExternalStore` e grava com `history.replaceState`; `theme-provider-csp` + `public/theme.js` no `<head>` quando não há script inline.
 - **Always** importe os blocos de `components/link`, nunca de `next/link` ou de `react-router` diretamente, para o mesmo bloco instalar nos dois.
-- **Never** use o Pages Router, `<a href>` para rota interna no Next (reload completo; `<a>` só para `mailto:`, `tel:` e externo), ou `<img>` cru fora de URL de terceiro com `referrerPolicy="no-referrer"`.
+- **Never** use o Pages Router, `<a href>` para rota interna no Next (reload completo; `<a>` só para `mailto:`, `tel:`, externo e item com `external: "page"`, que leva a outra zona do mesmo domínio), ou `<img>` cru fora de URL de terceiro com `referrerPolicy="no-referrer"`.
 
 Porquê: a indireção de `link` e o estado de URL sem roteador são o que deixa os blocos puros; `route-header` é a única peça `nextOnly` e por isso sai só na v0.2.
 
@@ -72,34 +72,36 @@ Porquê: o Foglamp codifica com agentes em camadas (skills genéricas, regras do
 
 Fonte: [docs/adocao/camada-lyx.md](https://github.com/joaodadas/lume/blob/main/docs/adocao/camada-lyx.md).
 
-#### Teal `#025864`: `--brand`, não `--primary`
+#### Cor: a do Foglamp, por enquanto
 
-Recomendação da base (a decisão final é da camada Lyx, registrada num ADR curto do `lyx-ds` para o Jefferson poder discordar com argumento): o teal entra como token `--brand`, e `--primary` fica cinza como no Foglamp.
-
-| Onde o teal entra | Como |
-|---|---|
-| Logo e tile de marca na sidebar | `LyxLogo className="text-brand"`; tile pela receita do `navTile` com os rgba do teal |
-| Login | fundo do painel de marca e o CTA |
-| `Badge variant="brand"` | status de marca, nunca estado (estado continua emerald, rose, amber) |
-| `Button variant="brand"` | no máximo um por tela, o CTA principal; o resto `default`, `secondary`, `ghost` |
-
-| Token | Light | Dark |
-|---|---|---|
-| `--brand` | `#025864` | `#03A698` (o teal claro que a 52W já usa no dark) |
-| `--brand-foreground` | `#ffffff` | `oklch(0.145 0 0)` |
-| `--custom-shadow-brand` | `0 0 0 .5px rgba(2,88,100,.25), 0 .5px 2px -.5px rgba(2,88,100,.18), 0 2px 4px 0 rgba(2,88,100,.12)` | `0 0 0 .5px rgba(3,166,152,.25), 0 .5px 2px -.5px rgba(3,166,152,.18), 0 2px 4px 0 rgba(3,166,152,.12)` |
-| `--color-brand` (`@theme inline`) | `var(--brand)` | |
-
-A fórmula da sombra colorida é a mesma dos badges da base (`--custom-shadow-emerald`, `--custom-shadow-sky`...): anel de meio pixel a 25%, uma sombra curta a 18% e uma de 4px a 12%, todas na cor.
+A Lyx usa as cores do Foglamp como vêm no `base`: sem teal, sem `--brand` e sem variante `brand` no `Badge` ou no `Button` (decisão de 26/10/2026, em `docs/DECISOES.md`). O `LyxLogo` entra em `currentColor`, na cor do texto. Quando a Lyx quiser identidade própria, o caminho está em [identidade-visual](https://github.com/joaodadas/lume/blob/main/docs/adocao/identidade-visual.md), com o teal como exemplo (`--brand`, não `--primary`).
 
 #### Comandos
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y          # nunca -d; fallback: init https://lume-ashmont.vercel.app/r/base.json -y
+npx shadcn@latest init joaodadas/lume/base#v0.2.0 -y          # nunca -d; fallback: init https://lume-ashmont.vercel.app/r/base.json -y
 npx shadcn@latest add Lyx-Engenharia/lyx-ds/theme-lyx#v0.1.0   # sozinho, depois do init, para o tema vencer o base
 npx shadcn@latest add Lyx-Engenharia/lyx-ds/lyx-shell#v0.1.0 Lyx-Engenharia/lyx-ds/lyx-login#v0.1.0 Lyx-Engenharia/lyx-ds/lyx-guide#v0.1.0
-npx shadcn@latest add joaodadas/lume/link-next#v0.1.0 --overwrite
+npx shadcn@latest add joaodadas/lume/link-next#v0.2.0 --overwrite
 npx skills add joaodadas/lume --skill lume-design-engineering
+```
+
+### Identidade visual por produto
+
+Fonte: [docs/adocao/identidade-visual.md](https://github.com/joaodadas/lume/blob/main/docs/adocao/identidade-visual.md).
+
+#### A regra
+
+- Por produto, só a cor muda. Fonte, tamanhos de texto, espaçamento, raio, sombra, movimento, ícones e componentes são os da base e iguais em todo produto.
+- Hoje todo produto (Lyx, Horizonte e os próximos) usa as cores do Foglamp, como vêm no `base`. Para ter a cara do sistema, não há nada a fazer.
+- Cor própria entra por um tema do produto, instalado depois do `base`; nunca editando à mão o `globals.css` nem `components/ui/*`.
+- Hoje um tema só alcança os neutros, o `--destructive` e os gráficos. Botão principal, etiquetas, avisos e a cor de alta e queda têm cor fixa nos componentes e esperam as cores por significado, que a base só faz quando um produto pedir.
+
+#### Como trocar
+
+```bash
+npx shadcn@latest init joaodadas/lume/base#v0.2.0 -y
+npx shadcn@latest add <org>/<repo>/theme-<produto>#vX.Y.Z   # sozinho, depois do init
 ```
 
 ### Migrar um front 52W (Lyx) para o lume
@@ -123,7 +125,7 @@ Comandos do inventário (rode no seu front antes de começar e guarde os número
 #### Passo 1: `components.json` e dependências
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y
+npx shadcn@latest init joaodadas/lume/base#v0.2.0 -y
 ```
 
 #### Passo 3: camada de aliases temporária
@@ -137,9 +139,9 @@ npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y
   --bg-card-hover: var(--accent);
   --bg-input: var(--input);
   --border-focus: var(--ring);
-  --accent-hover: var(--brand);
-  --accent-light: color-mix(in oklab, var(--brand) 8%, transparent);
-  --accent-glow: color-mix(in oklab, var(--brand) 15%, transparent);
+  --accent-hover: var(--primary);
+  --accent-light: color-mix(in oklab, var(--primary) 8%, transparent);
+  --accent-glow: color-mix(in oklab, var(--primary) 15%, transparent);
   --text-primary: var(--foreground);
   --text-secondary: color-mix(in oklab, var(--foreground) 60%, var(--muted-foreground));
   --text-muted: var(--muted-foreground);
@@ -149,7 +151,7 @@ npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y
   --shadow-sm: var(--custom-shadow);
   --shadow-md: var(--custom-shadow);
   --shadow-lg: var(--custom-shadow-lifted);
-  --shadow-accent: var(--custom-shadow-brand);
+  --shadow-accent: var(--custom-shadow-primary);
   --glass-bg: color-mix(in oklab, var(--background) 85%, transparent);
   --glass-border: var(--border);
   --sidebar-width: 260px; /* só o .sidebar legado lê isto; o Sidebar do lume fixa 14rem inline */
@@ -159,19 +161,19 @@ npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y
 
 Dois nomes colidem e não podem virar alias:
 
-- `--accent`: na 52W é o teal (`#025864`); no lume é a superfície de hover (`oklch(0.97 0 0)`, `bg-accent`). Não redefina. Troque nas classes legadas com `sed -i '' 's/var(--accent)/var(--brand)/g' src/app/globals.css` (o `--brand` vem do `theme-lyx`) e confira que nenhum `var(--accent)` sobrou fora do `@theme inline` do lume.
+- `--accent`: na 52W é o teal (`#025864`); no lume é a superfície de hover (`oklch(0.97 0 0)`, `bg-accent`). Não redefina. Troque nas classes legadas com `sed -i '' 's/var(--accent)/var(--primary)/g' src/app/globals.css` (a Lyx usa as cores do Foglamp: o que era teal vira o cinza do botão principal) e confira que nenhum `var(--accent)` sobrou fora do `@theme inline` do lume.
 - `--border` e `--radius`: têm o mesmo nome nos dois sistemas e o valor do lume (`oklch(0.922 0 0)`, `0.625rem`) vale para os dois. Apague as linhas da 52W.
 
 #### Passo 4: dark mode de `data-theme` para `.dark`
 
 ```bash
-npx shadcn@latest add joaodadas/lume/theme-provider#v0.1.0 joaodadas/lume/theme-switcher#v0.1.0
+npx shadcn@latest add joaodadas/lume/theme-provider#v0.2.0 joaodadas/lume/theme-switcher#v0.2.0
 ```
 
 #### Passo 6: primitivos Radix para Base UI
 
 ```bash
-npx shadcn@latest add joaodadas/lume/kit-formulario#v0.1.0 joaodadas/lume/kit-feedback#v0.1.0 joaodadas/lume/card#v0.1.0 joaodadas/lume/table#v0.1.0 joaodadas/lume/sidebar#v0.1.0 joaodadas/lume/scroll-area#v0.1.0 joaodadas/lume/separator#v0.1.0 joaodadas/lume/badge#v0.1.0 joaodadas/lume/button#v0.1.0 --overwrite
+npx shadcn@latest add joaodadas/lume/kit-formulario#v0.2.0 joaodadas/lume/kit-feedback#v0.2.0 joaodadas/lume/card#v0.2.0 joaodadas/lume/table#v0.2.0 joaodadas/lume/sidebar#v0.2.0 joaodadas/lume/scroll-area#v0.2.0 joaodadas/lume/separator#v0.2.0 joaodadas/lume/badge#v0.2.0 joaodadas/lume/button#v0.2.0 --overwrite
 ```
 
 | Radix (new-york) | Base UI (lume) | Onde confere |
@@ -240,7 +242,7 @@ cd meu-app
 #### 2. Instalar a base
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y
+npx shadcn@latest init joaodadas/lume/base#v0.2.0 -y
 ```
 
 Conferir o `app/globals.css` e o `app/layout.tsx` depois do `init`:
@@ -260,9 +262,9 @@ O `create-next-app` deixa `Geist` e `Geist_Mono` de `next/font/google` no `app/l
 #### 3. Instalar os itens e a skill
 
 ```bash
-npx shadcn@latest add joaodadas/lume/kit-shell#v0.1.0 joaodadas/lume/kit-tabela#v0.1.0 joaodadas/lume/kit-formulario#v0.1.0 joaodadas/lume/kit-feedback#v0.1.0 joaodadas/lume/kit-dados#v0.1.0 joaodadas/lume/kit-graficos#v0.1.0 joaodadas/lume/login-form#v0.1.0
-npx shadcn@latest add joaodadas/lume/link-next#v0.1.0 --overwrite
-npx shadcn@latest add joaodadas/lume/guia#v0.1.0
+npx shadcn@latest add joaodadas/lume/kit-shell#v0.2.0 joaodadas/lume/kit-tabela#v0.2.0 joaodadas/lume/kit-formulario#v0.2.0 joaodadas/lume/kit-feedback#v0.2.0 joaodadas/lume/kit-dados#v0.2.0 joaodadas/lume/kit-graficos#v0.2.0 joaodadas/lume/login-form#v0.2.0
+npx shadcn@latest add joaodadas/lume/link-next#v0.2.0 --overwrite
+npx shadcn@latest add joaodadas/lume/guia#v0.2.0
 npx skills add joaodadas/lume --skill lume-design-engineering
 ```
 
@@ -278,14 +280,14 @@ cd meu-painel && bun add -d @tailwindcss/vite
 ```
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y
+npx shadcn@latest init joaodadas/lume/base#v0.2.0 -y
 ```
 
 #### 2. Itens
 
 ```bash
-npx shadcn@latest add joaodadas/lume/kit-shell#v0.1.0 joaodadas/lume/kit-tabela#v0.1.0 joaodadas/lume/kit-feedback#v0.1.0 joaodadas/lume/kit-dados#v0.1.0 joaodadas/lume/kit-graficos#v0.1.0
-npx shadcn@latest add joaodadas/lume/theme-provider-csp#v0.1.0 --overwrite
+npx shadcn@latest add joaodadas/lume/kit-shell#v0.2.0 joaodadas/lume/kit-tabela#v0.2.0 joaodadas/lume/kit-feedback#v0.2.0 joaodadas/lume/kit-dados#v0.2.0 joaodadas/lume/kit-graficos#v0.2.0
+npx shadcn@latest add joaodadas/lume/theme-provider-csp#v0.2.0 --overwrite
 npx skills add joaodadas/lume --skill lume-design-engineering
 ```
 
@@ -294,10 +296,10 @@ npx skills add joaodadas/lume --skill lume-design-engineering
 | Item | No Foglamp dependia de | No lume (puro) | No Vite você faz |
 |---|---|---|---|
 | `link` / `link-next` | `next/link` em todo bloco | `components/link.tsx` é um `<a href>` com `href: string` (`registry/base-vega/components/link.tsx`); `link-next` troca o arquivo por `next/link` no mesmo caminho | Instale só `link`. Para SPA, troque o corpo de `components/link.tsx` pelo `Link` do roteador: o `rota.tsx` do painel (`pushState` + `useRota`) ou `<RouterLink to={href} {...props} />` do react-router. Mesmo contrato, os blocos não mudam |
-| `app-shell` | `usePathname()` e `authClient` | `pathname` e `user` são props (`registry/base-vega/blocks/app-shell/app-shell.tsx:149-168`) | `pathname={useRota().caminho}` (painel) ou `useLocation().pathname`. A gaveta mobile fecha sozinha quando `pathname` muda (`CloseOnNavigate`) |
+| `app-shell` | `usePathname()` e `authClient` | `pathname`, `user` e `defaultOpen` são props (`AppShellProps` em `registry/base-vega/blocks/app-shell/app-shell.tsx`) | `pathname={useRota().caminho}` (painel) ou `useLocation().pathname`. A gaveta mobile fecha sozinha quando `pathname` muda (`CloseOnNavigate`). O recolhido sai do `document.cookie` antes da primeira pintura: `useState(() => readSidebarOpen(lerCookie(SIDEBAR_COOKIE), true))` e `defaultOpen={aberto}` (receita em `docs/guia/03-shell-e-paginas.md`, Persistência do recolhido) |
 | `page-header`, `stat-card`, `context-chip`, `markdown-components` | `next/link` e o tipo `Route` | `href: string` pelo `Link` da indireção; `PX = "px-4 md:px-8"` exportado (`registry/base-vega/components/page-header.tsx:14`) | Nada |
 | `data-table` | `useSearchParams` + `useRouter().replace` do `next/navigation` | `useUrlFilters` em `registry/base-vega/blocks/data-table/url-filters.ts`: lê `window.location.search` por `useSyncExternalStore` (ouve `popstate` e o evento `lume:urlfilters`) e escreve com `history.replaceState`; mesma assinatura `[values, patch]`, default some da URL, `page` cai em todo patch que não o define | Nada. Se o roteador também lê a query, ele não vê o `replaceState`; o painel não precisa porque só a tabela lê a URL |
-| `header-slot` (toolbar portalando para o header) | nada de Next | `HeaderActionsSlotProvider` + `createPortal` | Monte o provider dentro do shell, como no Next |
+| `header-slot` (toolbar portalando para o header) | nada de Next | `HeaderActionsSlotProvider` + `createPortal` | Nada: o `AppShell` já monta o `HeaderActionsSlotProvider` e o `LayoutReserveProvider`, como no Next |
 | `range-picker` | nada de Next | `RangeProvider` com `localStorage` e `storageKey` | Nada |
 | `theme-provider` | next-themes com `<script>` inline | `theme-provider-csp` (`registry/base-vega/components/theme-provider-csp.tsx`) sem script inline, `useTheme()` com a forma do next-themes, mais `public/theme.js` (`registry/base-vega/public/theme.js`) | `<script src="/theme.js" data-storage-key="lume-theme" data-default-theme="dark"></script>` no `<head>` do `index.html`, antes do `<script type="module">`. Com `base: '/dashboard/'` o caminho vira `/dashboard/theme.js`. No `theme-switcher.tsx`, troque o import de `useTheme` de `"next-themes"` por `@/components/theme-provider` |
 | `route-header` (trio header/loading/page) | `loading.tsx` do App Router | fora da v0.1 (`nextOnly`) | Um `PageHeader` no topo de cada página e `Suspense fallback` com skeleton na troca de rota (`Carregando` em `painel/src/app/app.tsx:23-31`), páginas pesadas por `lazy()` |

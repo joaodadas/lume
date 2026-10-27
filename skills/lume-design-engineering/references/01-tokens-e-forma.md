@@ -10,6 +10,7 @@ Gerado por `bun scripts/build-skill.ts` a partir de `FRONTEND.md`, `docs/guia/01
 - **Always** prefira o token com opacidade para estado e texto secundário: `text-muted-foreground/50`, `/60`, `/70`; `bg-muted/50`; `bg-muted-foreground/15` e `/10` para chips e skeletons; `border-border/40` e `/50` para divisórias.
 - **Always** use `neutral` quando precisar de cinza cru (`bg-neutral-800 dark:bg-neutral-100` é o botão default); cor cromática só com significado (seção "Cor com significado").
 - **Never** use `slate`, `gray`, `zinc` ou `stone` (nem `--sidebar-primary` e `--custom-shadow-slate`, removidos do lume), nem hex, `rgb()` ou `oklch()` em `className` ou `style`, exceto quando a cor é dado (série de gráfico, cor de marca, hash de entidade) e com comentário de uma linha dizendo isso.
+- **Never** troque por produto a fonte, os tamanhos de texto, o espaçamento, o raio, a sombra, o movimento, os ícones ou os componentes: por produto só a cor muda, por um tema instalado depois do `base`, e hoje todo produto usa as cores do Foglamp (`docs/adocao/identidade-visual.md`).
 
 Porquê: cinza é estrutura e cor é significado; com chroma zero em tudo, L é a única variável e as superfícies se separam sem borda.
 
@@ -224,7 +225,7 @@ Escala: `--radius: 0.625rem` (10 px); `sm` 6, `md` 8, `lg` 10, `xl` 14, `2xl` 18
 |---|---|---|
 | `shadow-(--custom-shadow)` | 64 (+39 `dark:`) | a "borda" do sistema: cards, inputs, kbd, popovers, pílula ativa |
 | `shadow-(--custom-outline-shadow)` / `-lifted` / `-chrome` | 4 (+4 dark) / 3 / 1 | botão outline, chips e filtros / cenas sobre cenas / frame do demo |
-| `shadow-[var(--custom-shadow-{primary,secondary,destructive})]`; `shadow-[var(--custom-shadow-{green,blue,amber,orange,emerald,rose,red,violet,fuchsia,sky})]` | 2, 2, 1; 1 cada | variants de Button e Badge; badges coloridos |
+| `shadow-[var(--custom-shadow-primary)]`, `-secondary` e `-destructive`; `shadow-[var(--custom-shadow-emerald)]` e o mesmo para green, blue, amber, orange, rose, red, violet, fuchsia e sky | 2, 2, 1; 1 cada | variants de Button e Badge; badges coloridos |
 | `shadow-[inset_0_0_0_1px_rgba(R,G,B,0.14),0_2px_6px_-2px_rgba(R,G,B,0.25)]` + `dark:shadow-(--custom-shadow)` | 35 | tiles de ícone coloridos no light ("`--custom-shadow` lava no claro") |
 | `shadow-md ring-1 ring-foreground/10` / `ring-foreground/5` / `ring-[0.5px] ring-foreground/10` | 5 / 1 / 1 | popups (context-menu, menubar, hover-card, combobox; select); dropdown e popover usam só `shadow-(--custom-shadow)` |
 | `shadow-(--custom-shadow) dark:shadow-none dark:border-[0.5px] dark:border-border/50` | 10 primitivos | campo no dark: sombra vira hairline (input, textarea, input-group, input-otp, select, native-select, combobox, kbd, toggle, toggle-group) |
@@ -276,7 +277,7 @@ Tons: `-500` 216, `-400` 140, `-600` 107, `-500/10` 31, `-700` 29, `-100` 28, `-
 | Top 20 por ocorrência | Tamanhos (classe nua) |
 |---|---|
 | IconAlertTriangle 73, IconChevronRight 43, IconSitemapFilled 38, IconArrowUpRight 38, IconAlertTriangleFilled 38, IconTool 37, IconGhostFilled 36, IconCircleCheckFilled 33, IconUserFilled 32, IconBoltFilled 28, IconCheck 26, IconGaugeFilled 25, IconCoinFilled 25, IconAffiliateFilled 25, IconChevronDown 23, IconTrashFilled 20, IconPlus 20, IconMessage2Filled 19, IconGhost 16, IconClockFilled 16 | `size-3.5` 154, `size-4` 130, `size-3` 99, `size-3.25` 34, `size-4.5` 25, `size-6` 24, `size-5` 14, `size-7` 13; defaults por seletor `[&_svg:not([class*='size-'])]:size-4` 26 (primitivos shadcn), `:size-3.5` no Button, `:size-3!` no Badge, `:size-[11px]` no Button xs; `strokeWidth={2.4}` no `IconPlus` de "Create" |
-| Nav: `icon` outline inativo e `activeIcon` Filled ativo, crossfade `transition-opacity duration-100 ease-in-out` (`registry/base-vega/blocks/app-shell/nav-icon.tsx:41,48`) | `IconLoader` (não `IconLoader2`) no Spinner e no toast de loading |
+| Nav: `icon` outline inativo e `activeIcon` Filled ativo, crossfade `transition-opacity duration-100 ease-in-out` (`registry/base-vega/blocks/app-shell/nav-icon.tsx:47,54`) | `IconLoader` (não `IconLoader2`) no Spinner e no toast de loading |
 
 ### Acessibilidade
 | Atributo | n | Uso |

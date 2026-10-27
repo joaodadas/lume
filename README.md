@@ -11,10 +11,10 @@ Site e registry: https://lume-ashmont.vercel.app
 
 ```bash
 # 1. base: components.json (style base-vega, ícones tabler), globals.css com os tokens, lib/utils.ts
-npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y
+npx shadcn@latest init joaodadas/lume/base#v0.2.0 -y
 
 # 2. um kit (ou qualquer item): primitivos em components/ui, blocos em components, lib e hooks
-npx shadcn@latest add joaodadas/lume/kit-shell#v0.1.0
+npx shadcn@latest add joaodadas/lume/kit-shell#v0.2.0
 
 # 3. a skill para Claude Code e Codex
 npx skills add joaodadas/lume --skill lume-design-engineering
@@ -22,7 +22,7 @@ npx skills add joaodadas/lume --skill lume-design-engineering
 
 Nunca use `init -d`: o `-d` ignora o `base` e instala o style padrão por cima.
 Em projeto Next, instale também `link-next` depois dos blocos
-(`npx shadcn@latest add joaodadas/lume/link-next#v0.1.0`), que troca o `Link`
+(`npx shadcn@latest add joaodadas/lume/link-next#v0.2.0`), que troca o `Link`
 da indireção por `next/link`. Em Vite, o `Link` padrão (um `<a>`) já serve.
 
 ### Alias `@lume`
@@ -66,7 +66,7 @@ O item `guia` instala o guia inteiro em `docs/lume/` do seu projeto.
 - [docs/guia](docs/guia): o guia longo, com os valores exatos, as strings de classe e os porquês.
 - [docs/conceitos](docs/conceitos): os conceitos do craft, reescritos em pt-BR.
 - [docs/referencias.md](docs/referencias.md): curadoria de referências com os critérios declarados.
-- [docs/adocao](docs/adocao): Next novo, Vite, migração de um front com Radix e Lucide, camada de marca por cima da base.
+- [docs/adocao](docs/adocao): Next novo, Vite, migração de um front com Radix e Lucide, camada de marca por cima da base e identidade visual por produto (só a cor muda).
 - [CONTRIBUTING.md](CONTRIBUTING.md): como rodar, adicionar item, sincronizar com o Foglamp e lançar.
 - [CHANGELOG.md](CHANGELOG.md): o que mudou em cada versão e como migrar.
 

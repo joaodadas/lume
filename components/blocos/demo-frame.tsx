@@ -9,7 +9,9 @@ import { cn } from "@/registry/base-vega/lib/utils";
 // abaixo prendem o shell à moldura: o provider troca h-svh por h-full,
 // [contain:layout] faz a moldura virar o bloco de contenção da sidebar
 // (position: fixed no desktop) e o container da sidebar passa a medir a
-// moldura em vez da janela.
+// moldura em vez da janela. Valem para os dois layouts: no topbar o provider
+// continua sendo o sidebar-wrapper, e o painel das demos usa h-full, que já
+// mede o provider.
 export const FRAME =
   "relative h-[720px] overflow-hidden rounded-lg squircle:rounded-3xl corner-squircle bg-sidebar shadow-(--custom-shadow-chrome)";
 

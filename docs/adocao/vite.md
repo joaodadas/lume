@@ -12,10 +12,10 @@ cd meu-painel && bun add -d @tailwindcss/vite
 `tsconfig.json` com `"paths": { "@/*": ["./src/*"] }` e `vite.config.ts` com `resolve.alias` `@` para `./src` (o painel: `fileURLToPath(new URL('./src', import.meta.url))`) e `plugins: [react(), tailwindcss()]`. A CLI do shadcn exige o alias no tsconfig para reescrever os imports.
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y
+npx shadcn@latest init joaodadas/lume/base#v0.2.0 -y
 ```
 
-Mesma regra do Next: `-y`, nunca `-d`. O `init` do shadcn reconhece Vite pelo `vite.config.ts` e escreve o `components.json` com `rsc: false` (conferir: validado hoje só em Next; se o `init` recusar o projeto, escreva o `components.json` abaixo à mão e rode `npx shadcn@latest add joaodadas/lume/base#v0.1.0`, que grava `cssVars` e `css` no arquivo de CSS e ignora o `config`).
+Mesma regra do Next: `-y`, nunca `-d`. O `init` do shadcn reconhece Vite pelo `vite.config.ts` e escreve o `components.json` com `rsc: false` (conferir: validado hoje só em Next; se o `init` recusar o projeto, escreva o `components.json` abaixo à mão e rode `npx shadcn@latest add joaodadas/lume/base#v0.2.0`, que grava `cssVars` e `css` no arquivo de CSS e ignora o `config`).
 
 ```json
 {
@@ -35,8 +35,8 @@ Mesma regra do Next: `-y`, nunca `-d`. O `init` do shadcn reconhece Vite pelo `v
 ## 2. Itens
 
 ```bash
-npx shadcn@latest add joaodadas/lume/kit-shell#v0.1.0 joaodadas/lume/kit-tabela#v0.1.0 joaodadas/lume/kit-feedback#v0.1.0 joaodadas/lume/kit-dados#v0.1.0 joaodadas/lume/kit-graficos#v0.1.0
-npx shadcn@latest add joaodadas/lume/theme-provider-csp#v0.1.0 --overwrite
+npx shadcn@latest add joaodadas/lume/kit-shell#v0.2.0 joaodadas/lume/kit-tabela#v0.2.0 joaodadas/lume/kit-feedback#v0.2.0 joaodadas/lume/kit-dados#v0.2.0 joaodadas/lume/kit-graficos#v0.2.0
+npx shadcn@latest add joaodadas/lume/theme-provider-csp#v0.2.0 --overwrite
 npx skills add joaodadas/lume --skill lume-design-engineering
 ```
 
@@ -48,10 +48,10 @@ Nunca instale `link-next`, `theme-provider` (next-themes funciona em Vite, mas i
 | Item | No Foglamp dependia de | No lume (puro) | No Vite você faz |
 |---|---|---|---|
 | `link` / `link-next` | `next/link` em todo bloco | `components/link.tsx` é um `<a href>` com `href: string` (`registry/base-vega/components/link.tsx`); `link-next` troca o arquivo por `next/link` no mesmo caminho | Instale só `link`. Para SPA, troque o corpo de `components/link.tsx` pelo `Link` do roteador: o `rota.tsx` do painel (`pushState` + `useRota`) ou `<RouterLink to={href} {...props} />` do react-router. Mesmo contrato, os blocos não mudam |
-| `app-shell` | `usePathname()` e `authClient` | `pathname` e `user` são props (`registry/base-vega/blocks/app-shell/app-shell.tsx:149-168`) | `pathname={useRota().caminho}` (painel) ou `useLocation().pathname`. A gaveta mobile fecha sozinha quando `pathname` muda (`CloseOnNavigate`) |
+| `app-shell` | `usePathname()` e `authClient` | `pathname`, `user` e `defaultOpen` são props (`AppShellProps` em `registry/base-vega/blocks/app-shell/app-shell.tsx`) | `pathname={useRota().caminho}` (painel) ou `useLocation().pathname`. A gaveta mobile fecha sozinha quando `pathname` muda (`CloseOnNavigate`). O recolhido sai do `document.cookie` antes da primeira pintura: `useState(() => readSidebarOpen(lerCookie(SIDEBAR_COOKIE), true))` e `defaultOpen={aberto}` (receita em `docs/guia/03-shell-e-paginas.md`, Persistência do recolhido) |
 | `page-header`, `stat-card`, `context-chip`, `markdown-components` | `next/link` e o tipo `Route` | `href: string` pelo `Link` da indireção; `PX = "px-4 md:px-8"` exportado (`registry/base-vega/components/page-header.tsx:14`) | Nada |
 | `data-table` | `useSearchParams` + `useRouter().replace` do `next/navigation` | `useUrlFilters` em `registry/base-vega/blocks/data-table/url-filters.ts`: lê `window.location.search` por `useSyncExternalStore` (ouve `popstate` e o evento `lume:urlfilters`) e escreve com `history.replaceState`; mesma assinatura `[values, patch]`, default some da URL, `page` cai em todo patch que não o define | Nada. Se o roteador também lê a query, ele não vê o `replaceState`; o painel não precisa porque só a tabela lê a URL |
-| `header-slot` (toolbar portalando para o header) | nada de Next | `HeaderActionsSlotProvider` + `createPortal` | Monte o provider dentro do shell, como no Next |
+| `header-slot` (toolbar portalando para o header) | nada de Next | `HeaderActionsSlotProvider` + `createPortal` | Nada: o `AppShell` já monta o `HeaderActionsSlotProvider` e o `LayoutReserveProvider`, como no Next |
 | `range-picker` | nada de Next | `RangeProvider` com `localStorage` e `storageKey` | Nada |
 | `theme-provider` | next-themes com `<script>` inline | `theme-provider-csp` (`registry/base-vega/components/theme-provider-csp.tsx`) sem script inline, `useTheme()` com a forma do next-themes, mais `public/theme.js` (`registry/base-vega/public/theme.js`) | `<script src="/theme.js" data-storage-key="lume-theme" data-default-theme="dark"></script>` no `<head>` do `index.html`, antes do `<script type="module">`. Com `base: '/dashboard/'` o caminho vira `/dashboard/theme.js`. No `theme-switcher.tsx`, troque o import de `useTheme` de `"next-themes"` por `@/components/theme-provider` |
 | `route-header` (trio header/loading/page) | `loading.tsx` do App Router | fora da v0.1 (`nextOnly`) | Um `PageHeader` no topo de cada página e `Suspense fallback` com skeleton na troca de rota (`Carregando` em `painel/src/app/app.tsx:23-31`), páginas pesadas por `lazy()` |
@@ -78,11 +78,11 @@ export function Link({ href, onClick, ...props }: React.ComponentProps<"a"> & { 
 }
 ```
 
-Com react-router o mesmo arquivo vira `return <RouterLink to={href} {...props} />`. O `prefetch` que o `link-next` ganha de graça não existe aqui; `row-nav` (navegação por linha de tabela) chama `ir()` e o prefetch é no-op.
+Com react-router o mesmo arquivo vira `return <RouterLink to={href} {...props} />`. O `prefetch` que o `link-next` ganha de graça não existe aqui; `row-nav` (navegação por linha de tabela) chama `ir()` e o prefetch é no-op. Dentro do `AppShell`, quem rola é o viewport (`[data-slot=shell-viewport]`), não o `main`: o `ir()` rola esse elemento para o topo ao trocar de página.
 
 ### Shell: o exemplo canônico
 
-`painel/src/app/shell.tsx` é o `app-shell` antes de virar item: `SidebarProvider className="group/shell relative h-svh min-h-0 overflow-hidden"`, `Sidebar variant="inset"`, wrapper `flex min-h-0 min-w-0 flex-1 flex-col md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2`, `SidebarInset className="min-h-0 overflow-hidden transition-shadow duration-200 md:rounded-lg squircle:md:rounded-3xl"` (o `transition-shadow duration-200` entrou no item do lume), header mobile `flex h-12 shrink-0 items-center gap-2 border-b border-border/50 px-3 md:hidden` com `SidebarTrigger`, viewport `min-h-0 flex-1 overflow-y-auto` e coluna `flex flex-col gap-6 py-6 pb-16`. O `NavIcon` dele (`shell.tsx:56-63`) é o mesmo do item, com o glifo único quando não há variante filled. A composição em `app.tsx:74-84`: `ProvedorDeTema` > `ProvedorDeRota` > `TooltipProvider delay={150}` > sessão > `Shell`. Com os itens do lume: `ThemeProvider` (csp) > `RotaProvider` > `TooltipProvider` > `AppShell`.
+`painel/src/app/shell.tsx` é o `app-shell` antes de virar item: `SidebarProvider className="group/shell relative h-svh min-h-0 overflow-hidden"`, `Sidebar variant="inset"`, wrapper `flex min-h-0 min-w-0 flex-1 flex-col md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2`, `SidebarInset className="min-h-0 overflow-hidden transition-shadow duration-200 md:rounded-lg squircle:md:rounded-3xl"` (o `transition-shadow duration-200` entrou no item do lume), header mobile `flex h-12 shrink-0 items-center gap-2 border-b border-border/50 px-3 md:hidden` com `SidebarTrigger`, viewport `min-h-0 flex-1 overflow-y-auto` e coluna `flex flex-col gap-6 py-6 pb-16`. O `NavIcon` dele (`shell.tsx:56-63`) é o mesmo do item, com o glifo único quando não há variante filled. A composição em `app.tsx:74-84`: `ProvedorDeTema` > `ProvedorDeRota` > `TooltipProvider delay={150}` > sessão > `Shell`. Com os itens do lume: `ThemeProvider` (csp) > `RotaProvider` > `TooltipProvider delay={150}` > `AppShell`. O `AppShell` já monta o próprio `TooltipProvider delay={150}` em volta da sidebar (o tooltip do trilho); o de fora continua valendo para as páginas, como as tabelas. Do shell do painel para o item mudaram o gatilho (`ShellTrigger` no topo da sidebar e no cabeçalho do cartão, no lugar do `SidebarTrigger` do header mobile), o viewport (`div`, não `main`) e o recolher (trilho de ícones por padrão).
 
 ## 4. Fontes
 

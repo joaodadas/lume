@@ -21,6 +21,7 @@ token precisa seguir o tema ativo, senão o flash volta num dos modos.
 | Root pintado (adição do lume) | `html { @apply font-sans bg-background; }` dentro de `@layer base` | registry/base-vega/styles/globals.css:285-289 |
 | Body | `body { @apply font-sans bg-background text-foreground selection:bg-primary/10; }` | registry/base-vega/styles/globals.css:290-292 |
 | Token por tema | `--background: oklch(0.99 0 0)` no `:root`, `oklch(0.17 0 0)` no `.dark` | registry/base-vega/styles/globals.css:23,133 |
+| Página solta (adição do lume) | o `main` raiz é o canvas (`bg-sidebar`) e leva `[html:has(&)]:bg-sidebar`, que gera `html:has(...)` e pinta o documento no mesmo tom enquanto a página está montada | docs/guia/03-shell-e-paginas.md, Página solta |
 | Tema no root antes da primeira pintura | `theme-provider` (next-themes; o app passa `attribute="class" defaultTheme="dark" enableSystem`, como em app/layout.tsx:24-26) ou `theme-provider-csp` com `public/theme.js` (sem script inline, `defaultTheme = "dark"`) | registry/base-vega/components/theme-provider.tsx; theme-provider-csp.tsx:59; registry/base-vega/public/theme.js |
 | `theme-color` | não usado no Foglamp nem no lume; se adicionar, manter em sincronia com o tema | craft html-background.mdx |
 | `overscroll-behavior: none` | não usar por padrão: o bounce é parte da plataforma | craft html-background.mdx |
@@ -42,6 +43,7 @@ overscroll do Safari mostra branco.
 ## No lume
 
 - O `base` adota o conceito: `html { @apply font-sans bg-background }` em `@layer base` (adição do lume, comentada no globals.css:285-286). É a única diferença de `@layer base` em relação ao Foglamp além das fontes via Fontsource.
-- Itens: `base`, `theme-provider`, `theme-provider-csp`, `app-shell` (o canvas do shell usa `--sidebar`, um passo mais escuro que `--background`; ver `docs/guia/03-shell-e-paginas.md`. O `html` continua com `--background`, que é a cor do inset e das páginas sem shell, como o login).
+- Itens: `base`, `theme-provider`, `theme-provider-csp`, `app-shell` (o canvas do shell usa `--sidebar`, um passo mais escuro que `--background`; ver `docs/guia/03-shell-e-paginas.md`. O `html` continua com `--background`, a cor do inset).
+- A página solta (login, link por token, convite) não fica em `--background`: o `main` raiz pinta o canvas `bg-sidebar`. Para o overscroll do Safari não mostrar acima e abaixo dela o passo mais claro do `--background` (0,17 contra 0,145 de luminosidade no escuro, 0,99 contra 0,975 no claro), o mesmo `main` leva `[html:has(&)]:bg-sidebar`, e o documento acompanha o canvas só enquanto a página está montada.
 - FRONTEND.md: seção 3 (Tokens e cor), seção 22 (Dark mode) e seção 29 (Next.js e Vite: no Vite a classe do tema entra no `index.html` pelo `public/assets/tema.js`, ver `docs/adocao/vite.md`).
 - Teste: abra o app no Safari (macOS ou iOS) no dark, puxe além do topo e além do fim; nada branco pode aparecer.

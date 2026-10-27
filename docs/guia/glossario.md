@@ -1,6 +1,6 @@
 # Glossário
 
-Origem: mapa cap. 22. Termos na ordem em que aparecem no guia, do mais básico ao mais específico; cada um aponta para o capítulo que o detalha. Nomes de item da registry em `código` são os que você passa para `npx shadcn@latest add joaodadas/lume/<item>#v0.1.0`.
+Origem: mapa cap. 22. Termos na ordem em que aparecem no guia, do mais básico ao mais específico; cada um aponta para o capítulo que o detalha. Nomes de item da registry em `código` são os que você passa para `npx shadcn@latest add joaodadas/lume/<item>#v0.2.0`.
 
 - **base-vega**: o style do shadcn 4.x declarado em `components.json`; primitivos sobre Base UI com `data-slot`, `cva` e `cn`. O lume parte dele e retoca cerca de metade dos arquivos, como o Foglamp. [02-primitivos](./02-primitivos.md)
 - **Base UI e `render` prop**: `@base-ui/react`, headless no lugar do Radix; um componente vira outro elemento com `render={<Link href="/x" />}` em vez de `asChild`, e expõe estado por `data-open`, `data-closed`, `data-starting-style`, `data-ending-style` e variáveis como `--transform-origin` e `--anchor-width`. [02-primitivos](./02-primitivos.md)
@@ -20,6 +20,9 @@ Origem: mapa cap. 22. Termos na ordem em que aparecem no guia, do mais básico a
 - **Hover restraint**: hover é instantâneo ou troca só cor; no código, `transition-[color,box-shadow] active:scale-100` nos chips e zero `hover:scale-*`. [09-movimento](./09-movimento.md)
 - **Novelty budget**: o "delight" vai para momentos raros (entrada 3D da landing); navegar no app é instantâneo. [09-movimento](./09-movimento.md)
 - **Inset sidebar, canvas e inset**: a única variante de `Sidebar` usada; "canvas" é o fundo `bg-sidebar` do `SidebarProvider`, "inset" é o `SidebarInset`, cartão `bg-background` com `--custom-shadow` e raio onde a página vive, com 8px de margem. [03-shell-e-paginas](./03-shell-e-paginas.md)
+- **Formatos do shell**: os dois layouts do `AppShell` sobre o mesmo canvas e o mesmo cartão: a Lateral (`layout="sidebar"`, o padrão) e a Barra de zonas (`layout="topbar"`, um nível de até 7 zonas no canvas). O Agente é a Lateral em trilho com `fill` e `panel`; a página solta é a receita para tela sem navegação, sem shell. [03-shell-e-paginas](./03-shell-e-paginas.md)
+- **Trilho**: a sidebar recolhida para ícones (`collapsible="icon"`, `3rem`), o padrão de recolher do `AppShell`: item sem ícone some e o rótulo vai para o tooltip. Adição do lume, vinda dos fronts da Lyx. [03-shell-e-paginas](./03-shell-e-paginas.md)
+- **`Nav`**: o modelo de navegação do `app-shell` (`nav.ts`): lista plana ou seções, item com filhos (um nível), `badge`, link externo e item desabilitado com motivo; `findActive` acha o item da página atual. [03-shell-e-paginas](./03-shell-e-paginas.md)
 - **Trio header/loading/page**: cada rota do Next define o header uma vez em `header.tsx` e o renderiza no `loading.tsx` e no client, para a troca de fallback ser pixel-idêntica. [03-shell-e-paginas](./03-shell-e-paginas.md)
 - **`PageHeader` e `RouteHeader`**: o título de página (`px-8 h-8`, `text-base font-medium tracking-tight`) do item `page-header`, e a versão configurada por rota que resolve ícone e chip pelo `navItem(href)`; o modo `back` é a migalha praticada. [03-shell-e-paginas](./03-shell-e-paginas.md)
 - **`page-fade-in` e `useEntranceOnce`**: fade de 75ms só de opacidade, uma vez por hard load (hook `use-entrance-once`). [03-shell-e-paginas](./03-shell-e-paginas.md)

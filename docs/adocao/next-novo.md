@@ -14,7 +14,7 @@ Com npm, troque `bunx` por `npx` e `--use-bun` por `--use-npm`. Com `--src-dir` 
 ## 2. Instalar a base
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y
+npx shadcn@latest init joaodadas/lume/base#v0.2.0 -y
 ```
 
 Sempre com `-y` e nunca com `-d`. Verificado hoje: com `-d` a CLI ignora o item `base` (`extends: "none"` e o bloco `config`) e instala o style padrão por cima, com os tokens `sidebar-primary`, o `button` e o pacote `cn` do registry oficial. Com `-y` ela aceita o `config` do `base` sem perguntar. Fallback se o modo GitHub falhar: `npx shadcn@latest init https://lume-ashmont.vercel.app/r/base.json -y`.
@@ -40,13 +40,13 @@ O `create-next-app` deixa `Geist` e `Geist_Mono` de `next/font/google` no `app/l
 ## 3. Instalar os itens e a skill
 
 ```bash
-npx shadcn@latest add joaodadas/lume/kit-shell#v0.1.0 joaodadas/lume/kit-tabela#v0.1.0 joaodadas/lume/kit-formulario#v0.1.0 joaodadas/lume/kit-feedback#v0.1.0 joaodadas/lume/kit-dados#v0.1.0 joaodadas/lume/kit-graficos#v0.1.0 joaodadas/lume/login-form#v0.1.0
-npx shadcn@latest add joaodadas/lume/link-next#v0.1.0 --overwrite
-npx shadcn@latest add joaodadas/lume/guia#v0.1.0
+npx shadcn@latest add joaodadas/lume/kit-shell#v0.2.0 joaodadas/lume/kit-tabela#v0.2.0 joaodadas/lume/kit-formulario#v0.2.0 joaodadas/lume/kit-feedback#v0.2.0 joaodadas/lume/kit-dados#v0.2.0 joaodadas/lume/kit-graficos#v0.2.0 joaodadas/lume/login-form#v0.2.0
+npx shadcn@latest add joaodadas/lume/link-next#v0.2.0 --overwrite
+npx shadcn@latest add joaodadas/lume/guia#v0.2.0
 npx skills add joaodadas/lume --skill lume-design-engineering
 ```
 
-- Vários itens num comando só funciona (verificado). Os kits são `registry:block` sem arquivo: só puxam `registryDependencies`. Quem quer menos instala item a item (`npx shadcn@latest add joaodadas/lume/button#v0.1.0`) ou pelo alias que o `base` já escreveu no `components.json` (`npx shadcn@latest add @lume/button`).
+- Vários itens num comando só funciona (verificado). Os kits são `registry:block` sem arquivo: só puxam `registryDependencies`. Quem quer menos instala item a item (`npx shadcn@latest add joaodadas/lume/button#v0.2.0`) ou pelo alias que o `base` já escreveu no `components.json` (`npx shadcn@latest add @lume/button`).
 - `link-next` grava no mesmo caminho do `link` (`components/link.tsx`, `registry/base-vega/components/link-next.tsx`), por isso precisa de `--overwrite`: sem ele a CLI pula o arquivo que já existe. Rode sempre depois dos kits, porque o `kit-shell` traz o `link` puro (`<a>`), e os blocos importam de `components/link`, nunca de `next/link`.
 - `guia` instala `docs/lume/FRONTEND.md`, `docs/lume/guia/*` e `docs/lume/CONCEITOS.md` na raiz do projeto (alvos `~/`).
 - A skill entra em `.agents/skills/lume-design-engineering`, com link em `.claude/skills` e um `skills-lock.json`; atualize com `npx skills update`. Instale junto `npx skills add gustavo-fior/craft` e a `web-design-guidelines` de `vercel-labs/agent-skills` (ordem de leitura em `docs/referencias.md`).
@@ -76,7 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 ```
 
 - `defaultTheme="dark" enableSystem` é a regra praticada do Foglamp (`apps/web/src/components/providers.tsx:13-18`), não o `system` do FRONTEND.md original. `suppressHydrationWarning` no `<html>` por causa da classe que o next-themes injeta. Um único `<Toaster />` na árvore.
-- CSP estrita (sem script inline): no lugar do `theme-provider`, `npx shadcn@latest add joaodadas/lume/theme-provider-csp#v0.1.0 --overwrite` (mesmo alvo `components/theme-provider.tsx`, mais `public/theme.js`), `<script src="/theme.js" data-storage-key="lume-theme" data-default-theme="dark" />` no `<head>` antes do bundle, e no `theme-switcher.tsx` troque o `import { useTheme } from "next-themes"` por `@/components/theme-provider` (mesma forma: `theme`, `setTheme`, `resolvedTheme`).
+- CSP estrita (sem script inline): no lugar do `theme-provider`, `npx shadcn@latest add joaodadas/lume/theme-provider-csp#v0.2.0 --overwrite` (mesmo alvo `components/theme-provider.tsx`, mais `public/theme.js`), `<script src="/theme.js" data-storage-key="lume-theme" data-default-theme="dark" />` no `<head>` antes do bundle, e no `theme-switcher.tsx` troque o `import { useTheme } from "next-themes"` por `@/components/theme-provider` (mesma forma: `theme`, `setTheme`, `resolvedTheme`).
 - Dados: `QueryClientProvider` com o `QueryCache.onError` ao lado do `QueryClient`, como em `apps/web/src/utils/trpc.ts:20-31` do Foglamp, mais `MutationCache.onError` (adição do lume):
 
 ```tsx
@@ -92,24 +92,66 @@ export const queryClient = new QueryClient({
 
 ## 5. Primeira rota: shell e o trio header/loading/page
 
-O `app-shell` (`registry/base-vega/blocks/app-shell/app-shell.tsx`) recebe `{ nav, account?, brand, user?, userMenu?, pathname, children }`; no Next o `pathname` vem de `usePathname()` num wrapper client, e o `layout.tsx` do grupo continua server (sessão e `redirect("/login")`, como em `apps/web/src/app/(app)/layout.tsx` do Foglamp):
+O `app-shell` (`registry/base-vega/blocks/app-shell/app-shell.tsx`) recebe `nav`, `brand` e `pathname`, os opcionais `account`, `top`, `tools`, `banner`, `user`, `userMenu`, `fill` e `panel`, e o layout: `layout="sidebar"` (padrão) com `collapsible`, `defaultOpen`, `open` e `onOpenChange`, ou `layout="topbar"`. No Next, o `pathname` vem de `usePathname()` num wrapper client, e o `layout.tsx` do grupo continua server: lê a sessão (com `redirect("/login")`, como em `apps/web/src/app/(app)/layout.tsx` do Foglamp) e o cookie do recolhido, que vira o `defaultOpen` (guia 03, seção Persistência do recolhido):
+
+```tsx
+// app/(app)/layout.tsx
+import { cookies } from "next/headers";
+import { Suspense } from "react";
+import { readSidebarOpen, SIDEBAR_COOKIE } from "@/components/app-shell/nav";
+import { Shell } from "@/components/app/shell";
+
+// Com cacheComponents, cookies(), a sessão e o usePathname do Shell ficam dentro de Suspense.
+export default function AppLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <Suspense>
+      <ComSessao>{children}</ComSessao>
+    </Suspense>
+  );
+}
+
+async function ComSessao({ children }: { children: React.ReactNode }) {
+  const user = await lerSessao(); // do app; sem sessão, redirect("/login")
+  const aberto = readSidebarOpen((await cookies()).get(SIDEBAR_COOKIE)?.value, true);
+  return <Shell user={user} defaultOpen={aberto}>{children}</Shell>;
+}
+```
 
 ```tsx
 // components/app/shell.tsx
 "use client";
 import { usePathname } from "next/navigation";
-import { IconLayoutDashboard, IconLayoutDashboardFilled } from "@tabler/icons-react";
-import { AppShell } from "@/components/app-shell/app-shell"; // caminho que o item app-shell instala
-import { navTile } from "@/components/app-shell/nav";
+import { IconBoltFilled, IconFileText, IconFileTextFilled, IconLayoutDashboard, IconLayoutDashboardFilled, IconPackage } from "@tabler/icons-react";
+import { AppShell, type AppShellUser } from "@/components/app-shell/app-shell"; // caminho que o item app-shell instala
+import { type Nav, navTile } from "@/components/app-shell/nav";
 
-const NAV = [
-  { href: "/dashboard", label: "Visão geral", icon: IconLayoutDashboard, activeIcon: IconLayoutDashboardFilled, iconClassName: navTile("sky") },
+const NAV: Nav = [
+  { items: [{ href: "/dashboard", label: "Visão geral", icon: IconLayoutDashboard, activeIcon: IconLayoutDashboardFilled, iconClassName: navTile("sky") }] },
+  {
+    label: "Operação",
+    items: [
+      { href: "/pedidos", label: "Pedidos", icon: IconPackage, iconClassName: navTile("orange") }, // sem activeIcon: um glifo só
+      { href: "/contratos", label: "Contratos", icon: IconFileText, activeIcon: IconFileTextFilled, iconClassName: navTile("violet") },
+    ],
+  },
 ];
 
-export function Shell({ children, user }: { children: React.ReactNode; user: { name: string; email?: string } }) {
-  return <AppShell nav={NAV} brand={<span className="truncate font-medium">Meu app</span>} user={user} pathname={usePathname()}>{children}</AppShell>;
+export function Shell({ children, user, defaultOpen }: { children: React.ReactNode; user: AppShellUser; defaultOpen: boolean }) {
+  return (
+    <AppShell
+      nav={NAV}
+      brand={<><IconBoltFilled /><span className="truncate font-medium">Meu app</span></>} // marca e nome como irmãos: no trilho fica a marca
+      user={user}
+      pathname={usePathname()}
+      defaultOpen={defaultOpen}
+    >
+      {children}
+    </AppShell>
+  );
 }
 ```
+
+A lista plana (`[item, item]`) continua aceita; com mais de 7 itens, use seções com rótulo. O shell já monta `HeaderActionsSlotProvider`, `LayoutReserveProvider` e o `TooltipProvider` da sidebar: não embrulhe o `AppShell` em nenhum deles.
 
 Cada rota de lista é um trio (`apps/web/src/app/(app)/settings/{header,loading,page}.tsx` do Foglamp): `header.tsx` exporta um componente com o `PageHeader` configurado, `loading.tsx` renderiza só ele, e `page.tsx` renderiza o client (com `Suspense fallback={<XHeader />}` quando o client lê `useSearchParams`). O header pintado duas vezes é o que deixa a troca fallback para página pixel-idêntica. O `route-header` do Foglamp é `nextOnly` e sai como item só na v0.2; até lá copie `apps/web/src/components/app/route-header.tsx` ou escreva o `header.tsx` direto sobre o `page-header`:
 
@@ -117,6 +159,7 @@ Cada rota de lista é um trio (`apps/web/src/app/(app)/settings/{header,loading,
 // app/(app)/pedidos/header.tsx
 "use client";
 import { PageHeader } from "@/components/page-header";
+import { navTile } from "@/components/app-shell/nav";
 import { IconPackage } from "@tabler/icons-react";
 export function PedidosHeader({ actions }: { actions?: React.ReactNode }) {
   return <PageHeader title="Pedidos" icon={IconPackage} iconClassName={navTile("sky")} actions={actions} />;
@@ -139,7 +182,7 @@ Aponte o agente para o guia instalado e para a skill, sem copiar as regras:
 
 ## 7. Atualizar depois
 
-`npx shadcn@latest add joaodadas/lume/<item>#v0.2.0 --diff` mostra o que mudou; `--overwrite` aplica. Tokens novos entram com `npx shadcn@latest add joaodadas/lume/base#v0.2.0` (o `add` do `base` escreve `cssVars` e `css`, ignora o `config`). O `CHANGELOG.md` do lume tem a seção "Como migrar" quando um item muda de API.
+`npx shadcn@latest add joaodadas/lume/<item>#vX.Y.Z --diff`, com a tag nova, mostra o que mudou; `--overwrite` aplica. Tokens novos entram com `npx shadcn@latest add joaodadas/lume/base#vX.Y.Z` (o `add` do `base` escreve `cssVars` e `css`, ignora o `config`). O `CHANGELOG.md` do lume tem a seção "Como migrar" quando um item muda de API.
 
 ## O que não copiar
 

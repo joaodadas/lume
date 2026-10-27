@@ -26,7 +26,7 @@ desde que a fonte carregada traga o eixo.
 | Seta de link externo em chip | `size-3.5 shrink-0 -ml-0.5 mt-px text-muted-foreground` | registry/base-vega/components/context-chip.tsx:122 |
 | Ícone do `Alert` ao lado do título | `*:[svg]:row-span-2 *:[svg]:translate-y-0.5` | registry/base-vega/ui/alert.tsx:9 |
 | Checkbox ou radio dentro de `Field` horizontal | `[&>[role=checkbox],[role=radio]]:mt-px` | registry/base-vega/ui/field.tsx:63,65 |
-| Slot de ações do `PageHeader` | `flex items-center gap-2 translate-y-1 empty:hidden` (comentário: desce para o picker alinhar com o texto do título) | registry/base-vega/components/page-header.tsx:99-102 |
+| Slot de ações do `PageHeader` | `flex items-center gap-2 translate-y-1 empty:hidden` (comentário: desce para o picker alinhar com o texto do título) | registry/base-vega/components/page-header.tsx:106-109 |
 | Submenu da sidebar e seu item | `translate-x-px` na lista, `-translate-x-px` no item, para a borda esquerda casar com a linha | registry/base-vega/ui/sidebar.tsx:647,685 |
 | Seta do tooltip | `translate-y-[calc(-50%-2px)] rotate-45 rounded-[2px]` | registry/base-vega/ui/tooltip.tsx:64 |
 | Eixo `opsz` da Inter | `@import "@fontsource-variable/inter/opsz.css"` | registry/base-vega/styles/globals.css:9 |

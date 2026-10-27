@@ -28,7 +28,9 @@ export function SiteNav() {
         >
           lume
         </Link>
-        <nav aria-label="Principal" className="flex items-center gap-1">
+        {/* "Site", não "Principal": a /blocos monta demos do AppShell, cada uma
+            com a própria nav "Principal", e o rótulo do marco é único. */}
+        <nav aria-label="Site" className="flex items-center gap-1">
           {LINKS.map((l) => {
             // Ativo quando a rota atual é a do link ou uma filha dele.
             const active =

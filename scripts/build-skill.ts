@@ -553,7 +553,7 @@ Gerado por \`bun scripts/build-skill.ts\`; não edite à mão. Fonte: \`FRONTEND
 
 ## O que é e quando usar
 
-O lume é uma registry shadcn (\`base-vega\` sobre \`@base-ui/react\`, Tailwind v4, \`@tabler/icons-react\`) que copia a regra praticada no código do Foglamp (\`2bc3bb5\`): cinza oklch, sombra no lugar de borda, squircle, pílula de botão, shell inset, tabelas densas e loading que não mexe no layout. Use esta skill sempre que for escrever ou revisar uma tela num projeto que instalou o lume: novo componente, página de lista ou detalhe, formulário, dialog, dashboard, dark mode, animação, migração de 52W, Radix ou Lucide. Toda regra é dura salvo indicação em contrário: se um padrão não cabe, levante antes de contornar.
+O lume é uma registry shadcn (\`base-vega\` sobre \`@base-ui/react\`, Tailwind v4, \`@tabler/icons-react\`) que copia a regra praticada no código do Foglamp (\`2bc3bb5\`): cinza oklch, sombra no lugar de borda, squircle, pílula de botão, shell inset, tabelas densas e loading que não mexe no layout. Use esta skill sempre que for escrever ou revisar uma tela num projeto que instalou o lume: novo componente, página de lista ou detalhe, formulário, dialog, dashboard, dark mode, animação, migração de 52W, Radix ou Lucide. Toda regra é dura salvo indicação em contrário: se um padrão não cabe, levante antes de contornar. Por produto, só a cor muda, e hoje todo produto usa as cores do Foglamp: fonte, tamanhos, espaçamento, raio, sombra, movimento, ícones e componentes são os da base ([guia de identidade visual](references/10-adocao.md#identidade-visual-por-produto)).
 
 ## Como usar
 
@@ -577,7 +577,7 @@ Do Foglamp (a regra praticada):
 5. Cinza é estrutura e cor é significado: todo token é \`oklch(L 0 0)\`; emerald é ok, rose é erro, amber é aviso, e nenhuma tela inventa o próprio verde.
 6. Sombra no lugar de borda: \`shadow-(--custom-shadow)\` separa superfícies; linha fina só em linha de tabela, divisor interno, campo no dark e no Empty tracejado.
 7. Uma forma de botão: pílula \`rounded-full\`, \`h-8\`, \`active:scale-[0.97]\`, anel de 1.5px; a variant muda o peso da ação, não a forma.
-8. Shell inset: canvas \`bg-sidebar\` mais escuro, a página é um cartão \`bg-background\` com sombra e squircle, scroll contido em três camadas.
+8. Shell inset em todo formato: canvas \`bg-sidebar\` mais escuro e a página num cartão \`bg-background\` com sombra e squircle, com sidebar, trilho ou barra; scroll contido em três camadas.
 9. Loading que não mexe no layout: skeleton só depois de 700 ms, \`table-fixed\` com larguras no header, header do \`loading.tsx\` idêntico ao da página.
 10. Regra praticada vence a escrita: quando o \`FRONTEND.md\` original e o código do Foglamp divergem, vale o código; o lume marca o que é adição própria.
 

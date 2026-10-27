@@ -6,7 +6,8 @@ Gerado por `bun scripts/build-skill.ts` a partir de `FRONTEND.md`, `docs/guia/08
 
 <!-- mapa: 14 | regras 12, 18 -->
 
-- **Always** monte o painel como irmão flex do inset no canvas `bg-sidebar`, largura 354px (mínimo 320, máximo 640), tween `{ duration: 0.25, ease: ENTRANCE_EASE }` com `{ duration: 0 }` durante o arrasto, conteúdo interno de largura fixa para não refluir; `useReportLayoutReserve(open ? width : 0)` (item `header-slot`) avisa a Toolbar da largura futura.
+- **Always** monte o painel pelo slot `panel` do `AppShell`, irmão flex do cartão no canvas `bg-sidebar` (o shell já monta `HeaderActionsSlotProvider` e `LayoutReserveProvider`), largura 354px (mínimo 320, máximo 640), tween `{ duration: 0.25, ease: ENTRANCE_EASE }` com `{ duration: 0 }` durante o arrasto, conteúdo interno de largura fixa para não refluir; `useReportLayoutReserve(open ? width : 0)` (item `header-slot`) avisa a Toolbar da largura futura.
+- **Always** faça do chat uma página quando a conversa é a tela: `fill` no `AppShell`, lista em `ScrollFade containerClassName="min-h-0 flex-1" fromClassName="from-background"` e composer `shrink-0` no fluxo da coluna, com `text-base md:text-sm` no campo e `pb-[max(--spacing(4),env(safe-area-inset-bottom))]`, nunca `fixed` com deslocamento da viewport (adição do lume; receita em `docs/guia/08-assistente-de-ai.md`).
 - **Always** diferencie os papéis: usuário é card `max-w-[85%] whitespace-pre-wrap rounded-lg squircle:rounded-3xl corner-squircle bg-card shadow-(--custom-shadow) px-3 py-2 text-sm text-primary` (Foglamp, apps/web/src/components/app/foggy/foggy-message.tsx:54); assistente é texto direto `max-w-[90%] px-3 py-0 text-sm leading-relaxed` renderizado por streamdown com `markdown-components`; tool call é pílula de texto `text-xs text-muted-foreground` com `animate-pulse` até terminar.
 - **Always** mostre "pensando" com `TextShimmerLoader size="sm"` até o primeiro token (inclusive durante tool calls), erro em `rounded-lg squircle:rounded-3xl corner-squircle bg-destructive/10 px-3 py-2 text-sm text-destructive w-fit` (Foglamp, apps/web/src/components/app/foggy/foggy-widget.tsx:649) com `Button variant="outline" size="sm"` "Tentar de novo" que reenvia a mesma pergunta.
 - **Never** use HUD em Shadow DOM, Command/cmdk ou um tema próprio para o chat: ele usa os mesmos tokens e primitivos do app; `ai-chat` como bloco fica para a v0.2.
@@ -18,10 +19,24 @@ Porquê: a resposta é "a página" e a pergunta é um objeto sobre ela; manter o
 ### Encaixe no shell
 
 - O painel é um **irmão flex do inset**, no mesmo canvas `bg-sidebar`, nunca um overlay: `motion.aside` com `animate={{ width: open ? displayWidth : 0 }}`, `initial={false}`, `relative h-svh shrink-0`, `aria-hidden={!open}`, sem `overflow-hidden` (o provider já clipa e o handle precisa pender além da borda). Dentro, `motion.div className="flex h-full flex-col py-2 pr-2"` com `animate={{ width: displayWidth }}`: largura fixa para o conteúdo não refluir enquanto abre e fecha (foggy-widget.tsx:462-505).
-- O estado `open` vive no shell (app-shell.tsx:288), porque gatilho (dentro do inset) e painel (irmão) o compartilham; `key={projectId}` no widget reinicia a conversa ao trocar de contexto; o inset tem `transition-shadow duration-200` para a sombra animar junto da abertura.
-- Antes de animar, `useReportLayoutReserve(open ? panelWidth : 0)` (registry/base-vega/components/header-slot.tsx:79) publica a largura alvo; a `Toolbar` lê `usePendingShrink()` (header-slot.tsx:92) e sobe os controles para o header no primeiro frame, não um frame depois do overflow. Só encolhimento é antecipado.
+- No lume, o painel entra pelo slot `panel` do `AppShell`, que o põe como último filho do canvas, irmão do wrapper do cartão, e empurra o cartão no desktop. O estado `open` vive no shell (no Foglamp, app-shell.tsx:288): no lume, no componente que monta o `AppShell` ou num contexto do app acima dele, porque o gatilho (dentro do cartão) e o painel (no slot) o compartilham; `key={projectId}` no widget reinicia a conversa ao trocar de contexto; o inset tem `transition-shadow duration-200` para a sombra animar junto da abertura.
+- Antes de animar, `useReportLayoutReserve(open ? panelWidth : 0)` (registry/base-vega/components/header-slot.tsx:79) publica a largura alvo; a `Toolbar` lê `usePendingShrink()` (header-slot.tsx:92) e sobe os controles para o header no primeiro frame, não um frame depois do overflow. Só encolhimento é antecipado. O `AppShell` já monta o `LayoutReserveProvider` e o `HeaderActionsSlotProvider`, e o painel do slot fica dentro dos dois.
+- A largura é do app (354 px no Foggy; a Horizonte usa 560, de 460 a 820), mas o cartão nunca fica abaixo de 420 px. Abaixo de 768 px, o app troca o painel por um `Sheet side="right"`.
 - Afordância de resize fica no inset, não no handle: handle invisível `role="separator" aria-orientation="vertical" aria-label="Redimensionar painel"` com `data-foggy-resize=""` e `data-resizing` enquanto arrasta, classes `absolute inset-y-0 -left-2 z-20 w-4 cursor-col-resize`; o inset recebe `pointer-events-none absolute inset-0 z-10 rounded-lg squircle:rounded-3xl corner-squircle border-r border-border/80 opacity-0 transition-opacity duration-200 group-has-[[data-foggy-resize]:hover]/shell:opacity-100 group-has-[[data-foggy-resize][data-resizing]]/shell:opacity-100` (Foglamp, apps/web/src/components/app/app-shell.tsx:396-399; renomeie o atributo nos dois lugares). A borda direita do inset "acende" como se fosse a alça.
 - Gatilho: no Foglamp é um entalhe SVG no canto do inset. No lume é `Button variant="ghost" size="sm"` com `rounded-sm h-8 pl-2 active:scale-100` + ícone `size-4` + `Kbd` com a letra, no header ou no rodapé da sidebar (adição do lume); a letra abre fora de campo editável (ignora `metaKey`, `ctrlKey`, `altKey`, `INPUT`, `TEXTAREA`, `SELECT`, `isContentEditable`) e o listener vive no gatilho, montado só com o painel fechado.
+
+### Chat como página: `fill`
+
+| Parte | Classes e regra |
+|---|---|
+| Raiz | `flex min-h-0 flex-1 flex-col`, direto na coluna do shell, que com `fill` é `flex min-h-0 flex-1 flex-col` |
+| Topo | `flex h-12 shrink-0 items-center gap-2 px-4`, com "Agente / título" e as ações, sem `border-b` |
+| Lista | `ScrollFade containerClassName="min-h-0 flex-1" fromClassName="from-background"` (registry/base-vega/components/scroll-fade.tsx), com as mensagens em `mx-auto w-full max-w-3xl px-4 py-6`: só esta área rola |
+| Composer | `shrink-0 px-4 pb-[max(--spacing(4),env(safe-area-inset-bottom))]`, centrado em `mx-auto w-full max-w-3xl`; a receita do composer abaixo com `bg-card`, e `text-base md:text-sm` no campo para o iOS não dar zoom (registry/base-vega/ui/textarea.tsx:12) |
+| Posição | o composer fica no fluxo da coluna, nunca `fixed` com deslocamento da viewport: assim ele não se desalinha quando a sidebar recolhe para o trilho |
+| Status | a conversa que está respondendo leva `badge: { status: "working", label: "Respondendo" }` no item dela na sidebar, onde o resultado vai morar; no trilho, o ponto fica no ícone, e item sem ícone (conversa) some |
+
+`Cmd/Ctrl+B` funciona dentro do composer, porque o shell só ignora o atalho em `contenteditable`. O teclado virtual do iOS com o composer em `fill` ainda não foi testado em aparelho: o Base UI só trata isso dentro do Drawer.
 
 ### Física de abrir e redimensionar
 

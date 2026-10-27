@@ -29,7 +29,8 @@ que você vira quarenta vezes por dia, não.
 | Tooltip em tabela e timeline | `<TooltipProvider delay={150}>` envolvendo a página | Foglamp `app/(app)/traces/traces-client.tsx:642`, `sessions/sessions-client.tsx:288`, `agents/agents-client.tsx:227`, `workflows/workflows-client.tsx:229`, `evals/evals-client.tsx:841`, `traces/[traceId]/trace-detail-client.tsx:1078`, `components/app/trace-timeline.tsx:503` |
 | Tooltip em prosa | `delay={200}` | Foglamp `apps/web/src/components/app/prompt-prose.tsx:197` |
 | Tab segmentada | sem `transition-colors` no texto; `hover:transition-colors` só no estado inativo, para o hover suavizar e a troca de aba ser seca | Foglamp `app/(app)/settings/org/org-settings-client.tsx:158-166` |
-| Sidebar por atalho (Cmd/Ctrl+B) | `transition-[left,right,width] duration-200 ease-linear` (anima mesmo por teclado: contra o artigo) | registry/base-vega/ui/sidebar.tsx:235 |
+| Sidebar por atalho (Cmd/Ctrl+B) | `transition-[left,right,width] duration-200 ease-linear` (anima mesmo por teclado: contra o artigo); o `AppShell` corta a transição no atalho com `data-instant` no canvas por dois frames e `[&[data-instant]_*]:transition-none` | registry/base-vega/ui/sidebar.tsx:235; registry/base-vega/blocks/app-shell/app-shell.tsx |
+| Tooltip do trilho | `TooltipProvider delay={150}` em volta da sidebar, montado pelo `AppShell`: o primeiro espera 150 ms e os vizinhos abrem na hora | registry/base-vega/blocks/app-shell/app-shell.tsx |
 | Craft | tooltip: o primeiro espera 400 a 700ms, os vizinhos abrem na hora; hover sem transição | craft hover-restraint.mdx |
 | Delay do tooltip: três fontes | Rauno (UI Playbook): cerca de 100 ms no primeiro, zero nos vizinhos; craft: 400 a 700 ms; Foglamp: `delay={150}` em tabela e timeline. O lume fica em 150 | https://uiplaybook.dev; craft hover-restraint.mdx; Foglamp `traces-client.tsx:642` |
 | Menu e popover | abrem instantâneo e só fazem fade ao fechar; sem fade entre itens do menu; o context menu anima só na saída | Shu Ding, On UI Animations, https://shud.in/thoughts/on-ui-animations; Raphael Salaja, 12 Principles of Animation, https://www.userinterface.wiki/12-principles-of-animation |
@@ -67,6 +68,6 @@ o Foglamp prefere 150ms nas tabelas e aceita o tooltip abrir de passagem), e a s
 
 ## No lume
 
-- Itens: `button`, `sidebar`, `checkbox`, `tooltip`, `navigation-menu`, `range-picker`, `app-shell` (`nav-icon.tsx:41,48` faz o crossfade outline/filled em `transition-opacity duration-100 ease-in-out` só na troca de item ativo, não no hover).
+- Itens: `button`, `sidebar`, `checkbox`, `tooltip`, `navigation-menu`, `range-picker`, `app-shell` (`nav-icon.tsx:47,54` faz o crossfade outline/filled em `transition-opacity duration-100 ease-in-out` só na troca de item ativo, não no hover).
 - FRONTEND.md: seção 19 (Overlays e menus: `TooltipProvider delay={150}` em tabelas) e seção 21 (Movimento). Guia: `docs/guia/09-movimento.md`.
-- O lume mantém `delay = 0` no `tooltip` por fidelidade; a regra praticada é `delay={150}` em tabela, e quem coloca o provider é a página, como nas seis páginas de lista do Foglamp. O `data-table` não envolve a tabela num provider.
+- O lume mantém `delay = 0` no `tooltip` por fidelidade; a regra praticada é `delay={150}` em tabela, e quem coloca o provider é a página, como nas seis páginas de lista do Foglamp. O `data-table` não envolve a tabela num provider. A exceção é o `app-shell`, que monta `TooltipProvider delay={150}` em volta da sidebar para o tooltip do trilho, e que recolhe pelo atalho sem transição.

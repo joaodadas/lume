@@ -1,7 +1,8 @@
 // Verificações do lume, em ordem: hex fora do globals.css, border fechando
 // caixa, imports proibidos, travessão nos docs, formas de import da registry,
 // registry.json em dia, limites de arquivo, cabeçalhos de atribuição, skill,
-// strings de classe citadas nos docs, links internos e, por fim, next build.
+// strings de classe citadas nos docs, links internos, classe com placeholder
+// nos textos e, por fim, next build.
 //
 // uso: bun scripts/check.ts [--no-build] [--only 1,2,5]
 //
@@ -742,8 +743,45 @@ verificacao(
   },
 );
 
-// 12. next build. Pule com --no-build quando só quiser as verificações estáticas.
-verificacao(12, "next build", () => {
+// 12. Classe de valor arbitrário com placeholder ({c}, <cor>) nos textos. O
+// Tailwind lê todo arquivo fora do .gitignore, inclusive os .md e este
+// script, e o item guia instala os docs no app: um shadow de valor arbitrário
+// com {c} entre os colchetes vira CSS inválido e o next dev responde 500 em
+// toda rota (o next build passa). Por isso este comentário não escreve a
+// classe. Variant terminada em ":" passa, e o ">" de seletor não é
+// placeholder: só chave e <palavra> contam.
+verificacao(12, "classe com placeholder dentro de [] ou () nos textos", () => {
+  const arquivos = [
+    ...docsMarkdown(),
+    ...["README.md", "CHANGELOG.md", "CONTRIBUTING.md"].filter((f) =>
+      existsSync(abs(f)),
+    ),
+  ];
+  for (const f of arquivos) {
+    const texto = ler(f);
+    for (const m of texto.matchAll(
+      /[a-z0-9]-(?:\[[^\]\s]*\]|\([^)\s]*\))(?!:)/g,
+    )) {
+      if (!/[{}]|<[\p{L}_-]+>/u.test(m[0])) continue;
+      // a classe inteira, do espaço ou da crase anterior até o fim do valor
+      const inicio =
+        Math.max(
+          texto.lastIndexOf(" ", m.index),
+          texto.lastIndexOf("`", m.index),
+          texto.lastIndexOf("\n", m.index),
+        ) + 1;
+      const classe = texto.slice(inicio, m.index + m[0].length);
+      falha(
+        `"${classe}" com placeholder: vira CSS inválido no Tailwind; escreva com uma cor de exemplo, como emerald`,
+        f,
+        linhaDe(texto, m.index),
+      );
+    }
+  }
+});
+
+// 13. next build. Pule com --no-build quando só quiser as verificações estáticas.
+verificacao(13, "next build", () => {
   if (noBuild) {
     pular("--no-build");
     return;

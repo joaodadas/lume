@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Tipos, lint e as 12 verificações do scripts/check.ts (inclui next build).
+  # Tipos, lint e as 13 verificações do scripts/check.ts (inclui next build).
   check:
     runs-on: ubuntu-latest
     steps:

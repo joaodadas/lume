@@ -25,12 +25,12 @@ Ordem recomendada: `lyx-front-template`, depois `lyx-analise-credito-front` e `l
 ## Passo 1: `components.json` e dependências
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y
+npx shadcn@latest init joaodadas/lume/base#v0.2.0 -y
 ```
 
 Num front que já tem `src/app/globals.css` o `init` escreve o `components.json` (style `base-vega`, `iconLibrary tabler`, `tailwind.css "src/app/globals.css"`, aliases `@/components`, `@/lib/utils`, `@/components/ui`, `@/lib`, `@/hooks`), reescreve `src/lib/utils.ts` (mesma assinatura de `cn`, nada quebra) e injeta tokens, `@import`, `@plugin` e `@custom-variant` no CSS existente. Sempre `-y`, nunca `-d` (o `-d` instala o style padrão por cima). O `lyx-contratos-front` já tem um `components.json` new-york: apague antes, senão o `init` pergunta se sobrescreve.
 
-Depois, em comando separado (para o tema vencer o `base`), o tema da Lyx e o alias privado: ver [camada-lyx](./camada-lyx.md). Dependências novas chegam sozinhas (`@base-ui/react`, `@tabler/icons-react`, `@toolwind/corner-shape`, `@fontsource-variable/*`, `tw-animate-css` já existe). As antigas saem só no passo 8.
+Depois, em comando separado (para o tema vencer o `base`), o tema da Lyx (por enquanto sem cor, só a variante dark de transição) e o alias privado: ver [camada-lyx](./camada-lyx.md). Dependências novas chegam sozinhas (`@base-ui/react`, `@tabler/icons-react`, `@toolwind/corner-shape`, `@fontsource-variable/*`, `tw-animate-css` já existe). As antigas saem só no passo 8.
 
 Conferir: `cat components.json | grep -c '"style": "base-vega"'` dá 1; `grep -c "@plugin \"@toolwind/corner-shape\"" src/app/globals.css` dá 1; `npm run typecheck` passa.
 
@@ -58,9 +58,9 @@ Em vez de reescrever 581 linhas de CSS legado agora, redirecione os tokens da 52
   --bg-card-hover: var(--accent);
   --bg-input: var(--input);
   --border-focus: var(--ring);
-  --accent-hover: var(--brand);
-  --accent-light: color-mix(in oklab, var(--brand) 8%, transparent);
-  --accent-glow: color-mix(in oklab, var(--brand) 15%, transparent);
+  --accent-hover: var(--primary);
+  --accent-light: color-mix(in oklab, var(--primary) 8%, transparent);
+  --accent-glow: color-mix(in oklab, var(--primary) 15%, transparent);
   --text-primary: var(--foreground);
   --text-secondary: color-mix(in oklab, var(--foreground) 60%, var(--muted-foreground));
   --text-muted: var(--muted-foreground);
@@ -70,7 +70,7 @@ Em vez de reescrever 581 linhas de CSS legado agora, redirecione os tokens da 52
   --shadow-sm: var(--custom-shadow);
   --shadow-md: var(--custom-shadow);
   --shadow-lg: var(--custom-shadow-lifted);
-  --shadow-accent: var(--custom-shadow-brand);
+  --shadow-accent: var(--custom-shadow-primary);
   --glass-bg: color-mix(in oklab, var(--background) 85%, transparent);
   --glass-border: var(--border);
   --sidebar-width: 260px; /* só o .sidebar legado lê isto; o Sidebar do lume fixa 14rem inline */
@@ -80,18 +80,18 @@ Em vez de reescrever 581 linhas de CSS legado agora, redirecione os tokens da 52
 
 Dois nomes colidem e não podem virar alias:
 
-- `--accent`: na 52W é o teal (`#025864`); no lume é a superfície de hover (`oklch(0.97 0 0)`, `bg-accent`). Não redefina. Troque nas classes legadas com `sed -i '' 's/var(--accent)/var(--brand)/g' src/app/globals.css` (o `--brand` vem do `theme-lyx`) e confira que nenhum `var(--accent)` sobrou fora do `@theme inline` do lume.
+- `--accent`: na 52W é o teal (`#025864`); no lume é a superfície de hover (`oklch(0.97 0 0)`, `bg-accent`). Não redefina. Troque nas classes legadas com `sed -i '' 's/var(--accent)/var(--primary)/g' src/app/globals.css` (a Lyx usa as cores do Foglamp: o que era teal vira o cinza do botão principal) e confira que nenhum `var(--accent)` sobrou fora do `@theme inline` do lume.
 - `--border` e `--radius`: têm o mesmo nome nos dois sistemas e o valor do lume (`oklch(0.922 0 0)`, `0.625rem`) vale para os dois. Apague as linhas da 52W.
 <!-- skill:end -->
 
-Conferir: `grep -c "var(--accent)" src/app/globals.css` dá 1 (só `--color-accent: var(--accent)` do lume); `grep -n "#025864\|#03A698\|#141414" src/app/globals.css` não devolve nada (as cores vivem no `theme-lyx`); as telas antigas abrem nos dois temas sem fundo branco puro no dark (`--background` dark é `oklch(0.17 0 0)`).
+Conferir: `grep -c "var(--accent)" src/app/globals.css` dá 1 (só `--color-accent: var(--accent)` do lume); `grep -n "#025864\|#03A698\|#141414" src/app/globals.css` não devolve nada (o teal sai, a Lyx usa as cores do Foglamp); as telas antigas abrem nos dois temas sem fundo branco puro no dark (`--background` dark é `oklch(0.17 0 0)`).
 
 ## Passo 4: dark mode de `data-theme` para `.dark`
 
 O template seta `document.documentElement.setAttribute("data-theme", ...)` em `src/app/dashboard/layout.tsx:48-61` e lê `localStorage.theme`; o `theme-toggle.tsx` faz `classList.toggle("dark")` por conta própria. Vira um provider só:
 
 ```bash
-npx shadcn@latest add joaodadas/lume/theme-provider#v0.1.0 joaodadas/lume/theme-switcher#v0.1.0
+npx shadcn@latest add joaodadas/lume/theme-provider#v0.2.0 joaodadas/lume/theme-switcher#v0.2.0
 ```
 
 - `src/components/providers.tsx`: envolva o `QueryClientProvider` com `<ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>`; o `<html>` já tem `suppressHydrationWarning`.
@@ -113,7 +113,7 @@ Conferir: `grep -rn "next/font\|--font-inter\|--font-geist" src | wc -l` dá 0; 
 Não porte os arquivos: substitua. Os 15 de `src/components/ui/` (`badge`, `button`, `card`, `dialog`, `input`, `label`, `popover`, `scroll-area`, `select`, `separator`, `sidebar`, `skeleton`, `table`, `textarea`; `lyx-logo.tsx` vai para a camada Lyx):
 
 ```bash
-npx shadcn@latest add joaodadas/lume/kit-formulario#v0.1.0 joaodadas/lume/kit-feedback#v0.1.0 joaodadas/lume/card#v0.1.0 joaodadas/lume/table#v0.1.0 joaodadas/lume/sidebar#v0.1.0 joaodadas/lume/scroll-area#v0.1.0 joaodadas/lume/separator#v0.1.0 joaodadas/lume/badge#v0.1.0 joaodadas/lume/button#v0.1.0 --overwrite
+npx shadcn@latest add joaodadas/lume/kit-formulario#v0.2.0 joaodadas/lume/kit-feedback#v0.2.0 joaodadas/lume/card#v0.2.0 joaodadas/lume/table#v0.2.0 joaodadas/lume/sidebar#v0.2.0 joaodadas/lume/scroll-area#v0.2.0 joaodadas/lume/separator#v0.2.0 joaodadas/lume/badge#v0.2.0 joaodadas/lume/button#v0.2.0 --overwrite
 ```
 
 `--overwrite` é obrigatório: os arquivos existem. Depois corrija o código do app que tocava na API do Radix:
@@ -171,9 +171,9 @@ Lucide sai, Tabler entra, arquivo por arquivo (`grep -rl lucide-react src` dá a
 | `Paperclip` | `IconPaperclip` | `Package2` | `IconPackage` |
 <!-- skill:end -->
 
-Todos os nomes acima existem em `@tabler/icons-react` 3.49.0 (conferido). Nome fora da tabela: procure em tabler.io/icons; se não houver `Filled`, use o outline nos dois campos do `NavItem` (o `NavIcon` renderiza um glifo só).
+Todos os nomes acima existem em `@tabler/icons-react` 3.49.0 (conferido). Nome fora da tabela: procure em tabler.io/icons; se não houver `Filled`, passe só `icon` no item da nav (sem `activeIcon`, o `NavIcon` renderiza um glifo só).
 
-Telas: uma rota por PR, na ordem login, layout do dashboard, páginas. O layout do dashboard (`src/app/dashboard/layout.tsx`, 259 linhas com `.app-shell`, `.sidebar` e 29 `style={{`) vira o `lyx-shell` da camada Lyx (ou o `app-shell` do lume com `brand={<LyxLogo />}`), com `pathname={usePathname()}` e `user` da sessão do Better Auth; o login vira `lyx-login`. Em cada página: `PageHeader` no lugar de `.page-header`, `StatGrid` + `StatCard` no lugar de `.stat-card`, `Card size="sm"` no lugar de `.lyx-card`, `Button` no lugar de `.btn*`, `DataTable` ou `Table` no lugar de `.lyx-table`, `Field` + `Input` no lugar de `.form-group/.form-input` (React Hook Form continua, só o campo muda), `EmptyState`, `useDelayedLoading(loading, 700)` antes de qualquer skeleton, e zero `style={{`.
+Telas: uma rota por PR, na ordem login, layout do dashboard, páginas. O layout do dashboard (`src/app/dashboard/layout.tsx`, 259 linhas com `.app-shell`, `.sidebar` e 29 `style={{`) vira o `lyx-shell` da camada Lyx (ou o `app-shell` do lume com `brand={<LyxLogo />}`), com `pathname={usePathname()}` e `user` da sessão do Better Auth; o login vira `lyx-login`. A `.sidebar` de 260 px, que recolhe para 72 px, vira a sidebar de `14rem` que recolhe para o trilho de `3rem` (`collapsible="icon"`, o padrão do `AppShell`), com o `defaultOpen` lido do cookie no layout (guia 03, Persistência do recolhido); a lista do menu vira seções do `Nav` (até 7 itens sem rótulo, acima disso seções de 5 a 9), e os fronts da Lyx ficam sempre no `layout="sidebar"`. Em cada página: `PageHeader` no lugar de `.page-header`, `StatGrid` + `StatCard` no lugar de `.stat-card`, `Card size="sm"` no lugar de `.lyx-card`, `Button` no lugar de `.btn*`, `DataTable` ou `Table` no lugar de `.lyx-table`, `Field` + `Input` no lugar de `.form-group/.form-input` (React Hook Form continua, só o campo muda), `EmptyState`, `useDelayedLoading(loading, 700)` antes de qualquer skeleton, e zero `style={{`.
 
 Conferir por PR: `grep -c "lucide-react" <arquivos da rota>` dá 0; `grep -c 'style={{' <arquivos da rota>` dá 0; `grep -c '"lyx-card\|"btn\|"hub-\|"page-header\|"stat-card' <arquivos da rota>` dá 0; capturas light e dark em 1440 e 390 no PR (checklist do `CONTRIBUTING.md` do lume). Conferir no fim: `grep -rl lucide-react src | wc -l` dá 0 e `grep -rn 'style={{' src | wc -l` dá 0.
 
@@ -192,4 +192,4 @@ Conferir: `grep -c "" src/app/globals.css` abaixo de 400; `grep -rn "lucide\|rad
 
 ## O que não copiar
 
-Do template 52W para o lume: a `.page-header` com `border-bottom` e `backdrop-filter` (o `PageHeader` do lume não tem borda nem glass), a `.sidebar` com `border-right` (o `Sidebar variant="inset"` não tem borda, o inset tem sombra), `--shadow-md`/`--shadow-lg` como profundidade (uma sombra só, `--custom-shadow`), `--color-primary: var(--accent)` (o teal vira `--brand`, ver [camada-lyx](./camada-lyx.md)), `font-weight: 700` nos títulos (`font-medium` é o peso máximo no app), `.btn` com `border-radius: var(--radius)` (botão é pílula) e `--color-chart-1: var(--accent)` (`--chart-1..5` são cinzas; cor em gráfico é dado).
+Do template 52W para o lume: a `.page-header` com `border-bottom` e `backdrop-filter` (o `PageHeader` do lume não tem borda nem glass), a `.sidebar` com `border-right` (o `Sidebar variant="inset"` não tem borda, o inset tem sombra), `--shadow-md`/`--shadow-lg` como profundidade (uma sombra só, `--custom-shadow`), `--color-primary: var(--accent)` (o teal fica de fora por enquanto, ver [identidade-visual](./identidade-visual.md)), `font-weight: 700` nos títulos (`font-medium` é o peso máximo no app), `.btn` com `border-radius: var(--radius)` (botão é pílula) e `--color-chart-1: var(--accent)` (`--chart-1..5` são cinzas; cor em gráfico é dado).

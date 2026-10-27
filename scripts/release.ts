@@ -1,9 +1,9 @@
 // Lança uma versão do lume. Valida (versão semver maior que a atual, tag
 // inexistente, git limpo, seção da versão no CHANGELOG.md, gh autenticado e
-// check verde), grava a versão no package.json, regenera registry.json,
-// public/r e a skill, commita "release: vX.Y.Z" (sem Co-Authored-By), cria a
-// tag anotada com a seção do CHANGELOG, dá push e cria a GitHub Release a
-// partir da tag.
+// check verde), grava a versão no package.json, troca a tag dos comandos de
+// instalação escritos à mão nos docs, regenera registry.json, public/r e a
+// skill, commita "release: vX.Y.Z" (sem Co-Authored-By), cria a tag anotada
+// com a seção do CHANGELOG, dá push e cria a GitHub Release a partir da tag.
 //
 // uso: bun scripts/release.ts <versão> [--dry-run] [--no-build]
 //
@@ -149,6 +149,38 @@ writeFileSync(
   pkgTexto.replace(/"version":\s*"[^"]*"/, `"version": "${versao}"`),
 );
 console.log(`\npackage.json: ${atual} -> ${versao}`);
+
+// O comando que o guia ensina instala a API que o guia descreve: as tags
+// fixadas à mão (joaodadas/lume/<item>#vX.Y.Z) no README, no FRONTEND.md, no
+// CONTRIBUTING.md e em docs/ vão para a versão nova, antes da skill e do
+// registry, que são gerados desses textos. Só arquivos rastreados; o
+// CHANGELOG fica, porque cada seção cita a tag da própria versão.
+const TAG_FIXA =
+  /(joaodadas\/lume\/[a-z0-9-]+)#v\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?/g;
+const rastreados = roda([
+  "git",
+  "ls-files",
+  "--",
+  "README.md",
+  "FRONTEND.md",
+  "CONTRIBUTING.md",
+  "docs",
+]);
+if (!rastreados.ok) {
+  console.error(`release: git ls-files falhou:\n${rastreados.saida}`);
+  process.exit(1);
+}
+let comTag = 0;
+for (const arq of rastreados.saida.split("\n")) {
+  if (!arq.endsWith(".md")) continue;
+  const caminho = path.join(ROOT, arq);
+  const antes = readFileSync(caminho, "utf8");
+  const depois = antes.replace(TAG_FIXA, `$1#${tag}`);
+  if (depois === antes) continue;
+  writeFileSync(caminho, depois);
+  comTag++;
+}
+console.log(`docs: comandos de instalação em ${tag} (${comTag} arquivo(s))`);
 
 passo("registry.json", ["bun", "scripts/build-registry.ts"]);
 passo("public/r", ["bunx", "shadcn", "build", "--output", "public/r"]);

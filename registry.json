@@ -1666,17 +1666,22 @@
       "name": "app-shell",
       "type": "registry:component",
       "title": "Casca do app",
-      "description": "Sidebar inset com scroll em três camadas (h-svh no provider, overflow-hidden no inset, overflow-y-auto no main), coluna da página em gap-4 py-6 pb-16, NavIcon com crossfade outline/filled de 100 ms, tile colorido por navTile(cor), header mobile h-12 md:hidden com SidebarTrigger e menu de conta com Avatar e submenu de tema.",
+      "description": "Casca do app em dois layouts sobre o mesmo canvas e o mesmo cartão: sidebar inset de 14rem (padrão), que recolhe para o trilho de ícones de 3rem ou some em offcanvas, e topbar, com a barra h-12 de zonas no canvas. Scroll em três camadas com um só main, gaveta de 3/4 da tela (até 24rem) no celular, modelo Nav com seções, filhos, badge e links externos, ShellTrigger, ContextSwitcher, SearchTrigger, useShortcut, NavIcon com crossfade outline/filled de 100 ms, tile por navTile(cor) e menu de conta com submenu de tema.",
       "dependencies": [
         "@tabler/icons-react"
       ],
       "registryDependencies": [
         "joaodadas/lume/avatar#v0.2.0",
+        "joaodadas/lume/button#v0.2.0",
+        "joaodadas/lume/collapsible#v0.2.0",
         "joaodadas/lume/dropdown-menu#v0.2.0",
+        "joaodadas/lume/header-slot#v0.2.0",
+        "joaodadas/lume/kbd#v0.2.0",
         "joaodadas/lume/link#v0.2.0",
         "joaodadas/lume/sidebar#v0.2.0",
         "joaodadas/lume/theme-provider#v0.2.0",
         "joaodadas/lume/theme-switcher#v0.2.0",
+        "joaodadas/lume/tooltip#v0.2.0",
         "joaodadas/lume/utils#v0.2.0"
       ],
       "files": [
@@ -1694,9 +1699,19 @@
           "path": "registry/base-vega/blocks/app-shell/nav.ts",
           "type": "registry:component",
           "target": "components/app-shell/nav.ts"
+        },
+        {
+          "path": "registry/base-vega/blocks/app-shell/nav-list.tsx",
+          "type": "registry:component",
+          "target": "components/app-shell/nav-list.tsx"
+        },
+        {
+          "path": "registry/base-vega/blocks/app-shell/shell-parts.tsx",
+          "type": "registry:component",
+          "target": "components/app-shell/shell-parts.tsx"
         }
       ],
-      "docs": "Passe pathname de fora (usePathname no Next, useLocation no Router). Precisa de um ThemeProvider acima (item theme-provider) por causa do ThemeSubmenu no menu de conta. Monte os itens com navTile(cor) em iconClassName e use exact: true quando um href é prefixo de outro. userMenu recebe DropdownMenuItem extras (sair, plano) depois do submenu de tema.",
+      "docs": "Passe pathname de fora (usePathname no Next, useLocation no Router) e um ThemeProvider acima (item theme-provider), por causa do ThemeSubmenu do menu de conta. Formatos: layout=\"sidebar\" (padrão) recolhe para o trilho com collapsible=\"icon\" (padrão) ou some com \"offcanvas\", e aí o cabeçalho do cartão traz o gatilho; layout=\"topbar\" é a barra de um nível com até 7 zonas, para produto de leitura e mural de TV, nunca navegação principal de front da Lyx. Abaixo de 768 px os dois viram o cabeçalho h-12 no cartão e a gaveta. nav aceita lista plana ou seções ({ label, items }): item com filhos usa children (um nível só), external \"tab\" abre em nova aba e \"page\" faz navegação inteira, badge só com dado real, exact: true quando um href é prefixo de outro e ícones com navTile(cor) em iconClassName. Slots: brand (marca e nome como irmãos; no trilho fica o primeiro filho), top (troca a marca, em geral um ContextSwitcher), tools (SearchTrigger e afins: item na sidebar e na gaveta, chip na barra, que vira só a lupa na barra estreita; um tool do app lê useShellLayout() e useSidebar().isMobile e pode se compactar com @max-5xl/shell-bar), banner (faixa no topo do cartão, fora do scroll), account (rodapé da sidebar; na barra, topo do menu de conta), user e userMenu (DropdownMenuItem depois do submenu de tema), fill (a página é dona da altura e do scroll) e panel (irmão do cartão no canvas, que ele empurra). Cmd/Ctrl+B alterna sem animação, nunca em contenteditable, e não faz nada na barra; o Cmd/Ctrl+K do SearchTrigger vale também com a gaveta do celular fechada. Quando recolher ou expandir esconde o elemento com foco, o foco vai para o ShellTrigger à vista. Para lembrar o recolhido, leia o cookie SIDEBAR_COOKIE com readSidebarOpen no layout (no Vite, do document.cookie) e passe defaultOpen; com open controlado, o primitivo grava o cookie mesmo quando o app recusa a troca. O shell já monta HeaderActionsSlotProvider, LayoutReserveProvider e o TooltipProvider da sidebar.",
       "meta": {
         "group": "blocks",
         "tier": "core"
@@ -2032,7 +2047,7 @@
           "type": "registry:component"
         }
       ],
-      "docs": "Use PX de page-header em todo bloco que encosta na borda da página. O slot de ações só funciona com HeaderActionsSlotProvider (header-slot) no shell; sem ele o header renderiza igual.",
+      "docs": "Use PX de page-header em todo bloco que encosta na borda da página. O slot de ações só funciona com HeaderActionsSlotProvider (header-slot) acima; o app-shell já monta um, e sem ele o header renderiza igual. back aceita navItem(nav, href) direto: o ícone é opcional e, sem ele, o crumb sai só com o rótulo (Rótulo › Título); a prop icon da página continua ignorada quando há back.",
       "meta": {
         "group": "blocks",
         "tier": "core"

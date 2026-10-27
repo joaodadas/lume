@@ -1,5 +1,5 @@
 // Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/page-parts.tsx @ 2bc3bb5), Apache-2.0, e do painel do lyx-pr-agent (João Vitor Dadas).
-// Modificado por joaodadas/lume: só PageHeader e PageHeaderBack (linhas 45-133 do upstream); Link da indireção (@/registry/base-vega/components/link) no lugar de next/link e href string no lugar do tipo Route; gutter PX ("px-4 md:px-8", do painel) no lugar do px-8 fixo; o resto das classes verbatim.
+// Modificado por joaodadas/lume: só PageHeader e PageHeaderBack (linhas 45-133 do upstream); Link da indireção (@/registry/base-vega/components/link) no lugar de next/link e href string no lugar do tipo Route; gutter PX ("px-4 md:px-8", do painel) no lugar do px-8 fixo; PageHeaderBack.icon opcional, com o crumb só com o rótulo quando ele falta; o resto das classes verbatim.
 "use client";
 
 import { type Icon, IconChevronRight } from "@tabler/icons-react";
@@ -16,13 +16,16 @@ export const PX = "px-4 md:px-8";
 /**
  * A clickable parent crumb rendered before the page title, e.g. an "Evals"
  * link that takes the user back to the list. Pairs the section's nav icon with
- * its label; the shape is a subset of `NavItem`, so a nav entry can be passed
+ * its label; the shape is a subset of `NavLinkItem`, so a nav entry can be passed
  * straight through.
+ *
+ * O ícone é opcional como no nav (back={navItem(nav, href)}): sem ele, o crumb
+ * sai só com o rótulo.
  */
 export type PageHeaderBack = {
   href: string;
   label: string;
-  icon: Icon;
+  icon?: Icon;
   iconClassName?: string;
 };
 
@@ -48,7 +51,8 @@ export function PageHeader({
    * title — the icon + label link back to the parent page. */
   back?: PageHeaderBack;
   /** Section icon rendered before the title (e.g. the nav icon on a list page).
-   * Ignored when `back` is set, since the breadcrumb already shows an icon. */
+   * Ignored when `back` is set, since the breadcrumb already shows an icon.
+   * Continua ignorado quando o crumb vem sem ícone. */
   icon?: Icon;
   iconClassName?: string;
 }) {
@@ -64,15 +68,17 @@ export function PageHeader({
       className={cn("flex flex-wrap items-end justify-between gap-4 h-8", PX)}
     >
       <div className="flex min-w-0 flex-col gap-1.5">
-        {back && BackIcon ? (
+        {back ? (
           <h1 className="flex items-center gap-1.5 text-base font-medium tracking-tight">
             <Link
               href={back.href}
               className="flex shrink-0 items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
             >
-              <BackIcon
-                className={cn("size-4.5 shrink-0", back.iconClassName)}
-              />
+              {BackIcon && (
+                <BackIcon
+                  className={cn("size-4.5 shrink-0", back.iconClassName)}
+                />
+              )}
               {back.label}
             </Link>
             <IconChevronRight className="size-4 shrink-0 text-muted-foreground/50 stroke-[1.5px]" />

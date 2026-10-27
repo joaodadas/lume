@@ -8,15 +8,142 @@ ou prop nova, major é token removido ou prop quebrada. Cada versão tem uma tag
 joaodadas/lume/<item>#vX.Y.Z`) e atualiza com `--diff` para ver e `--overwrite`
 para aplicar. Quando um item muda de API, a seção traz "Como migrar".
 
-## [Não lançado]
+## [0.3.0] - 2026-10-26
 
-### Próximo (fora da v0.2.0)
+Formatos de shell: um `AppShell` com dois layouts sobre o mesmo canvas e o
+mesmo cartão, o modelo de navegação com seções e filhos, e a página solta como
+receita do guia. Nenhum primitivo verbatim mudou e nenhuma dependência entrou.
+Junto vêm o guia de identidade visual por produto (só a cor muda, e por
+enquanto todo produto usa as cores do Foglamp) e o conserto do `next dev`.
+
+### Adicionado
+
+- `app-shell`: `layout="topbar"`, barra `h-12` opaca no canvas com um nível de
+  até 7 zonas, para produto de leitura e mural de TV; a zona com filhos abre um
+  menu no clique, nunca no hover; na barra estreita (painel aberto, tablet), a
+  busca vira só a lupa e as zonas que não cabem rolam dentro da nav, sem passar
+  por baixo dos tools; abaixo de 768 px o celular é o mesmo da sidebar, com as
+  zonas na gaveta.
+- `app-shell`: modelo de navegação com seções (`NavSection`), item com filhos
+  (`NavParentItem`, `children`, um nível), `badge` tipado (contagem, status e
+  selo), `external` (`tab` e `page`), `disabled` com motivo, `hint` e menu de
+  ações (`menu`); `toSections`, `flattenNav`, `findActive`, `SIDEBAR_COOKIE` e
+  `readSidebarOpen` em `nav.ts`.
+- `app-shell`: trilho de ícones (`collapsible="icon"`) com tooltip do rótulo;
+  `ShellTrigger` visível no desktop; slots `top`, `tools`, `banner` e `panel`;
+  `fill`; `defaultOpen`, `open` e `onOpenChange`; `user.detail`.
+- `app-shell`, arquivo novo `shell-parts.tsx`: `ShellTrigger`,
+  `ContextSwitcher`, `SearchTrigger`, `useShortcut`, `isEditableTarget` e
+  `useShellLayout`. O Cmd/Ctrl+K do `SearchTrigger` vale também com a gaveta do
+  celular fechada.
+- `app-shell`, arquivo novo `nav-list.tsx`: `NavSections`, `NavZones`,
+  `NavLink`, `NavParent` e `NavMenuItem`, os renderizadores de item da sidebar,
+  do trilho, da gaveta e da barra, e a classe `NAV_BUTTON`.
+- Acessibilidade do shell: link "Pular para o conteúdo", `nav` com rótulo
+  ("Principal" e "Conta"), `aria-current="page"`, viewport com
+  `tabIndex={-1}`, itens de 44 px na gaveta, alvo de 44 px no gatilho e no
+  seletor de contexto do celular, rótulos do gatilho em pt-BR, a sidebar
+  recolhida em offcanvas fora da ordem do Tab e o foco devolvido ao
+  `ShellTrigger` à vista quando recolher ou expandir esconde o elemento
+  focado.
+- Guia: formatos do shell, regra de escolha, peças do shell, persistência do
+  recolhido e página solta em `docs/guia/03-shell-e-paginas.md`; chat como
+  página em `fill` em `docs/guia/08-assistente-de-ai.md`.
+- Guia de identidade visual por produto em `docs/adocao/identidade-visual.md`:
+  o que pode mudar (só a cor), o que fica travado, o que um tema do produto
+  alcança hoje e o que espera as cores por significado, com o teal da Lyx como
+  exemplo. A regra entrou também no `FRONTEND.md` (Tokens e cor) e na skill.
+- `check`: a verificação 12 barra exemplo de classe com placeholder (`{c}`,
+  `<cor>`) dentro de colchetes nos textos; o `next build` passa a ser a 13.
+
+### Mudado
+
+- `app-shell`: o padrão de recolher passa de offcanvas sem gatilho para o
+  trilho de ícones; `Cmd/Ctrl+B` recolhe sem animação, não age em
+  `contenteditable` e não faz nada na barra; o clique recolhe em 200 ms com
+  `EASE` no lugar do `ease-linear`.
+- `app-shell`: o viewport de scroll deixa de ser `<main>` e vira `div`
+  (`data-slot="shell-viewport"`); o `SidebarInset` é o único `main`.
+- `app-shell`: o header só de celular, com `SidebarTrigger`, virou o cabeçalho
+  do cartão (`data-slot="shell-card-header"`), com `ShellTrigger`, marca e
+  página atual, que também aparece no desktop com a sidebar recolhida em
+  offcanvas.
+- `app-shell`: o cartão fica a 8 px da sidebar aberta e do trilho, e o shell
+  monta `HeaderActionsSlotProvider`, `LayoutReserveProvider` e o
+  `TooltipProvider delay={150}` da sidebar.
+- `app-shell`: o item ativo é o de href mais longo que casa (`findActive`), e
+  não mais o primeiro da lista; `icon` e `activeIcon` ficam opcionais, e item
+  sem ícone some do trilho; `navItem(nav, href)` aceita seções e procura nos
+  filhos.
+- `app-shell`: sem área morta entre os itens (`SidebarMenu` com `gap-0` e botão
+  de 36 px com pílula de 32, ou 44 na gaveta), no lugar do `gap-1` do
+  primitivo.
+- `app-shell`: o menu de conta ganha `aria-label` "Conta: nome", o `detail` sob
+  o nome e, na barra, o modo compacto com os itens de `account` no topo.
+- `page-header`: `PageHeaderBack.icon` fica opcional; sem ele, o crumb sai só
+  com o rótulo.
+- Skill `lume-design-engineering`: o princípio 8 vale para todo formato
+  (sidebar, trilho ou barra).
+- Camada Lyx (`docs/adocao/camada-lyx.md`) e migração da 52W: o teal sai do
+  plano atual. O `theme-lyx` fica só com a variante dark de transição, a cópia
+  de `badge` e `button` com a variante `brand` sai, e os aliases da 52W
+  apontam para o `--primary`.
+
+### Corrigido
+
+- `next dev` respondia 500 em toda rota do site ("Parsing CSS source code
+  failed"): exemplos de classe com `{c}` e `<cor>` dentro de colchetes no
+  `FRONTEND.md` e no guia viravam CSS inválido, porque o Tailwind lê os `.md`.
+  Os exemplos agora usam o emerald, e o mesmo texto deixa de chegar ao
+  `docs/lume` do app pelo item `guia`. O `next build` já passava.
+
+### Como migrar
+
+- Para manter o recolher antigo, passe `collapsible="offcanvas"`; com a sidebar
+  fora, o gatilho passa a aparecer no cabeçalho do cartão.
+- Leia o cookie `sidebar_state` (`SIDEBAR_COOKIE` e `readSidebarOpen`) e passe
+  `defaultOpen` (guia 03, Persistência do recolhido); sem isso, a sidebar abre
+  expandida a cada carga, como hoje.
+- CSS que mirava o `main` do viewport passa a mirar
+  `[data-slot=shell-viewport]`, e o código que rolava o `main` para o topo ao
+  navegar passa a rolar esse elemento.
+- `NavItem[]` continua aceito em `nav`. Quem anota a lista como `NavItem[]` e lê
+  `href` ou `exact` direto passa a anotar `NavLinkItem[]` (o `NavItem` agora
+  inclui o item com filhos, que não tem `href`) ou estreita por `children`;
+  `account` pede `NavLinkItem[]`.
+- Quem renderiza `item.icon` ou `item.activeIcon` direto (`<item.icon />`)
+  passa a tratar o ausente, porque os dois ficaram opcionais: use
+  `item.activeIcon ?? item.icon` e não renderize nada quando os dois faltam, ou
+  troque pelo `NavIcon`, que já faz isso.
+- Passe a marca e o nome como irmãos em `brand`
+  (`<><Logo /><span>Nome</span></>`): no trilho fica só o primeiro filho.
+- O `HeaderActionsSlotProvider` e o `LayoutReserveProvider` em volta do
+  `AppShell` podem sair: os de dentro vencem.
+- `npx shadcn@latest add joaodadas/lume/app-shell#vX.Y.Z --overwrite` e o
+  mesmo para `page-header`, com a tag da release.
+
+### Decisões registradas (`docs/DECISOES.md`)
+
+- Um `AppShell` com dois layouts e a página solta como receita, sem item.
+- O trilho de ícones é o padrão de recolher.
+- A barra superior só para produto de leitura com até 7 zonas e mural de TV,
+  nunca como navegação principal de front da Lyx.
+- Nenhum primitivo verbatim muda; `TooltipProvider delay={150}` no trilho;
+  busca, contagem e sino só com fonte real; "Voltar ao Hub" e "Sair de todos os
+  sistemas" como dois itens; "Vercel Finance Agent" fora das referências.
+- Só a cor varia por produto, e por enquanto a Lyx e a Horizonte usam as cores
+  do Foglamp; o teal sai do plano da camada Lyx; exemplo de classe nos docs vai
+  com cor real.
+
+### Próximo (fora da v0.3.0)
 
 - Capítulo de marketing do guia.
 - Bloco `ai-chat` (do Foggy) e o HUD.
 - `route-header` (trio header, loading e page) como item `nextOnly`.
 - `number-flow`, `model-chip` e logos de marcas.
 - Migração efetiva dos fronts da Lyx (trabalho da camada `lyx-ds`, com o guia de adoção).
+- Cores por significado na base, quando um produto pedir identidade própria
+  (`docs/adocao/identidade-visual.md`).
 
 ## [0.2.0] - 2026-10-17
 

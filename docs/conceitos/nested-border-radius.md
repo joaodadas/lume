@@ -24,14 +24,14 @@ apertado no mesmo raio, por isso cada par plano/squircle sobe o raio na variante
 
 | Par externo e interno | Classes exatas | Arquivo |
 |---|---|---|
-| Canvas e inset do shell | canvas com `m-2`; inset `md:rounded-lg squircle:md:rounded-3xl` | registry/base-vega/blocks/app-shell/app-shell.tsx:215 |
+| Canvas e inset do shell | canvas com `m-2`; inset `md:rounded-lg squircle:md:rounded-3xl` | registry/base-vega/blocks/app-shell/app-shell.tsx:529 |
 | Card e imagem interna | `rounded-lg squircle:rounded-3xl corner-squircle` e `*:[img:first-child]:rounded-t-3xl *:[img:first-child]:corner-squircle` (imagem encosta na borda: inset 0, mesmo raio) | registry/base-vega/ui/card.tsx:17 |
 | Popover e preset do range picker | popover `rounded-lg squircle:rounded-3xl` com coluna `p-3`; preset `rounded-sm squircle:rounded-xl corner-squircle` (comentário: raio do popover menos os 12px de padding, com piso onde o plano ficaria negativo) | registry/base-vega/ui/popover.tsx:42; blocks/range-picker/range-picker.tsx:191-194 |
 | Lista de tabs e trigger | lista `rounded-md squircle:rounded-2xl corner-squircle ... p-[3px]`; trigger `rounded-md squircle:rounded-xl corner-squircle` | registry/base-vega/ui/tabs.tsx:29,63 |
 | Input group e botão interno | grupo `h-9 ... rounded-md squircle:rounded-xl corner-squircle`; botão `xs` e `icon-xs` `rounded-[calc(var(--radius)-5px)]`; `kbd` idem | registry/base-vega/ui/input-group.tsx:19,28,75,78 |
 | Command e item | `rounded-lg squircle:rounded-3xl! corner-squircle ... p-1`; item `rounded-lg`, e `in-data-[slot=dialog-content]:rounded-2xl!` quando o command vira dialog | registry/base-vega/ui/command.tsx:30,161 |
 | Dialog | `rounded-2xl squircle:rounded-[40px] corner-squircle ... p-6` | registry/base-vega/ui/dialog.tsx:58 |
-| Tile de ícone da nav dentro do botão | tile `rounded-[5px] squircle:rounded-xl p-0.5 corner-squircle`; botão `rounded-md squircle:rounded-xl corner-squircle p-2` | registry/base-vega/blocks/app-shell/nav.ts:39; ui/sidebar.tsx:480 |
+| Tile de ícone da nav dentro do botão | tile `rounded-[5px] squircle:rounded-xl p-0.5 corner-squircle`; botão `rounded-md squircle:rounded-xl corner-squircle p-2` | registry/base-vega/blocks/app-shell/nav.ts:85-101; ui/sidebar.tsx:480 |
 | Corte do padding | a conta `inner = outer - inset` vale até 24 px de padding; acima disso, pai e filho são superfícies separadas e cada um escolhe o raio pela escala. O dialog do Foglamp (`p-6`, 24 px) fica exatamente no corte: por isso o command dentro do dialog usa raio próprio, `in-data-[slot=dialog-content]:rounded-2xl!` | Jakub Krehel, better-ui SKILL.md, https://github.com/jakubkrehel/skills; registry/base-vega/ui/dialog.tsx:58; command.tsx:161 |
 
 **Always**: calcular o raio interno a partir do pai e do padding; `corner-squircle` nos dois níveis;

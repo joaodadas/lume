@@ -1,12 +1,14 @@
 // Peças avulsas da vitrine /blocos, fora do shell: login-form, border-beam-card
-// com code-block, rolling-text com copy-button, chips e badges de tipo, e o
-// notice nos três tons. Arquivo do site, não entra na registry.
+// com code-block, rolling-text com copy-button, chips e badges de tipo, o
+// notice nos três tons e a página solta (o link vencido com o próximo passo).
+// Arquivo do site, não entra na registry.
 "use client";
 
 import {
   IconBrandGoogleFilled,
   IconCpu,
   IconGhostFilled,
+  IconLinkOff,
   IconRefresh,
   IconSparkles,
   IconTool,
@@ -27,6 +29,7 @@ import {
   ContextChip,
 } from "@/registry/base-vega/components/context-chip";
 import { CopyButton } from "@/registry/base-vega/components/copy-button";
+import { EmptyState } from "@/registry/base-vega/components/empty-state";
 import { Notice } from "@/registry/base-vega/components/notice";
 import { RollingText } from "@/registry/base-vega/components/rolling-text";
 import {
@@ -219,6 +222,42 @@ export function PiecesDemo() {
         <Notice tone="error" title="Falha de leitura" className="px-0 md:px-0">
           Não foi possível ler o custo por modelo. Tente de novo em instantes.
         </Notice>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <PiecesHeading
+          title="página solta"
+          description="A tela que não navega entre telas (link vencido, sem acesso, convite) não monta o AppShell: o canvas com a marca e um Card centrado, sempre com o próximo passo."
+        />
+        {/* No app, a raiz é o main da tela (min-h-svh e md:py-24); aqui é div,
+            porque a demo na moldura já traz o main da página. */}
+        <div className="flex flex-col items-center rounded-lg squircle:rounded-3xl corner-squircle bg-sidebar px-4 py-12 shadow-(--custom-shadow-chrome) md:py-16">
+          <div className="flex h-8 items-center gap-2 text-sm font-medium [&_svg]:size-3.5 [&_svg]:shrink-0">
+            <span
+              aria-hidden
+              className="size-3.5 rounded-[5px] squircle:rounded-xl corner-squircle bg-foreground"
+            />
+            Acme AI
+          </div>
+          <Card className="mt-6 w-full max-w-lg">
+            <CardContent>
+              <EmptyState
+                icon={IconLinkOff}
+                title="Este link venceu"
+                description="Links de compartilhamento valem por 7 dias. Peça um novo a quem enviou o relatório."
+              >
+                {/* Um Button default por tela; no toque, o pseudo-elemento
+                    leva o alvo a 44 px. */}
+                <Button
+                  className="relative mt-2 after:absolute after:-inset-1.5 md:after:hidden"
+                  onClick={() => toast.success("Pedido enviado")}
+                >
+                  Pedir novo link
+                </Button>
+              </EmptyState>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

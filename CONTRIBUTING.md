@@ -24,7 +24,7 @@ bun install
 bun run dev              # site de vitrine em http://localhost:3000
 bun run typecheck        # tsc --noEmit
 bun run lint             # biome check
-bun run check            # scripts/check.ts (12 verificações, inclui next build)
+bun run check            # scripts/check.ts (13 verificações, inclui next build)
 bun run check --no-build # só as verificações estáticas
 ```
 
@@ -81,15 +81,20 @@ bun scripts/release.ts 0.2.0           # lança
 ```
 
 A release exige árvore limpa, `check` verde, `gh` autenticado e a seção
-`## [0.2.0]` no `CHANGELOG.md`. Ela grava a versão no `package.json`, regenera
-`registry.json` (as tags das `registryDependencies` mudam), `public/r` e a
-skill, commita `release: v0.2.0` (sem `Co-Authored-By`), cria a tag anotada com
-a seção do changelog, faz push e cria a GitHub Release a partir da tag.
+`## [0.2.0]` no `CHANGELOG.md`. Ela grava a versão no `package.json`, troca a
+tag dos comandos de instalação escritos à mão (`joaodadas/lume/<item>#vX.Y.Z`
+no README, no FRONTEND.md, neste arquivo e em `docs/`; o CHANGELOG fica),
+regenera `registry.json` (as tags das `registryDependencies` mudam), `public/r`
+e a skill, commita `release: v0.2.0` (sem `Co-Authored-By`), cria a tag anotada
+com a seção do changelog, faz push e cria a GitHub Release a partir da tag.
 
 ## Regras de texto
 
 - Português do Brasil, direto. Sem travessão nem meia-risca (o `check` barra);
   use vírgula, dois pontos ou ponto.
 - Identificadores, classes, props e nomes de arquivo em inglês. "AI", nunca "IA".
+- Exemplo de classe com uma cor real (`emerald`), nunca com placeholder (`{c}`,
+  `<cor>`) dentro de colchetes: o Tailwind lê os `.md` e o placeholder vira CSS
+  inválido, e o `next dev` responde 500 (o `check` barra).
 - Comentários do autor original ficam em inglês; os seus, em pt-BR.
 - Rótulos e textos de UI em pt-BR.

@@ -17,6 +17,7 @@ Gerado por `bun scripts/build-skill.ts` a partir de `docs/guia/11-receita.md`, o
 ### Tokens e cor
 
 - **Never** use `slate`, `gray`, `zinc` ou `stone` (nem `--sidebar-primary` e `--custom-shadow-slate`, removidos do lume), nem hex, `rgb()` ou `oklch()` em `className` ou `style`, exceto quando a cor é dado (série de gráfico, cor de marca, hash de entidade) e com comentário de uma linha dizendo isso.
+- **Never** troque por produto a fonte, os tamanhos de texto, o espaçamento, o raio, a sombra, o movimento, os ícones ou os componentes: por produto só a cor muda, por um tema instalado depois do `base`, e hoje todo produto usa as cores do Foglamp (`docs/adocao/identidade-visual.md`).
 - Em vez disso: use os tokens semânticos: `bg-background`, `bg-card`, `bg-popover`, `bg-muted`, `text-foreground`, `text-muted-foreground`, `bg-primary`, `text-destructive`, `border-border`, `ring-ring`, `bg-sidebar`. Todos são `oklch(L 0 0)` em degraus da paleta `neutral` (`registry/base-vega/styles/globals.css:23-52,133-161`); a hierarquia vem da luminância: light `--background 0.99`, `--card 1`, `--sidebar 0.975`; dark `--sidebar 0.145`, `--background 0.17`, `--card 0.205`. ([seção](01-tokens-e-forma.md#tokens-e-cor))
 
 ### Sombra no lugar de borda
@@ -53,7 +54,7 @@ Gerado por `bun scripts/build-skill.ts` a partir de `docs/guia/11-receita.md`, o
 ### Badges e chips
 
 - **Never** use badge para contagem de erro numa célula: é texto colorido `text-sm text-red-600 dark:text-red-400` com `IconAlertTriangle size-3.5 fill-current/20`, sem pílula.
-- Em vez disso: use `Badge` para status: `rounded-full capitalize`, `md` (`h-5 px-2 gap-[5px] text-xs`, ícone `size-3!`) por padrão, `sm` (`h-4 text-[10px]`) só em chip de versão; 14 variants com sombra colorida no molde `bg-{c}-500/10 text-{c}-700 shadow-[var(--custom-shadow-{c})] dark:bg-{c}-500/15 dark:text-{c}-300` (`registry/base-vega/ui/badge.tsx:11-43`); `rose` e `red` usam `dark:text-{c}-400`. ([seção](02-primitivos.md#badges-e-chips))
+- Em vez disso: use `Badge` para status: `rounded-full capitalize`, `md` (`h-5 px-2 gap-[5px] text-xs`, ícone `size-3!`) por padrão, `sm` (`h-4 text-[10px]`) só em chip de versão; 14 variants com sombra colorida no molde do emerald, `bg-emerald-500/10 text-emerald-700 shadow-[var(--custom-shadow-emerald)] dark:bg-emerald-500/15 dark:text-emerald-300` (`registry/base-vega/ui/badge.tsx:11-43`), com o nome de cada cor no lugar de emerald; `rose` e `red` usam `dark:text-rose-400` e `dark:text-red-400`. ([seção](02-primitivos.md#badges-e-chips))
 
 ### Campos e formulários
 
@@ -67,8 +68,8 @@ Gerado por `bun scripts/build-skill.ts` a partir de `docs/guia/11-receita.md`, o
 
 ### Shell e sidebar
 
-- **Never** use `variant="sidebar"` ou `"floating"`, `SidebarRail`, ou tema, projeto e período em provider dentro da página: contexto vive no shell (`HeaderActionsSlotProvider`, `RangeProvider`, `ThemeProvider`).
-- Em vez disso: use `Sidebar variant="inset"`, a única variante: `SIDEBAR_WIDTH = "14rem"` (`registry/base-vega/ui/sidebar.tsx:32`), canvas `bg-sidebar` sempre mais escuro que o inset `bg-background`, e o inset com `shadow-(--custom-shadow)` e `rounded-lg squircle:rounded-3xl corner-squircle` (`sidebar.tsx:312`), sem borda. ([seção](03-shell-paginas-tabelas.md#shell-e-sidebar))
+- **Never** use `variant="sidebar"` ou `"floating"`; `SidebarRail` (a faixa de arrastar com `tabIndex={-1}`, `sidebar.tsx:282-305`; o modo `icon` não é ele); barra com `border-b`, blur ou segunda linha; `NavigationMenu` na barra ou menu de zona que abre no hover; dois níveis de filho; busca, sino ou contagem sem fonte de dado; `layout="topbar"` como navegação principal de front da Lyx; ou tema, projeto e período em provider dentro da página. Contexto vive no shell (`HeaderActionsSlotProvider`, `RangeProvider`, `ThemeProvider`), e o controle do filtro global vai nas ações do `PageHeader`.
+- Em vez disso: monte todo app com navegação sobre o `AppShell`, em um de dois layouts (adição do lume). `layout="sidebar"`, o padrão: `Sidebar variant="inset"`, a única variante, com `SIDEBAR_WIDTH = "14rem"` (`registry/base-vega/ui/sidebar.tsx:32`), que recolhe para o trilho de `3rem` com `collapsible="icon"` (padrão) ou some com `"offcanvas"`. `layout="topbar"`: barra `h-12` opaca no canvas, sem `Sidebar` no desktop, com um nível de até 7 zonas, que rolam dentro da barra quando ela estreita, com a busca reduzida à lupa. Nos dois, o canvas `bg-sidebar` é sempre mais escuro que o inset `bg-background`, e o inset leva `shadow-(--custom-shadow)` e `rounded-lg squircle:rounded-3xl corner-squircle` (`sidebar.tsx:312`), sem borda. ([seção](03-shell-paginas-tabelas.md#shell-e-sidebar))
 
 ### Páginas: header, stat cards, grids
 
@@ -133,12 +134,12 @@ Gerado por `bun scripts/build-skill.ts` a partir de `docs/guia/11-receita.md`, o
 ### Telas de detalhe e drawers
 
 - **Never** mostre o empty state de uma seção antes dos stats chegarem (um rollup lento piscaria o vazio), nem use `Drawer`/`Sheet` para o que é linha expansível: o item `drawer` é Base UI desde a v0.2.0 (sem vaul, sem Radix) e serve para painel inferior em mobile com `side="bottom"` e alça; `Sheet` é o painel lateral no desktop; a linha expansível continua sendo `TableRow aria-expanded` com `TableCell colSpan`.
-- Em vez disso: siga o esqueleto comum: `PageHeader back={navItem(href)}` com `titleLeading` (ícone da entidade) ou `titleTrailing` (id em `hidden max-w-44 truncate font-mono text-xs font-normal text-muted-foreground sm:inline` + `CopyButton`), linha de `ContextChip` em `mt-1 flex flex-wrap items-center gap-2 text-xs px-6`, faixa de `StatCard size="sm"` em `grid grid-cols-2 gap-4 md:grid-cols-4 px-8 mt-1`, cards de gráfico e a tabela. ([seção](03-shell-paginas-tabelas.md#telas-de-detalhe-e-drawers))
+- Em vez disso: siga o esqueleto comum: `PageHeader back={navItem(nav, href)}` com `titleLeading` (ícone da entidade) ou `titleTrailing` (id em `hidden max-w-44 truncate font-mono text-xs font-normal text-muted-foreground sm:inline` + `CopyButton`), linha de `ContextChip` em `mt-1 flex flex-wrap items-center gap-2 text-xs px-6`, faixa de `StatCard size="sm"` em `grid grid-cols-2 gap-4 md:grid-cols-4 px-8 mt-1`, cards de gráfico e a tabela. ([seção](03-shell-paginas-tabelas.md#telas-de-detalhe-e-drawers))
 
 ### Assistente de AI (chat)
 
 - **Never** use HUD em Shadow DOM, Command/cmdk ou um tema próprio para o chat: ele usa os mesmos tokens e primitivos do app; `ai-chat` como bloco fica para a v0.2.
-- Em vez disso: monte o painel como irmão flex do inset no canvas `bg-sidebar`, largura 354px (mínimo 320, máximo 640), tween `{ duration: 0.25, ease: ENTRANCE_EASE }` com `{ duration: 0 }` durante o arrasto, conteúdo interno de largura fixa para não refluir; `useReportLayoutReserve(open ? width : 0)` (item `header-slot`) avisa a Toolbar da largura futura. ([seção](08-chat-de-ai.md#assistente-de-ai-chat))
+- Em vez disso: monte o painel pelo slot `panel` do `AppShell`, irmão flex do cartão no canvas `bg-sidebar` (o shell já monta `HeaderActionsSlotProvider` e `LayoutReserveProvider`), largura 354px (mínimo 320, máximo 640), tween `{ duration: 0.25, ease: ENTRANCE_EASE }` com `{ duration: 0 }` durante o arrasto, conteúdo interno de largura fixa para não refluir; `useReportLayoutReserve(open ? width : 0)` (item `header-slot`) avisa a Toolbar da largura futura. ([seção](08-chat-de-ai.md#assistente-de-ai-chat))
 
 ### Marketing (opcional)
 
@@ -147,7 +148,7 @@ Gerado por `bun scripts/build-skill.ts` a partir de `docs/guia/11-receita.md`, o
 
 ### Next.js e Vite: o que muda
 
-- **Never** use o Pages Router, `<a href>` para rota interna no Next (reload completo; `<a>` só para `mailto:`, `tel:` e externo), ou `<img>` cru fora de URL de terceiro com `referrerPolicy="no-referrer"`.
+- **Never** use o Pages Router, `<a href>` para rota interna no Next (reload completo; `<a>` só para `mailto:`, `tel:`, externo e item com `external: "page"`, que leva a outra zona do mesmo domínio), ou `<img>` cru fora de URL de terceiro com `referrerPolicy="no-referrer"`.
 - Em vez disso: no Next: trio por rota (`header.tsx` com um `RouteHeader`, `loading.tsx` só com ele, `page.tsx` com o client ou `Suspense fallback={<XHeader />}` quando lê `useSearchParams`); `params` e `searchParams` são `Promise` e o server resolve e passa como prop; instale `link-next` (mesmo caminho `components/link.tsx`, sobre `next/link` com `prefetch`); imagens por `next/image` com `alt` obrigatório. ([seção](10-adocao.md#nextjs-e-vite-o-que-muda))
 
 ### Regras para agentes
@@ -165,7 +166,9 @@ Gerado por `bun scripts/build-skill.ts` a partir de `docs/guia/11-receita.md`, o
 | `--custom-shadow-slate` e `--sidebar-primary*` sem uso; `--font-mono` nunca mapeada | removidos do `globals.css`; `--font-mono` aponta para Geist Mono Variable (`styles/globals.css:228`) |
 | Hex `#EBEBEB`/`#1E1E1E`/`#2A2A2A` no footer e caption da tabela; `#B8B8B8`/`#5B5B5B` em ícone de busca; `#EFEFEF`/`#252525` em hairline | corrigido: `border-t border-border/50 dark:border-border/40` (`ui/table.tsx:130,232`), `text-muted-foreground/50` e `border-border/50` (`data-table`, `range-picker`) |
 | `slate` no `span-type` e `rgba(100,116,139)` nas sombras inset | corrigido: neutral e `rgba(115,115,115)` (`components/span-type.tsx`) |
-| Ausência de `SidebarTrigger` no mobile; curvas e springs duplicados em 10 arquivos | corrigido: header `md:hidden` com o trigger no `app-shell`; `lib/motion.ts` (os charts mantêm cópia local) |
+| Ausência de gatilho no mobile; curvas e springs duplicados em 10 arquivos | corrigido: `ShellTrigger` no topo da sidebar e no cabeçalho do cartão do `app-shell`, visível no desktop e no celular; `lib/motion.ts` (os charts mantêm cópia local) |
+| Viewport de scroll em `<main>` dentro do `SidebarInset`, que já é `<main>`; sidebar que desliza 200 ms mesmo pelo atalho | corrigido no `app-shell`: o viewport é `div` (`data-slot="shell-viewport"`) e o atalho recolhe sem transição (`data-instant`) |
 | `@number-flow/react`, `ogl` órfãos; `cn` do npm; código morto (`prefetch.ts`, `user-menu.tsx`, `CardsSkeleton`, `Stat`, `pageWindow`, `BrazilFlag`, `HeroGrain`, keyframes `poster-*`) | não entram: `number-ticker` à mão, `clsx` + `tailwind-merge`; nada copiado |
-| `Kbd` dentro de tooltip (feito para o tooltip invertido), `light:border-overlay` (variante inexistente), `squircle:rounded-[60]` (sem unidade, Foglamp figures-traces.tsx), cookie `sidebar_state` que ninguém lê | não copiados |
+| `Kbd` dentro de tooltip (feito para o tooltip invertido), `light:border-overlay` (variante inexistente), `squircle:rounded-[60]` (sem unidade, Foglamp figures-traces.tsx) | não copiados |
+| Cookie `sidebar_state` que ninguém lê | corrigido: o app lê com `readSidebarOpen(valor, true)` e passa `defaultOpen` ao `AppShell` |
 | Tooltip sem `duration-100` (anima em 150 ms); `transition-all hover:duration-150` no Button | pendente: verbatim na v0.1; mantido verbatim (é o look), não replicar em componente novo |

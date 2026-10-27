@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# specs e planos de trabalho: citam pesquisa em repositórios privados e não vão
+# para o repo público
+/docs/superpowers/

@@ -1,5 +1,5 @@
 // Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/app-shell.tsx:213-255 @ 2bc3bb5), Apache-2.0, e do painel do lyx-pr-agent (João Vitor Dadas).
-// Modificado por joaodadas/lume: extraído para arquivo próprio, imports da registry e, como no painel, um único glifo quando o ícone não tem variante filled (activeIcon === icon).
+// Modificado por joaodadas/lume: extraído para arquivo próprio, imports da registry e, como no painel, um único glifo quando o ícone não tem variante filled (activeIcon === icon); shrink-0 no wrapper, activeIcon opcional (sem ele, o mesmo glifo único) e nada renderizado para item sem icon.
 import type { Icon } from "@tabler/icons-react";
 
 import { cn } from "@/registry/base-vega/lib/utils";
@@ -16,23 +16,29 @@ import { cn } from "@/registry/base-vega/lib/utils";
 // letting the padding grow the chip around two full-size icons.
 //
 // Nem todo ícone do Tabler tem o par Filled; quando o item repete o mesmo
-// componente nos dois campos, fica um glifo só, sempre visível.
+// componente nos dois campos, ou não passa activeIcon, fica um glifo só,
+// sempre visível.
+//
+// Item sem icon (conversa, favorito) não ganha ícone nem lugar reservado: o
+// rótulo começa no padding do botão, na coluna do rótulo da seção. Sem icon,
+// activeIcon é ignorado, porque é o icon que decide se o item vai para o trilho.
 export function NavIcon({
   icon: OutlineIcon,
   activeIcon: ActiveIcon,
   active,
   className,
 }: {
-  icon: Icon;
-  activeIcon: Icon;
+  icon?: Icon;
+  activeIcon?: Icon;
   active: boolean;
   className?: string;
 }) {
-  const hasFilled = ActiveIcon !== OutlineIcon;
+  if (!OutlineIcon) return null;
+  const hasFilled = ActiveIcon !== undefined && ActiveIcon !== OutlineIcon;
   return (
     <span
       className={cn(
-        "grid size-4.5 place-items-center [&_svg]:size-full!",
+        "grid size-4.5 shrink-0 place-items-center [&_svg]:size-full!",
         className,
       )}
     >

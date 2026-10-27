@@ -1,25 +1,37 @@
-// Demo do bloco app-shell no site: a casca da registry com um dashboard real
-// dentro (page-header, range-picker, stat-grid, dois gráficos do evilcharts,
-// data-table completa e empty-state), tudo sobre os dados fake de ./mock.ts.
-// Arquivo do site, não entra na registry.
+// Formatos Lateral e Trilho da vitrine: a casca da registry em layout sidebar,
+// com nav em seções (item com filhos, contagem e link em nova aba), seletor de
+// projeto no top e busca em tools, e um dashboard real dentro (page-header,
+// range-picker, stat-grid, dois gráficos do evilcharts, data-table completa e
+// empty-state), tudo sobre os dados fake de ./mock.ts. O Trilho é a mesma demo
+// com defaultOpen={false}. Arquivo do site, não entra na registry.
 "use client";
 
 import {
   IconAlertTriangle,
   IconAlertTriangleFilled,
   IconBellFilled,
+  IconBriefcaseFilled,
   IconCirclesFilled,
   IconCoinFilled,
   IconCpu,
   IconGaugeFilled,
   IconGhost,
   IconGhostFilled,
+  IconHeadsetFilled,
   IconLogout,
   IconPlus,
+  IconShoppingCartFilled,
 } from "@tabler/icons-react";
-import { useEffect, useId, useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import { toast } from "sonner";
 
+import {
+  goTo,
+  Marca,
+  PaletaDeBusca,
+  paletteItems,
+  useHashRoute,
+} from "@/components/blocos/demo-kit";
 import {
   ACCOUNT,
   AGENTS,
@@ -29,6 +41,7 @@ import {
   MODELS,
   NAV,
   PAGE_SIZES,
+  PROJETOS,
   summaryFor,
   TRACE_SORT_ACCESSORS,
   TRACES,
@@ -36,7 +49,16 @@ import {
   USER,
 } from "@/components/blocos/mock";
 import { AppShell } from "@/registry/base-vega/blocks/app-shell/app-shell";
-import { navItem } from "@/registry/base-vega/blocks/app-shell/nav";
+import {
+  findActive,
+  flattenNav,
+  type NavSection,
+} from "@/registry/base-vega/blocks/app-shell/nav";
+import {
+  type ContextOption,
+  ContextSwitcher,
+  SearchTrigger,
+} from "@/registry/base-vega/blocks/app-shell/shell-parts";
 import {
   ClearFiltersButton,
   FilterSelect,
@@ -62,7 +84,6 @@ import { EmptyState } from "@/registry/base-vega/components/empty-state";
 import * as AreaChart from "@/registry/base-vega/components/evilcharts/charts/area-chart";
 import * as BarChart from "@/registry/base-vega/components/evilcharts/charts/bar-chart";
 import type { ChartConfig } from "@/registry/base-vega/components/evilcharts/core/chart";
-import { HeaderActionsSlotProvider } from "@/registry/base-vega/components/header-slot";
 import { PageHeader, PX } from "@/registry/base-vega/components/page-header";
 import { PillMeter } from "@/registry/base-vega/components/pill-meter";
 import { Section } from "@/registry/base-vega/components/section";
@@ -108,8 +129,6 @@ import {
 } from "@/registry/base-vega/ui/table";
 import { TooltipProvider } from "@/registry/base-vega/ui/tooltip";
 
-import { DemoFrame } from "./demo-frame";
-
 // Séries sem semântica usam a paleta neutra --chart-*; erro usa --destructive
 // (cor com significado). Os tokens já flipam por tema, então light e dark
 // recebem o mesmo valor.
@@ -145,60 +164,88 @@ const SKELETON_COLS = [
   { align: "right", w: "w-16" },
 ] as const;
 
-const ALL_NAV = [...NAV, ...ACCOUNT];
+// A navegação inteira, conta inclusive, para achar a página atual.
+const ALL_NAV: NavSection[] = [...NAV, { items: ACCOUNT }];
+const ROUTES = flattenNav(ALL_NAV).filter((item) => !item.external);
+const HOME = ROUTES[0];
 
-/** O item ativo vem do hash da URL: cada link da sidebar é um <a href="#..."> e
- * o hashchange troca a página sem recarregar o site. */
-function useHashPathname() {
-  const [pathname, setPathname] = useState(NAV[0].href);
-  useEffect(() => {
-    const sync = () => {
-      const hash = window.location.hash;
-      if (ALL_NAV.some((item) => item.href === hash)) setPathname(hash);
-    };
-    sync();
-    window.addEventListener("hashchange", sync);
-    return () => window.removeEventListener("hashchange", sync);
-  }, []);
-  return pathname;
-}
+const isRoute = (hash: string) => ROUTES.some((item) => item.href === hash);
 
-export function DashboardDemo() {
-  const pathname = useHashPathname();
+const PROJECT_ICONS = {
+  suporte: <IconHeadsetFilled />,
+  vendas: <IconShoppingCartFilled />,
+  "back-office": <IconBriefcaseFilled />,
+};
+
+// Trocar de projeto é estado aqui (a demo não tem rota por projeto); num app,
+// cada opção leva href e a URL guarda o contexto.
+const PROJECT_OPTIONS: ContextOption[] = PROJETOS.map((projeto) => ({
+  ...projeto,
+  icon: PROJECT_ICONS[projeto.id],
+}));
+
+const SEARCH_GROUPS = [{ heading: "Páginas", items: paletteItems(ALL_NAV) }];
+
+export function DashboardDemo({ defaultOpen }: { defaultOpen?: boolean }) {
+  const pathname = useHashRoute(HOME.href, isRoute);
+  const [project, setProject] = useState<string>(PROJETOS[0].id);
+  const [searching, setSearching] = useState(false);
+
   return (
-    <DemoFrame>
-      <HeaderActionsSlotProvider>
-        <RangeProvider storageKey="lume.blocos.range">
-          <AppShell
-            nav={NAV}
-            account={ACCOUNT}
-            pathname={pathname}
-            brand={
-              <>
-                <span className="size-3.5 rounded-[5px] squircle:rounded-xl corner-squircle bg-foreground" />
-                <span className="truncate font-medium">Acme AI</span>
-              </>
-            }
-            user={USER}
-            userMenu={
-              <DropdownMenuItem onClick={() => toast("Sessão encerrada")}>
-                <IconLogout />
-                Sair
+    <RangeProvider storageKey="lume.blocos.range">
+      <AppShell
+        nav={NAV}
+        account={ACCOUNT}
+        pathname={pathname}
+        defaultOpen={defaultOpen}
+        brand={<Marca nome="Acme AI" />}
+        top={
+          <ContextSwitcher
+            label="Projeto"
+            value={project}
+            options={PROJECT_OPTIONS}
+            onSelect={(id) => {
+              setProject(id);
+              goTo(HOME.href);
+            }}
+            footer={
+              <DropdownMenuItem onClick={() => toast("Projeto criado")}>
+                <IconPlus />
+                Novo projeto
               </DropdownMenuItem>
             }
-          >
-            <DashboardPage pathname={pathname} />
-          </AppShell>
-        </RangeProvider>
-      </HeaderActionsSlotProvider>
-    </DemoFrame>
+          />
+        }
+        tools={<SearchTrigger onOpen={() => setSearching(true)} />}
+        user={USER}
+        userMenu={
+          <DropdownMenuItem onClick={() => toast("Sessão encerrada")}>
+            <IconLogout />
+            Sair
+          </DropdownMenuItem>
+        }
+      >
+        <PaletaDeBusca
+          open={searching}
+          onOpenChange={setSearching}
+          title="Buscar"
+          description="Vá para uma página do projeto."
+          placeholder="Buscar página…"
+          groups={SEARCH_GROUPS}
+        />
+        <DashboardPage pathname={pathname} />
+      </AppShell>
+    </RangeProvider>
   );
 }
 
 function DashboardPage({ pathname }: { pathname: string }) {
   const entrance = useEntranceOnce();
   const { range, setRange } = useRange();
-  const current = navItem(ALL_NAV, pathname) ?? NAV[0];
+  // O filho (Conjuntos de dados) não tem ícone: o título leva o do pai.
+  const active = findActive(ALL_NAV, pathname);
+  const current = active?.item ?? HOME;
+  const owner = current.icon ? current : (active?.parent ?? current);
 
   // Um único interruptor simula a query em voo: os stat cards seguram o valor
   // e a tabela troca o corpo pelo esqueleto, os dois só depois dos 700 ms.
@@ -249,26 +296,37 @@ function DashboardPage({ pathname }: { pathname: string }) {
   }, [params.q, params.agent, params.model, errorsOnly, sort]);
   const rows = filtered.slice(page * pageSize, page * pageSize + pageSize);
 
+  const headerActions = (
+    <>
+      <RangePicker value={range} onChange={setRange} />
+      <Button variant="secondary" onClick={() => toast.success("Chave criada")}>
+        <IconPlus strokeWidth={2.4} />
+        Nova chave
+      </Button>
+    </>
+  );
+
   return (
     <>
       <div className={cn(entrance && "page-fade-in")}>
         <PageHeader
           title={current.label}
-          icon={current.activeIcon}
-          iconClassName={current.iconClassName}
+          icon={owner.activeIcon ?? owner.icon}
+          iconClassName={owner.iconClassName}
           actions={
-            <>
-              <RangePicker value={range} onChange={setRange} />
-              <Button
-                variant="secondary"
-                onClick={() => toast.success("Chave criada")}
-              >
-                <IconPlus strokeWidth={2.4} />
-                Nova chave
-              </Button>
-            </>
+            <div className="hidden items-center gap-2 md:flex">
+              {headerActions}
+            </div>
           }
         />
+        {/* No celular o header h-8 não comporta título e ações: elas descem
+            para uma linha própria, e a Toolbar continua subindo para o header
+            o que não couber na linha dela. */}
+        <div
+          className={cn("mt-4 flex flex-wrap items-center gap-2 md:hidden", PX)}
+        >
+          {headerActions}
+        </div>
       </div>
 
       {/* Volume, saúde, performance, custo: o custo fecha a faixa. */}

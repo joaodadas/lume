@@ -6,10 +6,10 @@ Origem: mapa cap. 1, 20.10, 21.12 e 21.13. O guia condensa o mapa do design syst
 
 | Passo | Comando | O que entra |
 |---|---|---|
-| 1. Base | `npx shadcn@latest init joaodadas/lume/base#v0.1.0 -y` | `components.json` (style `base-vega`, ícones `tabler`, alias `@lume`), `globals.css` com os tokens, `lib/utils.ts`. Nunca com `-d`: o `-d` ignora o `base` e instala o style padrão por cima |
-| 2. Itens | `npx shadcn@latest add joaodadas/lume/<item>#v0.1.0` ou um kit (`kit-shell`, `kit-tabela`, `kit-formulario`, `kit-feedback`, `kit-dados`, `kit-graficos`) | primitivos em `components/ui`, blocos em `components`, lib e hooks |
+| 1. Base | `npx shadcn@latest init joaodadas/lume/base#v0.2.0 -y` | `components.json` (style `base-vega`, ícones `tabler`, alias `@lume`), `globals.css` com os tokens, `lib/utils.ts`. Nunca com `-d`: o `-d` ignora o `base` e instala o style padrão por cima |
+| 2. Itens | `npx shadcn@latest add joaodadas/lume/<item>#v0.2.0` ou um kit (`kit-shell`, `kit-tabela`, `kit-formulario`, `kit-feedback`, `kit-dados`, `kit-graficos`) | primitivos em `components/ui`, blocos em `components`, lib e hooks |
 | 3. Skill | `npx skills add joaodadas/lume --skill lume-design-engineering` | a skill para Claude Code e Codex, gerada deste guia e do `FRONTEND.md` |
-| Guia no projeto | `npx shadcn@latest add joaodadas/lume/guia#v0.1.0` | `docs/lume/FRONTEND.md`, `docs/lume/guia/*`, `docs/lume/CONCEITOS.md` |
+| Guia no projeto | `npx shadcn@latest add joaodadas/lume/guia#v0.2.0` | `docs/lume/FRONTEND.md`, `docs/lume/guia/*`, `docs/lume/CONCEITOS.md` |
 
 Alias opcional em `components.json`: `"registries": { "@lume": "https://lume-ashmont.vercel.app/r/{name}.json" }`, e então `npx shadcn@latest add @lume/button`.
 
@@ -19,7 +19,7 @@ Alias opcional em `components.json`: `"registries": { "@lume": "https://lume-ash
 - Caminho sem prefixo é relativo à raiz do lume: `registry/base-vega/ui/button.tsx:10` é a linha 10 do arquivo instalado como `components/ui/button.tsx`. Caminho de arquivo que não existe no lume aponta para o Foglamp (`apps/web/src/components/app/page-parts.tsx:58`), sempre no commit `2bc3bb5`.
 - Tabelas trazem a string de classe inteira, não um resumo. Quando a string é longa demais para uma célula, o texto cita o arquivo e a linha e mostra só o trecho que define o "jeito".
 - Cada capítulo abre com "Origem: mapa cap. X" e fecha com "O que não copiar". Receitas que a skill reaproveita ficam entre os comentários HTML `skill:start` e `skill:end` (o gerador `scripts/build-skill.ts` extrai só esses blocos); exemplos vivos ficam em `src/examples/<capitulo>/<slug>.tsx` e são referenciados por `<!-- example: capitulo/slug -->`.
-- `(adição do lume)` marca o que não existe no Foglamp e foi acrescentado aqui (por exemplo `--font-mono` mapeada, `SidebarTrigger` no mobile, `html { background-color }`). `(inferência)` marca leitura que não está escrita no código do Foglamp nem foi medida no browser.
+- `(adição do lume)` marca o que não existe no Foglamp e foi acrescentado aqui (por exemplo `--font-mono` mapeada, o `ShellTrigger` visível no desktop e no celular, o trilho de ícones, `html { background-color }`). `(inferência)` marca leitura que não está escrita no código do Foglamp nem foi medida no browser.
 
 ## Regra escrita x regra praticada
 
@@ -51,7 +51,7 @@ O Foglamp tem um `FRONTEND.md` e um código que o contradiz em pontos conhecidos
 10. Ícones Tabler, filled quando existe; par outline/filled na navegação com crossfade de 100ms. [03-shell-e-paginas](./03-shell-e-paginas.md)
 11. Inter self-hosted, `tabular-nums` em número, mono só para código; Host Grotesk só no marketing. [01-fundacoes](./01-fundacoes.md)
 12. Uma receita de superfície: `bg-card`/`bg-popover` + `shadow-(--custom-shadow)` + par de raio + padding; `Card size="sm"` é o card do dashboard; tooltip não invertido. [02-primitivos](./02-primitivos.md)
-13. Shell inset: `Sidebar variant="inset"`, `14rem`, scroll em três camadas, coluna `flex flex-col gap-4 py-6 px-0 pb-16`, gutters `px-8` texto e `px-6` controles. [03-shell-e-paginas](./03-shell-e-paginas.md)
+13. Shell inset em todo formato: `Sidebar variant="inset"` de `14rem` que recolhe para o trilho de `3rem` (`layout="sidebar"`, o padrão) ou barra de zonas (`layout="topbar"`), sempre sobre o mesmo cartão; scroll em três camadas, coluna `flex flex-col gap-4 py-6 px-0 pb-16`, gutters `px-8` texto e `px-6` controles. [03-shell-e-paginas](./03-shell-e-paginas.md)
 14. Header definido uma vez por rota (trio header/loading/page), `PageHeader` em `h-8 px-8` com `h1 text-base font-medium tracking-tight`. [03-shell-e-paginas](./03-shell-e-paginas.md)
 15. Loading que não mexe no layout: skeleton após 700ms só no corpo, `table-fixed`, `page-fade-in` de 75ms uma vez por hard load, `placeholderData`. [03-shell-e-paginas](./03-shell-e-paginas.md)
 16. Tabela densa e navegável: header `h-13`, linhas `h-12`/`h-16`, hover só em `TableRow interactive`, filtros na URL, sem lib de tabela. [04-dados](./04-dados.md)

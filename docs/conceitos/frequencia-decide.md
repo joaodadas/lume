@@ -37,6 +37,8 @@ duração e de easing.
 | Popup frequente | `duration-100` em dropdown, select, popover, context menu, hover card e menubar; o tooltip não tem classe de duração e fica nos 150 ms padrão do `tw-animate-css` | registry/base-vega/ui/dropdown-menu.tsx:47; select.tsx:133; popover.tsx:42; tooltip.tsx:58 |
 | Filtro de tabela | as linhas trocam sem transição; só o botão Limpar entra em 0.13 s com `easeOut` | registry/base-vega/blocks/data-table/data-table.tsx:659-662 |
 | Valor que muda em stat card | `number-ticker` anima 0.6 s só quando o valor muda depois do mount; a primeira pintura é estática | registry/base-vega/components/number-ticker.tsx:50-54 |
+| Atalho que recolhe a sidebar | sem transição: o `AppShell` marca `data-instant` no canvas por dois frames e `[&[data-instant]_*]:transition-none` corta tudo; pelo clique, os 200 ms do primitivo com `EASE` | registry/base-vega/blocks/app-shell/app-shell.tsx |
+| Menus do shell (seletor de contexto, zona, trilho e ⋯) | `data-open:duration-0` sobre a string canônica: a entrada é 0 e a saída faz o fade de 100 ms | `nav-list.tsx` e `shell-parts.tsx` em registry/base-vega/blocks/app-shell/ |
 
 **Always**: classifique a interação pela faixa antes de animar; na faixa alta, feedback por cor ou
 fundo sem transição (`transition-none` ou nada); na faixa média, `duration-100` e só opacidade e
@@ -51,11 +53,11 @@ Parcial. A favor: `packages/ui/src/components/sidebar.tsx` (hover sem transiçã
 `packages/ui` em 100 ms, `apps/web/src/components/app/data-table.tsx` (o filtro troca as linhas a
 seco, só o Clear filters entra em 0.13 s), `org-settings-client.tsx:158-166` (texto da tab vira sem
 fade), `checkbox.tsx:20` e `range-picker.tsx:205` com `transition-none`, `copy-icon.tsx` com
-`initial={false}`. Contra: a sidebar desliza 200 ms mesmo por Cmd/Ctrl+B (`sidebar.tsx:235`) e
-`transition-colors` em 63 lugares.
+`initial={false}`. Contra: a sidebar desliza 200 ms mesmo por Cmd/Ctrl+B (`sidebar.tsx:235`; o `AppShell` corta a
+transição no atalho com `data-instant`) e `transition-colors` em 63 lugares.
 
 ## No lume
 
-- Itens: `sidebar`, `dropdown-menu`, `select`, `popover`, `tooltip`, `data-table`, `number-ticker`, `checkbox`, `range-picker`, `motion` (o comentário de `lib/motion.ts` fixa as faixas de duração; a tabela acima diz quando a duração é zero).
+- Itens: `sidebar`, `app-shell`, `dropdown-menu`, `select`, `popover`, `tooltip`, `data-table`, `number-ticker`, `checkbox`, `range-picker`, `motion` (o comentário de `lib/motion.ts` fixa as faixas de duração; a tabela acima diz quando a duração é zero).
 - FRONTEND.md: seções Movimento (hover instantâneo ou só de cor, `initial={false}` no que já está no lugar) e Overlays e menus (string canônica de popup em `duration-100`). Guia: `docs/guia/09-movimento.md`.
 - Conceitos vizinhos: [Hover Restraint](hover-restraint.md) (a faixa alta aplicada ao hover), [Duração por componente](duracao-por-componente.md) (quanto, depois de decidir se) e [Novelty budget](novelty-budget.md) (o lado da novidade na balança do Rauno).
