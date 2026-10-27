@@ -4,7 +4,7 @@
   "title": "Textarea",
   "description": "Área de texto com a mesma receita do Input.",
   "registryDependencies": [
-    "joaodadas/lume/utils#v0.2.0"
+    "joaodadas/lume/utils#v0.3.0"
   ],
   "files": [
     {

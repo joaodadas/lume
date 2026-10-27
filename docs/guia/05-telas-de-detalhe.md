@@ -1,6 +1,6 @@
 # 05. Telas de detalhe: painel lateral, linha expansível, prosa, código e copy
 
-Origem: mapa cap. 10.4 e 11. Cobre o esqueleto comum da página de detalhe, o painel lateral com o par label/valor (`Field`), a linha expansível (drawer), prompt prose, code block, markdown e copy. Itens: `page-header`, `context-chip`, `stat-card`, `card`, `tabs`, `scroll-fade`, `table`, `table-skeletons`, `empty-state`, `badge`, `code-block`, `markdown-components`, `copy-button`, `copy-icon`, `use-copied`, `hover-card`. Instale `kit-tabela` e `kit-dados` ([03](./03-shell-e-paginas.md), [04](./04-dados.md)) mais `npx shadcn@latest add joaodadas/lume/code-block joaodadas/lume/markdown-components joaodadas/lume/copy-button#v0.2.0`. Caminhos sem prefixo `registry/` são do Foglamp (`apps/web/src/...`).
+Origem: mapa cap. 10.4 e 11. Cobre o esqueleto comum da página de detalhe, o painel lateral com o par label/valor (`Field`), a linha expansível (drawer), prompt prose, code block, markdown e copy. Itens: `page-header`, `context-chip`, `stat-card`, `card`, `tabs`, `scroll-fade`, `table`, `table-skeletons`, `empty-state`, `badge`, `code-block`, `markdown-components`, `copy-button`, `copy-icon`, `use-copied`, `hover-card`. Instale `kit-tabela` e `kit-dados` ([03](./03-shell-e-paginas.md), [04](./04-dados.md)) mais `npx shadcn@latest add joaodadas/lume/code-block joaodadas/lume/markdown-components joaodadas/lume/copy-button#v0.3.0`. Caminhos sem prefixo `registry/` são do Foglamp (`apps/web/src/...`).
 
 ## Esqueleto comum
 

@@ -7,9 +7,9 @@
     "class-variance-authority"
   ],
   "registryDependencies": [
-    "joaodadas/lume/label#v0.2.0",
-    "joaodadas/lume/separator#v0.2.0",
-    "joaodadas/lume/utils#v0.2.0"
+    "joaodadas/lume/label#v0.3.0",
+    "joaodadas/lume/separator#v0.3.0",
+    "joaodadas/lume/utils#v0.3.0"
   ],
   "files": [
     {

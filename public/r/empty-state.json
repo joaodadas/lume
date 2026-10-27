@@ -4,8 +4,8 @@
   "title": "Empty state",
   "description": "Estado vazio das páginas sobre o Empty da registry: caixa tracejada, EmptyMedia variant icon com o ícone em opacity-40, título e descrição opcionais e filhos para a ação.",
   "registryDependencies": [
-    "joaodadas/lume/empty#v0.2.0",
-    "joaodadas/lume/utils#v0.2.0"
+    "joaodadas/lume/empty#v0.3.0",
+    "joaodadas/lume/utils#v0.3.0"
   ],
   "files": [
     {

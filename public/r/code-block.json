@@ -7,10 +7,10 @@
     "shiki"
   ],
   "registryDependencies": [
-    "joaodadas/lume/button#v0.2.0",
-    "joaodadas/lume/copy-icon#v0.2.0",
-    "joaodadas/lume/use-copied#v0.2.0",
-    "joaodadas/lume/utils#v0.2.0"
+    "joaodadas/lume/button#v0.3.0",
+    "joaodadas/lume/copy-icon#v0.3.0",
+    "joaodadas/lume/use-copied#v0.3.0",
+    "joaodadas/lume/utils#v0.3.0"
   ],
   "files": [
     {

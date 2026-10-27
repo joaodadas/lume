@@ -1,6 +1,6 @@
 # 04. Dados: tabela, números, chips e gráficos
 
-Origem: mapa cap. 9. Cobre a densidade da tabela, ordenação na URL, `format.ts` função por função, o placeholder de nulo, `StatCard` e `NumberTicker`, `HeatCell`, chips, cor por hash e a paleta de gráficos com o evilcharts. Itens: `kit-dados` (`table`, `data-table`, `format`, `stat-card`, `stat-grid`, `number-ticker`, `card-sparkline`, `pill-meter`, `span-type`, `context-chip`, `badge`, `table-skeletons`) e `kit-graficos` (`evilcharts`, `area-chart`, `bar-chart`, `line-chart`, `donut-chart`, `trend-charts`). Instale com `npx shadcn@latest add joaodadas/lume/kit-dados#v0.2.0` e `npx shadcn@latest add joaodadas/lume/kit-graficos#v0.2.0`. Caminhos sem prefixo `registry/` são do Foglamp (`apps/web/src/...`).
+Origem: mapa cap. 9. Cobre a densidade da tabela, ordenação na URL, `format.ts` função por função, o placeholder de nulo, `StatCard` e `NumberTicker`, `HeatCell`, chips, cor por hash e a paleta de gráficos com o evilcharts. Itens: `kit-dados` (`table`, `data-table`, `format`, `stat-card`, `stat-grid`, `number-ticker`, `card-sparkline`, `pill-meter`, `span-type`, `context-chip`, `badge`, `table-skeletons`) e `kit-graficos` (`evilcharts`, `area-chart`, `bar-chart`, `line-chart`, `donut-chart`, `trend-charts`). Instale com `npx shadcn@latest add joaodadas/lume/kit-dados#v0.3.0` e `npx shadcn@latest add joaodadas/lume/kit-graficos#v0.3.0`. Caminhos sem prefixo `registry/` são do Foglamp (`apps/web/src/...`).
 
 ## As cinco regras desta camada
 

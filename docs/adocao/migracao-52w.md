@@ -25,7 +25,7 @@ Ordem recomendada: `lyx-front-template`, depois `lyx-analise-credito-front` e `l
 ## Passo 1: `components.json` e dependências
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.2.0 -y
+npx shadcn@latest init joaodadas/lume/base#v0.3.0 -y
 ```
 
 Num front que já tem `src/app/globals.css` o `init` escreve o `components.json` (style `base-vega`, `iconLibrary tabler`, `tailwind.css "src/app/globals.css"`, aliases `@/components`, `@/lib/utils`, `@/components/ui`, `@/lib`, `@/hooks`), reescreve `src/lib/utils.ts` (mesma assinatura de `cn`, nada quebra) e injeta tokens, `@import`, `@plugin` e `@custom-variant` no CSS existente. Sempre `-y`, nunca `-d` (o `-d` instala o style padrão por cima). O `lyx-contratos-front` já tem um `components.json` new-york: apague antes, senão o `init` pergunta se sobrescreve.
@@ -91,7 +91,7 @@ Conferir: `grep -c "var(--accent)" src/app/globals.css` dá 1 (só `--color-acce
 O template seta `document.documentElement.setAttribute("data-theme", ...)` em `src/app/dashboard/layout.tsx:48-61` e lê `localStorage.theme`; o `theme-toggle.tsx` faz `classList.toggle("dark")` por conta própria. Vira um provider só:
 
 ```bash
-npx shadcn@latest add joaodadas/lume/theme-provider#v0.2.0 joaodadas/lume/theme-switcher#v0.2.0
+npx shadcn@latest add joaodadas/lume/theme-provider#v0.3.0 joaodadas/lume/theme-switcher#v0.3.0
 ```
 
 - `src/components/providers.tsx`: envolva o `QueryClientProvider` com `<ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>`; o `<html>` já tem `suppressHydrationWarning`.
@@ -113,7 +113,7 @@ Conferir: `grep -rn "next/font\|--font-inter\|--font-geist" src | wc -l` dá 0; 
 Não porte os arquivos: substitua. Os 15 de `src/components/ui/` (`badge`, `button`, `card`, `dialog`, `input`, `label`, `popover`, `scroll-area`, `select`, `separator`, `sidebar`, `skeleton`, `table`, `textarea`; `lyx-logo.tsx` vai para a camada Lyx):
 
 ```bash
-npx shadcn@latest add joaodadas/lume/kit-formulario#v0.2.0 joaodadas/lume/kit-feedback#v0.2.0 joaodadas/lume/card#v0.2.0 joaodadas/lume/table#v0.2.0 joaodadas/lume/sidebar#v0.2.0 joaodadas/lume/scroll-area#v0.2.0 joaodadas/lume/separator#v0.2.0 joaodadas/lume/badge#v0.2.0 joaodadas/lume/button#v0.2.0 --overwrite
+npx shadcn@latest add joaodadas/lume/kit-formulario#v0.3.0 joaodadas/lume/kit-feedback#v0.3.0 joaodadas/lume/card#v0.3.0 joaodadas/lume/table#v0.3.0 joaodadas/lume/sidebar#v0.3.0 joaodadas/lume/scroll-area#v0.3.0 joaodadas/lume/separator#v0.3.0 joaodadas/lume/badge#v0.3.0 joaodadas/lume/button#v0.3.0 --overwrite
 ```
 
 `--overwrite` é obrigatório: os arquivos existem. Depois corrija o código do app que tocava na API do Radix:

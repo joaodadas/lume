@@ -4,8 +4,8 @@
   "title": "Section",
   "description": "Bloco de seção da página: cabeçalho com h2 text-sm font-medium, descrição text-xs muted e ações à direita (flex-wrap items-end, gutter PX) e os filhos abaixo em coluna gap-3.",
   "registryDependencies": [
-    "joaodadas/lume/page-header#v0.2.0",
-    "joaodadas/lume/utils#v0.2.0"
+    "joaodadas/lume/page-header#v0.3.0",
+    "joaodadas/lume/utils#v0.3.0"
   ],
   "files": [
     {

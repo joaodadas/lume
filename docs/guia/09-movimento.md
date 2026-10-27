@@ -1,6 +1,6 @@
 # 09. Movimento
 
-Origem: mapa cap. 19.1, 19.2, 19.4 e 19.6. Cobre os dois sistemas de movimento, o vocabulário de easing e duração, as 12 receitas do Foglamp, a string canônica de popup, a entrada de página, reduced motion e os estados de hover, press, focus e cursor. Itens: `motion` (`registry/base-vega/lib/motion.ts`), `use-entrance-once`, `use-copied`, `copy-icon`, `copy-button`, `number-ticker`, `theme-switcher`, `data-table` e os charts (`area-chart`, `bar-chart`, `line-chart`). Instale com `npx shadcn@latest add joaodadas/lume/motion#v0.2.0` (os blocos que animam já dependem dele). Caminhos sem prefixo `registry/` são do Foglamp (`apps/web/src/...`).
+Origem: mapa cap. 19.1, 19.2, 19.4 e 19.6. Cobre os dois sistemas de movimento, o vocabulário de easing e duração, as 12 receitas do Foglamp, a string canônica de popup, a entrada de página, reduced motion e os estados de hover, press, focus e cursor. Itens: `motion` (`registry/base-vega/lib/motion.ts`), `use-entrance-once`, `use-copied`, `copy-icon`, `copy-button`, `number-ticker`, `theme-switcher`, `data-table` e os charts (`area-chart`, `bar-chart`, `line-chart`). Instale com `npx shadcn@latest add joaodadas/lume/motion#v0.3.0` (os blocos que animam já dependem dele). Caminhos sem prefixo `registry/` são do Foglamp (`apps/web/src/...`).
 
 ## Dois sistemas que não se misturam
 

@@ -7,10 +7,10 @@
     "class-variance-authority"
   ],
   "registryDependencies": [
-    "joaodadas/lume/button#v0.2.0",
-    "joaodadas/lume/input#v0.2.0",
-    "joaodadas/lume/textarea#v0.2.0",
-    "joaodadas/lume/utils#v0.2.0"
+    "joaodadas/lume/button#v0.3.0",
+    "joaodadas/lume/input#v0.3.0",
+    "joaodadas/lume/textarea#v0.3.0",
+    "joaodadas/lume/utils#v0.3.0"
   ],
   "files": [
     {

@@ -4,7 +4,7 @@
   "title": "Componentes de markdown",
   "description": "Overrides de a, table, thead, tr, th, td, img e hr para react-markdown ou Streamdown: links internos (href com /) pelo Link da indireção, externos em nova aba, tabelas planas text-xs tabular-nums com linhas border-border/40, img cru sem next/image.",
   "registryDependencies": [
-    "joaodadas/lume/link#v0.2.0"
+    "joaodadas/lume/link#v0.3.0"
   ],
   "files": [
     {
