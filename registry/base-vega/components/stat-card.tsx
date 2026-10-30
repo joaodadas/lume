@@ -1,5 +1,5 @@
 // Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/page-parts.tsx @ 2bc3bb5), Apache-2.0, e do painel do lyx-pr-agent (João Vitor Dadas).
-// Modificado por joaodadas/lume: só StatCard e DeltaBadge (linhas 176-352 do upstream); Link da indireção e href string no lugar de next/link e Route; ticker via NumberTicker; Delta de @/registry/base-vega/lib/format; do painel vieram deltaTitle (título da seta, padrão em pt-BR) e o title no rótulo truncado; o resto das classes verbatim.
+// Modificado por joaodadas/lume: só StatCard e DeltaBadge (linhas 176-352 do upstream); Link da indireção e href string no lugar de next/link e Route; ticker via NumberTicker; Delta de @/registry/base-vega/lib/format; do painel vieram deltaTitle (título da seta, padrão em pt-BR) e o title no rótulo truncado; rótulo em text-xs muted (o número é o protagonista) e DeltaBadge em emerald-700/red-600 no claro (contraste AA); o resto das classes verbatim.
 "use client";
 
 import {
@@ -114,7 +114,10 @@ export function StatCard({
                 CardHeader reserve a second grid row (plus gap) under this
                 single row, leaving extra space at the bottom of chartless
                 cards. */}
-            <span className="truncate text-sm text-foreground" title={label}>
+            <span
+              className="truncate text-xs text-muted-foreground"
+              title={label}
+            >
               {label}
             </span>
             {href && (
@@ -203,8 +206,8 @@ export function DeltaBadge({
       className={cn(
         "inline-flex items-center gap-px text-xs font-[470] tabular-nums mt-px",
         good
-          ? "text-emerald-600 dark:text-emerald-500"
-          : "text-red-500 dark:text-red-500",
+          ? "text-emerald-700 dark:text-emerald-500"
+          : "text-red-600 dark:text-red-400",
       )}
       title={title}
     >

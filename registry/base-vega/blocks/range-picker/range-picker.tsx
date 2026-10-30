@@ -1,5 +1,5 @@
 // Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/range-picker.tsx @ 2bc3bb5), Apache-2.0.
-// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*; o divisor da coluna de presets trocou os hex #EFEFEF / #252525 por border-border/50 dark:border-border/40; Calendar com locale ptBR do date-fns (meses e dias da semana em português); os rótulos dos presets já vêm em pt-BR de lib/range.
+// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*; o divisor da coluna de presets trocou os hex #EFEFEF / #252525 por border-border/50 dark:border-border/40; Calendar com locale ptBR do date-fns (meses e dias da semana em português); os rótulos dos presets já vêm em pt-BR de lib/range; o preset inativo no muted-foreground cheio, com hover em foreground (o /50 lia como desabilitado).
 "use client";
 
 import { IconCalendarFilled, IconChevronDown } from "@tabler/icons-react";
@@ -51,9 +51,9 @@ export function RangePresetButton({
         // Button's transition-all, so the hover bg snaps instantly —
         // intentional; the calendar trigger matches it.
         "font-normal tabular-nums bg-card hover:bg-muted/50 aria-expanded:bg-muted/50 dark:hover:bg-muted dark:aria-expanded:bg-muted transition-[color,box-shadow] active:scale-100",
-        // Stay muted on hover (the outline variant lifts text to
-        // foreground); only the surface responds, like ToggleChip.
-        !active && "text-muted-foreground/50 hover:text-muted-foreground/50",
+        // Inativo no cinza de texto secundário (o /50 lia como desabilitado);
+        // o hover leva à tinta, e o ativo se marca pelo fundo do secondary.
+        !active && "text-muted-foreground hover:text-foreground",
       )}
       onClick={onClick}
     >

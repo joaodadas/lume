@@ -8,6 +8,22 @@ ou prop nova, major é token removido ou prop quebrada. Cada versão tem uma tag
 joaodadas/lume/<item>#vX.Y.Z`) e atualiza com `--diff` para ver e `--overwrite`
 para aplicar. Quando um item muda de API, a seção traz "Como migrar".
 
+## [0.3.1] - 2026-10-30
+
+Correções de hierarquia e de leitura achadas no Horizonte, o primeiro produto
+que consome o lume nas telas de dados. Nenhuma API mudou.
+
+### Corrigido
+
+- `section`: o título sobe para `text-base` com `tracking-tight`, um degrau
+  acima do título de card; antes o grupo e o item tinham o mesmo tamanho.
+- `stat-card`: o rótulo vai a `text-xs text-muted-foreground` e o número fica
+  como protagonista; o `DeltaBadge` passa a `emerald-700` e `red-600` no claro
+  (5,5 e 4,8 para 1 sobre branco; antes 3,8) e `red-400` no escuro.
+- `range-picker`: o preset inativo usa o `muted-foreground` cheio e vai a
+  `foreground` no hover; o `/50` lia como botão desabilitado.
+- `badge`: o tamanho `sm` vai de 10 px para `text-xs` (`h-4.5`).
+
 ## [0.3.0] - 2026-10-26
 
 Formatos de shell: um `AppShell` com dois layouts sobre o mesmo canvas e o

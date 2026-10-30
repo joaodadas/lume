@@ -1,5 +1,5 @@
 // Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, packages/ui/src/components/badge.tsx @ 2bc3bb5), Apache-2.0.
-// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*.
+// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*; o tamanho sm vai a text-xs e h-4.5 (10 px ficava abaixo do mínimo de leitura).
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { type VariantProps, cva } from "class-variance-authority";
@@ -38,7 +38,7 @@ const badgeVariants = cva(
 					"shadow-(--custom-shadow) text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground",
 			},
 			size: {
-				sm: "h-4 px-1.5 gap-1 text-[10px] has-[>svg:first-child]:pl-1 has-[>svg:last-child]:pr-1 [&_svg:not([class*='size-'])]:size-2.5!",
+				sm: "h-4.5 px-1.5 gap-1 text-xs has-[>svg:first-child]:pl-1 has-[>svg:last-child]:pr-1 [&_svg:not([class*='size-'])]:size-2.5!",
 				md: "h-5 px-2 gap-[5px] text-xs has-[>svg:first-child]:pl-1.5 has-[>svg:last-child]:pr-1.5 [&_svg:not([class*='size-'])]:size-3!",
 				lg: "h-6 px-2.5 gap-1.5 text-sm has-[>svg:first-child]:pl-2 has-[>svg:last-child]:pr-2 [&_svg:not([class*='size-'])]:size-3.5!",
 			},
