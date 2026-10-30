@@ -4,9 +4,9 @@
   "title": "Skeleton de tabela",
   "description": "TableRowsSkeleton: linhas h-12 com um Skeleton h-4 por coluna (cols com w, align, icon e sub para célula de duas linhas h-5 + h-4), alinhado como as células reais; tipo SkeletonCol exportado.",
   "registryDependencies": [
-    "joaodadas/lume/skeleton#v0.3.0",
-    "joaodadas/lume/table#v0.3.0",
-    "joaodadas/lume/utils#v0.3.0"
+    "joaodadas/lume/skeleton#v0.3.1",
+    "joaodadas/lume/table#v0.3.1",
+    "joaodadas/lume/utils#v0.3.1"
   ],
   "files": [
     {

@@ -6,10 +6,10 @@ Origem: mapa cap. 1, 20.10, 21.12 e 21.13. O guia condensa o mapa do design syst
 
 | Passo | Comando | O que entra |
 |---|---|---|
-| 1. Base | `npx shadcn@latest init joaodadas/lume/base#v0.3.0 -y` | `components.json` (style `base-vega`, ícones `tabler`, alias `@lume`), `globals.css` com os tokens, `lib/utils.ts`. Nunca com `-d`: o `-d` ignora o `base` e instala o style padrão por cima |
+| 1. Base | `npx shadcn@latest init joaodadas/lume/base#v0.3.1 -y` | `components.json` (style `base-vega`, ícones `tabler`, alias `@lume`), `globals.css` com os tokens, `lib/utils.ts`. Nunca com `-d`: o `-d` ignora o `base` e instala o style padrão por cima |
 | 2. Itens | `npx shadcn@latest add joaodadas/lume/<item>#v0.2.0` ou um kit (`kit-shell`, `kit-tabela`, `kit-formulario`, `kit-feedback`, `kit-dados`, `kit-graficos`) | primitivos em `components/ui`, blocos em `components`, lib e hooks |
 | 3. Skill | `npx skills add joaodadas/lume --skill lume-design-engineering` | a skill para Claude Code e Codex, gerada deste guia e do `FRONTEND.md` |
-| Guia no projeto | `npx shadcn@latest add joaodadas/lume/guia#v0.3.0` | `docs/lume/FRONTEND.md`, `docs/lume/guia/*`, `docs/lume/CONCEITOS.md` |
+| Guia no projeto | `npx shadcn@latest add joaodadas/lume/guia#v0.3.1` | `docs/lume/FRONTEND.md`, `docs/lume/guia/*`, `docs/lume/CONCEITOS.md` |
 
 Alias opcional em `components.json`: `"registries": { "@lume": "https://lume-ashmont.vercel.app/r/{name}.json" }`, e então `npx shadcn@latest add @lume/button`.
 

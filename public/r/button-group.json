@@ -8,8 +8,8 @@
     "class-variance-authority"
   ],
   "registryDependencies": [
-    "joaodadas/lume/separator#v0.3.0",
-    "joaodadas/lume/utils#v0.3.0"
+    "joaodadas/lume/separator#v0.3.1",
+    "joaodadas/lume/utils#v0.3.1"
   ],
   "files": [
     {

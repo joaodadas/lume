@@ -7,18 +7,18 @@
     "@tabler/icons-react"
   ],
   "registryDependencies": [
-    "joaodadas/lume/avatar#v0.3.0",
-    "joaodadas/lume/button#v0.3.0",
-    "joaodadas/lume/collapsible#v0.3.0",
-    "joaodadas/lume/dropdown-menu#v0.3.0",
-    "joaodadas/lume/header-slot#v0.3.0",
-    "joaodadas/lume/kbd#v0.3.0",
-    "joaodadas/lume/link#v0.3.0",
-    "joaodadas/lume/sidebar#v0.3.0",
-    "joaodadas/lume/theme-provider#v0.3.0",
-    "joaodadas/lume/theme-switcher#v0.3.0",
-    "joaodadas/lume/tooltip#v0.3.0",
-    "joaodadas/lume/utils#v0.3.0"
+    "joaodadas/lume/avatar#v0.3.1",
+    "joaodadas/lume/button#v0.3.1",
+    "joaodadas/lume/collapsible#v0.3.1",
+    "joaodadas/lume/dropdown-menu#v0.3.1",
+    "joaodadas/lume/header-slot#v0.3.1",
+    "joaodadas/lume/kbd#v0.3.1",
+    "joaodadas/lume/link#v0.3.1",
+    "joaodadas/lume/sidebar#v0.3.1",
+    "joaodadas/lume/theme-provider#v0.3.1",
+    "joaodadas/lume/theme-switcher#v0.3.1",
+    "joaodadas/lume/tooltip#v0.3.1",
+    "joaodadas/lume/utils#v0.3.1"
   ],
   "files": [
     {

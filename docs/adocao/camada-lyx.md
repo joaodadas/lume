@@ -20,10 +20,10 @@ Sem site: a Lyx instala do GitHub (`npx shadcn@latest add Lyx-Engenharia/lyx-ds/
 | Item | Tipo | O que é | Depende de |
 |---|---|---|---|
 | `theme-lyx` | `registry:theme` | Por enquanto sem cor: só o `css` que estende a variante dark para `.dark` e `[data-theme="dark"]` ao mesmo tempo, para os fronts atuais migrarem o toggle depois dos componentes. As cores da Lyx entram aqui no dia em que ela tiver identidade própria ([identidade-visual](./identidade-visual.md)) | nada |
-| `lyx-logo` | `registry:component` | Portado de `lyx-front-template/src/components/ui/lyx-logo.tsx` (SVG `viewBox="0 0 120 110"`, `currentColor`, `aria-label="Lyx"`, prop `size`) | `joaodadas/lume/utils#v0.3.0` |
-| `lyx-login` | `registry:block` | O redesign do Jefferson sobre o `login-form` da base (presentacional: `{ brand, methods, onPassword, onMagicLink, onGoogle, onForgot, pending, error }`); o Better Auth fica no front | `joaodadas/lume/login-form#v0.3.0`, `lyx-logo` |
-| `lyx-shell` | `registry:block` | `app-shell` da base em `layout="sidebar"` (a barra de zonas nunca é navegação principal de front da Lyx) com `brand={<LyxLogo />}`, seletor de sistema (`ContextSwitcher` sobre `/sistemas/catalog` e `/me/profile`; o portal do monolito hoje é sempre `hub`, então o seletor troca de sistema, não de portal), link para o Hub (`https://hub.lyxai.com.br`, como em `painel/src/app/shell.tsx:107-109`) e menu de conta com "Voltar ao Hub" (mantém o SSO) e "Sair de todos os sistemas" (signOut) como dois itens separados do `userMenu` | `joaodadas/lume/app-shell#v0.3.0`, `lyx-logo` |
-| `lyx-guide` | `registry:item` | Depende do `guia` da base e instala `docs/LYX.md` como `~/docs/lume/LYX.md` | `joaodadas/lume/guia#v0.3.0` |
+| `lyx-logo` | `registry:component` | Portado de `lyx-front-template/src/components/ui/lyx-logo.tsx` (SVG `viewBox="0 0 120 110"`, `currentColor`, `aria-label="Lyx"`, prop `size`) | `joaodadas/lume/utils#v0.3.1` |
+| `lyx-login` | `registry:block` | O redesign do Jefferson sobre o `login-form` da base (presentacional: `{ brand, methods, onPassword, onMagicLink, onGoogle, onForgot, pending, error }`); o Better Auth fica no front | `joaodadas/lume/login-form#v0.3.1`, `lyx-logo` |
+| `lyx-shell` | `registry:block` | `app-shell` da base em `layout="sidebar"` (a barra de zonas nunca é navegação principal de front da Lyx) com `brand={<LyxLogo />}`, seletor de sistema (`ContextSwitcher` sobre `/sistemas/catalog` e `/me/profile`; o portal do monolito hoje é sempre `hub`, então o seletor troca de sistema, não de portal), link para o Hub (`https://hub.lyxai.com.br`, como em `painel/src/app/shell.tsx:107-109`) e menu de conta com "Voltar ao Hub" (mantém o SSO) e "Sair de todos os sistemas" (signOut) como dois itens separados do `userMenu` | `joaodadas/lume/app-shell#v0.3.1`, `lyx-logo` |
+| `lyx-guide` | `registry:item` | Depende do `guia` da base e instala `docs/LYX.md` como `~/docs/lume/LYX.md` | `joaodadas/lume/guia#v0.3.1` |
 
 ## Cor: a do Foglamp, por enquanto
 
@@ -70,10 +70,10 @@ Isso cobre `dark:` nas utilities; os tokens da base (`--background`, `--card`...
 Dev (com `gh auth login` feito; a CLI 4.19+ usa o token do `gh` para repo privado no modo GitHub):
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.3.0 -y          # nunca -d; fallback: init https://lume-ashmont.vercel.app/r/base.json -y
+npx shadcn@latest init joaodadas/lume/base#v0.3.1 -y          # nunca -d; fallback: init https://lume-ashmont.vercel.app/r/base.json -y
 npx shadcn@latest add Lyx-Engenharia/lyx-ds/theme-lyx#v0.1.0   # sozinho, depois do init, para o tema vencer o base
 npx shadcn@latest add Lyx-Engenharia/lyx-ds/lyx-shell#v0.1.0 Lyx-Engenharia/lyx-ds/lyx-login#v0.1.0 Lyx-Engenharia/lyx-ds/lyx-guide#v0.1.0
-npx shadcn@latest add joaodadas/lume/link-next#v0.3.0 --overwrite
+npx shadcn@latest add joaodadas/lume/link-next#v0.3.1 --overwrite
 npx skills add joaodadas/lume --skill lume-design-engineering
 ```
 

@@ -14,7 +14,7 @@ Com npm, troque `bunx` por `npx` e `--use-bun` por `--use-npm`. Com `--src-dir` 
 ## 2. Instalar a base
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.3.0 -y
+npx shadcn@latest init joaodadas/lume/base#v0.3.1 -y
 ```
 
 Sempre com `-y` e nunca com `-d`. Verificado hoje: com `-d` a CLI ignora o item `base` (`extends: "none"` e o bloco `config`) e instala o style padrão por cima, com os tokens `sidebar-primary`, o `button` e o pacote `cn` do registry oficial. Com `-y` ela aceita o `config` do `base` sem perguntar. Fallback se o modo GitHub falhar: `npx shadcn@latest init https://lume-ashmont.vercel.app/r/base.json -y`.
@@ -40,13 +40,13 @@ O `create-next-app` deixa `Geist` e `Geist_Mono` de `next/font/google` no `app/l
 ## 3. Instalar os itens e a skill
 
 ```bash
-npx shadcn@latest add joaodadas/lume/kit-shell#v0.3.0 joaodadas/lume/kit-tabela#v0.3.0 joaodadas/lume/kit-formulario#v0.3.0 joaodadas/lume/kit-feedback#v0.3.0 joaodadas/lume/kit-dados#v0.3.0 joaodadas/lume/kit-graficos#v0.3.0 joaodadas/lume/login-form#v0.3.0
-npx shadcn@latest add joaodadas/lume/link-next#v0.3.0 --overwrite
-npx shadcn@latest add joaodadas/lume/guia#v0.3.0
+npx shadcn@latest add joaodadas/lume/kit-shell#v0.3.1 joaodadas/lume/kit-tabela#v0.3.1 joaodadas/lume/kit-formulario#v0.3.1 joaodadas/lume/kit-feedback#v0.3.1 joaodadas/lume/kit-dados#v0.3.1 joaodadas/lume/kit-graficos#v0.3.1 joaodadas/lume/login-form#v0.3.1
+npx shadcn@latest add joaodadas/lume/link-next#v0.3.1 --overwrite
+npx shadcn@latest add joaodadas/lume/guia#v0.3.1
 npx skills add joaodadas/lume --skill lume-design-engineering
 ```
 
-- Vários itens num comando só funciona (verificado). Os kits são `registry:block` sem arquivo: só puxam `registryDependencies`. Quem quer menos instala item a item (`npx shadcn@latest add joaodadas/lume/button#v0.3.0`) ou pelo alias que o `base` já escreveu no `components.json` (`npx shadcn@latest add @lume/button`).
+- Vários itens num comando só funciona (verificado). Os kits são `registry:block` sem arquivo: só puxam `registryDependencies`. Quem quer menos instala item a item (`npx shadcn@latest add joaodadas/lume/button#v0.3.1`) ou pelo alias que o `base` já escreveu no `components.json` (`npx shadcn@latest add @lume/button`).
 - `link-next` grava no mesmo caminho do `link` (`components/link.tsx`, `registry/base-vega/components/link-next.tsx`), por isso precisa de `--overwrite`: sem ele a CLI pula o arquivo que já existe. Rode sempre depois dos kits, porque o `kit-shell` traz o `link` puro (`<a>`), e os blocos importam de `components/link`, nunca de `next/link`.
 - `guia` instala `docs/lume/FRONTEND.md`, `docs/lume/guia/*` e `docs/lume/CONCEITOS.md` na raiz do projeto (alvos `~/`).
 - A skill entra em `.agents/skills/lume-design-engineering`, com link em `.claude/skills` e um `skills-lock.json`; atualize com `npx skills update`. Instale junto `npx skills add gustavo-fior/craft` e a `web-design-guidelines` de `vercel-labs/agent-skills` (ordem de leitura em `docs/referencias.md`).
@@ -76,7 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 ```
 
 - `defaultTheme="dark" enableSystem` é a regra praticada do Foglamp (`apps/web/src/components/providers.tsx:13-18`), não o `system` do FRONTEND.md original. `suppressHydrationWarning` no `<html>` por causa da classe que o next-themes injeta. Um único `<Toaster />` na árvore.
-- CSP estrita (sem script inline): no lugar do `theme-provider`, `npx shadcn@latest add joaodadas/lume/theme-provider-csp#v0.3.0 --overwrite` (mesmo alvo `components/theme-provider.tsx`, mais `public/theme.js`), `<script src="/theme.js" data-storage-key="lume-theme" data-default-theme="dark" />` no `<head>` antes do bundle, e no `theme-switcher.tsx` troque o `import { useTheme } from "next-themes"` por `@/components/theme-provider` (mesma forma: `theme`, `setTheme`, `resolvedTheme`).
+- CSP estrita (sem script inline): no lugar do `theme-provider`, `npx shadcn@latest add joaodadas/lume/theme-provider-csp#v0.3.1 --overwrite` (mesmo alvo `components/theme-provider.tsx`, mais `public/theme.js`), `<script src="/theme.js" data-storage-key="lume-theme" data-default-theme="dark" />` no `<head>` antes do bundle, e no `theme-switcher.tsx` troque o `import { useTheme } from "next-themes"` por `@/components/theme-provider` (mesma forma: `theme`, `setTheme`, `resolvedTheme`).
 - Dados: `QueryClientProvider` com o `QueryCache.onError` ao lado do `QueryClient`, como em `apps/web/src/utils/trpc.ts:20-31` do Foglamp, mais `MutationCache.onError` (adição do lume):
 
 ```tsx

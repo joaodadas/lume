@@ -4,7 +4,7 @@ description: 'Design engineering rules for interfaces with the Foglamp look (Gus
 metadata:
   author: joaodadas
   source: https://github.com/joaodadas/lume
-  version: 0.3.0
+  version: 0.3.1
   credits: Foglamp (Apache-2.0) e craft (MIT), Gustavo Fior
 ---
 
@@ -21,7 +21,7 @@ O lume é uma registry shadcn (`base-vega` sobre `@base-ui/react`, Tailwind v4, 
 1. Ache a seção no digest abaixo (uma linha por seção do `FRONTEND.md`) ou no índice de references.
 2. Leia a reference inteira antes de escrever código: ela traz as strings de classe exatas, os tokens e `arquivo:linha`.
 3. Use os valores exatos (tokens, pares de raio, sombras, durações, curvas de `lib/motion.ts`); não invente um cinza, uma sombra ou uma curva nova.
-4. Instale o que falta pela registry: `npx shadcn@latest add joaodadas/lume/<item>#v0.3.0` (lista em [12-itens](references/12-itens.md)); `components/ui/*` nunca é editado à mão, só atualizado com `--overwrite`.
+4. Instale o que falta pela registry: `npx shadcn@latest add joaodadas/lume/<item>#v0.3.1` (lista em [12-itens](references/12-itens.md)); `components/ui/*` nunca é editado à mão, só atualizado com `--overwrite`.
 5. Ao revisar UI, reporte cada mudança numa tabela Antes / Depois / Regra, citando a seção e `arquivo:linha`.
 
 ## Os 10 princípios

@@ -7,7 +7,7 @@
     "react-resizable-panels"
   ],
   "registryDependencies": [
-    "joaodadas/lume/utils#v0.3.0"
+    "joaodadas/lume/utils#v0.3.1"
   ],
   "files": [
     {

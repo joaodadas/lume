@@ -9,7 +9,7 @@ Gerado por `bun scripts/build-skill.ts` a partir de `FRONTEND.md`, `docs/guia/11
 Regras para construir qualquer interface com o lume. Toda regra é dura salvo indicação em contrário: se um padrão não cabe, levante antes de contornar. O texto segue a regra praticada no código do Foglamp (github.com/foglamp-labs/foglamp, commit `2bc3bb5`, Apache 2.0), não o `FRONTEND.md` original dele; onde os dois divergem (tema padrão `dark`, `motion/react` em uso, borda aceita em linha de tabela, divisor e campo no dark, `QueryCache.onError` em `utils/trpc.ts`, nenhum `error.tsx`), vale o código. Adições próprias estão marcadas com "(adição do lume)". A leitura longa, com tabelas e valores, fica em `docs/guia`; os conceitos do craft (Gustavo Fior, MIT) em `docs/conceitos`; as decisões do repo em `docs/DECISOES.md`.
 
 - **Always** leia caminhos sem prefixo como relativos à raiz deste repo (`registry/base-vega/ui/button.tsx:10`); caminhos que começam em `apps/web/` ou `packages/ui/` são do Foglamp, citados para o que ainda não virou item da registry.
-- **Always** instale pela registry: `npx shadcn@latest init joaodadas/lume/base#v0.3.0 -y` (sem `-d`: o `-d` ignora o `base` e instala o style padrão por cima) e `npx shadcn@latest add joaodadas/lume/<item>#v0.2.0`; a skill vem com `npx skills add joaodadas/lume --skill lume-design-engineering`.
+- **Always** instale pela registry: `npx shadcn@latest init joaodadas/lume/base#v0.3.1 -y` (sem `-d`: o `-d` ignora o `base` e instala o style padrão por cima) e `npx shadcn@latest add joaodadas/lume/<item>#v0.2.0`; a skill vem com `npx skills add joaodadas/lume --skill lume-design-engineering`.
 Porquê: o lume é uma cópia fiel de um sistema que está no ar; a autoridade é o código, e este arquivo é o que dev e agente leem antes de escrever qualquer tela.
 
 ## Layout do projeto
@@ -79,10 +79,10 @@ A Lyx usa as cores do Foglamp como vêm no `base`: sem teal, sem `--brand` e sem
 #### Comandos
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.3.0 -y          # nunca -d; fallback: init https://lume-ashmont.vercel.app/r/base.json -y
+npx shadcn@latest init joaodadas/lume/base#v0.3.1 -y          # nunca -d; fallback: init https://lume-ashmont.vercel.app/r/base.json -y
 npx shadcn@latest add Lyx-Engenharia/lyx-ds/theme-lyx#v0.1.0   # sozinho, depois do init, para o tema vencer o base
 npx shadcn@latest add Lyx-Engenharia/lyx-ds/lyx-shell#v0.1.0 Lyx-Engenharia/lyx-ds/lyx-login#v0.1.0 Lyx-Engenharia/lyx-ds/lyx-guide#v0.1.0
-npx shadcn@latest add joaodadas/lume/link-next#v0.3.0 --overwrite
+npx shadcn@latest add joaodadas/lume/link-next#v0.3.1 --overwrite
 npx skills add joaodadas/lume --skill lume-design-engineering
 ```
 
@@ -100,7 +100,7 @@ Fonte: [docs/adocao/identidade-visual.md](https://github.com/joaodadas/lume/blob
 #### Como trocar
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.3.0 -y
+npx shadcn@latest init joaodadas/lume/base#v0.3.1 -y
 npx shadcn@latest add <org>/<repo>/theme-<produto>#vX.Y.Z   # sozinho, depois do init
 ```
 
@@ -125,7 +125,7 @@ Comandos do inventário (rode no seu front antes de começar e guarde os número
 #### Passo 1: `components.json` e dependências
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.3.0 -y
+npx shadcn@latest init joaodadas/lume/base#v0.3.1 -y
 ```
 
 #### Passo 3: camada de aliases temporária
@@ -167,13 +167,13 @@ Dois nomes colidem e não podem virar alias:
 #### Passo 4: dark mode de `data-theme` para `.dark`
 
 ```bash
-npx shadcn@latest add joaodadas/lume/theme-provider#v0.3.0 joaodadas/lume/theme-switcher#v0.3.0
+npx shadcn@latest add joaodadas/lume/theme-provider#v0.3.1 joaodadas/lume/theme-switcher#v0.3.1
 ```
 
 #### Passo 6: primitivos Radix para Base UI
 
 ```bash
-npx shadcn@latest add joaodadas/lume/kit-formulario#v0.3.0 joaodadas/lume/kit-feedback#v0.3.0 joaodadas/lume/card#v0.3.0 joaodadas/lume/table#v0.3.0 joaodadas/lume/sidebar#v0.3.0 joaodadas/lume/scroll-area#v0.3.0 joaodadas/lume/separator#v0.3.0 joaodadas/lume/badge#v0.3.0 joaodadas/lume/button#v0.3.0 --overwrite
+npx shadcn@latest add joaodadas/lume/kit-formulario#v0.3.1 joaodadas/lume/kit-feedback#v0.3.1 joaodadas/lume/card#v0.3.1 joaodadas/lume/table#v0.3.1 joaodadas/lume/sidebar#v0.3.1 joaodadas/lume/scroll-area#v0.3.1 joaodadas/lume/separator#v0.3.1 joaodadas/lume/badge#v0.3.1 joaodadas/lume/button#v0.3.1 --overwrite
 ```
 
 | Radix (new-york) | Base UI (lume) | Onde confere |
@@ -242,7 +242,7 @@ cd meu-app
 #### 2. Instalar a base
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.3.0 -y
+npx shadcn@latest init joaodadas/lume/base#v0.3.1 -y
 ```
 
 Conferir o `app/globals.css` e o `app/layout.tsx` depois do `init`:
@@ -262,9 +262,9 @@ O `create-next-app` deixa `Geist` e `Geist_Mono` de `next/font/google` no `app/l
 #### 3. Instalar os itens e a skill
 
 ```bash
-npx shadcn@latest add joaodadas/lume/kit-shell#v0.3.0 joaodadas/lume/kit-tabela#v0.3.0 joaodadas/lume/kit-formulario#v0.3.0 joaodadas/lume/kit-feedback#v0.3.0 joaodadas/lume/kit-dados#v0.3.0 joaodadas/lume/kit-graficos#v0.3.0 joaodadas/lume/login-form#v0.3.0
-npx shadcn@latest add joaodadas/lume/link-next#v0.3.0 --overwrite
-npx shadcn@latest add joaodadas/lume/guia#v0.3.0
+npx shadcn@latest add joaodadas/lume/kit-shell#v0.3.1 joaodadas/lume/kit-tabela#v0.3.1 joaodadas/lume/kit-formulario#v0.3.1 joaodadas/lume/kit-feedback#v0.3.1 joaodadas/lume/kit-dados#v0.3.1 joaodadas/lume/kit-graficos#v0.3.1 joaodadas/lume/login-form#v0.3.1
+npx shadcn@latest add joaodadas/lume/link-next#v0.3.1 --overwrite
+npx shadcn@latest add joaodadas/lume/guia#v0.3.1
 npx skills add joaodadas/lume --skill lume-design-engineering
 ```
 
@@ -280,14 +280,14 @@ cd meu-painel && bun add -d @tailwindcss/vite
 ```
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.3.0 -y
+npx shadcn@latest init joaodadas/lume/base#v0.3.1 -y
 ```
 
 #### 2. Itens
 
 ```bash
-npx shadcn@latest add joaodadas/lume/kit-shell#v0.3.0 joaodadas/lume/kit-tabela#v0.3.0 joaodadas/lume/kit-feedback#v0.3.0 joaodadas/lume/kit-dados#v0.3.0 joaodadas/lume/kit-graficos#v0.3.0
-npx shadcn@latest add joaodadas/lume/theme-provider-csp#v0.3.0 --overwrite
+npx shadcn@latest add joaodadas/lume/kit-shell#v0.3.1 joaodadas/lume/kit-tabela#v0.3.1 joaodadas/lume/kit-feedback#v0.3.1 joaodadas/lume/kit-dados#v0.3.1 joaodadas/lume/kit-graficos#v0.3.1
+npx shadcn@latest add joaodadas/lume/theme-provider-csp#v0.3.1 --overwrite
 npx skills add joaodadas/lume --skill lume-design-engineering
 ```
 

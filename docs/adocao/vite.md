@@ -12,10 +12,10 @@ cd meu-painel && bun add -d @tailwindcss/vite
 `tsconfig.json` com `"paths": { "@/*": ["./src/*"] }` e `vite.config.ts` com `resolve.alias` `@` para `./src` (o painel: `fileURLToPath(new URL('./src', import.meta.url))`) e `plugins: [react(), tailwindcss()]`. A CLI do shadcn exige o alias no tsconfig para reescrever os imports.
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.3.0 -y
+npx shadcn@latest init joaodadas/lume/base#v0.3.1 -y
 ```
 
-Mesma regra do Next: `-y`, nunca `-d`. O `init` do shadcn reconhece Vite pelo `vite.config.ts` e escreve o `components.json` com `rsc: false` (conferir: validado hoje só em Next; se o `init` recusar o projeto, escreva o `components.json` abaixo à mão e rode `npx shadcn@latest add joaodadas/lume/base#v0.3.0`, que grava `cssVars` e `css` no arquivo de CSS e ignora o `config`).
+Mesma regra do Next: `-y`, nunca `-d`. O `init` do shadcn reconhece Vite pelo `vite.config.ts` e escreve o `components.json` com `rsc: false` (conferir: validado hoje só em Next; se o `init` recusar o projeto, escreva o `components.json` abaixo à mão e rode `npx shadcn@latest add joaodadas/lume/base#v0.3.1`, que grava `cssVars` e `css` no arquivo de CSS e ignora o `config`).
 
 ```json
 {
@@ -35,8 +35,8 @@ Mesma regra do Next: `-y`, nunca `-d`. O `init` do shadcn reconhece Vite pelo `v
 ## 2. Itens
 
 ```bash
-npx shadcn@latest add joaodadas/lume/kit-shell#v0.3.0 joaodadas/lume/kit-tabela#v0.3.0 joaodadas/lume/kit-feedback#v0.3.0 joaodadas/lume/kit-dados#v0.3.0 joaodadas/lume/kit-graficos#v0.3.0
-npx shadcn@latest add joaodadas/lume/theme-provider-csp#v0.3.0 --overwrite
+npx shadcn@latest add joaodadas/lume/kit-shell#v0.3.1 joaodadas/lume/kit-tabela#v0.3.1 joaodadas/lume/kit-feedback#v0.3.1 joaodadas/lume/kit-dados#v0.3.1 joaodadas/lume/kit-graficos#v0.3.1
+npx shadcn@latest add joaodadas/lume/theme-provider-csp#v0.3.1 --overwrite
 npx skills add joaodadas/lume --skill lume-design-engineering
 ```
 

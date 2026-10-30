@@ -9,9 +9,9 @@
     "next-themes"
   ],
   "registryDependencies": [
-    "joaodadas/lume/dropdown-menu#v0.3.0",
-    "joaodadas/lume/motion#v0.3.0",
-    "joaodadas/lume/utils#v0.3.0"
+    "joaodadas/lume/dropdown-menu#v0.3.1",
+    "joaodadas/lume/motion#v0.3.1",
+    "joaodadas/lume/utils#v0.3.1"
   ],
   "files": [
     {

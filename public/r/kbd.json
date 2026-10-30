@@ -4,7 +4,7 @@
   "title": "Kbd",
   "description": "Tecla de atalho em squircle pequeno.",
   "registryDependencies": [
-    "joaodadas/lume/utils#v0.3.0"
+    "joaodadas/lume/utils#v0.3.1"
   ],
   "files": [
     {

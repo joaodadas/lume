@@ -4,7 +4,7 @@
   "title": "Scroll fade",
   "description": "Viewport de rolagem com fades de h-10 em overlay (bg-linear-to-b/-t from-card to-transparent, duration-150): o de cima aparece ao rolar, o de baixo a 75% enquanto há conteúdo abaixo, recalculado no scroll e por ResizeObserver.",
   "registryDependencies": [
-    "joaodadas/lume/utils#v0.3.0"
+    "joaodadas/lume/utils#v0.3.1"
   ],
   "files": [
     {
