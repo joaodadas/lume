@@ -2,6 +2,8 @@
 
 Origem: plano do lume (seção `docs/adocao`), `FRONTEND.md` "Next.js e Vite: o que muda" e o painel do `lyx-pr-agent` (`painel/`, Vite 8 + React 19 + Tailwind 4.3), que é o port validado do Foglamp sem Next: `src/app/shell.tsx` é o exemplo canônico de shell, `src/app/rota.tsx` o de navegação e `src/app/tema.tsx` + `public/assets/tema.js` o de tema sob CSP. Os blocos do lume já nasceram puros por causa dele; o que este guia faz é mostrar o que muda bloco a bloco.
 
+> O caminho curto: crie o app e cole no seu agente o prompt de [comando-unico](./comando-unico.md) (`npx -y @joaodadas/lume@latest init`). Ele faz os passos abaixo na ordem certa e termina no `lume check`. Este roteiro fica como referência do que o comando faz.
+
 ## 1. Projeto e `components.json`
 
 ```bash

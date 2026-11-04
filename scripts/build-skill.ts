@@ -539,7 +539,7 @@ function montarSkill(secoes: Secao[], checklist: string, versao: string) {
 
   return `---
 name: lume-design-engineering
-description: 'Design engineering rules for interfaces with the Foglamp look (Gustavo Fior), served by the joaodadas/lume shadcn registry: grey oklch tokens, shadow instead of border, squircle radii, Base UI primitives, Tabler icons, inset shell, tables, dashboards, forms, dialogs, motion and loading states. Use when the user asks for the "cara do Foglamp" or the "padrão do DS", for polish, dark mode, cards, tabelas or dashboards, for a "migração 52W", Radix or Lucide to lume, or to review UI against FRONTEND.md.'
+description: 'Design engineering rules for interfaces with the Foglamp look (Gustavo Fior), served by the joaodadas/lume shadcn registry: grey oklch tokens, shadow instead of border, squircle radii, Base UI primitives, Tabler icons, inset shell, tables, dashboards, forms, dialogs, motion and loading states. Use when the user asks for the "cara do Foglamp" or the "padrão do DS", for polish, dark mode, cards, tabelas or dashboards, for adopting lume in a new or existing project (the one-command init and lume check), for a "migração 52W", Radix or Lucide to lume, or to review UI against FRONTEND.md.'
 metadata:
   author: joaodadas
   source: ${REPO_URL}
@@ -553,7 +553,7 @@ Gerado por \`bun scripts/build-skill.ts\`; não edite à mão. Fonte: \`FRONTEND
 
 ## O que é e quando usar
 
-O lume é uma registry shadcn (\`base-vega\` sobre \`@base-ui/react\`, Tailwind v4, \`@tabler/icons-react\`) que copia a regra praticada no código do Foglamp (\`2bc3bb5\`): cinza oklch, sombra no lugar de borda, squircle, pílula de botão, shell inset, tabelas densas e loading que não mexe no layout. Use esta skill sempre que for escrever ou revisar uma tela num projeto que instalou o lume: novo componente, página de lista ou detalhe, formulário, dialog, dashboard, dark mode, animação, migração de 52W, Radix ou Lucide. Toda regra é dura salvo indicação em contrário: se um padrão não cabe, levante antes de contornar. Por produto, só a cor muda, e hoje todo produto usa as cores do Foglamp: fonte, tamanhos, espaçamento, raio, sombra, movimento, ícones e componentes são os da base ([guia de identidade visual](references/10-adocao.md#identidade-visual-por-produto)).
+O lume é uma registry shadcn (\`base-vega\` sobre \`@base-ui/react\`, Tailwind v4, \`@tabler/icons-react\`) que copia a regra praticada no código do Foglamp (\`2bc3bb5\`): cinza oklch, sombra no lugar de borda, squircle, pílula de botão, shell inset, tabelas densas e loading que não mexe no layout. Use esta skill sempre que for escrever ou revisar uma tela num projeto que instalou o lume: novo componente, página de lista ou detalhe, formulário, dialog, dashboard, dark mode, animação, adoção num projeto existente (52W, Radix ou Lucide). A adoção é pelo comando único \`npx -y @joaodadas/lume@latest init\`, que substitui a interface antiga de uma vez e termina no \`lume check\`. Toda regra é dura salvo indicação em contrário: se um padrão não cabe, levante antes de contornar. Por produto, só a cor muda, e hoje todo produto usa as cores do Foglamp: fonte, tamanhos, espaçamento, raio, sombra, movimento, ícones e componentes são os da base ([guia de identidade visual](references/10-adocao.md#identidade-visual-por-produto)).
 
 ## Como usar
 

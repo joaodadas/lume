@@ -8,6 +8,39 @@ ou prop nova, major é token removido ou prop quebrada. Cada versão tem uma tag
 joaodadas/lume/<item>#vX.Y.Z`) e atualiza com `--diff` para ver e `--overwrite`
 para aplicar. Quando um item muda de API, a seção traz "Como migrar".
 
+## [Não lançado]
+
+Adoção por agente: um comando conduz a adoção inteira, e um check confere. Nenhum
+componente nem token mudou.
+
+### Adicionado
+
+- `cli/`, publicado como `@joaodadas/lume`: `lume init` conduz o agente do dev
+  uma etapa por vez (layout, base, todos os componentes, skill, migração) e
+  responde em JSON (`etapa`, `next`, `say`, `instruction`, `run`, `rules`);
+  `lume check` confere o projeto contra a registry da versão do `lume.json` e
+  sai 1 se houver violação; `lume prompt` imprime o texto para colar no agente.
+- `lume.json` na raiz do projeto: versão e layout. É o marcador de adoção que o
+  CI usa para ligar o `lume check`.
+- `docs/adocao/comando-unico.md` e `docs/adocao/projeto-existente.md`; o prompt
+  do agente no topo do README e da página inicial do site.
+
+### Mudado
+
+- O layout do shell é escolha do produto, inclusive na Lyx: `sidebar` (trilho
+  ou offcanvas) ou `topbar`. Saem as frases que proibiam a barra em front da
+  Lyx (FRONTEND.md, guia 03, a descrição do `app-shell` e a skill).
+- A Lyx usa o tema clássico: saem o `theme-lyx`, o teal (também do guia de
+  identidade visual) e o plano da camada privada `lyx-ds`.
+- Projeto existente troca a interface de uma vez: o roteiro da 52W em oito
+  passos, com camada de aliases e telas migradas aos poucos, sai.
+- `cv11` e `ss01` saem do guia: a Inter vai sem `font-feature-settings`.
+
+### Como migrar
+
+Projeto que já usa o lume: rode `npx -y @joaodadas/lume@latest init` para gravar
+o `lume.json` (pergunta o layout) e depois `npx -y @joaodadas/lume@latest check`.
+
 ## [0.3.1] - 2026-10-30
 
 Correções de hierarquia e de leitura achadas no Horizonte, o primeiro produto

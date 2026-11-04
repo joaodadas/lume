@@ -126,7 +126,7 @@ A regra escrita é absoluta, a prática não. O próprio craft abre a exceção:
 
 Por que Fontsource: `registry:font` do shadcn só aceita Google e woff2 não passa pela registry; Fontsource é self-hosted, funciona em Next e Vite e mantém o `opsz` (o build do Google Fonts da Inter é antigo e sem features, motivo pelo qual o Foglamp usa `next/font/local`). A alternativa com `next/font/local` e os woff2 de rsms/inter está em `docs/adocao/next-novo.md`. No Foglamp o `--font-mono` nunca é mapeado e `font-mono` computa `ui-monospace`; o lume corrige.
 
-Regras tipográficas praticadas: `antialiased` no `body` (no `layout.tsx`, não no CSS); `text-sm` e `text-xs` dominam o app; `font-medium` é o peso máximo; `tabular-nums` em todo número (162 ocorrências; `TableCell align="right"` injeta `text-right tabular-nums`); `font-sans` explícito para voltar à sans dentro de contexto mono. Opt-in fora do `base` (adição do lume, vem do painel do lyx-pr-agent): `body { font-feature-settings: "cv11", "ss01"; }` muda a cara em relação ao foglamp.dev, por isso não vem por padrão.
+Regras tipográficas praticadas: `antialiased` no `body` (no `layout.tsx`, não no CSS); `text-sm` e `text-xs` dominam o app; `font-medium` é o peso máximo; `tabular-nums` em todo número (162 ocorrências; `TableCell align="right"` injeta `text-right tabular-nums`); `font-sans` explícito para voltar à sans dentro de contexto mono. A Inter vai sem variantes OpenType: `cv11`, `ss01` e afins mudam a cara entre produtos e não entram (decisão de 04/11/2026).
 
 ## `@layer base`
 

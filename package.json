@@ -11,6 +11,7 @@
     "registry:validate": "shadcn registry validate ./registry.json",
     "skill:build": "bun scripts/build-skill.ts",
     "check": "bun scripts/check.ts",
+    "cli:test": "node --test 'cli/test/*.test.mjs'",
     "typecheck": "tsc --noEmit",
     "lint": "biome check",
     "format": "biome format --write",

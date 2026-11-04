@@ -1,0 +1,30 @@
+{
+  "name": "@joaodadas/lume",
+  "version": "0.3.1",
+  "description": "Adoção do lume por agente: um init guiado, etapa por etapa, e um check que confere o projeto contra a registry.",
+  "type": "module",
+  "bin": {
+    "lume": "./bin/lume.mjs"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "Apache-2.0",
+  "homepage": "https://lume-ashmont.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joaodadas/lume.git",
+    "directory": "cli"
+  },
+  "keywords": [
+    "lume",
+    "shadcn",
+    "design-system",
+    "agent"
+  ]
+}

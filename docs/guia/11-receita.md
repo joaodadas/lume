@@ -8,7 +8,7 @@ Origem: mapa cap. 21. Os 11 passos do Foglamp reescritos como "instale o item X 
 |---|---|---|
 | Primitivos | Base UI (`@base-ui/react`): composição por `render`, estados `data-open`/`data-closed`, nunca `asChild` | `grep -r asChild src` devolve zero |
 | Style e ícones | shadcn `base-vega`, `baseColor: neutral`, `iconLibrary: tabler`, `menuAccent: subtle`, Tailwind v4 sem `tailwind.config` | `components.json` depois do init |
-| Fontes | Inter Variable e Geist Mono via Fontsource (item `base`); Host Grotesk só com `font-display`; `cv11`/`ss01` opt-in | `document.fonts` lista Inter Variable e Geist Mono Variable; `font-mono` computa Geist Mono |
+| Fontes | Inter Variable e Geist Mono via Fontsource (item `base`); Host Grotesk só com `font-display`; sem `cv11`/`ss01` | `document.fonts` lista Inter Variable e Geist Mono Variable; `font-mono` computa Geist Mono |
 | Tema | dark como inicial com `enableSystem`; `theme-provider` (next-themes) ou `theme-provider-csp` | `<html class="dark">` no primeiro load sem preferência salva |
 | Movimento | `motion/react` permitido com o vocabulário de `lib/motion.ts`; CSS nos primitivos | nenhuma curva literal fora de `lib/motion.ts` e dos charts |
 | Formulários | TanStack Form ou React Hook Form, desde que o campo seja o `Input`/`Field` do DS | `login-form` é presentacional |

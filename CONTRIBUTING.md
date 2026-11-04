@@ -2,8 +2,8 @@
 
 O lume é a base pública: tokens, primitivos, blocos, guia e skill com a cara do
 Foglamp. Quem usa o lume num produto (Ashmont, pessoal, Lyx) e melhora algo
-geral traz a melhoria para cá. O que é de marca ou de regra interna fica na
-camada do produto (na Lyx, o repo `Lyx-Engenharia/lyx-ds`).
+geral traz a melhoria para cá. O que é de marca ou de regra interna fica no
+próprio produto (na Lyx, em `components/app` de cada front).
 
 ## Fluxo de upstream
 
@@ -98,3 +98,7 @@ com a seção do changelog, faz push e cria a GitHub Release a partir da tag.
   inválido, e o `next dev` responde 500 (o `check` barra).
 - Comentários do autor original ficam em inglês; os seus, em pt-BR.
 - Rótulos e textos de UI em pt-BR.
+
+## O CLI (`cli/`, `@joaodadas/lume`)
+
+O `init` e o `check` moram em `cli/`, em JavaScript puro e sem dependência. A versão do `cli/package.json` acompanha a da registry, e o `bun run release` grava as duas. Depois da release, publique com `npm login` feito: `cd cli && npm publish --access public`. Testes: `bun run cli:test`. Regra nova no `check` entra com teste em `cli/test/` e com uma linha na tabela de [docs/adocao/comando-unico.md](docs/adocao/comando-unico.md).
