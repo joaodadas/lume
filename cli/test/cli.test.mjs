@@ -1,5 +1,5 @@
 // Testes do CLI com uma registry falsa e projetos montados numa pasta
-// temporária. Rode com `node --test cli/test/`.
+// temporária. Rode com `node --test 'cli/test/*.test.mjs'`.
 
 import assert from "node:assert/strict";
 import {
@@ -16,197 +16,21 @@ import { conferir, relatorio } from "../src/check.mjs";
 import { passo } from "../src/init.mjs";
 import { lerProjeto } from "../src/projeto.mjs";
 import { normalizar } from "../src/texto.mjs";
+import {
+  ALVO_APP_SHELL,
+  BUTTON,
+  buscar,
+  CSS_BASE,
+  conteudo,
+  escrever,
+  limpar,
+  pastas,
+  projetoCerto,
+  regras,
+  UI,
+} from "./fixtures.mjs";
 
-const BUTTON = `// Derivado do Foglamp, Apache-2.0.
-import { cn } from "@/registry/base-vega/lib/utils";
-
-export function Button({ className, ...props }) {
-  return <button className={cn("rounded-full h-8", className)} {...props} />;
-}
-`;
-const CARD = `import { cn } from "@/registry/base-vega/lib/utils";
-
-export function Card({ className, ...props }) {
-  return <div className={cn("bg-card shadow-(--custom-shadow)", className)} {...props} />;
-}
-`;
-const UI = ["button", "card", "input", "dialog", "select"];
-const conteudo = (nome) =>
-  nome === "button"
-    ? BUTTON
-    : nome === "card"
-      ? CARD
-      : `export const ${nome} = 1;\n`;
-
-const ALVO_APP_SHELL = "components/app-shell/app-shell.tsx";
-
-const REGISTRY = {
-  items: [
-    ...UI.map((name) => ({
-      name,
-      type: "registry:ui",
-      files: [
-        { path: `registry/base-vega/ui/${name}.tsx`, type: "registry:ui" },
-      ],
-    })),
-    {
-      name: "app-shell",
-      type: "registry:component",
-      registryDependencies: ["joaodadas/lume/button#v0.4.0"],
-      files: [
-        {
-          path: "registry/base-vega/blocks/app-shell/app-shell.tsx",
-          type: "registry:component",
-          target: ALVO_APP_SHELL,
-        },
-      ],
-    },
-    {
-      name: "section",
-      type: "registry:component",
-      files: [
-        {
-          path: "registry/base-vega/components/section.tsx",
-          type: "registry:component",
-        },
-      ],
-    },
-    {
-      name: "use-mobile",
-      type: "registry:hook",
-      files: [
-        {
-          path: "registry/base-vega/hooks/use-mobile.ts",
-          type: "registry:hook",
-        },
-      ],
-    },
-    ...["format", "utils"].map((name) => ({
-      name,
-      type: "registry:lib",
-      files: [
-        { path: `registry/base-vega/lib/${name}.ts`, type: "registry:lib" },
-      ],
-    })),
-    {
-      name: "kit-shell",
-      type: "registry:block",
-      registryDependencies: ["joaodadas/lume/app-shell#v0.4.0"],
-      files: [],
-    },
-    {
-      name: "kit-tabela",
-      type: "registry:block",
-      registryDependencies: [
-        "joaodadas/lume/use-mobile#v0.4.0",
-        "joaodadas/lume/format#v0.4.0",
-        "joaodadas/lume/utils#v0.4.0",
-      ],
-      files: [],
-    },
-  ],
-};
-
-const CONTEUDO_EXTRA = {
-  "app-shell": "export function AppShell() {}\n",
-  section: "export function Section() {}\n",
-  "use-mobile": "export function useMobile() { return false; }\n",
-  format: "export const formatar = (n) => String(n);\n",
-  utils: "export const cn = (...c) => c.join(' ');\n",
-};
-
-async function buscar(url) {
-  if (url.endsWith("/registry.json")) return REGISTRY;
-  const nome = path.basename(url, ".json");
-  const item = REGISTRY.items.find((i) => i.name === nome);
-  return {
-    files: (item?.files ?? []).map((f) => ({
-      path: f.path,
-      content: CONTEUDO_EXTRA[nome] ?? conteudo(nome),
-    })),
-  };
-}
-
-const CSS_BASE = `@import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
-@import "@fontsource-variable/inter/opsz.css";
-@plugin "@toolwind/corner-shape";
-:root { --custom-shadow: 0 0 0 0.5px rgba(0,0,0,.06); }
-@theme inline { --font-sans: "Inter Variable", ui-sans-serif, sans-serif; }
-`;
-
-const pastas = [];
-afterEach(() => {
-  for (const p of pastas.splice(0)) rmSync(p, { recursive: true, force: true });
-});
-
-function escrever(raiz, rel, texto) {
-  const destino = path.join(raiz, rel);
-  mkdirSync(path.dirname(destino), { recursive: true });
-  writeFileSync(destino, texto);
-}
-
-/** Um projeto Next que adotou o lume do jeito certo. */
-function projetoCerto(extra = {}) {
-  const raiz = mkdtempSync(path.join(tmpdir(), "lume-cli-"));
-  pastas.push(raiz);
-  escrever(
-    raiz,
-    "package.json",
-    JSON.stringify({
-      dependencies: { next: "16.0.0", react: "19.0.0" },
-      devDependencies: { tailwindcss: "^4" },
-    }),
-  );
-  escrever(
-    raiz,
-    "tsconfig.json",
-    `{ // comentário\n "compilerOptions": { "paths": { "@/*": ["./src/*"] } }, }`,
-  );
-  escrever(
-    raiz,
-    "components.json",
-    JSON.stringify({
-      style: "base-vega",
-      tsx: true,
-      iconLibrary: "tabler",
-      tailwind: { css: "src/app/globals.css" },
-      aliases: {
-        components: "@/components",
-        ui: "@/components/ui",
-        utils: "@/lib/utils",
-      },
-    }),
-  );
-  escrever(
-    raiz,
-    "lume.json",
-    JSON.stringify({ versao: "0.4.0", layout: "sidebar", ...extra }),
-  );
-  escrever(raiz, "src/app/globals.css", CSS_BASE);
-  for (const nome of UI) {
-    escrever(
-      raiz,
-      `src/components/ui/${nome}.tsx`,
-      conteudo(nome)
-        .replace("@/registry/base-vega/lib/utils", "@/lib/utils")
-        .replace(/^\/\/.*\n/, ""),
-    );
-  }
-  escrever(raiz, `src/${ALVO_APP_SHELL}`, CONTEUDO_EXTRA["app-shell"]);
-  escrever(raiz, "src/hooks/use-mobile.ts", CONTEUDO_EXTRA["use-mobile"]);
-  escrever(raiz, "src/lib/format.ts", CONTEUDO_EXTRA.format);
-  escrever(raiz, "src/lib/utils.ts", CONTEUDO_EXTRA.utils);
-  escrever(
-    raiz,
-    "src/app/page.tsx",
-    `export default function P() { return <main className="flex flex-col gap-4 text-sm" />; }\n`,
-  );
-  return raiz;
-}
-
-const regras = (r) => [...new Set(r.violacoes.map((v) => v.regra))].sort();
+afterEach(limpar);
 
 describe("normalizar", () => {
   it("ignora comentários, caminho de import e use client", () => {
@@ -547,7 +371,13 @@ describe("passo (init)", () => {
     );
     cj.style = "new-york";
     writeFileSync(path.join(raiz, "components.json"), JSON.stringify(cj));
-    const r = await passo(raiz, { versao: "0.4.0", layout: "topbar", buscar });
+    const r = await passo(raiz, {
+      versao: "0.4.0",
+      layout: "topbar",
+      tema: "claro",
+      substituir: "sim",
+      buscar,
+    });
     assert.equal(r.etapa, "base");
     assert.deepEqual(r.run, [
       "rm components.json",
@@ -558,6 +388,7 @@ describe("passo (init)", () => {
       {
         versao: "0.4.0",
         layout: "topbar",
+        tema: "claro",
       },
     );
   });
@@ -632,7 +463,7 @@ describe("passo (init)", () => {
     const raiz = projetoCerto({ versao: "0.3.0" });
     await passo(raiz, { versao: "0.4.0", layout: "topbar", buscar });
     const lj = JSON.parse(readFileSync(path.join(raiz, "lume.json"), "utf8"));
-    assert.deepEqual(lj, { versao: "0.3.0", layout: "topbar" });
+    assert.deepEqual(lj, { versao: "0.3.0", layout: "topbar", tema: "escuro" });
   });
 
   it("ao aceitar subir, regrava o lume.json e reinstala tudo com --overwrite na versão nova", async () => {

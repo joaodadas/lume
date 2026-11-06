@@ -7,6 +7,7 @@ import path from "node:path";
 import { lerJsonc } from "./texto.mjs";
 
 export const LAYOUTS = ["sidebar", "offcanvas", "topbar"];
+export const TEMAS = ["claro", "escuro"];
 
 const PULAR = new Set([
   "node_modules",

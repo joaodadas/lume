@@ -7,8 +7,8 @@
     "@tabler/icons-react"
   ],
   "registryDependencies": [
-    "joaodadas/lume/badge#v0.4.0",
-    "joaodadas/lume/utils#v0.4.0"
+    "joaodadas/lume/badge#v0.4.1",
+    "joaodadas/lume/utils#v0.4.1"
   ],
   "files": [
     {

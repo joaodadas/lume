@@ -3,18 +3,20 @@
 
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
-import { adotouLume, LAYOUTS, lerProjeto, listar } from "./projeto.mjs";
+import { criarResolvedor, importsDe } from "./imports.mjs";
+import { adotouLume, LAYOUTS, lerProjeto, listar, TEMAS } from "./projeto.mjs";
 import { criarRegistry, emLotes } from "./registry.mjs";
 import {
   linhaDe,
   normalizar,
   semComentarios,
   semComentariosCss,
+  semTextos,
 } from "./texto.mjs";
 
 export const REGRAS = {
   "config/lume-json":
-    "Rode `npx -y @joao.dadas/lume@latest init`: ele grava o lume.json com a versão e o layout.",
+    "Rode `npx -y @joao.dadas/lume@latest init`: ele grava o lume.json com a versão, o layout e o tema.",
   "config/components-json":
     "O components.json precisa ser o do lume (style base-vega, iconLibrary tabler, tsx). Apague o atual e rode o init do base.",
   "config/alias":
@@ -43,6 +45,12 @@ export const REGRAS = {
   "codigo/sombra":
     "Sombra do Tailwind não entra: a superfície usa shadow-(--custom-shadow).",
   "codigo/espaco": "space-x e space-y não entram: empilhe com flex e gap.",
+  "codigo/import-antigo":
+    "Import de componente antigo de components/ui, que não é item do lume. Troque pelo primitivo do lume (o que é do produto vai para components/app, composto com o lume) e apague o arquivo antigo quando ninguém mais importar.",
+  "codigo/dialogo-do-navegador":
+    "confirm(), alert() e prompt() do navegador não entram: confirmação é AlertDialog, aviso é toast (sonner) ou Notice, e pedir um valor é Dialog com Field.",
+  "codigo/token-orfao":
+    "Classe com uma cor que não existe: nem token no CSS do projeto nem cor da paleta do Tailwind. Sem o token a classe não gera CSS e a cor some sem erro. Use um token do lume (destructive, muted-foreground) ou uma cor da paleta com significado, num mapa por conceito (o span-type é o exemplo).",
 };
 
 // Pacotes que o lume substitui. A mesma lista barra a dependência no
@@ -104,16 +112,116 @@ const PADROES_CODIGO = [
   ["codigo/espaco", /(?<![\w-])-?space-[xy]-[\w.[\]]+/g],
 ];
 
+// Chamada do diálogo do navegador: global ou por window, globalThis e self.
+const DIALOGO =
+  /(?<![\w$.])(?:(?:window|globalThis|self)\.)?(confirm|alert|prompt)\(/g;
+// O nome declarado no próprio arquivo (const, função, import, parâmetro ou
+// desestruturação) é outra coisa: só a chamada por window conta.
+const DIALOGO_LOCAL = (nome) =>
+  new RegExp(
+    `\\b(?:const|let|var|function)\\s+${nome}\\b|[{,(]\\s*${nome}\\s*[,})=]|\\bimport\\s+${nome}\\b|\\bas\\s+${nome}\\b`,
+  );
+
+// Classe de cor: o utilitário e o nome da cor, com opacidade opcional. Só conta
+// como classe o que vem depois de espaço, aspas, crase, `:` de variant ou `!`.
+const CLASSE_DE_COR =
+  /(?<=^|[\s"'`:!])(bg|text|border(?:-[xytrblse])?|ring|fill|stroke)-([a-z][a-z0-9-]*)(?:\/[\w.]+)?(?=$|[\s"'`!])/gm;
+
+// O que vem depois do utilitário e não é cor.
+const NAO_E_COR = {
+  bg: /^(?:fixed|local|scroll|clip-.+|origin-.+|repeat(?:-.+)?|no-repeat|cover|contain|auto|center|top|bottom|left|right|(?:left|right|top|bottom)-(?:top|bottom|left|right)|none|linear(?:-.+)?|radial(?:-.+)?|conic(?:-.+)?|gradient-.+|blend-.+|size-.+|position-.+|image-.+|[xy]-.+)$/,
+  text: /^(?:xs|sm|base|lg|xl|left|center|right|justify|start|end|wrap|nowrap|balance|pretty|ellipsis|clip|top|bottom|shadow(?:-.+)?)$/,
+  border:
+    /^(?:[xytrblse](?:-.+)?|solid|dashed|dotted|double|hidden|none|collapse|separate|spacing(?:-.+)?|box)$/,
+  ring: /^(?:inset|offset(?:-.+)?)$/,
+  fill: /^none$/,
+  stroke: /^none$/,
+};
+
+const PALETA_PADRAO = [
+  "red",
+  "orange",
+  "amber",
+  "yellow",
+  "lime",
+  "green",
+  "emerald",
+  "teal",
+  "cyan",
+  "sky",
+  "blue",
+  "indigo",
+  "violet",
+  "purple",
+  "fuchsia",
+  "pink",
+  "rose",
+  "slate",
+  "gray",
+  "zinc",
+  "neutral",
+  "stone",
+  "mauve",
+  "olive",
+  "mist",
+  "taupe",
+].flatMap((cor) =>
+  [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].map(
+    (n) => `${cor}-${n}`,
+  ),
+);
+
+/**
+ * As cores que viram classe no projeto: a paleta do Tailwind instalado (ou a
+ * da v4, sem ele) e cada `--color-*` do CSS global e dos que ele importa. Com
+ * `@config` (tema em JavaScript) devolve null e a regra não roda.
+ */
+function coresDoProjeto(projeto) {
+  if (!projeto.css) return null;
+  const junto = cssComImports(projeto.raiz, projeto.css)
+    .map((c) => c.css)
+    .join("\n");
+  if (/@config\s/.test(junto)) return null;
+  const cores = new Set([
+    "inherit",
+    "current",
+    "transparent",
+    "black",
+    "white",
+  ]);
+  const tema = path.join(projeto.raiz, "node_modules/tailwindcss/theme.css");
+  const paleta = existsSync(tema)
+    ? [
+        ...readFileSync(tema, "utf8").matchAll(
+          /--color-([a-z]+-\d+|black|white)\s*:/g,
+        ),
+      ].map((m) => m[1])
+    : PALETA_PADRAO;
+  for (const cor of paleta) cores.add(cor);
+  for (const m of junto.matchAll(/--color-([\w-]+)\s*:/g)) cores.add(m[1]);
+  const tamanhos = new Set();
+  for (const m of junto.matchAll(/--text-([\w-]+?)\s*:/g)) tamanhos.add(m[1]);
+  return { cores, tamanhos };
+}
+
+function corOrfa(utilitario, nome, definidas) {
+  if (definidas.cores.has(nome)) return false;
+  const tipo = utilitario.startsWith("border") ? "border" : utilitario;
+  if (NAO_E_COR[tipo].test(nome)) return false;
+  if (tipo === "text" && definidas.tamanhos.has(nome)) return false;
+  return true;
+}
+
 const EXCECAO = /lume:excecao\s+motivo=\S/;
-const CODIGO = /\.(tsx?|jsx?|mjs|cjs)$/;
-const NAO_ESCANEAR =
+export const CODIGO = /\.(tsx?|jsx?|mjs|cjs)$/;
+export const NAO_ESCANEAR =
   /(\.spec\.|\.test\.|\.stories\.|\.config\.|(^|\/)(e2e|__tests__|__mocks__|__fixtures__)\/)/;
 
 /**
  * O que é código do app, o mesmo para código e CSS: a pasta do `@/*` do
  * tsconfig; com o app na raiz, as pastas de sempre.
  */
-function escopoDoApp(projeto) {
+export function escopoDoApp(projeto) {
   if (projeto.prefixo) return (rel) => rel.startsWith(projeto.prefixo);
   return (rel) =>
     /^(app|components|lib|hooks|pages|features|styles)\//.test(rel);
@@ -204,6 +312,15 @@ const MARCAS_BASE = [
   "shadcn/tailwind.css",
 ];
 
+/** O CSS global (ou um que ele importa) tem as marcas da base do lume? */
+export function cssTemBase(projeto) {
+  if (!projeto.css) return false;
+  const junto = cssComImports(projeto.raiz, projeto.css)
+    .map((c) => c.css)
+    .join("\n");
+  return MARCAS_BASE.every((m) => junto.includes(m));
+}
+
 /**
  * A base do lume está instalada? A mesma régua do check: components.json do
  * lume, os três aliases e as marcas da base no CSS global ou num que ele
@@ -218,11 +335,7 @@ export function baseInstalada(projeto) {
   for (const [chave, re] of Object.entries(ALIASES_ESPERADOS)) {
     if (!re.test(String(a[chave] ?? ""))) return false;
   }
-  if (!projeto.css) return false;
-  const junto = cssComImports(projeto.raiz, projeto.css)
-    .map((c) => c.css)
-    .join("\n");
-  return MARCAS_BASE.every((m) => junto.includes(m));
+  return cssTemBase(projeto);
 }
 
 function add(violacoes, regra, arquivo, linha, trecho) {
@@ -256,6 +369,15 @@ function conferirConfig(projeto, violacoes) {
         "lume.json",
         null,
         `layout precisa ser ${LAYOUTS.join(", ")}`,
+      );
+    }
+    if (lj.tema !== undefined && !TEMAS.includes(lj.tema)) {
+      add(
+        violacoes,
+        "config/lume-json",
+        "lume.json",
+        null,
+        `tema precisa ser ${TEMAS.join(" ou ")}`,
       );
     }
     if (
@@ -489,13 +611,42 @@ async function conferirRegistry(
       );
     }
   }
-  return { instalados };
+  return { instalados, nomesUi };
 }
 
-function conferirCodigo(projeto, instalados, violacoes, arquivosDoProjeto) {
+/** As chamadas de confirm, alert e prompt do navegador no código. */
+function dialogosDoNavegador(codigo) {
+  const sem = semTextos(codigo);
+  const locais = new Set(
+    ["confirm", "alert", "prompt"].filter((n) => DIALOGO_LOCAL(n).test(sem)),
+  );
+  const saida = [];
+  for (const m of sem.matchAll(DIALOGO)) {
+    const qualificado = m[0].includes(".");
+    if (!qualificado && locais.has(m[1])) continue;
+    // método declarado num objeto ou numa classe: confirm() { ... }
+    let i = m.index + m[0].length;
+    let prof = 1;
+    while (i < sem.length && prof > 0) {
+      if (sem[i] === "(") prof++;
+      else if (sem[i] === ")") prof--;
+      i++;
+    }
+    if (/^\s*(?::[^=;]*)?\{/.test(sem.slice(i, i + 80)) && !qualificado)
+      continue;
+    saida.push({ indice: m.index, trecho: m[0].slice(0, -1) });
+  }
+  return saida;
+}
+
+function conferirCodigo(contexto, violacoes) {
+  const { projeto, instalados, nomesUi, arquivos, definidas } = contexto;
   const escopo = escopoDoApp(projeto);
   const prefixoUi = `${projeto.dirUi}/`;
-  for (const rel of arquivosDoProjeto) {
+  const extras = projeto.lumeJson?.extras ?? {};
+  const resolver = criarResolvedor(projeto.raiz, arquivos);
+  const grafo = new Map();
+  for (const rel of arquivos) {
     if (!CODIGO.test(rel) || NAO_ESCANEAR.test(rel) || !escopo(rel)) continue;
     if (rel.startsWith(prefixoUi) || instalados.has(rel)) continue;
     const bruto = readFileSync(path.join(projeto.raiz, rel), "utf8");
@@ -504,24 +655,60 @@ function conferirCodigo(projeto, instalados, violacoes, arquivosDoProjeto) {
     const excecao = (linha) =>
       EXCECAO.test(linhas[linha - 1] ?? "") ||
       EXCECAO.test(linhas[linha - 2] ?? "");
-    for (const m of codigo.matchAll(IMPORTS_PROIBIDOS)) {
-      const linha = linhaDe(codigo, m.index);
-      if (!excecao(linha)) add(violacoes, "codigo/import", rel, linha, m[1]);
-    }
+    const marcar = (regra, indice, trecho) => {
+      const linha = linhaDe(codigo, indice);
+      if (!excecao(linha)) add(violacoes, regra, rel, linha, trecho);
+    };
+    for (const m of codigo.matchAll(IMPORTS_PROIBIDOS))
+      marcar("codigo/import", m.index, m[1]);
     for (const [regra, re] of PADROES_CODIGO) {
-      for (const m of codigo.matchAll(re)) {
-        const linha = linhaDe(codigo, m.index);
-        if (!excecao(linha)) add(violacoes, regra, rel, linha, m[0]);
+      for (const m of codigo.matchAll(re)) marcar(regra, m.index, m[0]);
+    }
+    const vizinhos = new Set();
+    for (const { spec, indice } of importsDe(codigo)) {
+      const alvo = resolver(rel, spec);
+      if (!alvo) continue;
+      if (alvo.existe && CODIGO.test(alvo.rel)) vizinhos.add(alvo.rel);
+      if (!alvo.rel.startsWith(prefixoUi) || instalados.has(alvo.rel)) continue;
+      const nome = path.posix.basename(alvo.rel).replace(CODIGO, "");
+      if (nomesUi.has(nome) || extras[nome]) continue;
+      marcar("codigo/import-antigo", indice, spec);
+    }
+    grafo.set(rel, [...vizinhos]);
+    for (const d of dialogosDoNavegador(codigo))
+      marcar("codigo/dialogo-do-navegador", d.indice, d.trecho);
+    if (definidas) {
+      for (const m of codigo.matchAll(CLASSE_DE_COR)) {
+        if (corOrfa(m[1], m[2], definidas))
+          marcar("codigo/token-orfao", m.index, m[0]);
       }
     }
   }
+  return grafo;
+}
+
+/** Caminho (relativo, absoluto ou com ./) no formato das violações. */
+function normalizarCaminho(raiz, p) {
+  const rel = path.isAbsolute(p) ? path.relative(raiz, p) : p;
+  return rel.split(path.sep).join("/").replace(/^\.\//, "").replace(/\/+$/, "");
+}
+
+/** A violação está num dos `caminhos` (pasta ou arquivo)? */
+export function dentroDe(caminhos, arquivo) {
+  return caminhos.some(
+    (c) =>
+      c === "" || c === "." || arquivo === c || arquivo.startsWith(`${c}/`),
+  );
 }
 
 /**
- * Confere o projeto em `raiz`. `versao` vem do lume.json (ou do argumento) e
- * escolhe a tag da registry contra a qual os arquivos são comparados.
+ * Confere o projeto em `raiz` e devolve também o que o init usa para o plano
+ * da migração: o projeto lido, os arquivos e o grafo de imports locais.
+ * `versao` vem do lume.json (ou do argumento) e escolhe a tag da registry
+ * contra a qual os arquivos são comparados. `caminhos` restringe as violações
+ * a pastas ou arquivos.
  */
-export async function conferir(raiz, opcoes = {}) {
+export async function conferirCompleto(raiz, opcoes = {}) {
   const lido = lerProjeto(raiz);
   // Com o alias desviado (components/lume/ui, components/ds), a conferência
   // usa as pastas padrão: é lá que o lume tem que estar.
@@ -538,7 +725,7 @@ export async function conferir(raiz, opcoes = {}) {
       ? lido.dirComponentes
       : `${lido.prefixo}components`,
   };
-  const violacoes = [];
+  let violacoes = [];
   const versao =
     opcoes.versao ?? projeto.lumeJson?.versao ?? opcoes.versaoPadrao;
   conferirConfig(projeto, violacoes);
@@ -547,26 +734,50 @@ export async function conferir(raiz, opcoes = {}) {
   conferirDeps(projeto, violacoes);
   const registry = criarRegistry(versao, opcoes.buscar);
   registry.versao = versao;
-  const { instalados } = await conferirRegistry(
+  const { instalados, nomesUi } = await conferirRegistry(
     projeto,
     registry,
     violacoes,
     arquivos,
   );
-  conferirCodigo(projeto, instalados, violacoes, arquivos);
-  return {
-    ok: violacoes.length === 0,
-    adotou: adotouLume(projeto),
-    versao,
-    layout: projeto.lumeJson?.layout ?? null,
+  const grafo = conferirCodigo(
+    {
+      projeto,
+      instalados,
+      nomesUi,
+      arquivos,
+      definidas: coresDoProjeto(projeto),
+    },
     violacoes,
+  );
+  const caminhos = (opcoes.caminhos ?? []).map((c) =>
+    normalizarCaminho(raiz, c),
+  );
+  if (caminhos.length > 0)
+    violacoes = violacoes.filter((v) => dentroDe(caminhos, v.arquivo));
+  return {
+    resultado: {
+      ok: violacoes.length === 0,
+      adotou: adotouLume(projeto),
+      versao,
+      layout: projeto.lumeJson?.layout ?? null,
+      ...(caminhos.length > 0 ? { escopo: caminhos } : {}),
+      violacoes,
+    },
+    contexto: { projeto, arquivos, grafo, instalados, nomesUi },
   };
+}
+
+/** Confere o projeto em `raiz` (veja conferirCompleto). */
+export async function conferir(raiz, opcoes = {}) {
+  return (await conferirCompleto(raiz, opcoes)).resultado;
 }
 
 /** Relatório legível, agrupado por regra, com até `max` ocorrências cada. */
 export function relatorio(resultado, max = 15) {
+  const em = resultado.escopo ? ` em ${resultado.escopo.join(", ")}` : "";
   if (resultado.ok) {
-    return `lume check: tudo certo (v${resultado.versao}, layout ${resultado.layout}).`;
+    return `lume check: tudo certo${em} (v${resultado.versao}, layout ${resultado.layout}).`;
   }
   const porRegra = new Map();
   for (const v of resultado.violacoes) {
@@ -574,7 +785,7 @@ export function relatorio(resultado, max = 15) {
     porRegra.get(v.regra).push(v);
   }
   const linhas = [
-    `lume check: ${resultado.violacoes.length} violações em ${porRegra.size} regras (v${resultado.versao}).`,
+    `lume check: ${resultado.violacoes.length} violações em ${porRegra.size} regras${em} (v${resultado.versao}).`,
     "",
   ];
   for (const [regra, lista] of porRegra) {

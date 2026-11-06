@@ -8,6 +8,49 @@ ou prop nova, major é token removido ou prop quebrada. Cada versão tem uma tag
 joaodadas/lume/<item>#vX.Y.Z`) e atualiza com `--diff` para ver e `--overwrite`
 para aplicar. Quando um item muda de API, a seção traz "Como migrar".
 
+## [0.4.1] - 2026-11-06
+
+O CLI com o que a adoção no CRM da Lyx mostrou. Só o CLI e os docs mudaram:
+nenhum componente nem token.
+
+### Adicionado
+
+- `lume init`, etapa `ler`: além do layout, pergunta o tema padrão
+  (`--tema=claro|escuro`, gravado no `lume.json` e usado no `defaultTheme`) e,
+  num projeto com interface própria, se pode substituir de uma vez
+  (`--substituir=sim|nao`). Com `nao`, para e explica por que o lume não entra
+  pela metade.
+- `lume init`, etapa `base`: o init escreve o CSS global só com o que o item
+  `base` traz, igual ao que o `shadcn init` escreve num projeto novo, guarda o
+  antigo em `<css>.antes-do-lume` e lista em `details.cssGlobal` os tokens e as
+  classes próprias que saíram, com o uso de cada um no código.
+- `lume init`, etapa `componentes`: com componentes antigos em
+  `components/ui`, pergunta antes do `--overwrite`, com os números (arquivos
+  trocados, componentes antigos que dependem deles, arquivos que importam um ou
+  outro) e o aviso de que o app não compila até a migração terminar. Pede um
+  commit e segue com `--confirmar-troca=sim`.
+- `lume init`, etapa `migrar`: um plano em ordem em `details.plano`, primeiro o
+  que os layouts importam, depois tela por tela (pasta de rota de `app/`), o
+  resto e a limpeza, cada grupo com a contagem e o seu `lume check --path`. A
+  instrução manda rodar esse check e o typecheck do projeto a cada grupo.
+- `lume check --path=<pasta>` (pastas ou arquivos separados por vírgula) e
+  `--help` em cada comando.
+- Regras novas no `lume check`: `codigo/import-antigo` (import de componente
+  de `components/ui` que não é do lume, por linha), `codigo/dialogo-do-navegador`
+  (`confirm()`, `alert()` e `prompt()`) e `codigo/token-orfao` (classe de cor
+  sem token no CSS nem na paleta do Tailwind, como `bg-success` depois que o
+  token saiu).
+
+### Corrigido
+
+- `lume check --help` mostrava o relatório em vez da ajuda.
+
+### Como migrar
+
+Rode `npx -y @joao.dadas/lume@latest init`: ele pergunta o tema e grava no
+`lume.json`. As regras novas podem acusar código que já passava; o
+`lume check --path=<pasta>` ajuda a corrigir por partes.
+
 ## [0.4.0] - 2026-11-06
 
 Adoção por agente: um comando conduz a adoção inteira, e um check confere. Nenhum
