@@ -21,10 +21,10 @@ O `init` conduz o agente etapa por etapa: pergunta o layout, instala a base, tod
 
 ```bash
 # 1. base: components.json (style base-vega, ícones tabler), globals.css com os tokens, lib/utils.ts
-npx shadcn@latest init joaodadas/lume/base#v0.3.1 -y
+npx shadcn@latest init joaodadas/lume/base#v0.4.0 -y
 
 # 2. um kit (ou qualquer item): primitivos em components/ui, blocos em components, lib e hooks
-npx shadcn@latest add joaodadas/lume/kit-shell#v0.3.1
+npx shadcn@latest add joaodadas/lume/kit-shell#v0.4.0
 
 # 3. a skill para Claude Code e Codex
 npx skills add joaodadas/lume --skill lume-design-engineering
@@ -32,7 +32,7 @@ npx skills add joaodadas/lume --skill lume-design-engineering
 
 Nunca use `init -d`: o `-d` ignora o `base` e instala o style padrão por cima.
 Em projeto Next, instale também `link-next` depois dos blocos
-(`npx shadcn@latest add joaodadas/lume/link-next#v0.3.1`), que troca o `Link`
+(`npx shadcn@latest add joaodadas/lume/link-next#v0.4.0`), que troca o `Link`
 da indireção por `next/link`. Em Vite, o `Link` padrão (um `<a>`) já serve.
 
 ### Alias `@lume`
