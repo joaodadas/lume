@@ -68,15 +68,15 @@ Três formatos e uma receita, todos com o mesmo canvas, o mesmo cartão, o mesmo
 **Regra de escolha.**
 
 1. Não navega entre telas (login, link por token, convite, sem acesso, indisponível, onboarding, embed): página solta.
-2. Um nível com até 7 zonas, produto de leitura que quer a largura toda, ou mural de TV: `layout="topbar"`. Hoje vale só para a Horizonte (Plataforma, Início, Carteira e Conta) e para o mural do BI. Front da Lyx que navega nunca usa a barra.
-3. Todo o resto: `layout="sidebar"`, o padrão. A barra que passar de 7 zonas ou pedir segundo nível vira Lateral.
+2. O layout é escolha do produto: nenhum dos dois é obrigatório, nem na Lyx (decisão de 04/11/2026). `layout="sidebar"` é só o valor padrão da prop.
+3. A barra (`layout="topbar"`) comporta um nível de até 7 zonas e dá a largura toda ao conteúdo: serve bem a produto de leitura e a mural de TV (hoje a Horizonte e o mural do BI). Com mais zonas, ou com segundo nível, a Lateral organiza melhor; na barra, as zonas que não cabem rolam dentro dela.
 4. Recolher: `collapsible="icon"` (padrão) quando todo item de primeiro nível tem ícone e o app é de uso diário; `"offcanvas"` quando a nav é texto ou a tela às vezes pede a largura toda; `defaultOpen={false}` quando a lista é longa e o conteúdo manda (BI). O trilho é sempre estado recolhido, nunca o único estado: a primeira visita abre a sidebar.
 5. Agrupar: até 7 itens sem rótulo; acima disso, seções com rótulo de 5 a 9. Um nível de filho, nunca dois. O excedente vai para a paleta ou para um item com filhos. Seção vazia não aparece, e o filtro por papel roda antes do shell.
 6. Altura e paralelo: `fill` quando a página é dona do scroll (chat, mural, editor); `panel` quando um assistente ou a carteira trabalha ao lado; o que é passageiro abre em Sheet, e o que é destino vira rota.
 7. Contexto: `top` recebe o `ContextSwitcher` só quando há mais de um contexto (sistemas irmãos, obra, setor, praça, conta). O Hub não leva. Trocar de contexto é link.
 8. Dados: busca, contagem e sino só com fonte real; contagem zero não aparece. Na Lateral, notificação é item com badge (Inbox). Na barra, é um botão de ícone em `tools`.
 9. Filtro global (obra, período) mora num provider do shell, e o controle vai nas ações do `PageHeader`, como o `RangePicker`. Não existe barra de filtros no chrome.
-10. Conta na Lyx: "Voltar ao Hub" (mantém o SSO) e "Sair de todos os sistemas" (signOut) são dois itens do `userMenu`, montados pela camada Lyx. A pesquisa achou 20 arquivos em 12 repos misturando as duas semânticas.
+10. Conta na Lyx: "Voltar ao Hub" (mantém o SSO) e "Sair de todos os sistemas" (signOut) são dois itens do `userMenu`, montados pelo próprio front. A pesquisa achou 20 arquivos em 12 repos misturando as duas semânticas.
 <!-- skill:end -->
 
 ### Lateral: `layout="sidebar"` (padrão)
@@ -196,7 +196,7 @@ Mural de TV: a mesma barra so com marca, contexto e "Sair do modo TV", e fill.
 Com panel: o painel e irmao do wrapper e tem a altura toda; a barra termina antes dele.
 ```
 
-Quando usar: só quando a navegação principal cabe num nível de até 7 zonas (ou nenhuma) e o produto quer a largura toda. Zona com filhos abre um menu, nunca uma segunda barra. Se passar de 7 zonas ou pedir segundo nível, vira Lateral. Nunca é navegação principal de front da Lyx.
+Quando usar: é escolha do produto. Funciona melhor quando a navegação principal cabe num nível de até 7 zonas (ou nenhuma) e o produto quer a largura toda. Zona com filhos abre um menu, nunca uma segunda barra. Com mais zonas, ou com segundo nível, a Lateral organiza melhor.
 
 | Produto | Como monta |
 |---|---|

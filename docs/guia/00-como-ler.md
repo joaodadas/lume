@@ -67,7 +67,7 @@ O Foglamp tem um `FRONTEND.md` e um código que o contradiz em pontos conhecidos
 
 - Foglamp: Apache 2.0, Copyright foglamp-labs / Gustavo Fior. Todo arquivo derivado começa com `// Derivado do Foglamp (<url>, <caminho upstream> @ 2bc3bb5), Apache-2.0. Modificado por joaodadas/lume: <resumo>.` (exigência do §4b da licença), garantido por `scripts/sync-upstream.ts` e `scripts/check.ts`. O `NOTICE` da raiz repete a atribuição.
 - Craft (conceitos em `docs/conceitos/`): MIT, Gustavo Fior; fontes Inter e Redaction sob OFL. Evil Charts (`evilcharts`): MIT, Gurbinder, vendorizado via Foglamp com cabeçalho. `loader` (TextShimmerLoader): prompt-kit, MIT. shadcn, Base UI, Tabler: MIT. Inter, Geist Mono, Host Grotesk: OFL via Fontsource. NumberFlow, slot-text, border-beam, tw-animate-css, corner-shape: MIT como dependências npm. Lista completa em `THIRD_PARTY_NOTICES.md`.
-- O lume (trabalho próprio: blocos, guia, skill, scripts): Apache 2.0, Copyright João Vitor Dadas. A camada da Lyx (`Lyx-Engenharia/lyx-ds`) é privada e depende desta base.
+- O lume (trabalho próprio: blocos, guia, skill, scripts): Apache 2.0, Copyright João Vitor Dadas. A Lyx usa esta base como ela vem, sem camada própria (decisão de 04/11/2026).
 
 ## O que não copiar
 

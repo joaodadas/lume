@@ -1,9 +1,14 @@
 import { IconArrowRight, IconBrandGithub } from "@tabler/icons-react";
 import Link from "next/link";
 import pkg from "@/package.json";
+import { CopyButton } from "@/registry/base-vega/components/copy-button";
 import { Badge } from "@/registry/base-vega/ui/badge";
 import { Button, buttonVariants } from "@/registry/base-vega/ui/button";
 import { Card, CardContent } from "@/registry/base-vega/ui/card";
+
+// O texto que o dev cola no agente: o init conduz o resto, etapa por etapa.
+const PROMPT =
+  "Aplique o lume neste projeto: rode `npx -y @joao.dadas/lume@latest init` e siga exatamente o que ele responder, uma etapa por vez, até o `next` ser `pronto`.";
 
 const COMANDOS = [
   `npx shadcn@latest init joaodadas/lume/base#v${pkg.version}`,
@@ -30,7 +35,36 @@ export default function Home() {
       </div>
 
       <Card size="sm">
+        <CardContent className="flex flex-col gap-2">
+          <div className="flex items-center justify-between gap-4">
+            <span className="text-sm font-medium">Para o seu agente</span>
+            <CopyButton value={PROMPT} title="Copiar o prompt" />
+          </div>
+          <p className="text-sm text-muted-foreground text-pretty">
+            {PROMPT.split("`").map((parte, i) =>
+              i % 2 === 1 ? (
+                <code
+                  key={parte}
+                  className="font-mono text-[13px] text-foreground"
+                >
+                  {parte}
+                </code>
+              ) : (
+                parte
+              ),
+            )}
+          </p>
+          <p className="text-xs text-muted-foreground/70 text-pretty">
+            Serve para projeto novo ou existente: o agente instala a base, os
+            componentes e as regras de uma vez e termina no{" "}
+            <code className="font-mono">lume check</code>.
+          </p>
+        </CardContent>
+      </Card>
+
+      <Card size="sm">
         <CardContent className="flex flex-col gap-2 font-mono text-xs">
+          <span className="font-sans text-sm font-medium">À mão</span>
           {COMANDOS.map((c) => (
             <code key={c} className="whitespace-pre-wrap break-all">
               {c}

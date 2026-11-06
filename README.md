@@ -7,7 +7,17 @@ os arquivos no seu projeto e eles passam a ser seus.
 
 Site e registry: https://lume-ashmont.vercel.app
 
-## Instalação em três comandos
+## Adoção por agente: um comando
+
+Cole no seu agente (Claude Code, Codex, Cursor), na raiz do projeto, novo ou existente:
+
+```text
+Aplique o lume neste projeto: rode `npx -y @joao.dadas/lume@latest init` e siga exatamente o que ele responder, uma etapa por vez, até o `next` ser `pronto`.
+```
+
+O `init` conduz o agente etapa por etapa: pergunta o layout, instala a base, todos os componentes e a skill, guia a migração das telas e só termina quando o `lume check` passa. Em projeto existente, o lume substitui a interface antiga de uma vez. Detalhes em [docs/adocao/comando-unico.md](docs/adocao/comando-unico.md).
+
+## Instalação à mão, em três comandos
 
 ```bash
 # 1. base: components.json (style base-vega, ícones tabler), globals.css com os tokens, lib/utils.ts
@@ -66,7 +76,7 @@ O item `guia` instala o guia inteiro em `docs/lume/` do seu projeto.
 - [docs/guia](docs/guia): o guia longo, com os valores exatos, as strings de classe e os porquês.
 - [docs/conceitos](docs/conceitos): os conceitos do craft, reescritos em pt-BR.
 - [docs/referencias.md](docs/referencias.md): curadoria de referências com os critérios declarados.
-- [docs/adocao](docs/adocao): Next novo, Vite, migração de um front com Radix e Lucide, camada de marca por cima da base e identidade visual por produto (só a cor muda).
+- [docs/adocao](docs/adocao): o comando único, projeto existente (troca de uma vez), Next novo, Vite, a Lyx sobre o lume e identidade visual por produto (só a cor muda).
 - [CONTRIBUTING.md](CONTRIBUTING.md): como rodar, adicionar item, sincronizar com o Foglamp e lançar.
 - [CHANGELOG.md](CHANGELOG.md): o que mudou em cada versão e como migrar.
 

@@ -1,6 +1,6 @@
 # Identidade visual por produto
 
-Origem: decisão de 26/10/2026 (ver [DECISOES](../DECISOES.md)), o levantamento das cores fixas da registry no mesmo dia e o tema da Lyx de [camada-lyx](./camada-lyx.md). Para o produto que um dia quiser mudar ou reconstruir a identidade visual sobre o lume: o que pode mudar, o que fica travado e como trocar.
+Origem: decisão de 26/10/2026 (ver [DECISOES](../DECISOES.md)) e o levantamento das cores fixas da registry no mesmo dia. Para o produto que um dia quiser mudar ou reconstruir a identidade visual sobre o lume: o que pode mudar, o que fica travado e como trocar.
 
 ## A regra
 
@@ -41,7 +41,7 @@ Quer mudar algo desta tabela? É mudança da base, para todo produto: PR em `joa
 
 ### Hoje: um tema do produto
 
-O tema é um item `registry:theme` só com `cssVars` (claro e escuro), no repo do produto, como o `theme-lyx` de [camada-lyx](./camada-lyx.md). Ele entra depois do `base` e em comando separado: quando os dois entram juntos, o `base` vence.
+O tema é um item `registry:theme` só com `cssVars` (claro e escuro), no repo do produto. Ele entra depois do `base` e em comando separado: quando os dois entram juntos, o `base` vence.
 
 ```bash
 npx shadcn@latest init joaodadas/lume/base#v0.3.1 -y
@@ -85,24 +85,6 @@ A base troca essas cores fixas por significados: `--success`, `--warning`, `--in
 - Hoje: a regra está no `FRONTEND.md` (Tokens e cor) e na skill, e a revisão do PR confere o tema.
 - Com as cores por significado: uma checagem no CI do app reprova o tema que tiver token que não é cor, contraste abaixo de 4,5:1 ou a ordem das superfícies invertida.
 
-## Exemplo: o teal da Lyx
+## A Lyx
 
-Fora de uso: por enquanto a Lyx usa as cores do Foglamp. Fica aqui como exemplo de identidade própria, com a recomendação que a base fez em 15/10/2026: o teal entra como `--brand`, e `--primary` fica cinza como no Foglamp.
-
-| Onde o teal entra | Como |
-|---|---|
-| Logo e tile de marca na sidebar | `LyxLogo className="text-brand"`; tile pela receita do `navTile` com os rgba do teal |
-| Login | fundo do painel de marca e o CTA |
-| `Badge variant="brand"` | status de marca, nunca estado (estado continua emerald, rose e amber) |
-| `Button variant="brand"` | no máximo um por tela, o CTA principal; o resto `default`, `secondary` e `ghost` |
-
-| Token | Claro | Escuro |
-|---|---|---|
-| `--brand` | `#025864` | `#03A698` (o teal claro que a 52W já usa no dark) |
-| `--brand-foreground` | `#ffffff` | `oklch(0.145 0 0)` |
-| `--custom-shadow-brand` | `0 0 0 .5px rgba(2,88,100,.25), 0 .5px 2px -.5px rgba(2,88,100,.18), 0 2px 4px 0 rgba(2,88,100,.12)` | `0 0 0 .5px rgba(3,166,152,.25), 0 .5px 2px -.5px rgba(3,166,152,.18), 0 2px 4px 0 rgba(3,166,152,.12)` |
-| `--color-brand` (`@theme inline`) | `var(--brand)` | |
-
-Porquê `--brand`: o look é cinza estrutural com cor só por significado; o `Button default` da base nem usa `--primary` (é `bg-neutral-800 dark:bg-neutral-100`, `registry/base-vega/ui/button.tsx`), então pintar `--primary` de teal mudaria pouco e ainda tingiria `ring`, `selection:bg-primary/10` e todo `text-primary` do app. O guia de design do João no `lyx-qualidade-front` já fixou "cor em quatro lugares" (logo de terceiro, glifo de status, ícone destrutivo, quadrado de marca), e o tile da marca é o quarto lugar.
-
-As variantes `brand` do `Badge` e do `Button` pedem as cores por significado na base. Sem elas, a Lyx teria que copiar `badge.tsx` e `button.tsx` para a camada e conferir as cópias a cada versão da base, que é o caminho que o lume evita.
+A Lyx usa o tema clássico do lume, as cores que vêm no `base`, sem tema próprio (decisão de 04/11/2026). Não existe `theme-lyx`, e o teal da 52W não volta nem como exemplo: front da Lyx não instala tema nenhum depois do `base`.

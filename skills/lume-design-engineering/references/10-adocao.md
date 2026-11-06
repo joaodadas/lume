@@ -53,7 +53,7 @@ Porquê: o Foglamp codifica com agentes em camadas (skills genéricas, regras do
 |---|---|---|
 | Primitivos | Base UI (`@base-ui/react`): composição por `render`, estados `data-open`/`data-closed`, nunca `asChild` | `grep -r asChild src` devolve zero |
 | Style e ícones | shadcn `base-vega`, `baseColor: neutral`, `iconLibrary: tabler`, `menuAccent: subtle`, Tailwind v4 sem `tailwind.config` | `components.json` depois do init |
-| Fontes | Inter Variable e Geist Mono via Fontsource (item `base`); Host Grotesk só com `font-display`; `cv11`/`ss01` opt-in | `document.fonts` lista Inter Variable e Geist Mono Variable; `font-mono` computa Geist Mono |
+| Fontes | Inter Variable e Geist Mono via Fontsource (item `base`); Host Grotesk só com `font-display`; sem `cv11`/`ss01` | `document.fonts` lista Inter Variable e Geist Mono Variable; `font-mono` computa Geist Mono |
 | Tema | dark como inicial com `enableSystem`; `theme-provider` (next-themes) ou `theme-provider-csp` | `<html class="dark">` no primeiro load sem preferência salva |
 | Movimento | `motion/react` permitido com o vocabulário de `lib/motion.ts`; CSS nos primitivos | nenhuma curva literal fora de `lib/motion.ts` e dos charts |
 | Formulários | TanStack Form ou React Hook Form, desde que o campo seja o `Input`/`Field` do DS | `login-form` é presentacional |
@@ -68,23 +68,55 @@ Porquê: o Foglamp codifica com agentes em camadas (skills genéricas, regras do
 
 ## Guias de adoção: comandos e tabela Lucide para Tabler
 
-### Camada Lyx: `Lyx-Engenharia/lyx-ds` sobre a base pública
+### A Lyx sobre o lume
 
 Fonte: [docs/adocao/camada-lyx.md](https://github.com/joaodadas/lume/blob/main/docs/adocao/camada-lyx.md).
 
-#### Cor: a do Foglamp, por enquanto
+- A Lyx usa o lume como ele vem: o `base` com o tema clássico (as cores do Foglamp), sem tema próprio e sem camada privada de registry. Não existe `theme-lyx`, e o teal da 52W não volta.
+- O layout do shell é escolha de cada front: `layout="sidebar"` (trilho de ícones ou `collapsible="offcanvas"`) ou `layout="topbar"`.
+- Front novo ou existente adota pelo comando único de [comando-unico](https://github.com/joaodadas/lume/blob/main/docs/adocao/comando-unico.md). Projeto existente substitui a interface antiga de uma vez ([projeto-existente](https://github.com/joaodadas/lume/blob/main/docs/adocao/projeto-existente.md)).
+- O que é só da Lyx (logo, login com Better Auth, link para o Hub, seletor de sistema) fica no próprio front, em `components/app`, composto sobre os blocos do lume (`AppShell`, `login-form`, `ContextSwitcher`). Vira item compartilhado só quando estiver repetido em vários fronts.
+- O `LyxLogo` entra em `currentColor`, na cor do texto, sem tile colorido nem sombra teal.
+- Conta: "Voltar ao Hub" (mantém o SSO) e "Sair de todos os sistemas" (signOut) são dois itens separados do `userMenu`.
+- O CI dos fronts da Lyx (o reusable `lyx-audit.yml`) roda o `lume check` em todo repo que adotou o lume.
 
-A Lyx usa as cores do Foglamp como vêm no `base`: sem teal, sem `--brand` e sem variante `brand` no `Badge` ou no `Button` (decisão de 26/10/2026, em `docs/DECISOES.md`). O `LyxLogo` entra em `currentColor`, na cor do texto. Quando a Lyx quiser identidade própria, o caminho está em [identidade-visual](https://github.com/joaodadas/lume/blob/main/docs/adocao/identidade-visual.md), com o teal como exemplo (`--brand`, não `--primary`).
+### O comando único: adoção por agente
 
-#### Comandos
+Fonte: [docs/adocao/comando-unico.md](https://github.com/joaodadas/lume/blob/main/docs/adocao/comando-unico.md).
 
-```bash
-npx shadcn@latest init joaodadas/lume/base#v0.3.1 -y          # nunca -d; fallback: init https://lume-ashmont.vercel.app/r/base.json -y
-npx shadcn@latest add Lyx-Engenharia/lyx-ds/theme-lyx#v0.1.0   # sozinho, depois do init, para o tema vencer o base
-npx shadcn@latest add Lyx-Engenharia/lyx-ds/lyx-shell#v0.1.0 Lyx-Engenharia/lyx-ds/lyx-login#v0.1.0 Lyx-Engenharia/lyx-ds/lyx-guide#v0.1.0
-npx shadcn@latest add joaodadas/lume/link-next#v0.3.1 --overwrite
-npx skills add joaodadas/lume --skill lume-design-engineering
-```
+#### O prompt
+
+##### Como o `init` conduz
+
+- Cada chamada lê o projeto e responde um JSON: `etapa`, `next`, `say` (o que o agente diz ao usuário), `instruction` (o que o agente faz), `run` (os comandos, em ordem), `rules` (as regras da adoção, repetidas em toda resposta) e `details`.
+- O estado vem do próprio projeto. Chamar de novo depois de cada passo devolve o passo seguinte, e chamar duas vezes não estraga nada: o init só grava o `lume.json` (o layout escolhido e, quando o usuário aceita subir, a versão nova), e o resto ele manda o agente rodar.
+- A versão que vale é a do `lume.json`, no init e no check. Os comandos que o init devolve fixam essa versão (`npx -y @joao.dadas/lume@<versao do lume.json> init`), então o projeto não sobe de versão sem querer.
+- As etapas, em ordem:
+  1. `ler`: confere Next ou Vite com Tailwind 4 e pergunta o layout (`sidebar`, `offcanvas` ou `topbar`). Só o layout é perguntado: o resto é da base.
+  2. `atualizar` (só quando o pacote é mais novo que o `lume.json`): pergunta ao usuário se quer subir. Com `--atualizar=sim`, regrava o `lume.json` com a versão nova e manda reinstalar tudo do lume com `--overwrite` nela; sem isso, segue na versão do `lume.json`.
+  3. `base`: o `shadcn init` do item `base` na versão do `lume.json`. Um `components.json` que não é do lume é apagado antes.
+  4. `componentes`: todos os primitivos, os kits, o `login-form` e o `guia`, com `--overwrite`; no Next, o `link-next` por último.
+  5. `skill`: a skill `lume-design-engineering`, que o agente lê antes de escrever qualquer tela.
+  6. `migrar`: o agente reescreve as telas, guiado pelo `lume check`, até não sobrar violação.
+  7. `pronto`: o agente roda typecheck, lint, testes e build, e mostra ao usuário. Commit e push só quando o usuário pedir.
+- O `init` grava o `lume.json` na raiz: `{ "versao": "0.4.0", "layout": "sidebar" }`. Ele fixa a versão contra a qual o projeto é conferido e é o sinal de que o projeto adotou o lume. Item da registry instalado à parte, fora dos kits do init, entra em `itens` (`"itens": ["theme-switcher"]`) para a atualização reinstalar e o check conferir.
+
+#### O `lume check`
+
+| Regra | O que barra |
+|---|---|
+| `config/lume-json` | falta o `lume.json`, ou versão e layout inválidos |
+| `config/components-json` | `components.json` que não é o do lume (style, ícones, tsx) |
+| `config/alias` | alias desviado: o lume mora em `components/ui`, `components` e `lib/utils` |
+| `css/base` | CSS global sem a base do lume |
+| `css/fonte` | `font-feature-settings`, outro pacote de fonte ou `--font-sans` redefinida |
+| `deps/proibida` | `lucide-react`, Radix, outra biblioteca de componentes ou de fonte no `package.json` |
+| `ui/editado` | arquivo da registry diferente da versão do `lume.json`: todo `components/ui` e, dos blocos, hooks e `lib/{format,motion,range}.ts`, só os que o lume instalou (os kits do init, `login-form`, `guia`, `link-next` e os `itens` do `lume.json`) |
+| `ui/fora-da-registry` | componente que não é do lume dentro de `components/ui` |
+| `ui/paralelo` | pasta com cópias de primitivos fora de `components/ui` |
+| `codigo/*` | no código do app (a pasta do `@/*` do tsconfig): import das mesmas bibliotecas barradas no `package.json` ou de `next/font`; `asChild`; `data-[state=...]`; `font-bold` e `font-semibold`; `text-2xl` ou maior; cinza `slate`, `gray`, `zinc` ou `stone`; `shadow` e `shadow-xs` a `shadow-2xl`; `space-x` e `space-y` |
+
+A comparação de `ui/editado` ignora comentários, a diretiva `"use client"`, o caminho dos imports locais (a CLI do shadcn reescreve pelos aliases, inclusive `#/` e `@app/`) e o que o formatador muda (aspas, `;` no fim, vírgula final e espaços), então só pega mudança de código. `lib/utils.ts` fica fora, porque recebe helpers do produto. Exceção de verdade: `lume:excecao motivo=<o porquê>` na linha (ou na de cima) para as regras de código, e `extras` no `lume.json` (`{ "extras": { "kanban": "bloco do produto sem par no lume" } }`) para componente do produto em `components/ui`.
 
 ### Identidade visual por produto
 
@@ -102,130 +134,6 @@ Fonte: [docs/adocao/identidade-visual.md](https://github.com/joaodadas/lume/blob
 ```bash
 npx shadcn@latest init joaodadas/lume/base#v0.3.1 -y
 npx shadcn@latest add <org>/<repo>/theme-<produto>#vX.Y.Z   # sozinho, depois do init
-```
-
-### Migrar um front 52W (Lyx) para o lume
-
-Fonte: [docs/adocao/migracao-52w.md](https://github.com/joaodadas/lume/blob/main/docs/adocao/migracao-52w.md).
-
-#### Inventário de hoje (16/10/2026)
-
-| Front | `.tsx` | arquivos com `lucide-react` | `asChild` | `style={{` | linhas de CSS | `data-theme` | `components.json` | Esforço |
-|---|---|---|---|---|---|---|---|---|
-| `lyx-front-template` | 23 | 8 | 7 | 77 | 581 | 3 | não | médio-baixo, 1 a 2 dias |
-| `lyx-hub-front` | 78 | 27 | 9 | 236 | 910 (7 classes `.hub-*`) | 3 | não | alto, 2 a 3 semanas |
-| `lyx-contratos-front` | 80 | 23 | 33 | 11 | 268 | 0 | sim (new-york, lucide, sem 52W) | médio |
-| `lyx-analise-credito-front` | 44 | 12 | 7 | 192 | 687 | 14 (11 em spec) | não | médio-baixo |
-| `lyx-planejamento-front` | 35 | 10 | 7 | 79 | 581 | 3 | não | médio-baixo |
-| `lyx-qualidade-front` | 105 | 58 | 23 | 6 | 946 (DS próprio, tokens em português) | 3 | não | alto |
-| `lyx-bi-principal` | 497 | 146 | 16 | 558 | 981 | 1 | não | fora deste plano |
-
-Comandos do inventário (rode no seu front antes de começar e guarde os números no PR): `find src -name '*.tsx' | wc -l`, `grep -rl lucide-react src | wc -l`, `grep -rn asChild src | wc -l`, `grep -rn 'style={{' src | wc -l`, `cat src/app/globals.css | wc -l`, `grep -rn data-theme src | wc -l`.
-
-#### Passo 1: `components.json` e dependências
-
-```bash
-npx shadcn@latest init joaodadas/lume/base#v0.3.1 -y
-```
-
-#### Passo 3: camada de aliases temporária
-
-```css
-/* Aliases 52W -> lume. Temporário: sai no passo 8, junto com as classes .btn/.lyx-card/.hub-*. */
-:root {
-  --bg-primary: var(--background);
-  --bg-secondary: var(--sidebar);
-  --bg-card: var(--card);
-  --bg-card-hover: var(--accent);
-  --bg-input: var(--input);
-  --border-focus: var(--ring);
-  --accent-hover: var(--primary);
-  --accent-light: color-mix(in oklab, var(--primary) 8%, transparent);
-  --accent-glow: color-mix(in oklab, var(--primary) 15%, transparent);
-  --text-primary: var(--foreground);
-  --text-secondary: color-mix(in oklab, var(--foreground) 60%, var(--muted-foreground));
-  --text-muted: var(--muted-foreground);
-  --success: var(--color-emerald-500);
-  --warning: var(--color-amber-500);
-  --danger: var(--destructive);
-  --shadow-sm: var(--custom-shadow);
-  --shadow-md: var(--custom-shadow);
-  --shadow-lg: var(--custom-shadow-lifted);
-  --shadow-accent: var(--custom-shadow-primary);
-  --glass-bg: color-mix(in oklab, var(--background) 85%, transparent);
-  --glass-border: var(--border);
-  --sidebar-width: 260px; /* só o .sidebar legado lê isto; o Sidebar do lume fixa 14rem inline */
-  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-```
-
-Dois nomes colidem e não podem virar alias:
-
-- `--accent`: na 52W é o teal (`#025864`); no lume é a superfície de hover (`oklch(0.97 0 0)`, `bg-accent`). Não redefina. Troque nas classes legadas com `sed -i '' 's/var(--accent)/var(--primary)/g' src/app/globals.css` (a Lyx usa as cores do Foglamp: o que era teal vira o cinza do botão principal) e confira que nenhum `var(--accent)` sobrou fora do `@theme inline` do lume.
-- `--border` e `--radius`: têm o mesmo nome nos dois sistemas e o valor do lume (`oklch(0.922 0 0)`, `0.625rem`) vale para os dois. Apague as linhas da 52W.
-
-#### Passo 4: dark mode de `data-theme` para `.dark`
-
-```bash
-npx shadcn@latest add joaodadas/lume/theme-provider#v0.3.1 joaodadas/lume/theme-switcher#v0.3.1
-```
-
-#### Passo 6: primitivos Radix para Base UI
-
-```bash
-npx shadcn@latest add joaodadas/lume/kit-formulario#v0.3.1 joaodadas/lume/kit-feedback#v0.3.1 joaodadas/lume/card#v0.3.1 joaodadas/lume/table#v0.3.1 joaodadas/lume/sidebar#v0.3.1 joaodadas/lume/scroll-area#v0.3.1 joaodadas/lume/separator#v0.3.1 joaodadas/lume/badge#v0.3.1 joaodadas/lume/button#v0.3.1 --overwrite
-```
-
-| Radix (new-york) | Base UI (lume) | Onde confere |
-|---|---|---|
-| `<Button asChild><Link href="/x">...</Link></Button>` | `<Button render={<Link href="/x" />}>...</Button>` | `registry/base-vega/ui/button.tsx:66-69` (`nativeButton` cai para `false` quando há `render`) |
-| `<Badge asChild>` | `<Badge render={<a href />}>` (`useRender`) | `registry/base-vega/ui/badge.tsx:57-78` |
-| `data-[state=open]:` / `data-[state=closed]:` | `data-open:` / `data-closed:` | `registry/base-vega/ui/dialog.tsx`, `dropdown-menu.tsx`, `select.tsx` |
-| `data-[state=active]:` (tabs) | `data-active:` | `registry/base-vega/ui/tabs.tsx` |
-| `data-[disabled]:` | `data-disabled:` | `registry/base-vega/ui/dropdown-menu.tsx` |
-| `origin-(--radix-popover-content-transform-origin)` | `origin-(--transform-origin)` | `registry/base-vega/ui/select.tsx` |
-| `max-h-(--radix-select-content-available-height)` | `max-h-(--available-height)` | `registry/base-vega/ui/select.tsx` |
-| `data-[state=selected]:bg-muted` (linha de tabela) | igual, continua | `registry/base-vega/ui/table.tsx:169` |
-| Linha clicável com `hover:bg-muted/50` sempre | `<TableRow interactive>` (`data-interactive:hover`, `data-interactive:focus-visible`, `tabIndex 0`) | `registry/base-vega/ui/table.tsx` |
-| `size="sm"` do botão `h-8` / `default` `h-9` | `default` já é `h-8`; `sm` é `h-7`; `xs` é `h-6` | `registry/base-vega/ui/button.tsx` |
-| `variant="destructive"` para apagar em menu | `variant="ghost-destructive"` | `registry/base-vega/ui/button.tsx` |
-| `rounded-md` nos botões | pílula `rounded-full` já no primitivo; não acrescente raio por `className` | `registry/base-vega/ui/button.tsx` |
-
-#### Passo 7: ícones, por arquivo, e as telas uma rota por PR
-
-| Lucide | Tabler | Lucide | Tabler |
-|---|---|---|---|
-| `X`, `XIcon` | `IconX` | `Pencil` | `IconPencil` |
-| `ChevronRight` | `IconChevronRight` | `Info` | `IconInfoCircleFilled` |
-| `TriangleAlert`, `AlertTriangle` | `IconAlertTriangleFilled` | `ChevronDown`, `ChevronDownIcon` | `IconChevronDown` |
-| `Search` | `IconSearch` | `Bell` | `IconBellFilled` |
-| `ShieldCheck` | `IconShieldCheckFilled` | `ArrowRight` | `IconArrowRight` |
-| `Plus` | `IconPlus` | `Upload` | `IconUpload` |
-| `Lock` | `IconLockFilled` | `Layers` | `IconStack2Filled` |
-| `CheckCircle2`, `CheckCircle`, `CircleCheck` | `IconCircleCheckFilled` | `Ban` | `IconBan` |
-| `Sun` | `IconSun` | `Settings` | `IconSettingsFilled` |
-| `Moon` | `IconMoon` | `Save` | `IconDeviceFloppy` |
-| `FileText` | `IconFileTextFilled` | `Loader2` | `IconLoader` (o `Spinner` da registry já usa) |
-| `CheckIcon`, `Check` | `IconCheck` | `FlaskConical` | `IconFlaskFilled` |
-| `XCircle` | `IconCircleXFilled` | `EyeOff` / `Eye` | `IconEyeOff` / `IconEye` |
-| `Trash2` | `IconTrashFilled` | `Clock` | `IconClockFilled` |
-| `type LucideIcon` | `type Icon` (`import type { Icon } from "@tabler/icons-react"`) | `Building2` | `IconBuilding` |
-| `Users` | `IconUsers` (nav: `IconUsers` / `IconUsersGroup`) | `UserPlus` | `IconUserPlus` |
-| `LogOut` | `IconLogout` | `Truck` | `IconTruckFilled` |
-| `LayoutDashboard` | `IconLayoutDashboard` / `IconLayoutDashboardFilled` | `ShieldAlert` | `IconShieldExclamation` |
-| `ChevronUpIcon` | `IconChevronUp` | `Settings2` | `IconAdjustments` |
-| `ChevronLeft` | `IconChevronLeft` | `Send` | `IconSend` |
-| `ArrowLeft` | `IconArrowLeft` | `RotateCcw` / `RefreshCw` | `IconArrowBackUp` / `IconRefresh` |
-| `MoreHorizontal` | `IconDots` | `Mail` | `IconMailFilled` |
-| `Cpu` / `Brain` | `IconCpu` / `IconBrain` | `BarChart3` | `IconChartBar` |
-| `ArrowUpRight` | `IconArrowUpRight` | `ChevronsUpDown` | `IconSelector` (o `SelectTrigger` da registry já usa) |
-| `Paperclip` | `IconPaperclip` | `Package2` | `IconPackage` |
-
-#### Passo 8: remoção final
-
-```bash
-grep -rn "lyx-card\|btn-primary\|btn-ghost\|hub-card\|page-header\|stat-card\|form-input\|app-shell\|main-content" src --include=*.tsx | wc -l   # tem que dar 0 antes de seguir
-npm uninstall lucide-react radix-ui @radix-ui/react-dialog @radix-ui/react-dropdown-menu @radix-ui/react-label @radix-ui/react-select @radix-ui/react-slot @radix-ui/react-tabs
 ```
 
 ### Projeto Next novo com o lume
@@ -267,6 +175,64 @@ npx shadcn@latest add joaodadas/lume/link-next#v0.3.1 --overwrite
 npx shadcn@latest add joaodadas/lume/guia#v0.3.1
 npx skills add joaodadas/lume --skill lume-design-engineering
 ```
+
+### Adotar o lume num projeto que já existe
+
+Fonte: [docs/adocao/projeto-existente.md](https://github.com/joaodadas/lume/blob/main/docs/adocao/projeto-existente.md).
+
+- Projeto que já existe adota o lume **de uma vez**. O lume substitui a interface antiga, não convive com ela: nada de pasta paralela (`components/lume/ui`, `components/ds`), nada de alias desviado no `components.json`, nada de componente antigo com a API antiga e "a receita do lume por dentro".
+- O caminho é o comando único de [comando-unico](https://github.com/joaodadas/lume/blob/main/docs/adocao/comando-unico.md): `npx -y @joao.dadas/lume@latest init`, seguido pelo agente até o fim. Ele instala a base, todos os componentes e a skill, com `--overwrite`, lista o que sobrou do sistema antigo e só termina quando o `lume check` passa.
+- A API muda, e as telas são reescritas para a API do lume na mesma mudança: `variant="primary"` vira o `default`, `Modal` vira `Dialog`, `icon={X}` vira o ícone como filho, `asChild` vira `render`. A mudança fica grande, e é isso: metade migrada é o que dá a cara errada.
+- O que é do produto e não existe no lume (um kanban, um editor, um bloco de domínio) mora em `components/app`, composto com os primitivos do lume. `components/ui` só tem item da registry.
+- Sai junto, na mesma mudança: tokens e cores próprios do CSS global, outro `@theme inline` e outro `@layer base`, classes utilitárias próprias (`.btn`, `.card`, `.page-header`...), `lucide-react`, `radix-ui` e `@radix-ui/*`, fonte por `next/font/google` ou por outro pacote (`inter-ui`), e o `data-theme` setado à mão (vira `next-themes` com `attribute="class"`). Não existe camada de aliases temporária.
+- O layout é escolha do produto: `layout="sidebar"` (trilho de ícones ou `collapsible="offcanvas"`) ou `layout="topbar"`. O `init` pergunta e grava no `lume.json`.
+
+#### O que o agente troca no código
+
+| Radix (new-york) | Base UI (lume) | Onde confere |
+|---|---|---|
+| `<Button asChild><Link href="/x">...</Link></Button>` | `<Button render={<Link href="/x" />}>...</Button>` | `registry/base-vega/ui/button.tsx:66-69` (`nativeButton` cai para `false` quando há `render`) |
+| `<Badge asChild>` | `<Badge render={<a href />}>` (`useRender`) | `registry/base-vega/ui/badge.tsx:57-78` |
+| `data-[state=open]:` / `data-[state=closed]:` | `data-open:` / `data-closed:` | `registry/base-vega/ui/dialog.tsx`, `dropdown-menu.tsx`, `select.tsx` |
+| `data-[state=active]:` (tabs) | `data-active:` | `registry/base-vega/ui/tabs.tsx` |
+| `data-[disabled]:` | `data-disabled:` | `registry/base-vega/ui/dropdown-menu.tsx` |
+| `origin-(--radix-popover-content-transform-origin)` | `origin-(--transform-origin)` | `registry/base-vega/ui/select.tsx` |
+| `max-h-(--radix-select-content-available-height)` | `max-h-(--available-height)` | `registry/base-vega/ui/select.tsx` |
+| `data-[state=selected]:bg-muted` (linha de tabela) | igual, continua | `registry/base-vega/ui/table.tsx:169` |
+| Linha clicável com `hover:bg-muted/50` sempre | `<TableRow interactive>` (`data-interactive:hover`, `data-interactive:focus-visible`, `tabIndex 0`) | `registry/base-vega/ui/table.tsx` |
+| `size="sm"` do botão `h-8` / `default` `h-9` | `default` já é `h-8`; `sm` é `h-7`; `xs` é `h-6` | `registry/base-vega/ui/button.tsx` |
+| `variant="destructive"` para apagar em menu | `variant="ghost-destructive"` | `registry/base-vega/ui/button.tsx` |
+| `rounded-md` nos botões | pílula `rounded-full` já no primitivo; não acrescente raio por `className` | `registry/base-vega/ui/button.tsx` |
+
+#### Ícones: Lucide para Tabler
+
+| Lucide | Tabler | Lucide | Tabler |
+|---|---|---|---|
+| `X`, `XIcon` | `IconX` | `Pencil` | `IconPencil` |
+| `ChevronRight` | `IconChevronRight` | `Info` | `IconInfoCircleFilled` |
+| `TriangleAlert`, `AlertTriangle` | `IconAlertTriangleFilled` | `ChevronDown`, `ChevronDownIcon` | `IconChevronDown` |
+| `Search` | `IconSearch` | `Bell` | `IconBellFilled` |
+| `ShieldCheck` | `IconShieldCheckFilled` | `ArrowRight` | `IconArrowRight` |
+| `Plus` | `IconPlus` | `Upload` | `IconUpload` |
+| `Lock` | `IconLockFilled` | `Layers` | `IconStack2Filled` |
+| `CheckCircle2`, `CheckCircle`, `CircleCheck` | `IconCircleCheckFilled` | `Ban` | `IconBan` |
+| `Sun` | `IconSun` | `Settings` | `IconSettingsFilled` |
+| `Moon` | `IconMoon` | `Save` | `IconDeviceFloppy` |
+| `FileText` | `IconFileTextFilled` | `Loader2` | `IconLoader` (o `Spinner` da registry já usa) |
+| `CheckIcon`, `Check` | `IconCheck` | `FlaskConical` | `IconFlaskFilled` |
+| `XCircle` | `IconCircleXFilled` | `EyeOff` / `Eye` | `IconEyeOff` / `IconEye` |
+| `Trash2` | `IconTrashFilled` | `Clock` | `IconClockFilled` |
+| `type LucideIcon` | `type Icon` (`import type { Icon } from "@tabler/icons-react"`) | `Building2` | `IconBuilding` |
+| `Users` | `IconUsers` (nav: `IconUsers` / `IconUsersGroup`) | `UserPlus` | `IconUserPlus` |
+| `LogOut` | `IconLogout` | `Truck` | `IconTruckFilled` |
+| `LayoutDashboard` | `IconLayoutDashboard` / `IconLayoutDashboardFilled` | `ShieldAlert` | `IconShieldExclamation` |
+| `ChevronUpIcon` | `IconChevronUp` | `Settings2` | `IconAdjustments` |
+| `ChevronLeft` | `IconChevronLeft` | `Send` | `IconSend` |
+| `ArrowLeft` | `IconArrowLeft` | `RotateCcw` / `RefreshCw` | `IconArrowBackUp` / `IconRefresh` |
+| `MoreHorizontal` | `IconDots` | `Mail` | `IconMailFilled` |
+| `Cpu` / `Brain` | `IconCpu` / `IconBrain` | `BarChart3` | `IconChartBar` |
+| `ArrowUpRight` | `IconArrowUpRight` | `ChevronsUpDown` | `IconSelector` (o `SelectTrigger` da registry já usa) |
+| `Paperclip` | `IconPaperclip` | `Package2` | `IconPackage` |
 
 ### Vite (SPA) com o lume
 

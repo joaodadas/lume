@@ -78,7 +78,7 @@ Porquê: medido no ar, a primeira visita abre escura mesmo com `prefers-color-sc
 - **Always** carregue pelo `base`: `@import "@fontsource-variable/inter/opsz.css"` e `@import "@fontsource-variable/geist-mono"` (`globals.css:9-10`), com `--font-sans: "Inter Variable"`, `--font-mono: "Geist Mono Variable"` e `--font-heading` igual à sans no `@theme inline` (`globals.css:227-231`); `html` e `body` em `font-sans`, `body` com `antialiased`.
 - **Always** instale o item `font-display` (Host Grotesk Variable, `--font-display`) só para marketing e títulos do próprio site; o app fica inteiro em Inter.
 - **Always** mantenha `--font-mono` mapeada: o Foglamp carrega Geist Mono e nunca a mapeia (o lume corrige); em projeto Next sem Fontsource, `next/font/local` com os woff2 do rsms/inter e `variable: "--font-sans"` é a alternativa documentada.
-- **Never** carregue fonte por `<link>` do Google Fonts nem `next/font/google` para a Inter (build antigo, sem o eixo `opsz` e sem as variantes OpenType); `font-feature-settings: "cv11", "ss01"` é opt-in no guia, fora do `base`.
+- **Never** carregue fonte por `<link>` do Google Fonts nem `next/font/google` para a Inter (build antigo, sem o eixo `opsz` e sem as variantes OpenType); a Inter vai sem `font-feature-settings` (nada de `cv11` e `ss01`, que mudam a cara entre produtos).
 
 Porquê: a InterVariable completa com `opsz` é parte da cara do sistema, e o Fontsource self-hosta em Next e em Vite sem passar woff2 pela registry.
 

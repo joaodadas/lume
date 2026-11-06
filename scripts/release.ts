@@ -150,6 +150,18 @@ writeFileSync(
 );
 console.log(`\npackage.json: ${atual} -> ${versao}`);
 
+// O CLI (cli/, publicado como @joao.dadas/lume) instala pela tag da própria
+// versão: os dois sobem juntos.
+const cliPkgArq = path.join(ROOT, "cli", "package.json");
+if (existsSync(cliPkgArq)) {
+  const cliTexto = readFileSync(cliPkgArq, "utf8");
+  writeFileSync(
+    cliPkgArq,
+    cliTexto.replace(/"version":\s*"[^"]*"/, `"version": "${versao}"`),
+  );
+  console.log(`cli/package.json: -> ${versao}`);
+}
+
 // O comando que o guia ensina instala a API que o guia descreve: as tags
 // fixadas à mão (joaodadas/lume/<item>#vX.Y.Z) no README, no FRONTEND.md, no
 // CONTRIBUTING.md e em docs/ vão para a versão nova, antes da skill e do
@@ -210,3 +222,6 @@ passo("gh release", [
 ]);
 
 console.log(`\nrelease ${tag} publicada`);
+console.log(
+  "Falta publicar o CLI no npm (precisa do npm login): cd cli && npm publish --access public",
+);
