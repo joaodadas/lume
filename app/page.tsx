@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/registry/base-vega/ui/card";
 
 // O texto que o dev cola no agente: o init conduz o resto, etapa por etapa.
 const PROMPT =
-  "Aplique o lume neste projeto: rode `npx -y @joaodadas/lume@latest init` e siga exatamente o que ele responder, uma etapa por vez, até o `next` ser `pronto`.";
+  "Aplique o lume neste projeto: rode `npx -y @joao.dadas/lume@latest init` e siga exatamente o que ele responder, uma etapa por vez, até o `next` ser `pronto`.";
 
 const COMANDOS = [
   `npx shadcn@latest init joaodadas/lume/base#v${pkg.version}`,

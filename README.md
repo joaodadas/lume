@@ -12,7 +12,7 @@ Site e registry: https://lume-ashmont.vercel.app
 Cole no seu agente (Claude Code, Codex, Cursor), na raiz do projeto, novo ou existente:
 
 ```text
-Aplique o lume neste projeto: rode `npx -y @joaodadas/lume@latest init` e siga exatamente o que ele responder, uma etapa por vez, até o `next` ser `pronto`.
+Aplique o lume neste projeto: rode `npx -y @joao.dadas/lume@latest init` e siga exatamente o que ele responder, uma etapa por vez, até o `next` ser `pronto`.
 ```
 
 O `init` conduz o agente etapa por etapa: pergunta o layout, instala a base, todos os componentes e a skill, guia a migração das telas e só termina quando o `lume check` passa. Em projeto existente, o lume substitui a interface antiga de uma vez. Detalhes em [docs/adocao/comando-unico.md](docs/adocao/comando-unico.md).

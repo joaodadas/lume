@@ -150,7 +150,7 @@ writeFileSync(
 );
 console.log(`\npackage.json: ${atual} -> ${versao}`);
 
-// O CLI (cli/, publicado como @joaodadas/lume) instala pela tag da própria
+// O CLI (cli/, publicado como @joao.dadas/lume) instala pela tag da própria
 // versão: os dois sobem juntos.
 const cliPkgArq = path.join(ROOT, "cli", "package.json");
 if (existsSync(cliPkgArq)) {

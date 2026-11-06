@@ -14,7 +14,7 @@ import {
 
 export const REGRAS = {
   "config/lume-json":
-    "Rode `npx -y @joaodadas/lume@latest init`: ele grava o lume.json com a versão e o layout.",
+    "Rode `npx -y @joao.dadas/lume@latest init`: ele grava o lume.json com a versão e o layout.",
   "config/components-json":
     "O components.json precisa ser o do lume (style base-vega, iconLibrary tabler, tsx). Apague o atual e rode o init do base.",
   "config/alias":

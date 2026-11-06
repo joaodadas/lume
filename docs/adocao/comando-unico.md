@@ -7,7 +7,7 @@ Origem: decisão de 04/11/2026 (ver [DECISOES](../DECISOES.md)). O modelo é o `
 O dev cola isto no agente (Claude Code, Codex, Cursor), na raiz do projeto, novo ou existente:
 
 ```text
-Aplique o lume neste projeto: rode `npx -y @joaodadas/lume@latest init` e siga exatamente o que ele responder, uma etapa por vez, até o `next` ser `pronto`.
+Aplique o lume neste projeto: rode `npx -y @joao.dadas/lume@latest init` e siga exatamente o que ele responder, uma etapa por vez, até o `next` ser `pronto`.
 ```
 
 <!-- skill:start -->
@@ -15,7 +15,7 @@ Aplique o lume neste projeto: rode `npx -y @joaodadas/lume@latest init` e siga e
 
 - Cada chamada lê o projeto e responde um JSON: `etapa`, `next`, `say` (o que o agente diz ao usuário), `instruction` (o que o agente faz), `run` (os comandos, em ordem), `rules` (as regras da adoção, repetidas em toda resposta) e `details`.
 - O estado vem do próprio projeto. Chamar de novo depois de cada passo devolve o passo seguinte, e chamar duas vezes não estraga nada: o init só grava o `lume.json` (o layout escolhido e, quando o usuário aceita subir, a versão nova), e o resto ele manda o agente rodar.
-- A versão que vale é a do `lume.json`, no init e no check. Os comandos que o init devolve fixam essa versão (`npx -y @joaodadas/lume@<versao do lume.json> init`), então o projeto não sobe de versão sem querer.
+- A versão que vale é a do `lume.json`, no init e no check. Os comandos que o init devolve fixam essa versão (`npx -y @joao.dadas/lume@<versao do lume.json> init`), então o projeto não sobe de versão sem querer.
 - As etapas, em ordem:
   1. `ler`: confere Next ou Vite com Tailwind 4 e pergunta o layout (`sidebar`, `offcanvas` ou `topbar`). Só o layout é perguntado: o resto é da base.
   2. `atualizar` (só quando o pacote é mais novo que o `lume.json`): pergunta ao usuário se quer subir. Com `--atualizar=sim`, regrava o `lume.json` com a versão nova e manda reinstalar tudo do lume com `--overwrite` nela; sem isso, segue na versão do `lume.json`.
@@ -29,7 +29,7 @@ Aplique o lume neste projeto: rode `npx -y @joaodadas/lume@latest init` e siga e
 
 ## O `lume check`
 
-`npx -y @joaodadas/lume@latest check` (ou `--json`) confere o projeto e sai com código 1 se houver violação. Não é AI: é um script determinístico, como o lint.
+`npx -y @joao.dadas/lume@latest check` (ou `--json`) confere o projeto e sai com código 1 se houver violação. Não é AI: é um script determinístico, como o lint.
 
 <!-- skill:start -->
 | Regra | O que barra |
@@ -50,8 +50,8 @@ A comparação de `ui/editado` ignora comentários, a diretiva `"use client"`, o
 
 ## No CI
 
-O CI de quem adotou roda `npx -y @joaodadas/lume@^0 check` em toda PR. Na Lyx, o reusable `lyx-audit.yml` liga o passo sozinho quando o repo tem `lume.json` ou um `components.json` que aponta para a registry do lume, e repo sem lume não muda.
+O CI de quem adotou roda `npx -y @joao.dadas/lume@^0 check` em toda PR. Na Lyx, o reusable `lyx-audit.yml` liga o passo sozinho quando o repo tem `lume.json` ou um `components.json` que aponta para a registry do lume, e repo sem lume não muda.
 
 ## Onde mora o código
 
-`cli/` deste repo, publicado no npm como `@joaodadas/lume`. Os componentes continuam vindo da registry: o pacote só traz o `init` e o `check`, sem dependência nenhuma. A versão do pacote acompanha a tag da registry, e o `release` sobe as duas juntas.
+`cli/` deste repo, publicado no npm como `@joao.dadas/lume`. Os componentes continuam vindo da registry: o pacote só traz o `init` e o `check`, sem dependência nenhuma. A versão do pacote acompanha a tag da registry, e o `release` sobe as duas juntas.

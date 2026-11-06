@@ -9,7 +9,7 @@ import { baseInstalada, conferir, KITS, REGRAS } from "./check.mjs";
 import { LAYOUTS, lerProjeto } from "./projeto.mjs";
 import { criarRegistry, REPO } from "./registry.mjs";
 
-const PACOTE = "@joaodadas/lume";
+const PACOTE = "@joao.dadas/lume";
 
 export const RULES = [
   "Siga uma etapa por vez: rode o que está em `run`, faça o que está em `instruction` e chame o init de novo. Não pule etapa nem escreva código de tela antes de `next` ser `migrar`.",

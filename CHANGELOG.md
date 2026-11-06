@@ -8,14 +8,14 @@ ou prop nova, major é token removido ou prop quebrada. Cada versão tem uma tag
 joaodadas/lume/<item>#vX.Y.Z`) e atualiza com `--diff` para ver e `--overwrite`
 para aplicar. Quando um item muda de API, a seção traz "Como migrar".
 
-## [Não lançado]
+## [0.4.0] - 2026-11-06
 
 Adoção por agente: um comando conduz a adoção inteira, e um check confere. Nenhum
 componente nem token mudou.
 
 ### Adicionado
 
-- `cli/`, publicado como `@joaodadas/lume`: `lume init` conduz o agente do dev
+- `cli/`, publicado como `@joao.dadas/lume`: `lume init` conduz o agente do dev
   uma etapa por vez (layout, base, todos os componentes, skill, migração) e
   responde em JSON (`etapa`, `next`, `say`, `instruction`, `run`, `rules`);
   `lume check` confere o projeto contra a registry da versão do `lume.json` e
@@ -38,8 +38,8 @@ componente nem token mudou.
 
 ### Como migrar
 
-Projeto que já usa o lume: rode `npx -y @joaodadas/lume@latest init` para gravar
-o `lume.json` (pergunta o layout) e depois `npx -y @joaodadas/lume@latest check`.
+Projeto que já usa o lume: rode `npx -y @joao.dadas/lume@latest init` para gravar
+o `lume.json` (pergunta o layout) e depois `npx -y @joao.dadas/lume@latest check`.
 
 ## [0.3.1] - 2026-10-30
 

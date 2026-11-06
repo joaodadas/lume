@@ -13,7 +13,7 @@ const pkg = JSON.parse(
   readFileSync(new URL("../package.json", import.meta.url), "utf8"),
 );
 
-const PROMPT = `Aplique o lume neste projeto: rode \`npx -y @joaodadas/lume@latest init\` e siga exatamente o que ele responder, uma etapa por vez, até o \`next\` ser \`pronto\`.`;
+const PROMPT = `Aplique o lume neste projeto: rode \`npx -y @joao.dadas/lume@latest init\` e siga exatamente o que ele responder, uma etapa por vez, até o \`next\` ser \`pronto\`.`;
 
 function argumento(nome) {
   const a = process.argv.find((x) => x.startsWith(`--${nome}=`));

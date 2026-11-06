@@ -1,9 +1,9 @@
-# @joaodadas/lume
+# @joao.dadas/lume
 
 Adoção do [lume](https://github.com/joaodadas/lume) por agente. Cole no seu agente (Claude Code, Codex, Cursor), na raiz do projeto, novo ou existente:
 
 ```text
-Aplique o lume neste projeto: rode `npx -y @joaodadas/lume@latest init` e siga exatamente o que ele responder, uma etapa por vez, até o `next` ser `pronto`.
+Aplique o lume neste projeto: rode `npx -y @joao.dadas/lume@latest init` e siga exatamente o que ele responder, uma etapa por vez, até o `next` ser `pronto`.
 ```
 
 ## Comandos

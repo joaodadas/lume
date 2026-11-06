@@ -90,7 +90,7 @@ Fonte: [docs/adocao/comando-unico.md](https://github.com/joaodadas/lume/blob/mai
 
 - Cada chamada lê o projeto e responde um JSON: `etapa`, `next`, `say` (o que o agente diz ao usuário), `instruction` (o que o agente faz), `run` (os comandos, em ordem), `rules` (as regras da adoção, repetidas em toda resposta) e `details`.
 - O estado vem do próprio projeto. Chamar de novo depois de cada passo devolve o passo seguinte, e chamar duas vezes não estraga nada: o init só grava o `lume.json` (o layout escolhido e, quando o usuário aceita subir, a versão nova), e o resto ele manda o agente rodar.
-- A versão que vale é a do `lume.json`, no init e no check. Os comandos que o init devolve fixam essa versão (`npx -y @joaodadas/lume@<versao do lume.json> init`), então o projeto não sobe de versão sem querer.
+- A versão que vale é a do `lume.json`, no init e no check. Os comandos que o init devolve fixam essa versão (`npx -y @joao.dadas/lume@<versao do lume.json> init`), então o projeto não sobe de versão sem querer.
 - As etapas, em ordem:
   1. `ler`: confere Next ou Vite com Tailwind 4 e pergunta o layout (`sidebar`, `offcanvas` ou `topbar`). Só o layout é perguntado: o resto é da base.
   2. `atualizar` (só quando o pacote é mais novo que o `lume.json`): pergunta ao usuário se quer subir. Com `--atualizar=sim`, regrava o `lume.json` com a versão nova e manda reinstalar tudo do lume com `--overwrite` nela; sem isso, segue na versão do `lume.json`.
@@ -181,7 +181,7 @@ npx skills add joaodadas/lume --skill lume-design-engineering
 Fonte: [docs/adocao/projeto-existente.md](https://github.com/joaodadas/lume/blob/main/docs/adocao/projeto-existente.md).
 
 - Projeto que já existe adota o lume **de uma vez**. O lume substitui a interface antiga, não convive com ela: nada de pasta paralela (`components/lume/ui`, `components/ds`), nada de alias desviado no `components.json`, nada de componente antigo com a API antiga e "a receita do lume por dentro".
-- O caminho é o comando único de [comando-unico](https://github.com/joaodadas/lume/blob/main/docs/adocao/comando-unico.md): `npx -y @joaodadas/lume@latest init`, seguido pelo agente até o fim. Ele instala a base, todos os componentes e a skill, com `--overwrite`, lista o que sobrou do sistema antigo e só termina quando o `lume check` passa.
+- O caminho é o comando único de [comando-unico](https://github.com/joaodadas/lume/blob/main/docs/adocao/comando-unico.md): `npx -y @joao.dadas/lume@latest init`, seguido pelo agente até o fim. Ele instala a base, todos os componentes e a skill, com `--overwrite`, lista o que sobrou do sistema antigo e só termina quando o `lume check` passa.
 - A API muda, e as telas são reescritas para a API do lume na mesma mudança: `variant="primary"` vira o `default`, `Modal` vira `Dialog`, `icon={X}` vira o ícone como filho, `asChild` vira `render`. A mudança fica grande, e é isso: metade migrada é o que dá a cara errada.
 - O que é do produto e não existe no lume (um kanban, um editor, um bloco de domínio) mora em `components/app`, composto com os primitivos do lume. `components/ui` só tem item da registry.
 - Sai junto, na mesma mudança: tokens e cores próprios do CSS global, outro `@theme inline` e outro `@layer base`, classes utilitárias próprias (`.btn`, `.card`, `.page-header`...), `lucide-react`, `radix-ui` e `@radix-ui/*`, fonte por `next/font/google` ou por outro pacote (`inter-ui`), e o `data-theme` setado à mão (vira `next-themes` com `attribute="class"`). Não existe camada de aliases temporária.

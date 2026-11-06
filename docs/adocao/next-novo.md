@@ -2,7 +2,7 @@
 
 Origem: plano do lume (seção `docs/adocao`) e `FRONTEND.md` seções Layout do projeto, Shell e sidebar, Loading, Dark mode, Fontes e "Next.js e Vite: o que muda". Roteiro para um app Next 16 (App Router) que nasce com a cara do Foglamp. Os comandos de instalação foram executados em 16/10/2026 num app descartável com shadcn 4.21.5; o que depende da versão da CLI está marcado "(conferir)".
 
-> O caminho curto: crie o app e cole no seu agente o prompt de [comando-unico](./comando-unico.md) (`npx -y @joaodadas/lume@latest init`). Ele faz os passos abaixo na ordem certa e termina no `lume check`. Este roteiro fica como referência do que o comando faz.
+> O caminho curto: crie o app e cole no seu agente o prompt de [comando-unico](./comando-unico.md) (`npx -y @joao.dadas/lume@latest init`). Ele faz os passos abaixo na ordem certa e termina no `lume check`. Este roteiro fica como referência do que o comando faz.
 
 ## 1. Criar o app
 

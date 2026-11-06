@@ -99,6 +99,6 @@ com a seção do changelog, faz push e cria a GitHub Release a partir da tag.
 - Comentários do autor original ficam em inglês; os seus, em pt-BR.
 - Rótulos e textos de UI em pt-BR.
 
-## O CLI (`cli/`, `@joaodadas/lume`)
+## O CLI (`cli/`, `@joao.dadas/lume`)
 
 O `init` e o `check` moram em `cli/`, em JavaScript puro e sem dependência. A versão do `cli/package.json` acompanha a da registry, e o `bun run release` grava as duas. Depois da release, publique com `npm login` feito: `cd cli && npm publish --access public`. Testes: `bun run cli:test`. Regra nova no `check` entra com teste em `cli/test/` e com uma linha na tabela de [docs/adocao/comando-unico.md](docs/adocao/comando-unico.md).
