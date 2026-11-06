@@ -5,7 +5,7 @@
 
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { conferir, REGRAS } from "./check.mjs";
+import { baseInstalada, conferir, KITS, REGRAS } from "./check.mjs";
 import { LAYOUTS, lerProjeto } from "./projeto.mjs";
 import { criarRegistry, REPO } from "./registry.mjs";
 
@@ -20,14 +20,6 @@ export const RULES = [
   "Nunca troque a fonte, os tamanhos, o raio, a sombra, o movimento ou os ícones. Por produto só a cor muda, por tema instalado depois do base.",
   "Antes de escrever qualquer tela, leia a skill lume-design-engineering (.agents/skills ou .claude/skills).",
   "Não rode git clean, não apague arquivo fora do que a etapa pede e não faça commit nem push sem o usuário pedir.",
-];
-
-const KITS = [
-  "kit-shell",
-  "kit-tabela",
-  "kit-formulario",
-  "kit-feedback",
-  "kit-dados",
 ];
 
 function comando(versao, args) {
@@ -46,21 +38,50 @@ function resposta(versao, campos) {
   };
 }
 
-function baseOk(projeto) {
-  const cj = projeto.componentsJson;
-  if (!cj || cj.__invalido) return false;
-  const a = cj.aliases ?? {};
-  if (cj.style !== "base-vega" || cj.iconLibrary !== "tabler") return false;
-  if (
-    !/\/components\/ui$/.test(a.ui ?? "") ||
-    !/\/components$/.test(a.components ?? "")
-  ) {
-    return false;
+/** "0.4.0" > "0.3.1"? Compara X.Y.Z como números. */
+export function versaoMaiorQue(a, b) {
+  const pa = String(a).split(".").map(Number);
+  const pb = String(b).split(".").map(Number);
+  for (let i = 0; i < 3; i++) {
+    if ((pa[i] ?? 0) !== (pb[i] ?? 0)) return (pa[i] ?? 0) > (pb[i] ?? 0);
   }
-  if (!projeto.css) return false;
-  const css = readFileSync(path.join(projeto.raiz, projeto.css), "utf8");
-  return (
-    css.includes("--custom-shadow") && css.includes("@toolwind/corner-shape")
+  return false;
+}
+
+const SEMVER = /^\d+\.\d+\.\d+$/;
+
+/** Os comandos que instalam (ou reinstalam) tudo do lume numa versão. */
+async function comandosDeInstalacao(projeto, registry, versao) {
+  const itens = await registry.itens();
+  const ui = itens.filter((i) => i.type === "registry:ui").map((i) => i.name);
+  const graficos = projeto.deps.recharts ? ["kit-graficos"] : [];
+  const doLumeJson = Array.isArray(projeto.lumeJson?.itens)
+    ? projeto.lumeJson.itens
+    : [];
+  const nomes = [
+    ...new Set([
+      ...ui,
+      ...KITS,
+      ...graficos,
+      "login-form",
+      "guia",
+      ...doLumeJson,
+    ]),
+  ].filter((n) => n !== "link-next");
+  const lista = nomes.map((n) => `${REPO}/${n}#v${versao}`).join(" ");
+  const run = [`npx shadcn@latest add ${lista} --overwrite --yes`];
+  if (projeto.framework === "next") {
+    run.push(
+      `npx shadcn@latest add ${REPO}/link-next#v${versao} --overwrite --yes`,
+    );
+  }
+  return run;
+}
+
+function gravarLumeJson(raiz, lumeJson) {
+  writeFileSync(
+    path.join(raiz, "lume.json"),
+    `${JSON.stringify(lumeJson, null, 2)}\n`,
   );
 }
 
@@ -99,11 +120,25 @@ function shellDoLayout(layout) {
   return '<AppShell layout="sidebar" collapsible="icon" ...>';
 }
 
-/** Uma etapa do init para o projeto em `raiz`. */
+/**
+ * Uma etapa do init para o projeto em `raiz`. A versão que vale é a do
+ * lume.json; `opcoes.versao` (a do pacote) só entra num projeto sem lume.json
+ * ou quando o usuário aceita subir (`atualizar: "sim"`).
+ */
 export async function passo(raiz, opcoes) {
-  const { versao, layout: layoutPedido, buscar } = opcoes;
+  const {
+    versao: versaoPacote,
+    layout: layoutPedido,
+    atualizar,
+    buscar,
+  } = opcoes;
   const projeto = lerProjeto(raiz);
-  const reinit = comando(versao, "init");
+  let lumeJson =
+    projeto.lumeJson && !projeto.lumeJson.__invalido ? projeto.lumeJson : null;
+  let versao = SEMVER.test(String(lumeJson?.versao ?? ""))
+    ? lumeJson.versao
+    : versaoPacote;
+  let reinit = comando(versao, "init");
 
   if (!projeto.pkg) {
     return resposta(versao, {
@@ -125,8 +160,6 @@ export async function passo(raiz, opcoes) {
     });
   }
 
-  let lumeJson =
-    projeto.lumeJson && !projeto.lumeJson.__invalido ? projeto.lumeJson : null;
   if (layoutPedido) {
     if (!LAYOUTS.includes(layoutPedido)) {
       return resposta(versao, {
@@ -138,10 +171,7 @@ export async function passo(raiz, opcoes) {
       });
     }
     lumeJson = { ...(lumeJson ?? {}), versao, layout: layoutPedido };
-    writeFileSync(
-      path.join(raiz, "lume.json"),
-      `${JSON.stringify(lumeJson, null, 2)}\n`,
-    );
+    gravarLumeJson(raiz, lumeJson);
   }
   if (!lumeJson?.layout) {
     const temInterface = existsSync(path.join(raiz, projeto.dirUi));
@@ -167,9 +197,38 @@ export async function passo(raiz, opcoes) {
     });
   }
   const layout = lumeJson.layout;
+
+  if (versaoMaiorQue(versaoPacote, versao) && atualizar !== "nao") {
+    const anterior = versao;
+    if (atualizar !== "sim") {
+      return resposta(versao, {
+        etapa: "atualizar",
+        next: "perguntar",
+        say: `O projeto está no lume v${anterior} e a v${versaoPacote} já saiu. Quer subir para a v${versaoPacote}? Os arquivos do lume são reinstalados com --overwrite.`,
+        instruction: `Faça a pergunta de \`say\` ao usuário e espere a resposta. Se ele quiser subir, rode \`${comando(versaoPacote, "init")} --atualizar=sim\`. Se não, rode \`${reinit}\`, que segue na v${anterior}.`,
+        details: { versaoDoProjeto: anterior, versaoNova: versaoPacote },
+      });
+    }
+    versao = versaoPacote;
+    reinit = comando(versao, "init");
+    lumeJson = { ...lumeJson, versao };
+    gravarLumeJson(raiz, lumeJson);
+    projeto.lumeJson = lumeJson;
+    if (baseInstalada(projeto)) {
+      const registry = criarRegistry(versao, buscar);
+      return resposta(versao, {
+        etapa: "atualizar",
+        next: "rodar",
+        say: `Subindo o lume de v${anterior} para v${versao}: os arquivos do lume são reinstalados na versão nova.`,
+        instruction: `O lume.json já está na v${versao}. Rode os comandos de \`run\` em ordem e depois \`${reinit}\`. O --overwrite troca os arquivos do lume pela versão nova: é o esperado. Não restaure versão antiga de nenhum deles.`,
+        run: await comandosDeInstalacao(projeto, registry, versao),
+        details: { versaoAnterior: anterior },
+      });
+    }
+  }
   const registry = criarRegistry(versao, buscar);
 
-  if (!baseOk(projeto)) {
+  if (!baseInstalada(projeto)) {
     const cj = projeto.componentsJson;
     const run = [];
     let instrucao = `Rode os comandos de \`run\` na raiz do projeto, em ordem, e depois \`${reinit}\`.`;
@@ -189,18 +248,7 @@ export async function passo(raiz, opcoes) {
 
   const { faltam } = await componentesFaltando(projeto, registry);
   if (faltam.length > 0) {
-    const itens = await registry.itens();
-    const ui = itens.filter((i) => i.type === "registry:ui").map((i) => i.name);
-    const graficos = projeto.deps.recharts ? ["kit-graficos"] : [];
-    const lista = [...ui, ...KITS, ...graficos, "login-form", "guia"]
-      .map((n) => `${REPO}/${n}#v${versao}`)
-      .join(" ");
-    const run = [`npx shadcn@latest add ${lista} --overwrite --yes`];
-    if (projeto.framework === "next") {
-      run.push(
-        `npx shadcn@latest add ${REPO}/link-next#v${versao} --overwrite --yes`,
-      );
-    }
+    const run = await comandosDeInstalacao(projeto, registry, versao);
     return resposta(versao, {
       etapa: "componentes",
       next: "rodar",

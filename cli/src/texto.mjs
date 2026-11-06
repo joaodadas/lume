@@ -123,24 +123,115 @@ const IMPORT_RE =
   /((?:^|\n)\s*(?:import|export)\s+(?:type\s+)?(?:[\s\S]*?\s+from\s+)?)(["'])([^"']+)\2|(import\(\s*)(["'])([^"']+)\5(\s*\))/g;
 
 /**
+ * O import aponta para o próprio projeto? Local é o que começa por `.`, `/`,
+ * `@/`, `~/`, `#` ou por um dos `prefixos` (aliases do components.json e
+ * chaves de paths do tsconfig). O resto, inclusive escopo `@x/y`, é pacote.
+ */
+export function importLocal(spec, prefixos = []) {
+  if (/^(\.|\/|@\/|~\/|#)/.test(spec)) return true;
+  return prefixos.some((p) => p && spec.startsWith(p));
+}
+
+/** Uma string entre aspas simples vira a mesma string entre aspas duplas. */
+function aspasDuplas(corpo, q) {
+  let saida = "";
+  for (let i = 0; i < corpo.length; i++) {
+    const ch = corpo[i];
+    if (ch === "\\") {
+      const prox = corpo[i + 1] ?? "";
+      saida += prox === "'" ? "'" : `\\${prox}`;
+      i++;
+      continue;
+    }
+    saida += ch === '"' && q === "'" ? '\\"' : ch;
+  }
+  return `"${saida}"`;
+}
+
+/**
+ * Tokens que o formatador troca sem mudar o código: aspas simples viram
+ * duplas, sai o `;` do fim da instrução e a vírgula antes de `)`, `]` e `}`,
+ * e some o espaço em volta de pontuação. Template e regex ficam como estão.
+ */
+function semFormatacao(src) {
+  const out = [];
+  const n = src.length;
+  let i = 0;
+  let ultimo = "";
+  while (i < n) {
+    const c = src[i] ?? "";
+    if (c === '"' || c === "'") {
+      let j = i + 1;
+      while (j < n && src[j] !== c && src[j] !== "\n") {
+        j += src[j] === "\\" ? 2 : 1;
+      }
+      out.push(aspasDuplas(src.slice(i + 1, j), c));
+      i = j + 1;
+      ultimo = c;
+      continue;
+    }
+    if (c === "`") {
+      const parte = [];
+      i = copiaString(src, i, c, parte);
+      out.push(parte.join(""));
+      ultimo = c;
+      continue;
+    }
+    if (
+      c === "/" &&
+      (ultimo === "" || /[(,=:[!&|?{};+\-*%<>~^]/.test(ultimo))
+    ) {
+      let j = i + 1;
+      let classe = false;
+      while (j < n && src[j] !== "\n") {
+        const ch = src[j];
+        if (ch === "\\") {
+          j += 2;
+          continue;
+        }
+        if (ch === "[") classe = true;
+        else if (ch === "]") classe = false;
+        j++;
+        if (ch === "/" && !classe) break;
+      }
+      out.push(src.slice(i, j));
+      i = j;
+      ultimo = "/";
+      continue;
+    }
+    out.push(c);
+    if (!/\s/.test(c)) ultimo = c;
+    i++;
+  }
+  return out
+    .join("")
+    .replace(/;[ \t]*(?=\n|$)/g, "")
+    .replace(/;(\s*[}])/g, "$1")
+    .replace(/,(\s*[)\]}])/g, "$1")
+    .replace(/\s+/g, " ")
+    .replace(/\s*([(){}[\],;])\s*/g, "$1")
+    .trim();
+}
+
+/**
  * Forma comparável de um arquivo da registry: sem comentários, sem a diretiva
  * "use client" (a CLI do shadcn tira quando rsc é false), com cada import
  * local reduzido ao nome do arquivo (a CLI reescreve o caminho pelos aliases
- * do projeto) e com os espaços colapsados.
+ * do projeto) e sem o que o formatador muda (aspas, `;`, vírgula final e
+ * espaços). `prefixos` são os aliases do projeto que contam como import local.
  */
-export function normalizar(src) {
-  return semComentarios(src)
+export function normalizar(src, prefixos = []) {
+  const reduzido = semComentarios(src)
     .replace(/^\s*["']use client["'];?\s*$/gm, "")
     .replace(IMPORT_RE, (todo, a1, q1, s1, a2, q2, s2, f2) => {
       const spec = s1 ?? s2;
-      if (!/^(@\/|~\/|\.{1,2}\/)/.test(spec)) return todo;
+      if (!importLocal(spec, prefixos)) return todo;
       const nome = spec.split("/").pop();
       return s1 !== undefined
         ? `${a1}${q1}@/${nome}${q1}`
         : `${a2}${q2}@/${nome}${q2}${f2}`;
-    })
-    .replace(/\s+/g, " ")
-    .trim();
+    });
+  return semFormatacao(reduzido);
 }
 
 /** Número da linha (1-based) de um índice no texto. */

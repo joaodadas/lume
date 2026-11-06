@@ -10,7 +10,7 @@ Aplique o lume neste projeto: rode `npx -y @joaodadas/lume@latest init` e siga e
 
 | Comando | O que faz |
 |---|---|
-| `lume init [--layout=sidebar\|offcanvas\|topbar]` | Uma etapa por chamada, em JSON (`etapa`, `next`, `say`, `instruction`, `run`, `rules`, `details`): layout, base, todos os componentes, skill, migração e pronto |
+| `lume init [--layout=sidebar\|offcanvas\|topbar] [--atualizar=sim\|nao]` | Uma etapa por chamada, em JSON (`etapa`, `next`, `say`, `instruction`, `run`, `rules`, `details`): layout, atualização (quando o pacote é mais novo que o `lume.json`), base, todos os componentes, skill, migração e pronto |
 | `lume check [--json]` | Confere o projeto contra a registry da versão do `lume.json`; sai 1 se houver violação |
 | `lume prompt` | Imprime o texto para colar no agente |
 

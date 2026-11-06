@@ -14,6 +14,7 @@ import path from "node:path";
 import { afterEach, describe, it } from "node:test";
 import { conferir, relatorio } from "../src/check.mjs";
 import { passo } from "../src/init.mjs";
+import { lerProjeto } from "../src/projeto.mjs";
 import { normalizar } from "../src/texto.mjs";
 
 const BUTTON = `// Derivado do Foglamp, Apache-2.0.
@@ -37,6 +38,8 @@ const conteudo = (nome) =>
       ? CARD
       : `export const ${nome} = 1;\n`;
 
+const ALVO_APP_SHELL = "components/app-shell/app-shell.tsx";
+
 const REGISTRY = {
   items: [
     ...UI.map((name) => ({
@@ -49,34 +52,78 @@ const REGISTRY = {
     {
       name: "app-shell",
       type: "registry:component",
+      registryDependencies: ["joaodadas/lume/button#v0.4.0"],
       files: [
         {
           path: "registry/base-vega/blocks/app-shell/app-shell.tsx",
           type: "registry:component",
-          target: "components/app-shell/app-shell.tsx",
+          target: ALVO_APP_SHELL,
         },
       ],
     },
+    {
+      name: "section",
+      type: "registry:component",
+      files: [
+        {
+          path: "registry/base-vega/components/section.tsx",
+          type: "registry:component",
+        },
+      ],
+    },
+    {
+      name: "use-mobile",
+      type: "registry:hook",
+      files: [
+        {
+          path: "registry/base-vega/hooks/use-mobile.ts",
+          type: "registry:hook",
+        },
+      ],
+    },
+    ...["format", "utils"].map((name) => ({
+      name,
+      type: "registry:lib",
+      files: [
+        { path: `registry/base-vega/lib/${name}.ts`, type: "registry:lib" },
+      ],
+    })),
+    {
+      name: "kit-shell",
+      type: "registry:block",
+      registryDependencies: ["joaodadas/lume/app-shell#v0.4.0"],
+      files: [],
+    },
+    {
+      name: "kit-tabela",
+      type: "registry:block",
+      registryDependencies: [
+        "joaodadas/lume/use-mobile#v0.4.0",
+        "joaodadas/lume/format#v0.4.0",
+        "joaodadas/lume/utils#v0.4.0",
+      ],
+      files: [],
+    },
   ],
+};
+
+const CONTEUDO_EXTRA = {
+  "app-shell": "export function AppShell() {}\n",
+  section: "export function Section() {}\n",
+  "use-mobile": "export function useMobile() { return false; }\n",
+  format: "export const formatar = (n) => String(n);\n",
+  utils: "export const cn = (...c) => c.join(' ');\n",
 };
 
 async function buscar(url) {
   if (url.endsWith("/registry.json")) return REGISTRY;
   const nome = path.basename(url, ".json");
-  if (nome === "app-shell") {
-    return {
-      files: [
-        {
-          path: "registry/base-vega/blocks/app-shell/app-shell.tsx",
-          content: "export function AppShell() {}\n",
-        },
-      ],
-    };
-  }
+  const item = REGISTRY.items.find((i) => i.name === nome);
   return {
-    files: [
-      { path: `registry/base-vega/ui/${nome}.tsx`, content: conteudo(nome) },
-    ],
+    files: (item?.files ?? []).map((f) => ({
+      path: f.path,
+      content: CONTEUDO_EXTRA[nome] ?? conteudo(nome),
+    })),
   };
 }
 
@@ -147,11 +194,10 @@ function projetoCerto(extra = {}) {
         .replace(/^\/\/.*\n/, ""),
     );
   }
-  escrever(
-    raiz,
-    "src/components/app-shell/app-shell.tsx",
-    "export function AppShell() {}\n",
-  );
+  escrever(raiz, `src/${ALVO_APP_SHELL}`, CONTEUDO_EXTRA["app-shell"]);
+  escrever(raiz, "src/hooks/use-mobile.ts", CONTEUDO_EXTRA["use-mobile"]);
+  escrever(raiz, "src/lib/format.ts", CONTEUDO_EXTRA.format);
+  escrever(raiz, "src/lib/utils.ts", CONTEUDO_EXTRA.utils);
   escrever(
     raiz,
     "src/app/page.tsx",
@@ -174,9 +220,67 @@ describe("normalizar", () => {
       /https:\/\/x\.dev/,
     );
   });
+  it("reduz import por alias do projeto (#/, @app/) e deixa pacote npm", () => {
+    const a = `import { cn } from "@/registry/base-vega/lib/utils";\nimport { x } from "@base-ui/react/x";\n`;
+    const b = `import { cn } from "#/lib/utils";\nimport { x } from "@base-ui/react/x";\n`;
+    const c = `import { cn } from "@app/lib/utils";\nimport { x } from "@base-ui/react/x";\n`;
+    assert.equal(normalizar(a), normalizar(b));
+    assert.equal(normalizar(a, ["@app/"]), normalizar(c, ["@app/"]));
+    assert.notEqual(normalizar(a), normalizar(c));
+    assert.notEqual(
+      normalizar(`import { x } from "@base-ui/react/x";`),
+      normalizar(`import { x } from "@outro/react/x";`),
+    );
+  });
+  it("o mesmo arquivo em duas formatações é igual", () => {
+    const a = [
+      'import { cn } from "@/lib/utils";',
+      "",
+      "export function B({ className, ...props }) {",
+      "  const lista = [1, 2, 3];",
+      "  const r = /a;b/;",
+      "  return (",
+      '    <button className={cn("rounded-full h-8", className)} {...props} />',
+      "  );",
+      "}",
+      "",
+    ].join("\n");
+    const b = [
+      "import {cn} from '@/lib/utils'",
+      "export function B({className, ...props}) {",
+      "  const lista = [",
+      "    1,",
+      "    2,",
+      "    3,",
+      "  ]",
+      "  const r = /a;b/",
+      "  return (",
+      "    <button",
+      "      className={cn('rounded-full h-8', className)}",
+      "      {...props}",
+      "    />",
+      "  )",
+      "}",
+    ].join("\n");
+    assert.equal(normalizar(a), normalizar(b));
+    assert.notEqual(
+      normalizar(a),
+      normalizar(a.replace("rounded-full h-8", "rounded-md h-8")),
+    );
+  });
 });
 
 describe("conferir", () => {
+  it("acusa bloco de um kit do init editado à mão", async () => {
+    const raiz = projetoCerto();
+    escrever(
+      raiz,
+      `src/${ALVO_APP_SHELL}`,
+      "export function AppShell() { return 1; }\n",
+    );
+    assert.deepEqual(regras(await conferir(raiz, { buscar })), ["ui/editado"]);
+  });
+
   it("projeto certo passa", async () => {
     const r = await conferir(projetoCerto(), { buscar });
     assert.deepEqual(r.violacoes, []);
@@ -292,6 +396,137 @@ describe("conferir", () => {
       ["config/lume-json"],
     );
   });
+
+  it("componente do produto com nome de item fora do que o lume instalou não é acusado", async () => {
+    const raiz = projetoCerto();
+    escrever(
+      raiz,
+      "src/components/section.tsx",
+      "export function Section({ titulo }) { return titulo; }\n",
+    );
+    assert.equal((await conferir(raiz, { buscar })).ok, true);
+    const comItem = projetoCerto({ itens: ["section"] });
+    escrever(
+      comItem,
+      "src/components/section.tsx",
+      "export function Section({ titulo }) { return titulo; }\n",
+    );
+    const r = await conferir(comItem, { buscar });
+    assert.deepEqual(
+      r.violacoes.map((v) => [v.regra, v.arquivo]),
+      [["ui/editado", "src/components/section.tsx"]],
+    );
+  });
+
+  it("compara hooks e lib/format, mas não lib/utils", async () => {
+    const raiz = projetoCerto();
+    escrever(
+      raiz,
+      "src/lib/utils.ts",
+      "export const cn = () => '';\nexport const meu = 1;\n",
+    );
+    assert.equal((await conferir(raiz, { buscar })).ok, true);
+    escrever(
+      raiz,
+      "src/hooks/use-mobile.ts",
+      "export function useMobile() { return true; }\n",
+    );
+    escrever(
+      raiz,
+      "src/lib/format.ts",
+      "export const formatar = (n) => String(n + 1);\n",
+    );
+    const r = await conferir(raiz, { buscar });
+    assert.deepEqual(r.violacoes.map((v) => [v.regra, v.arquivo]).sort(), [
+      ["ui/editado", "src/hooks/use-mobile.ts"],
+      ["ui/editado", "src/lib/format.ts"],
+    ]);
+  });
+
+  it("sombra: shadow sozinho e shadow-xs contam; a do lume e a arbitrária não", async () => {
+    const raiz = projetoCerto();
+    escrever(
+      raiz,
+      "src/app/tela.tsx",
+      [
+        'export const a = <div className="shadow p-2" />;',
+        'export const b = <div className="shadow-xs" />;',
+        'export const c = <div className="shadow-(--custom-shadow) shadow-[0_0_0_1px_red]" />;',
+        "const shadow = 1;",
+        "export const d = { shadow };",
+      ].join("\n"),
+    );
+    const r = await conferir(raiz, { buscar });
+    assert.deepEqual(
+      r.violacoes.map((v) => [v.regra, v.linha]),
+      [
+        ["codigo/sombra", 1],
+        ["codigo/sombra", 2],
+      ],
+    );
+  });
+
+  it("acusa antd e @chakra-ui no import e data-[state] com aspas", async () => {
+    const raiz = projetoCerto();
+    escrever(
+      raiz,
+      "src/app/tela.tsx",
+      [
+        'import { Button } from "antd";',
+        'import { Box } from "@chakra-ui/react";',
+        `export const a = <div className='data-[state="open"]:flex data-[state=selected]:flex' />;`,
+      ].join("\n"),
+    );
+    const r = await conferir(raiz, { buscar });
+    assert.deepEqual(
+      r.violacoes.map((v) => [v.regra, v.trecho]),
+      [
+        ["codigo/import", "antd"],
+        ["codigo/import", "@chakra-ui/react"],
+        ["codigo/data-state", 'data-[state="open"]'],
+      ],
+    );
+  });
+});
+
+describe("lerProjeto", () => {
+  function comTsconfig(compilerOptions) {
+    const raiz = mkdtempSync(path.join(tmpdir(), "lume-cli-"));
+    pastas.push(raiz);
+    escrever(raiz, "package.json", "{}");
+    escrever(raiz, "tsconfig.json", JSON.stringify({ compilerOptions }));
+    mkdirSync(path.join(raiz, "src"));
+    return raiz;
+  }
+  it("o prefixo vem do alvo de @/* no tsconfig, não da pasta src", () => {
+    assert.equal(
+      lerProjeto(comTsconfig({ paths: { "@/*": ["./*"] } })).prefixo,
+      "",
+    );
+    assert.equal(
+      lerProjeto(comTsconfig({ baseUrl: "src", paths: { "@/*": ["*"] } }))
+        .prefixo,
+      "src/",
+    );
+    const p = lerProjeto(
+      comTsconfig({ baseUrl: ".", paths: { "@/*": ["./app-src/*"] } }),
+    );
+    assert.equal(p.prefixo, "app-src/");
+    assert.equal(p.dirUi, "app-src/components/ui");
+    assert.equal(lerProjeto(comTsconfig({})).prefixo, "src/");
+  });
+
+  it("com @/* na raiz, código e CSS fora das pastas do app não entram", async () => {
+    const raiz = projetoCerto();
+    escrever(
+      raiz,
+      "tsconfig.json",
+      JSON.stringify({ compilerOptions: { paths: { "@/*": ["./src/*"] } } }),
+    );
+    escrever(raiz, "scripts/gerar.ts", 'export const a = "text-3xl";\n');
+    escrever(raiz, "docs/x.css", "html { font-feature-settings: 'cv11'; }\n");
+    assert.equal((await conferir(raiz, { buscar })).ok, true);
+  });
 });
 
 describe("passo (init)", () => {
@@ -373,5 +608,68 @@ describe("passo (init)", () => {
     rmSync(path.join(raiz, "src/app/tela.tsx"));
     r = await passo(raiz, { versao: "0.4.0", buscar });
     assert.equal(r.next, "pronto");
+  });
+
+  it("usa a versão do lume.json, não a do pacote, quando o usuário não quer subir", async () => {
+    const raiz = projetoCerto({ versao: "0.3.0" });
+    rmSync(path.join(raiz, "src/components/ui/dialog.tsx"));
+    let r = await passo(raiz, { versao: "0.4.0", buscar });
+    assert.equal(r.etapa, "atualizar");
+    assert.equal(r.next, "perguntar");
+    assert.match(r.instruction, /lume@0\.4\.0 init --atualizar=sim/);
+    assert.match(r.instruction, /lume@0\.3\.0 init`/);
+    r = await passo(raiz, { versao: "0.4.0", atualizar: "nao", buscar });
+    assert.equal(r.etapa, "componentes");
+    assert.match(r.run[0], /dialog#v0\.3\.0/);
+    assert.doesNotMatch(r.run[0], /#v0\.4\.0/);
+    r = await passo(raiz, { versao: "0.3.0", buscar });
+    assert.equal(r.etapa, "componentes");
+    const lj = JSON.parse(readFileSync(path.join(raiz, "lume.json"), "utf8"));
+    assert.equal(lj.versao, "0.3.0");
+  });
+
+  it("com o layout passado de novo, mantém a versão do lume.json", async () => {
+    const raiz = projetoCerto({ versao: "0.3.0" });
+    await passo(raiz, { versao: "0.4.0", layout: "topbar", buscar });
+    const lj = JSON.parse(readFileSync(path.join(raiz, "lume.json"), "utf8"));
+    assert.deepEqual(lj, { versao: "0.3.0", layout: "topbar" });
+  });
+
+  it("ao aceitar subir, regrava o lume.json e reinstala tudo com --overwrite na versão nova", async () => {
+    const raiz = projetoCerto({ versao: "0.3.0", itens: ["section"] });
+    const r = await passo(raiz, { versao: "0.4.0", atualizar: "sim", buscar });
+    assert.equal(r.etapa, "atualizar");
+    assert.equal(r.next, "rodar");
+    assert.match(
+      r.run[0],
+      /^npx shadcn@latest add .*button#v0\.4\.0.*kit-shell#v0\.4\.0.*section#v0\.4\.0 --overwrite --yes$/,
+    );
+    assert.match(r.run[1], /link-next#v0\.4\.0 --overwrite/);
+    const lj = JSON.parse(readFileSync(path.join(raiz, "lume.json"), "utf8"));
+    assert.equal(lj.versao, "0.4.0");
+    assert.equal(lj.layout, "sidebar");
+    const de_novo = await passo(raiz, { versao: "0.4.0", buscar });
+    assert.notEqual(de_novo.etapa, "atualizar");
+  });
+
+  it("a base só vale com o alias de utils e as marcas num CSS importado pelo global", async () => {
+    const raiz = projetoCerto();
+    const cj = JSON.parse(
+      readFileSync(path.join(raiz, "components.json"), "utf8"),
+    );
+    cj.aliases.utils = "@/components/lume/utils";
+    writeFileSync(path.join(raiz, "components.json"), JSON.stringify(cj));
+    assert.equal(
+      (await passo(raiz, { versao: "0.4.0", buscar })).etapa,
+      "base",
+    );
+    cj.aliases.utils = "@/lib/utils";
+    writeFileSync(path.join(raiz, "components.json"), JSON.stringify(cj));
+    escrever(raiz, "src/app/globals.css", '@import "./lume.css";\n');
+    escrever(raiz, "src/app/lume.css", CSS_BASE);
+    assert.notEqual(
+      (await passo(raiz, { versao: "0.4.0", buscar })).etapa,
+      "base",
+    );
   });
 });

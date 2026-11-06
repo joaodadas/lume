@@ -45,33 +45,62 @@ export const REGRAS = {
   "codigo/espaco": "space-x e space-y não entram: empilhe com flex e gap.",
 };
 
-const DEPS_PROIBIDAS = [
-  /^lucide-react$/,
-  /^radix-ui$/,
-  /^@radix-ui\//,
-  /^react-icons$/,
-  /^@heroicons\//,
-  /^@mui\//,
-  /^@mantine\//,
-  /^@headlessui\//,
-  /^@chakra-ui\//,
-  /^antd$/,
-  /^inter-ui$/,
+// Pacotes que o lume substitui. A mesma lista barra a dependência no
+// package.json e o import no código; o import pega também os subcaminhos.
+const PACOTES_PROIBIDOS = [
+  "lucide-react",
+  "radix-ui",
+  "@radix-ui/*",
+  "react-icons",
+  "@heroicons/*",
+  "@mui/*",
+  "@mantine/*",
+  "@headlessui/*",
+  "@chakra-ui/*",
+  "antd",
+  "inter-ui",
 ];
 
-const IMPORTS_PROIBIDOS =
-  /(?:from\s+|import\s*\(\s*|import\s+)["'](lucide-react|radix-ui|@radix-ui\/[^"']+|react-icons(?:\/[^"']*)?|@heroicons\/[^"']+|next\/font\/(?:google|local)|@mui\/[^"']+|@mantine\/[^"']+|@headlessui\/[^"']+|inter-ui[^"']*)["']/g;
+const escapar = (t) => t.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&");
+
+const DEPS_PROIBIDAS = PACOTES_PROIBIDOS.map((p) =>
+  p.endsWith("/*")
+    ? new RegExp(`^${escapar(p.slice(0, -1))}`)
+    : new RegExp(`^${escapar(p)}$`),
+);
+
+const ALTERNATIVAS_IMPORT = [
+  ...PACOTES_PROIBIDOS.map((p) =>
+    p.endsWith("/*")
+      ? `${escapar(p.slice(0, -1))}[^"']+`
+      : `${escapar(p)}(?:/[^"']*)?`,
+  ),
+  "next\\/font\\/(?:google|local)",
+];
+
+const IMPORTS_PROIBIDOS = new RegExp(
+  `(?:from\\s+|import\\s*\\(\\s*|import\\s+)["'](${ALTERNATIVAS_IMPORT.join("|")})["']`,
+  "g",
+);
 
 const PADROES_CODIGO = [
   ["codigo/aschild", /\basChild\b/g],
-  ["codigo/data-state", /data-\[state=(?!selected\])[a-z-]+\]/g],
+  [
+    "codigo/data-state",
+    /data-\[state=(?!["']?selected["']?\])["']?[a-z-]+["']?\]/g,
+  ],
   ["codigo/peso", /(?<![\w-])font-(?:bold|semibold|extrabold|black)(?![\w-])/g],
   ["codigo/titulo", /(?<![\w-])text-(?:[2-9]xl)(?![\w-])/g],
   [
     "codigo/cinza",
     /(?<![\w-])(?:[a-z-]+-)?(?:slate|gray|zinc|stone)-(?:50|[1-9]00|950)(?![\w-])/g,
   ],
-  ["codigo/sombra", /(?<![\w-])shadow-(?:sm|md|lg|xl|2xl)(?![\w-])/g],
+  // shadow sozinho e shadow-xs a shadow-2xl; shadow-(--custom-shadow) e
+  // shadow-[...] passam, e o nome solto de variável (shadow =, { shadow }) não conta.
+  [
+    "codigo/sombra",
+    /(?<![\w.-])shadow(?:-(?:xs|sm|md|lg|xl|2xl))?(?![\w\-/([])(?!\s*[=:,;.)}?])/g,
+  ],
   ["codigo/espaco", /(?<![\w-])-?space-[xy]-[\w.[\]]+/g],
 ];
 
@@ -79,6 +108,16 @@ const EXCECAO = /lume:excecao\s+motivo=\S/;
 const CODIGO = /\.(tsx?|jsx?|mjs|cjs)$/;
 const NAO_ESCANEAR =
   /(\.spec\.|\.test\.|\.stories\.|\.config\.|(^|\/)(e2e|__tests__|__mocks__|__fixtures__)\/)/;
+
+/**
+ * O que é código do app, o mesmo para código e CSS: a pasta do `@/*` do
+ * tsconfig; com o app na raiz, as pastas de sempre.
+ */
+function escopoDoApp(projeto) {
+  if (projeto.prefixo) return (rel) => rel.startsWith(projeto.prefixo);
+  return (rel) =>
+    /^(app|components|lib|hooks|pages|features|styles)\//.test(rel);
+}
 
 /** Caminho de instalação de um arquivo da registry, já no layout do projeto. */
 function caminhoInstalado(arquivo, tipo, projeto) {
@@ -94,7 +133,96 @@ function caminhoInstalado(arquivo, tipo, projeto) {
   if (tipo === "registry:component" || tipo === "registry:block") {
     return `${projeto.dirComponentes}/${nome}`;
   }
+  if (tipo === "registry:hook") return `${projeto.dirHooks}/${nome}`;
+  // lib/utils.ts recebe helpers do produto: fica fora da comparação.
+  if (tipo === "registry:lib" && LIBS_CONFERIDAS.has(nome)) {
+    return `${projeto.dirLib}/${nome}`;
+  }
   return null;
+}
+
+/** Kits que o init instala, além de todos os primitivos. */
+export const KITS = [
+  "kit-shell",
+  "kit-tabela",
+  "kit-formulario",
+  "kit-feedback",
+  "kit-dados",
+];
+
+const LIBS_CONFERIDAS = new Set(["format.ts", "motion.ts", "range.ts"]);
+
+/** "joaodadas/lume/button#v0.4.0" (ou uma URL de item) vira "button". */
+function nomeDaDependencia(dep) {
+  return String(dep)
+    .replace(/#.*$/, "")
+    .split("/")
+    .pop()
+    .replace(/\.json$/, "");
+}
+
+/**
+ * Os itens que o lume de fato pôs no projeto: todos os primitivos, os kits do
+ * init (kit-graficos quando o projeto tem recharts), login-form, guia,
+ * link-next no Next e o que o lume.json lista em `itens`, com as dependências
+ * de cada um. Componente do produto com nome igual a um item fora disso não é
+ * do lume e não é comparado.
+ */
+export function itensDoLume(itens, projeto) {
+  const porNome = new Map(itens.map((i) => [i.name, i]));
+  const raizes = [
+    ...itens.filter((i) => i.type === "registry:ui").map((i) => i.name),
+    ...KITS,
+    ...(projeto.deps?.recharts ? ["kit-graficos"] : []),
+    "login-form",
+    "guia",
+    ...(projeto.framework === "next" ? ["link-next"] : []),
+    ...(Array.isArray(projeto.lumeJson?.itens) ? projeto.lumeJson.itens : []),
+  ];
+  const vistos = new Set();
+  const fila = [...raizes];
+  while (fila.length > 0) {
+    const nome = fila.pop();
+    if (vistos.has(nome) || !porNome.has(nome)) continue;
+    vistos.add(nome);
+    for (const dep of porNome.get(nome).registryDependencies ?? []) {
+      fila.push(nomeDaDependencia(dep));
+    }
+  }
+  return vistos;
+}
+
+const ALIASES_ESPERADOS = {
+  components: /\/components$/,
+  ui: /\/components\/ui$/,
+  utils: /\/lib\/utils$/,
+};
+
+const MARCAS_BASE = [
+  "--custom-shadow",
+  "@toolwind/corner-shape",
+  "shadcn/tailwind.css",
+];
+
+/**
+ * A base do lume está instalada? A mesma régua do check: components.json do
+ * lume, os três aliases e as marcas da base no CSS global ou num que ele
+ * importa.
+ */
+export function baseInstalada(projeto) {
+  const cj = projeto.componentsJson;
+  if (!cj || cj.__invalido) return false;
+  if (cj.style !== "base-vega" || cj.iconLibrary !== "tabler") return false;
+  if (cj.tsx === false) return false;
+  const a = cj.aliases ?? {};
+  for (const [chave, re] of Object.entries(ALIASES_ESPERADOS)) {
+    if (!re.test(String(a[chave] ?? ""))) return false;
+  }
+  if (!projeto.css) return false;
+  const junto = cssComImports(projeto.raiz, projeto.css)
+    .map((c) => c.css)
+    .join("\n");
+  return MARCAS_BASE.every((m) => junto.includes(m));
 }
 
 function add(violacoes, regra, arquivo, linha, trecho) {
@@ -128,6 +256,18 @@ function conferirConfig(projeto, violacoes) {
         "lume.json",
         null,
         `layout precisa ser ${LAYOUTS.join(", ")}`,
+      );
+    }
+    if (
+      lj.itens !== undefined &&
+      (!Array.isArray(lj.itens) || lj.itens.some((x) => typeof x !== "string"))
+    ) {
+      add(
+        violacoes,
+        "config/lume-json",
+        "lume.json",
+        null,
+        "itens precisa ser uma lista de nomes de item",
       );
     }
     for (const [nome, motivo] of Object.entries(lj.extras ?? {})) {
@@ -180,12 +320,7 @@ function conferirConfig(projeto, violacoes) {
       "tsx false",
     );
   const a = cj.aliases ?? {};
-  const esperado = {
-    components: /\/components$/,
-    ui: /\/components\/ui$/,
-    utils: /\/lib\/utils$/,
-  };
-  for (const [chave, re] of Object.entries(esperado)) {
+  for (const [chave, re] of Object.entries(ALIASES_ESPERADOS)) {
     if (!re.test(String(a[chave] ?? ""))) {
       add(
         violacoes,
@@ -199,7 +334,7 @@ function conferirConfig(projeto, violacoes) {
 }
 
 /** O CSS global e os arquivos que ele importa por caminho relativo. */
-function cssComImports(raiz, rel, vistos = new Set()) {
+export function cssComImports(raiz, rel, vistos = new Set()) {
   if (vistos.has(rel) || !existsSync(path.join(raiz, rel))) return [];
   vistos.add(rel);
   const css = semComentariosCss(readFileSync(path.join(raiz, rel), "utf8"));
@@ -220,17 +355,13 @@ function conferirCss(projeto, violacoes, arquivosDoProjeto) {
   }
   const doGlobal = cssComImports(projeto.raiz, projeto.css);
   const junto = doGlobal.map((c) => c.css).join("\n");
-  for (const marca of [
-    "--custom-shadow",
-    "@toolwind/corner-shape",
-    "shadcn/tailwind.css",
-  ]) {
+  for (const marca of MARCAS_BASE) {
     if (!junto.includes(marca))
       add(violacoes, "css/base", projeto.css, null, `falta ${marca}`);
   }
-  const escopo = projeto.prefixo ? projeto.prefixo : "";
+  const escopo = escopoDoApp(projeto);
   const todos = arquivosDoProjeto.filter(
-    (r) => r.endsWith(".css") && r.startsWith(escopo),
+    (r) => r.endsWith(".css") && (escopo(r) || r === projeto.css),
   );
   for (const rel of todos) {
     const css = semComentariosCss(
@@ -285,8 +416,10 @@ async function conferirRegistry(
   const nomesUi = new Set(
     itens.filter((i) => i.type === "registry:ui").map((i) => i.name),
   );
+  const doLume = itensDoLume(itens, projeto);
   const instalados = new Map();
   for (const item of itens) {
+    if (!doLume.has(item.name)) continue;
     for (const arquivo of item.files ?? []) {
       const destino = caminhoInstalado(arquivo, item.type, projeto);
       if (!destino) continue;
@@ -298,13 +431,15 @@ async function conferirRegistry(
     existsSync(path.join(projeto.raiz, d)),
   );
   await emLotes(existentes, 8, async (destino) => {
+    const prefixos = projeto.prefixosLocais;
     const local = normalizar(
       readFileSync(path.join(projeto.raiz, destino), "utf8"),
+      prefixos,
     );
     for (const cand of instalados.get(destino)) {
       const json = await registry.item(cand.item);
       const f = (json.files ?? []).find((x) => x.path === cand.path);
-      if (f && normalizar(f.content ?? "") === local) return;
+      if (f && normalizar(f.content ?? "", prefixos) === local) return;
     }
     const itensDoArquivo = instalados
       .get(destino)
@@ -358,9 +493,7 @@ async function conferirRegistry(
 }
 
 function conferirCodigo(projeto, instalados, violacoes, arquivosDoProjeto) {
-  const escopo = projeto.prefixo
-    ? (rel) => rel.startsWith(projeto.prefixo)
-    : (rel) => /^(app|components|lib|hooks|pages|features)\//.test(rel);
+  const escopo = escopoDoApp(projeto);
   const prefixoUi = `${projeto.dirUi}/`;
   for (const rel of arquivosDoProjeto) {
     if (!CODIGO.test(rel) || NAO_ESCANEAR.test(rel) || !escopo(rel)) continue;

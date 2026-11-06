@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // lume: adoção do lume por agente.
-//   lume init [--layout=sidebar|offcanvas|topbar]   uma etapa por chamada, em JSON
+//   lume init [--layout=sidebar|offcanvas|topbar] [--atualizar=sim|nao]
+//                                                   uma etapa por chamada, em JSON
 //   lume check [--json]                             confere o projeto; sai 1 se houver violação
 //   lume prompt                                     o texto para colar no agente
 
@@ -25,7 +26,11 @@ const raiz = argumento("dir") ?? process.cwd();
 
 async function main() {
   if (comando === "init") {
-    const r = await passo(raiz, { versao, layout: argumento("layout") });
+    const r = await passo(raiz, {
+      versao,
+      layout: argumento("layout"),
+      atualizar: argumento("atualizar"),
+    });
     process.stdout.write(`${JSON.stringify(r, null, 2)}\n`);
     return 0;
   }
@@ -51,7 +56,7 @@ async function main() {
     [
       `lume ${pkg.version}`,
       "",
-      "  lume init [--layout=sidebar|offcanvas|topbar]  adota o lume, uma etapa por chamada (JSON para o agente)",
+      "  lume init [--layout=sidebar|offcanvas|topbar] [--atualizar=sim|nao]  adota o lume, uma etapa por chamada (JSON para o agente)",
       "  lume check [--json]                            confere o projeto; sai 1 se houver violação",
       "  lume prompt                                    o texto para colar no seu agente",
       "",

@@ -49,24 +49,67 @@ export function listar(raiz, rel = "", acc = []) {
   return acc;
 }
 
+function lerTsconfig(raiz) {
+  return (
+    lerArquivoJson(path.join(raiz, "tsconfig.json")) ??
+    lerArquivoJson(path.join(raiz, "jsconfig.json"))
+  );
+}
+
+/** Os paths do tsconfig já resolvidos pelo baseUrl: { "@/": "src/" }. */
+export function pathsDoTsconfig(raiz) {
+  const opcoes = lerTsconfig(raiz)?.compilerOptions ?? {};
+  const base = typeof opcoes.baseUrl === "string" ? opcoes.baseUrl : ".";
+  const saida = {};
+  for (const [chave, alvos] of Object.entries(opcoes.paths ?? {})) {
+    if (!chave.endsWith("/*") || !Array.isArray(alvos) || !alvos[0]) continue;
+    const alvo = String(alvos[0]).replace(/\*$/, "");
+    const junto = path.posix.normalize(path.posix.join(base, alvo || "."));
+    const rel =
+      junto === "." || junto === "./" ? "" : junto.replace(/^\.\//, "");
+    saida[chave.slice(0, -1)] = rel && !rel.endsWith("/") ? `${rel}/` : rel;
+  }
+  return saida;
+}
+
+/**
+ * Pasta do código do app: o alvo de `@/*` no tsconfig (com baseUrl). Só sem
+ * esse path cai em `src/` quando a pasta existe.
+ */
+export function prefixoDoApp(raiz) {
+  const paths = pathsDoTsconfig(raiz);
+  if ("@/" in paths) return paths["@/"];
+  const src = path.join(raiz, "src");
+  return existsSync(src) && statSync(src).isDirectory() ? "src/" : "";
+}
+
 /** "@/components/ui" vira "src/components/ui" pelos paths do tsconfig. */
 export function resolverAlias(alias, raiz, prefixoPadrao) {
   if (!alias) return null;
-  const ts =
-    lerArquivoJson(path.join(raiz, "tsconfig.json")) ??
-    lerArquivoJson(path.join(raiz, "jsconfig.json"));
-  const paths = ts?.compilerOptions?.paths ?? {};
-  for (const [chave, alvos] of Object.entries(paths)) {
-    if (!chave.endsWith("/*") || !Array.isArray(alvos) || !alvos[0]) continue;
-    const de = chave.slice(0, -1);
+  const paths = pathsDoTsconfig(raiz);
+  const chaves = Object.keys(paths).sort((a, b) => b.length - a.length);
+  for (const de of chaves) {
     if (!alias.startsWith(de)) continue;
-    const para = alvos[0].replace(/^\.\//, "").replace(/\*$/, "");
-    return `${para}${alias.slice(de.length)}`.replace(/\/$/, "");
+    return `${paths[de]}${alias.slice(de.length)}`.replace(/\/$/, "");
   }
   if (alias.startsWith("@/") || alias.startsWith("~/")) {
     return `${prefixoPadrao}${alias.slice(2)}`;
   }
   return alias;
+}
+
+/**
+ * Prefixos de import que apontam para o próprio projeto: os dos aliases do
+ * components.json (`#/`, `@app/`) e as chaves de paths do tsconfig.
+ */
+function prefixosLocais(raiz, aliases) {
+  const saida = new Set(Object.keys(pathsDoTsconfig(raiz)));
+  for (const valor of Object.values(aliases ?? {})) {
+    if (typeof valor !== "string") continue;
+    const m = /^([^/]+\/)/.exec(valor);
+    if (m) saida.add(m[1]);
+  }
+  return [...saida].filter((p) => !p.startsWith("."));
 }
 
 function versaoMaior(spec) {
@@ -98,11 +141,7 @@ export function lerProjeto(raiz) {
   const tailwind =
     versaoMaior(deps.tailwindcss) ??
     (deps["@tailwindcss/postcss"] || deps["@tailwindcss/vite"] ? 4 : null);
-  const prefixo =
-    existsSync(path.join(raiz, "src")) &&
-    statSync(path.join(raiz, "src")).isDirectory()
-      ? "src/"
-      : "";
+  const prefixo = prefixoDoApp(raiz);
   const componentsJson = lerArquivoJson(path.join(raiz, "components.json"));
   const lumeJson = lerArquivoJson(path.join(raiz, "lume.json"));
   const aliases = componentsJson?.aliases ?? {};
@@ -112,6 +151,8 @@ export function lerProjeto(raiz) {
     raiz,
     prefixo,
   );
+  const dirHooks = resolverAlias(aliases.hooks ?? "@/hooks", raiz, prefixo);
+  const dirLib = resolverAlias(aliases.lib ?? "@/lib", raiz, prefixo);
   const candidatosCss = [
     componentsJson?.tailwind?.css,
     `${prefixo}app/globals.css`,
@@ -131,6 +172,9 @@ export function lerProjeto(raiz) {
     lumeJson,
     dirUi,
     dirComponentes,
+    dirHooks,
+    dirLib,
+    prefixosLocais: prefixosLocais(raiz, aliases),
     css,
     alteracoesGit: gitSujo(raiz),
   };
