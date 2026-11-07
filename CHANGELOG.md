@@ -14,11 +14,11 @@ Duas correções achadas no Hub da Lyx, no navegador. Nenhuma API mudou.
 
 ### Corrigido
 
-- `sidebar`: o `SidebarInset` sai do `corner-shape`. Ele recorta a área que
+- `sidebar` e `app-shell`: o `SidebarInset` sai do `corner-shape`. Ele recorta a área que
   rola, e com `corner-shape` o Chromium 157 (Chrome e Dia) deixava de pintar o
   conteúdo alto: a tela ficava em branco abaixo de um ponto ao abrir uma lista
   longa ou um filtro. Fica o raio do fallback (`rounded-lg`), o mesmo do Safari
-  e do Firefox.
+  e do Firefox; o `app-shell` deixa de repor o raio maior do squircle no inset.
 - `data-table`: o `useUrlFilters` passa a ouvir a navegação do roteador. O
   `Link` e o `router.push` do Next navegam com `pushState`, que não dispara
   evento; o endereço mudava e a lista seguia com o filtro velho. Na primeira
@@ -27,8 +27,8 @@ Duas correções achadas no Hub da Lyx, no navegador. Nenhuma API mudou.
 
 ### Como migrar
 
-Reinstale os dois itens com `--overwrite`:
-`npx shadcn@latest add joaodadas/lume/sidebar#v0.4.1 joaodadas/lume/data-table#v0.4.1 --overwrite`.
+Reinstale os três itens com `--overwrite`:
+`npx shadcn@latest add joaodadas/lume/sidebar#v0.4.1 joaodadas/lume/app-shell#v0.4.1 joaodadas/lume/data-table#v0.4.1 --overwrite`.
 Quem contornou no próprio app (CSS no `[data-slot=sidebar-inset]` ou um
 embrulho do `history`) pode apagar o contorno depois.
 
