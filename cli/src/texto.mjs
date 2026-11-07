@@ -242,3 +242,68 @@ export function linhaDe(texto, indice) {
   }
   return n;
 }
+
+/**
+ * O código (já sem comentários) com o conteúdo de cada string trocado por
+ * espaço. As aspas e as quebras de linha ficam no lugar, então o índice e a
+ * linha continuam os mesmos. Literal de regex é copiado inteiro.
+ */
+export function semTextos(src) {
+  const out = [];
+  const n = src.length;
+  let i = 0;
+  let ultimo = "";
+  while (i < n) {
+    const c = src[i] ?? "";
+    if (c === '"' || c === "'" || c === "`") {
+      const parte = [];
+      const fim = copiaString(src, i, c, parte);
+      const texto = parte.join("");
+      for (let k = 0; k < texto.length; k++) {
+        const ch = texto[k];
+        const borda = k === 0 || (k === texto.length - 1 && ch === c);
+        out.push(borda || ch === "\n" ? ch : " ");
+      }
+      i = fim;
+      ultimo = c;
+      continue;
+    }
+    if (
+      c === "/" &&
+      (ultimo === "" || /[(,=:[!&|?{};+\-*%<>~^]/.test(ultimo))
+    ) {
+      let j = i + 1;
+      let classe = false;
+      while (j < n && src[j] !== "\n") {
+        const ch = src[j];
+        if (ch === "\\") {
+          j += 2;
+          continue;
+        }
+        if (ch === "[") classe = true;
+        else if (ch === "]") classe = false;
+        j++;
+        if (ch === "/" && !classe) break;
+      }
+      out.push(src.slice(i, j));
+      i = j;
+      ultimo = "/";
+      continue;
+    }
+    out.push(c);
+    if (!/\s/.test(c)) ultimo = c;
+    i++;
+  }
+  return out.join("");
+}
+
+/** O inverso de semTextos: só o conteúdo das strings, o resto vira espaço. */
+export function soTextos(src) {
+  const sem = semTextos(src);
+  let saida = "";
+  for (let i = 0; i < src.length; i++) {
+    const ch = src[i];
+    saida += ch !== sem[i] ? ch : ch === "\n" ? "\n" : " ";
+  }
+  return saida;
+}

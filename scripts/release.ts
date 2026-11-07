@@ -1,9 +1,10 @@
-// Lança uma versão do lume. Valida (versão semver maior que a atual, tag
-// inexistente, git limpo, seção da versão no CHANGELOG.md, gh autenticado e
-// check verde), grava a versão no package.json, troca a tag dos comandos de
-// instalação escritos à mão nos docs, regenera registry.json, public/r e a
-// skill, commita "release: vX.Y.Z" (sem Co-Authored-By), cria a tag anotada
-// com a seção do CHANGELOG, dá push e cria a GitHub Release a partir da tag.
+// Lança uma versão do lume. Valida (versão semver maior que a atual, ou igual
+// quando a PR já subiu o package.json, tag inexistente, git limpo, seção da
+// versão no CHANGELOG.md, gh autenticado e check verde), grava a versão no
+// package.json, troca a tag dos comandos de instalação escritos à mão nos
+// docs, regenera registry.json, public/r e a skill, commita "release: vX.Y.Z"
+// (sem Co-Authored-By), cria a tag anotada com a seção do CHANGELOG, dá push e
+// cria a GitHub Release a partir da tag.
 //
 // uso: bun scripts/release.ts <versão> [--dry-run] [--no-build]
 //
@@ -75,7 +76,9 @@ else if (mAtual) {
       : n[1] !== a[1]
         ? (n[1] ?? 0) > (a[1] ?? 0)
         : (n[2] ?? 0) > (a[2] ?? 0);
-  if (!maior)
+  // Igual à atual vale quando a PR já subiu o package.json (patch só do CLI):
+  // a tag inexistente, conferida abaixo, é o que garante que não é repetida.
+  if (!maior && versao !== atual)
     problemas.push(`versão ${versao} não é maior que a atual (${atual})`);
 }
 
