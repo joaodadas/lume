@@ -1,5 +1,5 @@
 // Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/data-table.tsx @ 2bc3bb5), Apache-2.0.
-// Modificado por joaodadas/lume: useUrlFilters extraído para arquivo próprio e reescrito sem next/navigation. Lê window.location.search por useSyncExternalStore (ouve popstate e um evento próprio disparado a cada replaceState) e escreve com history.replaceState. Mesma assinatura e mesma semântica: default some da URL, page cai em todo patch que não o define, patches do mesmo tick acumulam num ref.
+// Modificado por joaodadas/lume: useUrlFilters extraído para arquivo próprio e reescrito sem next/navigation. Lê window.location.search por useSyncExternalStore (ouve popstate e um evento próprio, disparado a cada pushState e replaceState: o history é embrulhado uma vez, na primeira assinatura) e escreve com history.replaceState. Mesma assinatura e mesma semântica: default some da URL, page cai em todo patch que não o define, patches do mesmo tick acumulam num ref.
 "use client";
 
 import { useCallback, useRef, useSyncExternalStore } from "react";
@@ -9,7 +9,34 @@ import { useCallback, useRef, useSyncExternalStore } from "react";
 // roteador nenhum: só depende de window.history.
 const CHANGE_EVENT = "lume:urlfilters";
 
+// O Link e o router do Next (como os de outros roteadores) navegam com
+// pushState, que não dispara evento nenhum: o endereço mudava e a lista seguia
+// com o filtro velho (cartões que filtram a própria página, link da paleta, no
+// Hub da Lyx em 07/11/2026). Na primeira assinatura o history passa a avisar
+// por CHANGE_EVENT em todo pushState e replaceState, num microtask (fora do
+// commit do roteador). Evento a mais não custa: o useSyncExternalStore compara
+// a query e só re-renderiza se ela mudou. Uma vez por página.
+const MARCA = "__lumeUrlFilters";
+
+function avisarNaNavegacao() {
+  const history = window.history as History & { [MARCA]?: true };
+  if (history[MARCA]) return;
+  history[MARCA] = true;
+  for (const metodo of ["pushState", "replaceState"] as const) {
+    const original = history[metodo];
+    history[metodo] = function (
+      this: History,
+      ...args: Parameters<History["pushState"]>
+    ) {
+      const resultado = original.apply(this, args);
+      queueMicrotask(() => window.dispatchEvent(new Event(CHANGE_EVENT)));
+      return resultado;
+    };
+  }
+}
+
 function subscribe(onChange: () => void) {
+  avisarNaNavegacao();
   window.addEventListener("popstate", onChange);
   window.addEventListener(CHANGE_EVENT, onChange);
   return () => {

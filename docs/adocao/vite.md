@@ -14,10 +14,10 @@ cd meu-painel && bun add -d @tailwindcss/vite
 `tsconfig.json` com `"paths": { "@/*": ["./src/*"] }` e `vite.config.ts` com `resolve.alias` `@` para `./src` (o painel: `fileURLToPath(new URL('./src', import.meta.url))`) e `plugins: [react(), tailwindcss()]`. A CLI do shadcn exige o alias no tsconfig para reescrever os imports.
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.4.0 -y
+npx shadcn@latest init joaodadas/lume/base#v0.4.1 -y
 ```
 
-Mesma regra do Next: `-y`, nunca `-d`. O `init` do shadcn reconhece Vite pelo `vite.config.ts` e escreve o `components.json` com `rsc: false` (conferir: validado hoje só em Next; se o `init` recusar o projeto, escreva o `components.json` abaixo à mão e rode `npx shadcn@latest add joaodadas/lume/base#v0.4.0`, que grava `cssVars` e `css` no arquivo de CSS e ignora o `config`).
+Mesma regra do Next: `-y`, nunca `-d`. O `init` do shadcn reconhece Vite pelo `vite.config.ts` e escreve o `components.json` com `rsc: false` (conferir: validado hoje só em Next; se o `init` recusar o projeto, escreva o `components.json` abaixo à mão e rode `npx shadcn@latest add joaodadas/lume/base#v0.4.1`, que grava `cssVars` e `css` no arquivo de CSS e ignora o `config`).
 
 ```json
 {
@@ -37,8 +37,8 @@ Mesma regra do Next: `-y`, nunca `-d`. O `init` do shadcn reconhece Vite pelo `v
 ## 2. Itens
 
 ```bash
-npx shadcn@latest add joaodadas/lume/kit-shell#v0.4.0 joaodadas/lume/kit-tabela#v0.4.0 joaodadas/lume/kit-feedback#v0.4.0 joaodadas/lume/kit-dados#v0.4.0 joaodadas/lume/kit-graficos#v0.4.0
-npx shadcn@latest add joaodadas/lume/theme-provider-csp#v0.4.0 --overwrite
+npx shadcn@latest add joaodadas/lume/kit-shell#v0.4.1 joaodadas/lume/kit-tabela#v0.4.1 joaodadas/lume/kit-feedback#v0.4.1 joaodadas/lume/kit-dados#v0.4.1 joaodadas/lume/kit-graficos#v0.4.1
+npx shadcn@latest add joaodadas/lume/theme-provider-csp#v0.4.1 --overwrite
 npx skills add joaodadas/lume --skill lume-design-engineering
 ```
 
@@ -84,7 +84,7 @@ Com react-router o mesmo arquivo vira `return <RouterLink to={href} {...props} /
 
 ### Shell: o exemplo canônico
 
-`painel/src/app/shell.tsx` é o `app-shell` antes de virar item: `SidebarProvider className="group/shell relative h-svh min-h-0 overflow-hidden"`, `Sidebar variant="inset"`, wrapper `flex min-h-0 min-w-0 flex-1 flex-col md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2`, `SidebarInset className="min-h-0 overflow-hidden transition-shadow duration-200 md:rounded-lg squircle:md:rounded-3xl"` (o `transition-shadow duration-200` entrou no item do lume), header mobile `flex h-12 shrink-0 items-center gap-2 border-b border-border/50 px-3 md:hidden` com `SidebarTrigger`, viewport `min-h-0 flex-1 overflow-y-auto` e coluna `flex flex-col gap-6 py-6 pb-16`. O `NavIcon` dele (`shell.tsx:56-63`) é o mesmo do item, com o glifo único quando não há variante filled. A composição em `app.tsx:74-84`: `ProvedorDeTema` > `ProvedorDeRota` > `TooltipProvider delay={150}` > sessão > `Shell`. Com os itens do lume: `ThemeProvider` (csp) > `RotaProvider` > `TooltipProvider delay={150}` > `AppShell`. O `AppShell` já monta o próprio `TooltipProvider delay={150}` em volta da sidebar (o tooltip do trilho); o de fora continua valendo para as páginas, como as tabelas. Do shell do painel para o item mudaram o gatilho (`ShellTrigger` no topo da sidebar e no cabeçalho do cartão, no lugar do `SidebarTrigger` do header mobile), o viewport (`div`, não `main`) e o recolher (trilho de ícones por padrão).
+`painel/src/app/shell.tsx` é o `app-shell` antes de virar item: `SidebarProvider className="group/shell relative h-svh min-h-0 overflow-hidden"`, `Sidebar variant="inset"`, wrapper `flex min-h-0 min-w-0 flex-1 flex-col md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2`, `SidebarInset className="min-h-0 overflow-hidden transition-shadow duration-200 md:rounded-lg"` (o `transition-shadow duration-200` entrou no item do lume; o par do squircle saiu na 0.4.1, porque com `corner-shape` o Chromium deixa de pintar o conteúdo alto do inset), header mobile `flex h-12 shrink-0 items-center gap-2 border-b border-border/50 px-3 md:hidden` com `SidebarTrigger`, viewport `min-h-0 flex-1 overflow-y-auto` e coluna `flex flex-col gap-6 py-6 pb-16`. O `NavIcon` dele (`shell.tsx:56-63`) é o mesmo do item, com o glifo único quando não há variante filled. A composição em `app.tsx:74-84`: `ProvedorDeTema` > `ProvedorDeRota` > `TooltipProvider delay={150}` > sessão > `Shell`. Com os itens do lume: `ThemeProvider` (csp) > `RotaProvider` > `TooltipProvider delay={150}` > `AppShell`. O `AppShell` já monta o próprio `TooltipProvider delay={150}` em volta da sidebar (o tooltip do trilho); o de fora continua valendo para as páginas, como as tabelas. Do shell do painel para o item mudaram o gatilho (`ShellTrigger` no topo da sidebar e no cabeçalho do cartão, no lugar do `SidebarTrigger` do header mobile), o viewport (`div`, não `main`) e o recolher (trilho de ícones por padrão).
 
 ## 4. Fontes
 

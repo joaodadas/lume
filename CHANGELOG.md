@@ -8,7 +8,7 @@ ou prop nova, major é token removido ou prop quebrada. Cada versão tem uma tag
 joaodadas/lume/<item>#vX.Y.Z`) e atualiza com `--diff` para ver e `--overwrite`
 para aplicar. Quando um item muda de API, a seção traz "Como migrar".
 
-## [0.4.1] - 2026-11-06
+## [0.4.2] - 2026-11-07
 
 O CLI com o que a adoção no CRM da Lyx mostrou. Só o CLI e os docs mudaram:
 nenhum componente nem token.
@@ -50,6 +50,30 @@ nenhum componente nem token.
 Rode `npx -y @joao.dadas/lume@latest init`: ele pergunta o tema e grava no
 `lume.json`. As regras novas podem acusar código que já passava; o
 `lume check --path=<pasta>` ajuda a corrigir por partes.
+
+## [0.4.1] - 2026-11-07
+
+Duas correções achadas no Hub da Lyx, no navegador. Nenhuma API mudou.
+
+### Corrigido
+
+- `sidebar` e `app-shell`: o `SidebarInset` sai do `corner-shape`. Ele recorta a área que
+  rola, e com `corner-shape` o Chromium 157 (Chrome e Dia) deixava de pintar o
+  conteúdo alto: a tela ficava em branco abaixo de um ponto ao abrir uma lista
+  longa ou um filtro. Fica o raio do fallback (`rounded-lg`), o mesmo do Safari
+  e do Firefox; o `app-shell` deixa de repor o raio maior do squircle no inset.
+- `data-table`: o `useUrlFilters` passa a ouvir a navegação do roteador. O
+  `Link` e o `router.push` do Next navegam com `pushState`, que não dispara
+  evento; o endereço mudava e a lista seguia com o filtro velho. Na primeira
+  assinatura, o `history` passa a avisar o evento do hook em todo `pushState` e
+  `replaceState`.
+
+### Como migrar
+
+Reinstale os três itens com `--overwrite`:
+`npx shadcn@latest add joaodadas/lume/sidebar#v0.4.1 joaodadas/lume/app-shell#v0.4.1 joaodadas/lume/data-table#v0.4.1 --overwrite`.
+Quem contornou no próprio app (CSS no `[data-slot=sidebar-inset]` ou um
+embrulho do `history`) pode apagar o contorno depois.
 
 ## [0.4.0] - 2026-11-06
 
