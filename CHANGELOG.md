@@ -8,6 +8,30 @@ ou prop nova, major é token removido ou prop quebrada. Cada versão tem uma tag
 joaodadas/lume/<item>#vX.Y.Z`) e atualiza com `--diff` para ver e `--overwrite`
 para aplicar. Quando um item muda de API, a seção traz "Como migrar".
 
+## [0.4.1] - 2026-11-07
+
+Duas correções achadas no Hub da Lyx, no navegador. Nenhuma API mudou.
+
+### Corrigido
+
+- `sidebar`: o `SidebarInset` sai do `corner-shape`. Ele recorta a área que
+  rola, e com `corner-shape` o Chromium 157 (Chrome e Dia) deixava de pintar o
+  conteúdo alto: a tela ficava em branco abaixo de um ponto ao abrir uma lista
+  longa ou um filtro. Fica o raio do fallback (`rounded-lg`), o mesmo do Safari
+  e do Firefox.
+- `data-table`: o `useUrlFilters` passa a ouvir a navegação do roteador. O
+  `Link` e o `router.push` do Next navegam com `pushState`, que não dispara
+  evento; o endereço mudava e a lista seguia com o filtro velho. Na primeira
+  assinatura, o `history` passa a avisar o evento do hook em todo `pushState` e
+  `replaceState`.
+
+### Como migrar
+
+Reinstale os dois itens com `--overwrite`:
+`npx shadcn@latest add joaodadas/lume/sidebar#v0.4.1 joaodadas/lume/data-table#v0.4.1 --overwrite`.
+Quem contornou no próprio app (CSS no `[data-slot=sidebar-inset]` ou um
+embrulho do `history`) pode apagar o contorno depois.
+
 ## [0.4.0] - 2026-11-06
 
 Adoção por agente: um comando conduz a adoção inteira, e um check confere. Nenhum

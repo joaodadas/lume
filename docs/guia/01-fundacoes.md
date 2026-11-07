@@ -63,12 +63,14 @@ Squircle: `@custom-variant squircle (@supports (corner-shape: squircle))` (globa
 | `rounded-md squircle:rounded-2xl corner-squircle` | 8px | 18px | Input, Select (trigger e content), Skeleton, Toggle, Tooltip, DropdownMenu, HoverCard, lista de Tabs |
 | `rounded-md squircle:rounded-xl corner-squircle` | 8px | 14px | Textarea, InputGroup, gatilho de Tabs, `SidebarMenuButton` |
 | `rounded-[5px] squircle:rounded-xl p-0.5 corner-squircle` | 5px | 14px | tiles de ícone da navegação e dos chips de tipo |
-| `rounded-lg squircle:rounded-3xl corner-squircle` | 10px | 22px | Card, Popover, Alert, `SidebarInset` |
+| `rounded-lg squircle:rounded-3xl corner-squircle` | 10px | 22px | Card, Popover, Alert |
 | `rounded-xl squircle:rounded-4xl corner-squircle` | 14px | 26px | Empty |
 | `rounded-2xl squircle:rounded-[40px] corner-squircle` | 18px | 40px | Dialog, AlertDialog, Sheet `floating` |
 | `rounded-sm squircle:rounded-[14px] corner-squircle` | 6px | 14px | Kbd |
 | `rounded-full squircle:rounded-full` | pílula | pílula | pílula que precisa anular um `squircle:rounded-*` herdado (Skeleton redondo) |
 | `rounded-[calc(var(--radius)-5px)]` | 5px | 5px | addons e botões dentro do InputGroup: raio interno = raio externo menos o inset (nested border radius) |
+
+O `SidebarInset` fica só no fallback (`rounded-lg`, 10px, sem `corner-shape`): ele recorta a área que rola, e com `corner-shape` o Chromium 157 deixa de pintar o conteúdo alto dentro dele (a tela sai em branco abaixo de um ponto; medido no Hub da Lyx em 07/11/2026). Superfície grande que recorta conteúdo que rola não leva `corner-squircle`.
 
 Escape `corner-round!` só em dois casos: dentro de um BorderBeam (que recorta com `clip-path: inset(round)`, arco circular) e nas pontas de uma pílula `rounded-full` onde o squircle achata (busca da DataTable). Dentro do Card a imagem de capa repete raio e shape (`*:[img:first-child]:rounded-t-3xl *:[img:first-child]:corner-squircle`, `registry/base-vega/ui/card.tsx:17`).
 <!-- skill:end -->

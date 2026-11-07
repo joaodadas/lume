@@ -1,5 +1,5 @@
 // Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, packages/ui/src/components/sidebar.tsx @ 2bc3bb5), Apache-2.0.
-// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*; hsl() removido do variant outline (os tokens são oklch, hsl(var()) é CSS inválido); idem para --sidebar-accent.
+// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*; hsl() removido do variant outline (os tokens são oklch, hsl(var()) é CSS inválido); idem para --sidebar-accent; SidebarInset sem corner-shape (o Chromium deixa de pintar o conteúdo alto que ele recorta).
 "use client";
 
 import { mergeProps } from "@base-ui/react/merge-props";
@@ -304,12 +304,18 @@ function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
 	);
 }
 
+// Sem corner-shape no inset: ele recorta a área que rola, e com corner-shape o
+// Chromium 157 (Chrome e Dia) deixa de pintar o conteúdo alto dentro dele. O
+// DOM fica lá, mas a tela sai em branco abaixo de um ponto ("Mostrar todos",
+// lista expandida, filtro aberto). Medido no Hub da Lyx em 07/11/2026: forçar
+// o canto comum só aqui resolve, e forçar nos cards não. Fica o raio do
+// fallback (10px), o mesmo que Safari e Firefox já mostravam.
 function SidebarInset({ className, ...props }: React.ComponentProps<"main">) {
 	return (
 		<main
 			data-slot="sidebar-inset"
 			className={cn(
-				"relative shadow-(--custom-shadow) dark:shadow-(--custom-shadow) flex w-full flex-1 flex-col bg-background md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-lg squircle:md:peer-data-[variant=inset]:rounded-3xl corner-squircle md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2",
+				"relative shadow-(--custom-shadow) dark:shadow-(--custom-shadow) flex w-full flex-1 flex-col bg-background md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-lg md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2",
 				className,
 			)}
 			{...props}
