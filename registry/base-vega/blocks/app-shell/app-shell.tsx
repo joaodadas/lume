@@ -1,5 +1,5 @@
 // Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, apps/web/src/components/app/app-shell.tsx:130-206 e 268-434 @ 2bc3bb5), Apache-2.0, e do painel do lyx-pr-agent (João Vitor Dadas).
-// Modificado por joaodadas/lume: só o shell ficou (Project, Range, Foggy, DevBar, HUD, quota e sunset saíram); nav (lista ou seções), brand, user e pathname viraram props; dois layouts, sidebar (trilho de ícones por padrão, ou offcanvas, com estado controlado) e topbar (barra de zonas no canvas, sidebar só no celular), na mesma árvore; slots top, tools, banner, fill e panel; NavLink foi para nav-list.tsx e o seletor para shell-parts.tsx; NavUser virou AccountMenu, com detail e modo compacto na barra; ShellTrigger no topo da sidebar e no cabeçalho do cartão (celular e offcanvas recolhido), que recebe o foco quando recolher ou expandir esconde o elemento focado; Cmd/Ctrl+B sem animação, fora de contenteditable e sem efeito na barra; os tools ficam montados e escondidos com a gaveta fechada, para o Cmd/Ctrl+K valer no celular; a barra é um container e as zonas que não cabem rolam; skip link, um só main e o viewport em div; HeaderActionsSlotProvider, LayoutReserveProvider e TooltipProvider montados pelo shell; EASE no recolher e reduced motion; a gaveta fecha ao navegar, como no painel; imports da registry e textos em pt-BR.
+// Modificado por joaodadas/lume: só o shell ficou (Project, Range, Foggy, DevBar, HUD, quota e sunset saíram); nav (lista ou seções), brand, user e pathname viraram props; dois layouts, sidebar (trilho de ícones por padrão, ou offcanvas, com estado controlado) e topbar (barra de zonas no canvas, sidebar só no celular), na mesma árvore; slots top, tools, banner, fill e panel; NavLink foi para nav-list.tsx e o seletor para shell-parts.tsx; NavUser virou AccountMenu, com detail e modo compacto na barra; ShellTrigger no topo da sidebar e no cabeçalho do cartão (celular e offcanvas recolhido), que recebe o foco quando recolher ou expandir esconde o elemento focado; Cmd/Ctrl+B sem animação, fora de contenteditable e sem efeito na barra; os tools ficam montados e escondidos com a gaveta fechada, para o Cmd/Ctrl+K valer no celular; a barra é um container e as zonas que não cabem rolam; skip link, um só main e o viewport em div; HeaderActionsSlotProvider, LayoutReserveProvider e TooltipProvider montados pelo shell; EASE no recolher e reduced motion; a gaveta fecha ao navegar, como no painel; imports da registry e textos em pt-BR. O inset sem o raio do squircle, porque perdeu o corner-shape.
 "use client";
 
 import { IconChevronRight } from "@tabler/icons-react";
@@ -526,7 +526,9 @@ function ShellFrame({
       {/* No lume, o lugar da dev bar é o da barra do topbar. */}
       <div data-slot="shell-wrapper" className={bar ? WRAPPER_BAR : WRAPPER}>
         {topbar}
-        <SidebarInset className="min-h-0 overflow-hidden transition-shadow duration-200 md:rounded-lg squircle:md:rounded-3xl">
+        {/* Sem o raio do squircle: o inset não leva corner-shape (ver o
+            SidebarInset), e o rounded-3xl em arco comum ficaria redondo demais. */}
+        <SidebarInset className="min-h-0 overflow-hidden transition-shadow duration-200 md:rounded-lg">
           {/* No celular, e no desktop com a sidebar recolhida em offcanvas: o
               gatilho, a marca (ou top) e a página atual. */}
           <header
