@@ -7,8 +7,8 @@
     "border-beam"
   ],
   "registryDependencies": [
-    "joaodadas/lume/card#v0.4.1",
-    "joaodadas/lume/utils#v0.4.1"
+    "joaodadas/lume/card#v0.4.2",
+    "joaodadas/lume/utils#v0.4.2"
   ],
   "files": [
     {

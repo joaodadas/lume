@@ -8,8 +8,8 @@
     "embla-carousel-react"
   ],
   "registryDependencies": [
-    "joaodadas/lume/button#v0.4.1",
-    "joaodadas/lume/utils#v0.4.1"
+    "joaodadas/lume/button#v0.4.2",
+    "joaodadas/lume/utils#v0.4.2"
   ],
   "files": [
     {

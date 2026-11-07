@@ -4,14 +4,14 @@
   "title": "Kit dados",
   "description": "Badge, context-chip, span-type, card-sparkline, pill-meter, number-ticker, copy-button e code-block.",
   "registryDependencies": [
-    "joaodadas/lume/badge#v0.4.1",
-    "joaodadas/lume/card-sparkline#v0.4.1",
-    "joaodadas/lume/code-block#v0.4.1",
-    "joaodadas/lume/context-chip#v0.4.1",
-    "joaodadas/lume/copy-button#v0.4.1",
-    "joaodadas/lume/number-ticker#v0.4.1",
-    "joaodadas/lume/pill-meter#v0.4.1",
-    "joaodadas/lume/span-type#v0.4.1"
+    "joaodadas/lume/badge#v0.4.2",
+    "joaodadas/lume/card-sparkline#v0.4.2",
+    "joaodadas/lume/code-block#v0.4.2",
+    "joaodadas/lume/context-chip#v0.4.2",
+    "joaodadas/lume/copy-button#v0.4.2",
+    "joaodadas/lume/number-ticker#v0.4.2",
+    "joaodadas/lume/pill-meter#v0.4.2",
+    "joaodadas/lume/span-type#v0.4.2"
   ],
   "meta": {
     "group": "kits",

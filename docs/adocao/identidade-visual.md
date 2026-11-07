@@ -44,7 +44,7 @@ Quer mudar algo desta tabela? É mudança da base, para todo produto: PR em `joa
 O tema é um item `registry:theme` só com `cssVars` (claro e escuro), no repo do produto. Ele entra depois do `base` e em comando separado: quando os dois entram juntos, o `base` vence.
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.4.1 -y
+npx shadcn@latest init joaodadas/lume/base#v0.4.2 -y
 npx shadcn@latest add <org>/<repo>/theme-<produto>#vX.Y.Z   # sozinho, depois do init
 ```
 
