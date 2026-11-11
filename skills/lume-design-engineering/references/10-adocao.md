@@ -9,7 +9,7 @@ Gerado por `bun scripts/build-skill.ts` a partir de `FRONTEND.md`, `docs/guia/11
 Regras para construir qualquer interface com o lume. Toda regra é dura salvo indicação em contrário: se um padrão não cabe, levante antes de contornar. O texto segue a regra praticada no código do Foglamp (github.com/foglamp-labs/foglamp, commit `2bc3bb5`, Apache 2.0), não o `FRONTEND.md` original dele; onde os dois divergem (tema padrão `dark`, `motion/react` em uso, borda aceita em linha de tabela, divisor e campo no dark, `QueryCache.onError` em `utils/trpc.ts`, nenhum `error.tsx`), vale o código. Adições próprias estão marcadas com "(adição do lume)". A leitura longa, com tabelas e valores, fica em `docs/guia`; os conceitos do craft (Gustavo Fior, MIT) em `docs/conceitos`; as decisões do repo em `docs/DECISOES.md`.
 
 - **Always** leia caminhos sem prefixo como relativos à raiz deste repo (`registry/base-vega/ui/button.tsx:10`); caminhos que começam em `apps/web/` ou `packages/ui/` são do Foglamp, citados para o que ainda não virou item da registry.
-- **Always** instale pela registry: `npx shadcn@latest init joaodadas/lume/base#v0.4.2 -y` (sem `-d`: o `-d` ignora o `base` e instala o style padrão por cima) e `npx shadcn@latest add joaodadas/lume/<item>#v0.2.0`; a skill vem com `npx skills add joaodadas/lume --skill lume-design-engineering`.
+- **Always** instale pela registry: `npx shadcn@latest init joaodadas/lume/base#v0.4.3 -y` (sem `-d`: o `-d` ignora o `base` e instala o style padrão por cima) e `npx shadcn@latest add joaodadas/lume/<item>#v0.2.0`; a skill vem com `npx skills add joaodadas/lume --skill lume-design-engineering`.
 Porquê: o lume é uma cópia fiel de um sistema que está no ar; a autoridade é o código, e este arquivo é o que dev e agente leem antes de escrever qualquer tela.
 
 ## Layout do projeto
@@ -136,7 +136,7 @@ Fonte: [docs/adocao/identidade-visual.md](https://github.com/joaodadas/lume/blob
 #### Como trocar
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.4.2 -y
+npx shadcn@latest init joaodadas/lume/base#v0.4.3 -y
 npx shadcn@latest add <org>/<repo>/theme-<produto>#vX.Y.Z   # sozinho, depois do init
 ```
 
@@ -154,7 +154,7 @@ cd meu-app
 #### 2. Instalar a base
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.4.2 -y
+npx shadcn@latest init joaodadas/lume/base#v0.4.3 -y
 ```
 
 Conferir o `app/globals.css` e o `app/layout.tsx` depois do `init`:
@@ -174,9 +174,9 @@ O `create-next-app` deixa `Geist` e `Geist_Mono` de `next/font/google` no `app/l
 #### 3. Instalar os itens e a skill
 
 ```bash
-npx shadcn@latest add joaodadas/lume/kit-shell#v0.4.2 joaodadas/lume/kit-tabela#v0.4.2 joaodadas/lume/kit-formulario#v0.4.2 joaodadas/lume/kit-feedback#v0.4.2 joaodadas/lume/kit-dados#v0.4.2 joaodadas/lume/kit-graficos#v0.4.2 joaodadas/lume/login-form#v0.4.2
-npx shadcn@latest add joaodadas/lume/link-next#v0.4.2 --overwrite
-npx shadcn@latest add joaodadas/lume/guia#v0.4.2
+npx shadcn@latest add joaodadas/lume/kit-shell#v0.4.3 joaodadas/lume/kit-tabela#v0.4.3 joaodadas/lume/kit-formulario#v0.4.3 joaodadas/lume/kit-feedback#v0.4.3 joaodadas/lume/kit-dados#v0.4.3 joaodadas/lume/kit-graficos#v0.4.3 joaodadas/lume/login-form#v0.4.3
+npx shadcn@latest add joaodadas/lume/link-next#v0.4.3 --overwrite
+npx shadcn@latest add joaodadas/lume/guia#v0.4.3
 npx skills add joaodadas/lume --skill lume-design-engineering
 ```
 
@@ -252,14 +252,14 @@ cd meu-painel && bun add -d @tailwindcss/vite
 ```
 
 ```bash
-npx shadcn@latest init joaodadas/lume/base#v0.4.2 -y
+npx shadcn@latest init joaodadas/lume/base#v0.4.3 -y
 ```
 
 #### 2. Itens
 
 ```bash
-npx shadcn@latest add joaodadas/lume/kit-shell#v0.4.2 joaodadas/lume/kit-tabela#v0.4.2 joaodadas/lume/kit-feedback#v0.4.2 joaodadas/lume/kit-dados#v0.4.2 joaodadas/lume/kit-graficos#v0.4.2
-npx shadcn@latest add joaodadas/lume/theme-provider-csp#v0.4.2 --overwrite
+npx shadcn@latest add joaodadas/lume/kit-shell#v0.4.3 joaodadas/lume/kit-tabela#v0.4.3 joaodadas/lume/kit-feedback#v0.4.3 joaodadas/lume/kit-dados#v0.4.3 joaodadas/lume/kit-graficos#v0.4.3
+npx shadcn@latest add joaodadas/lume/theme-provider-csp#v0.4.3 --overwrite
 npx skills add joaodadas/lume --skill lume-design-engineering
 ```
 

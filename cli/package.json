@@ -1,6 +1,6 @@
 {
   "name": "@joao.dadas/lume",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Adoção do lume por agente: um init guiado, etapa por etapa, e um check que confere o projeto contra a registry.",
   "type": "module",
   "bin": {

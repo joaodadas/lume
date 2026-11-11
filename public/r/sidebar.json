@@ -9,14 +9,14 @@
     "class-variance-authority"
   ],
   "registryDependencies": [
-    "joaodadas/lume/button#v0.4.2",
-    "joaodadas/lume/input#v0.4.2",
-    "joaodadas/lume/separator#v0.4.2",
-    "joaodadas/lume/sheet#v0.4.2",
-    "joaodadas/lume/skeleton#v0.4.2",
-    "joaodadas/lume/tooltip#v0.4.2",
-    "joaodadas/lume/use-mobile#v0.4.2",
-    "joaodadas/lume/utils#v0.4.2"
+    "joaodadas/lume/button#v0.4.3",
+    "joaodadas/lume/input#v0.4.3",
+    "joaodadas/lume/separator#v0.4.3",
+    "joaodadas/lume/sheet#v0.4.3",
+    "joaodadas/lume/skeleton#v0.4.3",
+    "joaodadas/lume/tooltip#v0.4.3",
+    "joaodadas/lume/use-mobile#v0.4.3",
+    "joaodadas/lume/utils#v0.4.3"
   ],
   "files": [
     {

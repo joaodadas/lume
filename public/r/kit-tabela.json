@@ -4,13 +4,13 @@
   "title": "Kit tabela",
   "description": "Table, data-table (toolbar, filtros na URL, ordenação, paginação), skeletons, scroll-fade, format e hooks.",
   "registryDependencies": [
-    "joaodadas/lume/data-table#v0.4.2",
-    "joaodadas/lume/format#v0.4.2",
-    "joaodadas/lume/scroll-fade#v0.4.2",
-    "joaodadas/lume/table#v0.4.2",
-    "joaodadas/lume/table-skeletons#v0.4.2",
-    "joaodadas/lume/use-debounced-value#v0.4.2",
-    "joaodadas/lume/use-delayed-loading#v0.4.2"
+    "joaodadas/lume/data-table#v0.4.3",
+    "joaodadas/lume/format#v0.4.3",
+    "joaodadas/lume/scroll-fade#v0.4.3",
+    "joaodadas/lume/table#v0.4.3",
+    "joaodadas/lume/table-skeletons#v0.4.3",
+    "joaodadas/lume/use-debounced-value#v0.4.3",
+    "joaodadas/lume/use-delayed-loading#v0.4.3"
   ],
   "meta": {
     "group": "kits",

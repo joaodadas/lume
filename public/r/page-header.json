@@ -7,9 +7,9 @@
     "@tabler/icons-react"
   ],
   "registryDependencies": [
-    "joaodadas/lume/header-slot#v0.4.2",
-    "joaodadas/lume/link#v0.4.2",
-    "joaodadas/lume/utils#v0.4.2"
+    "joaodadas/lume/header-slot#v0.4.3",
+    "joaodadas/lume/link#v0.4.3",
+    "joaodadas/lume/utils#v0.4.3"
   ],
   "files": [
     {
