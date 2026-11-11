@@ -7,7 +7,8 @@ Origem: decisão de 04/11/2026 (ver [DECISOES](../DECISOES.md)). Revê o plano d
 - O layout do shell é escolha de cada front: `layout="sidebar"` (trilho de ícones ou `collapsible="offcanvas"`) ou `layout="topbar"`.
 - Front novo ou existente adota pelo comando único de [comando-unico](./comando-unico.md). Projeto existente substitui a interface antiga de uma vez ([projeto-existente](./projeto-existente.md)).
 - O que é só da Lyx (logo, login com Better Auth, link para o Hub, seletor de sistema) fica no próprio front, em `components/app`, composto sobre os blocos do lume (`AppShell`, `login-form`, `ContextSwitcher`). Vira item compartilhado só quando estiver repetido em vários fronts.
-- O `LyxLogo` entra em `currentColor`, na cor do texto, sem tile colorido nem sombra teal.
+- No Hub (o portal e todo sistema do Hub), a marca é sempre a do HUB Tecnologia, nunca a da Lyx: o símbolo em cores fixas (marinho `#01194E`, azul `#005CFB`, ciano `#00C3D4`, centro vazado), nunca em `currentColor`, recolorido, com sombra ou em tile colorido, e o nome em Inter: `HUB` em `font-semibold` e o nome do sistema em `font-normal` ("HUB Tecnologia" no portal, "HUB CRM" no CRM). No slot `brand` do `AppShell` vai o símbolo seguido do nome, e no login o símbolo entra no tile da marca (guia 06). Os arquivos oficiais são o pacote HUB Tecnologia v2; no portal, o componente é o `hub-logo.tsx` do `lyx-hub-front`.
+- O `LyxLogo` fica para o que não é do Hub e entra em `currentColor`, na cor do texto, sem tile colorido nem sombra teal.
 - Conta: "Voltar ao Hub" (mantém o SSO) e "Sair de todos os sistemas" (signOut) são dois itens separados do `userMenu`.
 - O CI dos fronts da Lyx (o reusable `lyx-audit.yml`) roda o `lume check` em todo repo que adotou o lume.
 <!-- skill:end -->
