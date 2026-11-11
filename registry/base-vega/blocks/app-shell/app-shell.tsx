@@ -449,7 +449,9 @@ function ShellFrame({
           </div>
           {tools ? <SidebarMenu className="gap-0">{tools}</SidebarMenu> : null}
         </SidebarHeader>
-        <SidebarContent className="group-data-[collapsible=icon]:overflow-y-auto">
+        {/* scroll-fade (conceito scroll-fades): a ponta que ainda tem item para
+            rolar desvanece, em vez de cortar seco no rodapé da conta. */}
+        <SidebarContent className="scroll-fade group-data-[collapsible=icon]:overflow-y-auto">
           <NavSections nav={nav} current={current} />
         </SidebarContent>
         {footer}
