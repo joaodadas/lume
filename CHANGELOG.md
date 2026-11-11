@@ -8,6 +8,24 @@ ou prop nova, major é token removido ou prop quebrada. Cada versão tem uma tag
 joaodadas/lume/<item>#vX.Y.Z`) e atualiza com `--diff` para ver e `--overwrite`
 para aplicar. Quando um item muda de API, a seção traz "Como migrar".
 
+## [0.4.3] - 2026-11-11
+
+A sidebar do AppShell com o fim da lista claro e a marca do Hub na camada Lyx.
+
+### Corrigido
+
+- `app-shell`: a lista da sidebar (`SidebarContent`) leva o utilitário
+  `scroll-fade` (conceito scroll-fades). A ponta que ainda tem item para rolar
+  desvanece, em vez de a lista cortar seco no rodapé da conta; sem nada para
+  rolar, nada muda. Atualize com `npx shadcn@latest add
+  joaodadas/lume/app-shell#v0.4.3 --overwrite`.
+
+### Docs
+
+- Camada Lyx: no Hub (o portal e todo sistema do Hub) a marca é sempre a do
+  HUB Tecnologia, com o símbolo em cores fixas e o nome em Inter (no login, o
+  símbolo solto, sem tile); o `LyxLogo` fica para o que não é do Hub.
+
 ## [0.4.2] - 2026-11-07
 
 O CLI com o que a adoção no CRM da Lyx mostrou. Só o CLI e os docs mudaram:
