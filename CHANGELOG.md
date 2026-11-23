@@ -8,6 +8,24 @@ ou prop nova, major é token removido ou prop quebrada. Cada versão tem uma tag
 joaodadas/lume/<item>#vX.Y.Z`) e atualiza com `--diff` para ver e `--overwrite`
 para aplicar. Quando um item muda de API, a seção traz "Como migrar".
 
+## [Não lançado]
+
+### Corrigido
+
+- `avatar`: o `Avatar` leva `isolate`. A aresta é um `::after` com
+  `mix-blend-darken` (`lighten` no dark), e sem um grupo próprio o blend se
+  mistura com tudo o que está atrás. Dentro de uma área com scroll, como o miolo
+  do `app-shell`, o navegador monta uma camada do compositor por avatar: numa
+  tela com 80 avatares eram 313 camadas e 130 megapixels, e o scroll travava e
+  piscava. Com `isolate` ficam 10 camadas e 2 megapixels. O `AvatarGroup`
+  leva o `isolate` no lugar dos avatares dele (`isolation-auto`): um grupo só
+  para o conjunto, e o `AvatarBadge` segue por cima do avatar vizinho.
+  No light nada muda: a sombra é preta, e `darken` com preto é igual à mistura
+  normal. No dark muda pouco: o `lighten` escondia as sombras pretas de fora do
+  círculo, e com `isolate` elas aparecem em volta do avatar, como nos cards.
+  O patch fica registrado no `sync-upstream`. Atualize com `npx shadcn@latest
+  add joaodadas/lume/avatar#vX.Y.Z --overwrite`.
+
 ## [0.4.3] - 2026-11-11
 
 A sidebar do AppShell com o fim da lista claro e a marca do Hub na camada Lyx.

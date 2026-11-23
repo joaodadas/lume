@@ -72,6 +72,19 @@ const SOURCES: Source[] = [
     rewrites: uiRewrites,
     header: apacheHeader,
     patches: {
+      "avatar.tsx": [
+        {
+          find: "group/avatar relative flex size-8",
+          replace: "group/avatar relative isolate flex size-8",
+          note: "isolate no Avatar (a aresta com blend ganha um grupo próprio; sem isso, cada avatar dentro de uma área com scroll vira uma camada do compositor)",
+        },
+        {
+          find: "group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background",
+          replace:
+            "group/avatar-group isolate flex -space-x-2 **:data-[slot=avatar]:isolation-auto *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background",
+          note: "isolate no AvatarGroup e isolation-auto nos avatares dele (um grupo só para o conjunto; o AvatarBadge segue por cima do avatar vizinho)",
+        },
+      ],
       "sidebar.tsx": [
         {
           find: "hsl(var(--sidebar-border))",

@@ -149,7 +149,10 @@
     },
     "registry/base-vega/ui/avatar.tsx": {
       "upstream": "packages/ui/src/components/avatar.tsx",
-      "patches": []
+      "patches": [
+        "isolate no Avatar (a aresta com blend ganha um grupo próprio; sem isso, cada avatar dentro de uma área com scroll vira uma camada do compositor)",
+        "isolate no AvatarGroup e isolation-auto nos avatares dele (um grupo só para o conjunto; o AvatarBadge segue por cima do avatar vizinho)"
+      ]
     },
     "registry/base-vega/ui/menubar.tsx": {
       "upstream": "packages/ui/src/components/menubar.tsx",
