@@ -1,5 +1,5 @@
 // Derivado do Foglamp (https://github.com/foglamp-labs/foglamp, packages/ui/src/components/avatar.tsx @ 2bc3bb5), Apache-2.0.
-// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*.
+// Modificado por joaodadas/lume: imports reescritos para @/registry/base-vega/*; isolate no Avatar (a aresta com blend ganha um grupo próprio; sem isso, cada avatar dentro de uma área com scroll vira uma camada do compositor); isolate no AvatarGroup e isolation-auto nos avatares dele (um grupo só para o conjunto; o AvatarBadge segue por cima do avatar vizinho).
 "use client";
 
 import { Avatar as AvatarPrimitive } from "@base-ui/react/avatar";
@@ -19,7 +19,7 @@ function Avatar({
 			data-slot="avatar"
 			data-size={size}
 			className={cn(
-				"group/avatar relative flex size-8 shrink-0 rounded-full select-none after:absolute after:inset-0 after:rounded-full after:shadow-(--custom-shadow) after:mix-blend-darken data-[size=lg]:size-10 data-[size=sm]:size-6 data-[size=xs]:size-4.5 dark:after:mix-blend-lighten",
+				"group/avatar relative isolate flex size-8 shrink-0 rounded-full select-none after:absolute after:inset-0 after:rounded-full after:shadow-(--custom-shadow) after:mix-blend-darken data-[size=lg]:size-10 data-[size=sm]:size-6 data-[size=xs]:size-4.5 dark:after:mix-blend-lighten",
 				className,
 			)}
 			{...props}
@@ -77,7 +77,7 @@ function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="avatar-group"
 			className={cn(
-				"group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background",
+				"group/avatar-group isolate flex -space-x-2 **:data-[slot=avatar]:isolation-auto *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background",
 				className,
 			)}
 			{...props}
