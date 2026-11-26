@@ -1,0 +1,112 @@
+name: publish
+
+# Publica o CLI (cli/, pacote @joao.dadas/lume) no npm quando sai uma release.
+# O `bun run release` cria a GitHub Release, e este workflow sobe o pacote da
+# tag: o npm acompanha cada versão sem passo manual.
+#
+# Sem token: trusted publishing (OIDC). O npm confere o repo (joaodadas/lume) e
+# o nome deste arquivo (publish.yml), configurados uma vez no pacote. A
+# provenance sai sozinha, porque o repo e o pacote são públicos.
+#
+# Para publicar de novo uma tag que já existe (publish que falhou, ou tag
+# lançada antes deste workflow): gh workflow run publish.yml -f tag=vX.Y.Z
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag já lançada (ex.: v0.4.3)"
+        required: true
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: publish-npm
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: tag
+        id: tag
+        env:
+          TAG_RELEASE: ${{ github.event.release.tag_name }}
+          TAG_INPUT: ${{ inputs.tag }}
+        run: |
+          tag="${TAG_RELEASE:-$TAG_INPUT}"
+          if ! [[ "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::tag fora do formato vX.Y.Z: '$tag'"
+            exit 1
+          fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "versao=${tag#v}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: refs/tags/${{ steps.tag.outputs.tag }}
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+
+      # Trusted publishing pede npm 11.5.1 ou mais novo.
+      - name: npm com trusted publishing
+        run: |
+          v=$(npm --version)
+          if [ "$(printf '%s\n' 11.5.1 "$v" | sort -V | head -1)" != 11.5.1 ]; then
+            echo "::error::npm $v não faz trusted publishing (precisa de 11.5.1 ou mais novo)"
+            exit 1
+          fi
+          echo "npm $v"
+
+      - name: versão do cli/package.json igual à da tag
+        env:
+          VERSAO: ${{ steps.tag.outputs.versao }}
+        run: |
+          v=$(node -p "require('./cli/package.json').version")
+          if [ "$v" != "$VERSAO" ]; then
+            echo "::error::cli/package.json está em $v e a tag é v$VERSAO"
+            exit 1
+          fi
+
+      - name: testes do CLI
+        run: node --test 'cli/test/*.test.mjs'
+
+      - name: já está no npm?
+        id: npm
+        env:
+          VERSAO: ${{ steps.tag.outputs.versao }}
+        run: |
+          if npm view "@joao.dadas/lume@$VERSAO" version >/dev/null 2>&1; then
+            echo "::notice::@joao.dadas/lume@$VERSAO já está no npm; nada a publicar"
+            echo "publicada=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "publicada=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: npm publish
+        if: steps.npm.outputs.publicada != 'true'
+        working-directory: cli
+        run: npm publish --access public
+
+      - name: confere no npm
+        env:
+          VERSAO: ${{ steps.tag.outputs.versao }}
+        run: |
+          for i in 1 2 3 4 5 6; do
+            if npm view "@joao.dadas/lume@$VERSAO" version >/dev/null 2>&1; then
+              npm view @joao.dadas/lume dist-tags
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::@joao.dadas/lume@$VERSAO não apareceu no npm"
+          exit 1
