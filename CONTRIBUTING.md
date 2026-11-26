@@ -87,6 +87,7 @@ no README, no FRONTEND.md, neste arquivo e em `docs/`; o CHANGELOG fica),
 regenera `registry.json` (as tags das `registryDependencies` mudam), `public/r`
 e a skill, commita `release: v0.2.0` (sem `Co-Authored-By`), cria a tag anotada
 com a seção do changelog, faz push e cria a GitHub Release a partir da tag.
+A Release dispara o workflow `publish.yml`, que publica o CLI no npm.
 
 ## Regras de texto
 
@@ -101,4 +102,4 @@ com a seção do changelog, faz push e cria a GitHub Release a partir da tag.
 
 ## O CLI (`cli/`, `@joao.dadas/lume`)
 
-O `init` e o `check` moram em `cli/`, em JavaScript puro e sem dependência. A versão do `cli/package.json` acompanha a da registry, e o `bun run release` grava as duas. Depois da release, publique com `npm login` feito: `cd cli && npm publish --access public`. Testes: `bun run cli:test`. Regra nova no `check` entra com teste em `cli/test/` e com uma linha na tabela de [docs/adocao/comando-unico.md](docs/adocao/comando-unico.md).
+O `init` e o `check` moram em `cli/`, em JavaScript puro e sem dependência. A versão do `cli/package.json` acompanha a da registry, e o `bun run release` grava as duas. A GitHub Release que ele cria dispara o workflow `publish.yml`, que publica o CLI no npm por trusted publishing (OIDC, sem token nem `npm login`). Se o publish falhar, publique a tag de novo com `gh workflow run publish.yml -f tag=vX.Y.Z`. Testes: `bun run cli:test`. Regra nova no `check` entra com teste em `cli/test/` e com uma linha na tabela de [docs/adocao/comando-unico.md](docs/adocao/comando-unico.md).

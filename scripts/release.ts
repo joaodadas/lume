@@ -226,5 +226,5 @@ passo("gh release", [
 
 console.log(`\nrelease ${tag} publicada`);
 console.log(
-  "Falta publicar o CLI no npm (precisa do npm login): cd cli && npm publish --access public",
+  "O workflow publish.yml publica o CLI no npm a partir da release. Acompanhe: gh run list --workflow publish.yml",
 );
